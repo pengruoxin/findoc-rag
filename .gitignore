@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+data/raw/*
+data/processed/*
+data/cache/
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+reports/**/per_question.jsonl
+reports/**/*.csv
