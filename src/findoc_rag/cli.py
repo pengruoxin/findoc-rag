@@ -6,6 +6,7 @@ from rich.console import Console
 
 from findoc_rag import __version__
 from findoc_rag.datasets.financebench import convert_financebench, write_jsonl
+from findoc_rag.documents.pdf import parse_pdf
 from findoc_rag.evaluation.retrieval import evaluate_retriever
 from findoc_rag.io import read_jsonl, write_dict_jsonl, write_json
 from findoc_rag.retrieval.bm25 import BM25Retriever
@@ -57,6 +58,26 @@ def fetch_annual_report(
     console.print(f"PDF: {artifact.local_file}")
     console.print(f"SHA-256: {artifact.sha256}")
     console.print(f"Manifest: {manifest_path}")
+
+
+@app.command("parse-pdf")
+def parse_pdf_command(
+    source: Annotated[Path, typer.Argument(exists=True, dir_okay=False)],
+    output: Annotated[Path | None, typer.Option(help="Parsed Document IR JSON path.")] = None,
+) -> None:
+    """Parse any local PDF into the coordinate-preserving Document IR."""
+    document = parse_pdf(source)
+    target = output or Path("data/processed/documents") / f"{document.content_sha256}.json"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(document.model_dump_json(indent=2) + "\n", encoding="utf-8")
+
+    ocr_pages = [page.page_number for page in document.pages if page.needs_ocr]
+    console.print(f"[green]Parsed {document.filename}: {document.page_count} pages.[/green]")
+    console.print(f"Document ID: {document.document_id}")
+    console.print(f"Pages requiring OCR fallback: {len(ocr_pages)}")
+    if ocr_pages:
+        console.print(f"OCR page numbers: {ocr_pages[:20]}")
+    console.print(f"Output: {target.resolve()}")
 
 
 @app.command("import-financebench")

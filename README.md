@@ -19,6 +19,7 @@ performance.
 Implemented:
 
 - Official CNInfo annual-report discovery, exact-edition selection, and download provenance
+- Generic PDF parsing into page-level text/image elements with coordinates and OCR flags
 - A unified corpus, question, gold-answer, and gold-evidence schema
 - BM25 lexical retrieval
 - E5 dense retrieval with local embedding cache
@@ -44,6 +45,16 @@ uv sync --extra dev --extra dense
 uv run findoc-rag evaluate-dense
 uv run pytest
 ```
+
+Parse any local PDF into the common Document IR:
+
+```powershell
+uv run findoc-rag parse-pdf path/to/document.pdf
+```
+
+The parsed record preserves the file digest, page number, page dimensions, element
+reading order, bounding boxes, extracted character counts, and pages requiring an
+OCR fallback.
 
 Fetch a real Chinese annual report from the official disclosure source:
 
