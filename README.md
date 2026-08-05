@@ -18,6 +18,7 @@ performance.
 
 Implemented:
 
+- Official CNInfo annual-report discovery, exact-edition selection, and download provenance
 - A unified corpus, question, gold-answer, and gold-evidence schema
 - BM25 lexical retrieval
 - E5 dense retrieval with local embedding cache
@@ -44,6 +45,18 @@ uv run findoc-rag evaluate-dense
 uv run pytest
 ```
 
+Fetch a real Chinese annual report from the official disclosure source:
+
+```powershell
+uv run findoc-rag fetch-annual-report --company 贵州茅台 --year 2024
+```
+
+Downloaded filings and manifests stay under `data/artifacts/` and are intentionally
+excluded from Git. Each manifest records the announcement ID, security code,
+publication time, official source URL, SHA-256 digest, and local artifact path.
+
 See [the bootstrap comparison](reports/baseline_comparison.md) for results and
 scope limitations.
 
+See [the product scope](docs/product-scope.md) for the target user, business tasks,
+and non-toy acceptance criteria.

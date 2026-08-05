@@ -11,8 +11,13 @@ from findoc_rag.io import read_jsonl, write_dict_jsonl, write_json
 from findoc_rag.retrieval.bm25 import BM25Retriever
 from findoc_rag.retrieval.dense import DEFAULT_MODEL, DenseRetriever
 from findoc_rag.schemas import BenchmarkQuestion, CorpusDocument
+from findoc_rag.sources.cninfo import (
+    CninfoClient,
+    select_chinese_annual_report,
+    write_artifact_manifest,
+)
 
-app = typer.Typer(help="Evidence-driven RAG benchmark tools.")
+app = typer.Typer(help="Verifiable RAG for complex Chinese listed-company documents.")
 console = Console()
 
 
@@ -28,6 +33,30 @@ def doctor() -> None:
     console.print(f"[green]FinDocRAG {__version__} is ready.[/green]")
     console.print(f"Project root: {root}")
     console.print("Current milestone: validate retrieval before importing Chinese filings.")
+
+
+@app.command("fetch-annual-report")
+def fetch_annual_report(
+    company: Annotated[str, typer.Option(help="Exact Chinese listed-company name.")],
+    year: Annotated[int, typer.Option(min=1990, max=2100, help="Report year.")],
+    output_dir: Annotated[Path, typer.Option(help="Local filing artifact directory.")] = Path(
+        "data/artifacts/cninfo"
+    ),
+) -> None:
+    """Fetch an exact Chinese annual report from the official CNInfo source."""
+    client = CninfoClient()
+    announcements = client.search_annual_reports(company, year)
+    selected = select_chinese_annual_report(announcements, company, year)
+    stem = f"{selected.security_code}_{year}_{selected.announcement_id}"
+    artifact = client.download(selected, output_dir / f"{stem}.pdf")
+    manifest_path = output_dir / f"{stem}.manifest.json"
+    write_artifact_manifest(artifact, manifest_path)
+
+    console.print(f"[green]Downloaded {selected.title}[/green]")
+    console.print(f"Security: {selected.security_code} {selected.security_name}")
+    console.print(f"PDF: {artifact.local_file}")
+    console.print(f"SHA-256: {artifact.sha256}")
+    console.print(f"Manifest: {manifest_path}")
 
 
 @app.command("import-financebench")

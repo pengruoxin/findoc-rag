@@ -5,6 +5,7 @@ __pycache__/
 *.pyc
 data/raw/*
 data/processed/*
+data/artifacts/
 data/cache/
 !data/raw/.gitkeep
 !data/processed/.gitkeep
