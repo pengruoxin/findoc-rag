@@ -1,0 +1,155 @@
+{
+  "dataset_id": "ba7aa7e2fd771fb28ff0",
+  "index_id": "10fb50419145d56720c9",
+  "mode": "hybrid",
+  "reranker_model": null,
+  "evaluated_query_count": 10,
+  "top_k": 5,
+  "candidate_k": 20,
+  "metadata_filters": false,
+  "scope_routing": true,
+  "hit_at_k": 0.7,
+  "mrr_at_k": 0.6,
+  "results": [
+    {
+      "query_id": "1090c473ae342ee2",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c324:e646da9aa1e81248",
+        "5299f4940e2c:c61:50d86b7fb8107044",
+        "5299f4940e2c:c64:2eba4ee85d589498",
+        "5299f4940e2c:c17:fd0681836703693e",
+        "5299f4940e2c:c110:e2bb6073302b9434"
+      ],
+      "inferred_scope": "annual_summary"
+    },
+    {
+      "query_id": "a32e79e33c9b3615",
+      "first_relevant_rank": 2,
+      "hit_at_k": true,
+      "reciprocal_rank": 0.5,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c11:beb4bd0cece25a50",
+        "5299f4940e2c:c9:b7e5f0d6a604b703",
+        "5299f4940e2c:c64:2eba4ee85d589498",
+        "5299f4940e2c:c320:34ac987f3ee0519c",
+        "5299f4940e2c:c1:e48167edf24567f1"
+      ],
+      "inferred_scope": "annual_summary"
+    },
+    {
+      "query_id": "9f3edde09c1aeebd",
+      "first_relevant_rank": 1,
+      "hit_at_k": true,
+      "reciprocal_rank": 1.0,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c11:4ee8dfe0e52fe716",
+        "a82a81e52f52:c13:1557c17c79b6bb19",
+        "5299f4940e2c:c16:5b0cb41115c66c0c",
+        "5299f4940e2c:c324:e646da9aa1e81248",
+        "5299f4940e2c:c61:50d86b7fb8107044"
+      ],
+      "inferred_scope": "quarterly"
+    },
+    {
+      "query_id": "d111b2d4e10744ce",
+      "first_relevant_rank": 1,
+      "hit_at_k": true,
+      "reciprocal_rank": 1.0,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c19:807840659a321252",
+        "a82a81e52f52:c49:5b0070d92a364736",
+        "a82a81e52f52:c50:51b6f28973cf9607",
+        "5299f4940e2c:c18:9e2aedcf9ff898fa",
+        "5299f4940e2c:c35:98f8af438d716516"
+      ],
+      "inferred_scope": "segment"
+    },
+    {
+      "query_id": "47d7026805f25313",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c77:ed0d447e9403ac62",
+        "a82a81e52f52:c75:9ae05154e8297a17",
+        "a82a81e52f52:c28:dfdaa8768ea262c7",
+        "a82a81e52f52:c484:9cf7b65b3b49fef2"
+      ],
+      "inferred_scope": "annual_summary"
+    },
+    {
+      "query_id": "b6acfb2d2284285f",
+      "first_relevant_rank": 1,
+      "hit_at_k": true,
+      "reciprocal_rank": 1.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c10:0e6aa9a18586e694",
+        "5299f4940e2c:c8:81a5543345db6ac2",
+        "5299f4940e2c:c10:5c4fe8ed74a310b3",
+        "a82a81e52f52:c12:269c66d4b9c079b7",
+        "a82a81e52f52:c568:06c780b01c58631c"
+      ],
+      "inferred_scope": "annual_summary"
+    },
+    {
+      "query_id": "51adc1f38920c5b2",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c226:6cea3dceb0543bf2",
+        "a82a81e52f52:c58:e29de6adbaf2047d",
+        "5299f4940e2c:c159:5d83098f4d2d97e8",
+        "a82a81e52f52:c13:1557c17c79b6bb19",
+        "a82a81e52f52:c223:8ba88cfa65496600"
+      ],
+      "inferred_scope": "annual_summary"
+    },
+    {
+      "query_id": "9133a2dc06b473dd",
+      "first_relevant_rank": 1,
+      "hit_at_k": true,
+      "reciprocal_rank": 1.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c11:beb4bd0cece25a50",
+        "5299f4940e2c:c9:b7e5f0d6a604b703",
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c1:793234fe6adf3a5b",
+        "a82a81e52f52:c607:91c62e88cbf97161"
+      ],
+      "inferred_scope": "annual_summary"
+    },
+    {
+      "query_id": "423818a830074b43",
+      "first_relevant_rank": 2,
+      "hit_at_k": true,
+      "reciprocal_rank": 0.5,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c11:4ee8dfe0e52fe716",
+        "a82a81e52f52:c13:1557c17c79b6bb19",
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c75:9ae05154e8297a17",
+        "a82a81e52f52:c1:793234fe6adf3a5b"
+      ],
+      "inferred_scope": "quarterly"
+    },
+    {
+      "query_id": "f7ebee01383b90f7",
+      "first_relevant_rank": 1,
+      "hit_at_k": true,
+      "reciprocal_rank": 1.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c49:5b0070d92a364736",
+        "5299f4940e2c:c19:807840659a321252",
+        "a82a81e52f52:c50:51b6f28973cf9607",
+        "a82a81e52f52:c48:51826278e8f4242b",
+        "a82a81e52f52:c64:322bb74482db0c6b"
+      ],
+      "inferred_scope": "segment"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-08-05T17:09:16.3274032+08:00",
+  "feature": "structure_anchored_chinese_ranking_diagnostics",
+  "dataset_id": "ba7aa7e2fd771fb28ff0",
+  "index_id": "a9645108d5a7ce8b73b8",
+  "corpus": {
+    "documents": 2,
+    "chunks": 958,
+    "report_year": 2024
+  },
+  "dataset": {
+    "accepted_queries": 10,
+    "relevant_judgments": 10,
+    "irrelevant_judgments": 52,
+    "needs_review_judgments": 141,
+    "hard_negative_types": {
+      "wrong_company": 43,
+      "wrong_scope": 8,
+      "wrong_period": 1
+    }
+  },
+  "baselines": {
+    "lexical": {
+      "hit_at_5": 0.7,
+      "mrr_at_5": 0.55
+    },
+    "hybrid_rrf": {
+      "hit_at_5": 0.6,
+      "mrr_at_5": 0.32
+    }
+  },
+  "quality_gates": {
+    "pytest_passed": 35,
+    "pytest_failed": 0,
+    "ruff": "passed"
+  },
+  "claim_limits": [
+    "The dataset is a narrow diagnostic slice, not a representative benchmark.",
+    "Unreviewed candidates are excluded rather than treated as negatives.",
+    "Metrics measure evidence ranking, not answer correctness.",
+    "The hybrid comparison does not establish general dense-retrieval quality."
+  ]
+}

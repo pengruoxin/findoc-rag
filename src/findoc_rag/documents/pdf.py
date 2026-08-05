@@ -60,18 +60,35 @@ def parse_pdf(path: Path) -> ParsedDocument:
                 )
                 if block_type == 0:
                     lines = []
+                    spans = []
                     for line in block.get("lines", []):
-                        line_text = "".join(span.get("text", "") for span in line.get("spans", []))
+                        line_spans = line.get("spans", [])
+                        spans.extend(line_spans)
+                        line_text = "".join(span.get("text", "") for span in line_spans)
                         if line_text.strip():
                             lines.append(line_text.strip())
                     text = "\n".join(lines).strip()
                     if not text:
                         continue
                     element_type = "text"
+                    font_size = max((float(span.get("size", 0)) for span in spans), default=None)
+                    font_name = max(
+                        (str(span.get("font", "")) for span in spans),
+                        key=len,
+                        default="",
+                    )
+                    is_bold = any(
+                        int(span.get("flags", 0)) & 16
+                        or any(marker in str(span.get("font", "")).lower() for marker in ("bold", "black", "heavy"))
+                        for span in spans
+                    )
                 elif block_type == 1:
                     image_count += 1
                     text = ""
                     element_type = "image"
+                    font_size = None
+                    font_name = ""
+                    is_bold = False
                 else:
                     continue
 
@@ -83,6 +100,9 @@ def parse_pdf(path: Path) -> ParsedDocument:
                         text=text,
                         bbox=bbox,
                         reading_order=reading_order,
+                        font_size=font_size,
+                        font_name=font_name,
+                        is_bold=is_bold,
                     )
                 )
 

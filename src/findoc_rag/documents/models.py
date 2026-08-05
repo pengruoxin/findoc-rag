@@ -23,6 +23,15 @@ class DocumentElement(BaseModel):
     text: str = ""
     bbox: BoundingBox
     reading_order: int
+    font_size: float | None = None
+    font_name: str = ""
+    is_bold: bool = False
+
+
+class ElementReference(BaseModel):
+    element_id: str
+    page_number: int = Field(ge=1)
+    bbox: BoundingBox
 
 
 class DocumentPage(BaseModel):
@@ -54,3 +63,28 @@ class ParsedDocument(BaseModel):
             raise ValueError("page_count must equal the number of parsed pages")
         return self
 
+
+class DocumentChunk(BaseModel):
+    chunk_id: str
+    document_id: str
+    chunk_index: int = Field(ge=0)
+    text: str
+    section_path: list[str]
+    page_start: int = Field(ge=1)
+    page_end: int = Field(ge=1)
+    element_references: list[ElementReference]
+    character_count: int = Field(ge=1)
+    estimated_token_count: int = Field(ge=1)
+    is_continuation: bool = False
+    document_key: str | None = None
+    company_name: str | None = None
+    report_year: int | None = None
+    document_type: str | None = None
+
+    @model_validator(mode="after")
+    def validate_page_range(self) -> "DocumentChunk":
+        if self.page_end < self.page_start:
+            raise ValueError("page_end must not precede page_start")
+        if not self.element_references:
+            raise ValueError("A chunk must reference at least one source element")
+        return self

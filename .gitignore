@@ -6,6 +6,9 @@ __pycache__/
 data/raw/*
 data/processed/*
 data/artifacts/
+data/indexes/
+data/traces/
+data/catalog/
 data/cache/
 !data/raw/.gitkeep
 !data/processed/.gitkeep

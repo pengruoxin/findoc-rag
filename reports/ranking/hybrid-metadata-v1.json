@@ -1,0 +1,144 @@
+{
+  "dataset_id": "ba7aa7e2fd771fb28ff0",
+  "index_id": "10fb50419145d56720c9",
+  "mode": "hybrid",
+  "reranker_model": null,
+  "evaluated_query_count": 10,
+  "top_k": 5,
+  "candidate_k": 20,
+  "metadata_filters": true,
+  "hit_at_k": 0.5,
+  "mrr_at_k": 0.2783333333333333,
+  "results": [
+    {
+      "query_id": "1090c473ae342ee2",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c133:a7cd2a96c54bb5de",
+        "5299f4940e2c:c324:e646da9aa1e81248",
+        "5299f4940e2c:c61:50d86b7fb8107044",
+        "5299f4940e2c:c62:e6c43ac844cc4f17",
+        "5299f4940e2c:c64:2eba4ee85d589498"
+      ]
+    },
+    {
+      "query_id": "a32e79e33c9b3615",
+      "first_relevant_rank": 5,
+      "hit_at_k": true,
+      "reciprocal_rank": 0.2,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c64:2eba4ee85d589498",
+        "5299f4940e2c:c320:34ac987f3ee0519c",
+        "5299f4940e2c:c324:e646da9aa1e81248",
+        "5299f4940e2c:c1:e48167edf24567f1",
+        "5299f4940e2c:c9:b7e5f0d6a604b703"
+      ]
+    },
+    {
+      "query_id": "9f3edde09c1aeebd",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c16:5b0cb41115c66c0c",
+        "5299f4940e2c:c133:a7cd2a96c54bb5de",
+        "5299f4940e2c:c324:e646da9aa1e81248",
+        "5299f4940e2c:c61:50d86b7fb8107044",
+        "5299f4940e2c:c62:e6c43ac844cc4f17"
+      ]
+    },
+    {
+      "query_id": "d111b2d4e10744ce",
+      "first_relevant_rank": 1,
+      "hit_at_k": true,
+      "reciprocal_rank": 1.0,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c19:807840659a321252",
+        "5299f4940e2c:c18:9e2aedcf9ff898fa",
+        "5299f4940e2c:c133:a7cd2a96c54bb5de",
+        "5299f4940e2c:c35:98f8af438d716516",
+        "5299f4940e2c:c15:21ea8a01397a570e"
+      ]
+    },
+    {
+      "query_id": "47d7026805f25313",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c111:68fcbcbe4fd78836",
+        "a82a81e52f52:c202:8330cda8e76d7f13",
+        "a82a81e52f52:c484:9cf7b65b3b49fef2",
+        "a82a81e52f52:c77:ed0d447e9403ac62"
+      ]
+    },
+    {
+      "query_id": "b6acfb2d2284285f",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c568:06c780b01c58631c",
+        "a82a81e52f52:c1:793234fe6adf3a5b",
+        "a82a81e52f52:c111:68fcbcbe4fd78836",
+        "a82a81e52f52:c171:d80c7e0b615f68d7",
+        "a82a81e52f52:c175:5c692ff35d1433ef"
+      ]
+    },
+    {
+      "query_id": "51adc1f38920c5b2",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c226:6cea3dceb0543bf2",
+        "a82a81e52f52:c58:e29de6adbaf2047d",
+        "a82a81e52f52:c13:1557c17c79b6bb19",
+        "a82a81e52f52:c223:8ba88cfa65496600",
+        "a82a81e52f52:c1:793234fe6adf3a5b"
+      ]
+    },
+    {
+      "query_id": "9133a2dc06b473dd",
+      "first_relevant_rank": 3,
+      "hit_at_k": true,
+      "reciprocal_rank": 0.3333333333333333,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c1:793234fe6adf3a5b",
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c11:beb4bd0cece25a50",
+        "a82a81e52f52:c607:91c62e88cbf97161",
+        "a82a81e52f52:c223:8ba88cfa65496600"
+      ]
+    },
+    {
+      "query_id": "423818a830074b43",
+      "first_relevant_rank": 4,
+      "hit_at_k": true,
+      "reciprocal_rank": 0.25,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c202:8330cda8e76d7f13",
+        "a82a81e52f52:c111:68fcbcbe4fd78836",
+        "a82a81e52f52:c13:1557c17c79b6bb19",
+        "a82a81e52f52:c75:9ae05154e8297a17"
+      ]
+    },
+    {
+      "query_id": "f7ebee01383b90f7",
+      "first_relevant_rank": 1,
+      "hit_at_k": true,
+      "reciprocal_rank": 1.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c49:5b0070d92a364736",
+        "a82a81e52f52:c50:51b6f28973cf9607",
+        "a82a81e52f52:c48:51826278e8f4242b",
+        "a82a81e52f52:c77:ed0d447e9403ac62",
+        "a82a81e52f52:c202:8330cda8e76d7f13"
+      ]
+    }
+  ]
+}

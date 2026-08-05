@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-08-05T17:25:22.3559672+08:00",
+  "feature": "query_scope_routing",
+  "dataset_id": "ba7aa7e2fd771fb28ff0",
+  "index_id": "10fb50419145d56720c9",
+  "primary": {
+    "candidate_k": 20,
+    "top_k": 5,
+    "metadata_filters": true,
+    "lexical": {"hit_at_5": 0.8, "mrr_at_5": 0.8},
+    "hybrid": {"hit_at_5": 0.8, "mrr_at_5": 0.8}
+  },
+  "hybrid_candidate_depth": {
+    "20": {"hit_at_5": 0.8, "mrr_at_5": 0.8},
+    "100": {"hit_at_5": 0.9, "mrr_at_5": 0.9},
+    "400": {"hit_at_5": 1.0, "mrr_at_5": 1.0}
+  },
+  "quality_gates": {
+    "pytest_passed": 39,
+    "pytest_failed": 0,
+    "ruff": "passed",
+    "diff_check": "passed"
+  },
+  "claim_limits": [
+    "Gold construction and routing both use section cues, creating partial circularity.",
+    "The k=400 result is a diagnostic upper bound rather than a production setting.",
+    "The result is not an independent retrieval-accuracy estimate."
+  ]
+}

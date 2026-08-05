@@ -1,0 +1,28 @@
+[server]
+host = "127.0.0.1"
+port = 8000
+log_level = "info"
+
+[retrieval]
+# Relative paths are resolved from this TOML file's directory.
+index_dir = "../data/indexes/example-hybrid"
+default_mode = "hybrid"
+top_k = 5
+candidate_k = 50
+rrf_k = 60
+
+[reranker]
+enabled = false
+model = "BAAI/bge-reranker-v2-m3"
+batch_size = 16
+
+[scope_routing]
+enabled = false
+adaptive_candidate_budget = false
+max_candidate_k = 100
+
+[observability]
+enabled = true
+trace_db = "../data/traces/retrieval.sqlite3"
+capture_query_text = false
+max_recorded_hits = 20

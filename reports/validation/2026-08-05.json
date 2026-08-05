@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-08-05T16:43:09.8966554+08:00",
+  "code": {
+    "branch": "main",
+    "base_commit": "722512f72e749425e8396b2abf6dacb33ba0ba32",
+    "working_tree": "dirty",
+    "note": "Validation includes local uncommitted implementation after the base commit."
+  },
+  "environment": {
+    "os": "Windows",
+    "python": "3.12.13"
+  },
+  "quality_gates": {
+    "pytest": {
+      "passed": 30,
+      "failed": 0,
+      "duration_seconds_reported_by_pytest": 1.76,
+      "command": "uv run pytest -q --durations=10"
+    },
+    "ruff": {
+      "status": "passed",
+      "command": "uv run ruff check ."
+    },
+    "diff_check": {
+      "status": "passed",
+      "command": "git diff --check"
+    }
+  },
+  "real_corpus": {
+    "documents": [
+      {
+        "label": "贵州茅台2024年年度报告",
+        "version_id": "7961508deeffb5e66ae88808",
+        "pages": 143,
+        "input_text_elements": 3336,
+        "chunks": 349,
+        "source_element_coverage": 1.0,
+        "repeated_margins_removed": 286,
+        "cross_page_chunks": 95,
+        "token_min_p50_p95_max": [97, 236, 506, 640]
+      },
+      {
+        "label": "伊利股份2024年年度报告",
+        "version_id": "e96cf669106c99e4e283ca45",
+        "pages": 270,
+        "input_text_elements": 8898,
+        "chunks": 609,
+        "source_element_coverage": 1.0,
+        "repeated_margins_removed": 537,
+        "cross_page_chunks": 225,
+        "token_min_p50_p95_max": [39, 226, 475, 644]
+      }
+    ],
+    "active_generation": {
+      "index_id": "a9645108d5a7ce8b73b8",
+      "document_count": 2,
+      "chunk_count": 958,
+      "dense_model": "intfloat/multilingual-e5-small",
+      "embedding_dimension": 384,
+      "parent_index_id": "033f61b0784c6930cf25",
+      "reused_embeddings": 349,
+      "encoded_embeddings": 609,
+      "unchanged_rebuild_action": "unchanged"
+    }
+  },
+  "retrieval_trace": {
+    "scope": "single-document generation, one query, same long-lived process",
+    "mode": "hybrid",
+    "candidate_k": 30,
+    "top_k": 3,
+    "cold": {
+      "total_ms": 17358.21,
+      "lexical_ms": 4.55,
+      "dense_ms": 17353.43,
+      "rrf_ms": 0.11
+    },
+    "warm": {
+      "total_ms": 31.14,
+      "lexical_ms": 5.47,
+      "dense_ms": 25.38,
+      "rrf_ms": 0.12
+    }
+  },
+  "claims_not_yet_supported": [
+    "No Chinese business retrieval accuracy claim is supported yet.",
+    "No answer-generation correctness claim is supported yet.",
+    "The latency trace is not a load test or percentile benchmark.",
+    "Source-element coverage measures provenance coverage, not semantic chunk quality."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-08-05T17:16:16.2457646+08:00",
+  "feature": "metadata_aware_retrieval",
+  "index_format_version": 3,
+  "index_id": "10fb50419145d56720c9",
+  "migration": {
+    "chunk_count": 958,
+    "reused_embeddings": 0,
+    "encoded_embeddings": 958,
+    "reason": "one-time v2 to v3 index-format migration"
+  },
+  "filters": ["document_key", "company_name", "report_year", "document_type"],
+  "diagnostic_dataset_id": "ba7aa7e2fd771fb28ff0",
+  "results": {
+    "lexical_unfiltered": {"hit_at_5": 0.7, "mrr_at_5": 0.55},
+    "lexical_filtered": {"hit_at_5": 0.7, "mrr_at_5": 0.7},
+    "hybrid_unfiltered": {"hit_at_5": 0.6, "mrr_at_5": 0.32},
+    "hybrid_filtered": {"hit_at_5": 0.5, "mrr_at_5": 0.2783}
+  },
+  "idempotent_rebuild_action": "unchanged",
+  "quality_gates": {
+    "pytest_passed": 36,
+    "pytest_failed": 0,
+    "ruff": "passed",
+    "diff_check": "passed"
+  },
+  "interpretation": [
+    "Company/year filtering improved lexical ordering but not lexical recall at five.",
+    "Filtering did not solve within-document period and scope confusion for dense retrieval.",
+    "This does not establish that metadata filtering generally lowers hybrid quality."
+  ]
+}

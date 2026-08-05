@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-08-05T17:00:15.7287566+08:00",
+  "feature": "cross_encoder_reranking",
+  "code": {
+    "branch": "main",
+    "base_commit": "722512f72e749425e8396b2abf6dacb33ba0ba32",
+    "working_tree": "dirty"
+  },
+  "quality_gates": {
+    "pytest": {
+      "passed": 33,
+      "failed": 0,
+      "duration_seconds_reported_by_pytest": 1.91,
+      "reranker_tests": 3
+    },
+    "ruff": "passed",
+    "diff_check": "passed"
+  },
+  "verified_contracts": [
+    "candidate expansion before reranking",
+    "stable score tie-breaking by original rank",
+    "original rank and rank-delta preservation",
+    "separate rerank trace stage",
+    "process-lifetime model object reuse",
+    "explicit error when reranking is not configured"
+  ],
+  "real_model_attempt": {
+    "model": "BAAI/bge-reranker-v2-m3",
+    "corpus_documents": 2,
+    "corpus_chunks": 958,
+    "timeout_seconds": 604,
+    "status": "model_acquisition_timeout",
+    "cached_megabytes_after_attempt": 0,
+    "ranking_output_produced": false,
+    "quality_claim_supported": false
+  }
+}
