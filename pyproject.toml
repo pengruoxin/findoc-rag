@@ -22,9 +22,20 @@ dev = [
 api = [
     "fastapi>=0.115",
     "uvicorn>=0.34",
+    "python-multipart>=0.0.20",
 ]
 dense = [
     "sentence-transformers>=3.3",
+]
+evaluation = [
+    "datasets>=3.0",
+    "ragas>=0.3,<0.4",
+    "langchain>=0.3,<1",
+    "langchain-community>=0.3,<0.4",
+    "langchain-core>=0.3,<1",
+    "langchain-openai>=0.3,<1",
+    "pillow>=11",
+    "wandb>=0.19",
 ]
 
 [project.scripts]

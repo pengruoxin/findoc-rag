@@ -1,0 +1,11 @@
+{
+  "run_id": "retrieved_context-generation-eval-v1-82c3e242b307-no-llm-baseline",
+  "dataset_id": "generation-eval-v1-82c3e242b307",
+  "lane": "retrieved_context",
+  "model": "no-llm-baseline",
+  "remote_generation": false,
+  "item_count": 32,
+  "strict_success_rate": 0.03125,
+  "expected_behavior_accuracy": 0.75,
+  "run_error_rate": 0.0
+}

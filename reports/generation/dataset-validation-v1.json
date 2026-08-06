@@ -1,0 +1,97 @@
+{
+  "dataset_id": "generation-eval-v1-b7f4d6113c96",
+  "item_count": 48,
+  "answerability_counts": {
+    "answerable": 37,
+    "needs_clarification": 2,
+    "unanswerable": 9
+  },
+  "split_counts": {
+    "calibration": 12,
+    "dev": 24,
+    "frozen_test": 12
+  },
+  "category_counts": {
+    "single_fact": 2,
+    "narrative": 8,
+    "multi_fact_table": 11,
+    "calculation": 7,
+    "comparison": 8,
+    "accounting_policy": 1,
+    "unanswerable": 11
+  },
+  "difficulty_counts": {
+    "easy": 6,
+    "medium": 14,
+    "hard": 28
+  },
+  "company_counts": {
+    "贵州茅台": 18,
+    "伊利股份": 22,
+    "贵州茅台+伊利股份": 8
+  },
+  "tag_counts": {
+    "numeric": 5,
+    "annual": 2,
+    "percentage": 3,
+    "causal": 3,
+    "multi_fact": 5,
+    "table_linearization": 10,
+    "quarterly": 1,
+    "negative_sensitive": 3,
+    "calculation": 13,
+    "multi_evidence": 7,
+    "multi_document": 6,
+    "scope_disambiguation": 7,
+    "narrative": 5,
+    "process": 1,
+    "unit": 1,
+    "accounting_policy": 1,
+    "time_boundary": 3,
+    "scope_disclaimer": 1,
+    "frozen_test": 5,
+    "bounded_answer": 4,
+    "channel": 1,
+    "corrected_legacy_gold": 2,
+    "status_disambiguation": 1,
+    "financial_note": 1,
+    "future_plan": 1,
+    "epistemic": 1,
+    "ambiguous_scope": 2,
+    "financial_scope": 1,
+    "consolidated_vs_parent": 1,
+    "unsupported_causality": 3,
+    "evidence_splicing": 2,
+    "audit": 3,
+    "normative": 2,
+    "unsupported_comparison": 1,
+    "out_of_period": 1,
+    "missing_granularity": 1,
+    "wrong_company": 2,
+    "cross_document_pollution": 2,
+    "external_knowledge": 1,
+    "missing_period": 1
+  },
+  "family_count": 40,
+  "unique_gold_chunk_count": 35,
+  "fact_count": 120,
+  "evidence_count": 67,
+  "multi_evidence_item_count": 25,
+  "derived_fact_count": 13,
+  "robustness_item_count": 29,
+  "robustness_split_counts": {
+    "calibration": 7,
+    "frozen_test": 12,
+    "dev": 10
+  },
+  "hard_negative_count": 53,
+  "hard_negative_type_counts": {
+    "wrong_scope": 14,
+    "wrong_company": 15,
+    "wrong_period": 5,
+    "partial_evidence": 15,
+    "unsupported_causality": 4
+  },
+  "warning_count": 0,
+  "warnings": []
+}

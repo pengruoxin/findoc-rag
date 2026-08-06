@@ -1,0 +1,14 @@
+{
+  "run_id": "robustness-generation-eval-v1-b7f4d6113c96-no-llm-clarify-v1",
+  "dataset_id": "generation-eval-v1-b7f4d6113c96",
+  "lane": "robustness",
+  "model": "no-llm-clarify-v1",
+  "remote_generation": false,
+  "dataset_item_count": 48,
+  "item_count": 29,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 22,
+  "strict_success_rate": 0.22727272727272727,
+  "expected_behavior_accuracy": 0.7931034482758621,
+  "run_error_rate": 0.0
+}

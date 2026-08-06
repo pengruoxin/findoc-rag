@@ -60,7 +60,7 @@ official PDF
 Clone and install all development, API, and dense-retrieval dependencies:
 
 ```powershell
-git clone https://github.com/yiwu17/findoc-rag.git
+git clone https://github.com/pengruoxin/findoc-rag.git
 cd findoc-rag
 uv sync --extra dev --extra api --extra dense
 uv run findoc-rag doctor
@@ -222,6 +222,13 @@ uv run findoc-rag evaluate-ranking-diagnostics `
   --output reports/ranking/my-run.json
 ```
 
+For repeatable local Dense timings after the model is cached, disable Hub network
+checks explicitly:
+
+```powershell
+$env:HF_HUB_OFFLINE = "1"
+```
+
 Current controlled result at `candidate_k=20`:
 
 | Pipeline | Hit@5 | MRR@5 |
@@ -266,6 +273,7 @@ tests/              unit and integration tests
 - [Cross-encoder reranking](docs/reranking.md)
 - [Query scope routing](docs/scope-routing.md)
 - [Chinese ranking diagnostics](docs/ranking-diagnostics.md)
+- [Independent holdout review](docs/holdout-review.md)
 - [Engineering validation record](reports/engineering_validation.md)
 
 ## Current limitations and roadmap
@@ -276,12 +284,18 @@ tests/              unit and integration tests
   reconstruction and deterministic numerical calculation are not implemented yet.
 - Scope routing is an inspectable rule baseline; learned routing and calibrated
   reranking still require broader labels.
+- Adaptive candidate budgets and component-union recall diagnostics are implemented;
+  current results remain development diagnostics pending an independent holdout.
 - Reranker model acquisition depends on external Hugging Face availability.
 - Answer generation, citation composition, and abstention come after the evidence
   layer has stronger independent evaluation.
 
 Next milestones are candidate-recall diagnostics, a reviewed Chinese holdout set,
 table-aware evidence construction, and deterministic financial calculations.
+
+The current pending holdout pack contains 16 new candidate questions. Generate or
+review it with the workflow in [holdout-review.md](docs/holdout-review.md); pending
+items are never scored as gold.
 
 ## Development
 
@@ -294,3 +308,115 @@ git diff --check
 Generated filings, indexes, traces, registries, and model caches remain local and are
 excluded from Git. Versioned diagnostic data and compact experiment reports are kept
 in the repository for regression analysis.
+
+## Local product walkthrough
+
+Install [uv](https://docs.astral.sh/uv/), then from the repository root:
+
+```powershell
+uv sync --extra dev --extra api
+uv run pytest -q
+uv run ruff check .
+```
+
+Start the API with one command:
+
+```powershell
+./scripts/start.ps1
+```
+
+Startup runs `scripts/validate-artifacts.ps1` first and aborts if reviewed evidence
+or experiment metadata is invalid. To run the gate independently:
+
+```powershell
+./scripts/validate-artifacts.ps1
+```
+
+The runtime evaluation entry point is:
+
+```powershell
+./scripts/run-holdout-eval.ps1 -TopK 5
+```
+
+It validates the manifest before execution and writes the versioned result to
+`reports/ranking/holdout-eval-v2.json`. Scores are omitted until a real local
+retrieval runtime is available; no placeholder metrics are reported.
+
+The service exposes `/health/live`, `/health/ready`, `/v1/search`, `/v1/traces/{trace_id}`,
+and `/v1/metrics`. The static review and experiment pages can be opened directly in a
+browser after pushing the repository:
+
+- `docs/holdout-review.html` — candidate evidence review
+- `docs/holdout-eval.html` — assistant-reviewed provisional holdout manifest
+- `docs/experiment-dashboard.html` — versioned experiment registry and caveats
+- `docs/holdout-failures.html` — runtime retrieval failure taxonomy and examples
+- `docs/workspace-v3.html` — current user-facing query workspace
+- `reports/processing/2026-08-06-baseline-v1.md` — PDF/IR/chunking processing baseline
+- `docs/findoc-rag-interview-guide-zh.md` — FinDocRAG 项目亮点、技术路线与面试问答
+
+The normalized holdout input is `data/diagnostics/holdout-eval-v2.json`. It contains
+16 reviewed questions and chunk-level evidence IDs. It is intentionally labelled
+`independent_gold: false`; do not report it as an independently annotated benchmark.
+
+## Optional DeepSeek answer generation
+
+Answer generation is disabled by default. The retrieval/evidence layer works without
+any model token. When you are ready to enable DeepSeek, set the token in the shell:
+
+```powershell
+$env:DEEPSEEK_API_KEY = "your-token"
+$env:FINDOC_RAG_ANSWER_ENABLED = "true"
+$env:FINDOC_RAG_ANSWER_MODEL = "deepseek-chat"
+```
+
+The default endpoint is `https://api.deepseek.com/chat/completions`. The generator
+passes only retrieved evidence to the model, requires citation markers, and falls
+back to an extractive answer when the token or model is not configured. Never commit
+the token to Git.
+
+### 生成评测集与三轨运行
+
+当前冻结回归集包含 48 条问题、120 个原子事实、67 条 gold evidence 和 53 个真实年报 hard negatives。先运行数据门禁：
+
+```powershell
+.venv\Scripts\python.exe scripts\validate_generation_eval_dataset.py
+```
+
+在同一个 PowerShell 窗口临时设置 Token；关闭窗口后变量自动失效，不会写入用户环境变量：
+
+```powershell
+$env:DEEPSEEK_API_KEY = "your-token"
+```
+
+分别运行 Oracle、真实检索和干扰上下文三条轨道：
+
+```powershell
+.venv\Scripts\python.exe scripts\run_generation_eval.py --lane oracle_context --require-remote
+.venv\Scripts\python.exe scripts\run_generation_eval.py --lane retrieved_context --require-remote
+.venv\Scripts\python.exe scripts\run_generation_eval.py --lane robustness --require-remote
+```
+
+Run 目录不可覆盖，并包含逐题答案、实际上下文、`gold / retrieved / hard_negative:<type>` 标签、确定性分数和汇总。当前 Dataset ID 为 `generation-eval-v1-b7f4d6113c96`。
+
+对三条 lane 的 run 都可以执行 RAGAS；脚本会先校验 sibling `summary.json`、Dataset/Index ID、lane 问题范围、重复或未知 query、run error 和回答结构，再调用 Judge。Oracle/Retrieved 必须覆盖完整数据集，Robustness 必须精确覆盖 29 条 hard-negative 子集。行为与 gold contract 不一致的回答不会被剔除，而会保留在 eligible 分母并写入 `behavior_mismatch_query_ids`，避免错误拒答造成幸存者偏差：
+
+```powershell
+.venv\Scripts\python.exe scripts\run_ragas_generation_eval.py `
+  reports\generation\runs\oracle_context-generation-eval-v1-b7f4d6113c96-deepseek-chat\items.jsonl `
+  --output reports\generation\ragas-oracle-b7f4d6113c96.json
+```
+
+输出会保存 `lane`、`eligible_count`、`dataset_answerable_count`、`coverage`、`lane_coverage` 和逐项 query ID。当前 Robustness 的可回答交集为 18 条，因此相对全部 37 条可回答题的 coverage 为 `18/37`，lane 内 coverage 为 `1.0`。
+
+如果回答模型和 judge 都是 `deepseek-chat`，产物会明确记录 `independent_judge=false`；这类同模型自评只能作为语义诊断，不能替代数值、单位、引用和行为门禁。
+
+同一 dataset/lane 的前后版本可做逐题配对比较：
+
+```powershell
+.venv\Scripts\python.exe scripts\compare_generation_runs.py BASELINE_RUN_DIR CANDIDATE_RUN_DIR `
+  --output-prefix reports\generation\comparisons\experiment-name
+```
+
+Every experiment report should record the dataset ID, index ID, retrieval mode,
+candidate budget, metric definition, and limitations. Use
+`reports/ranking/experiment-registry-v1.json` as the compact comparison registry.

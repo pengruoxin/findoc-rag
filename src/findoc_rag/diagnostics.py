@@ -1,4 +1,5 @@
 import hashlib
+import math
 from collections import Counter
 from pathlib import Path
 from typing import Literal
@@ -6,7 +7,7 @@ from typing import Literal
 from pydantic import BaseModel, Field, model_validator
 
 from findoc_rag.documents.models import DocumentChunk
-from findoc_rag.indexing import PersistentIndex, SearchFilters
+from findoc_rag.indexing import PersistentIndex, SearchFilters, SearchHit, reciprocal_rank_fusion
 from findoc_rag.io import read_jsonl
 from findoc_rag.registry import DocumentRegistry
 from findoc_rag.scope_routing import plan_candidate_budget, route_by_scope
@@ -76,6 +77,14 @@ class DiagnosticQueryResult(BaseModel):
     ranked_chunk_ids: list[str]
     inferred_scope: str | None = None
     effective_candidate_k: int
+    candidate_first_rank: int | None = None
+    candidate_recall: bool = False
+    candidate_pool_size: int = 0
+    relevant_count: int = 0
+    retrieved_relevant_count: int = 0
+    precision_at_k: float = 0.0
+    recall_at_k: float = 0.0
+    ndcg_at_k: float = 0.0
 
 
 class DiagnosticEvaluation(BaseModel):
@@ -90,9 +99,39 @@ class DiagnosticEvaluation(BaseModel):
     scope_routing: bool = False
     adaptive_candidate_budget: bool = False
     average_effective_candidate_k: float
+    candidate_recall_rate: float
     hit_at_k: float
     mrr_at_k: float
+    precision_at_k: float = 0.0
+    recall_at_k: float = 0.0
+    ndcg_at_k: float = 0.0
     results: list[DiagnosticQueryResult]
+
+
+class RecallFailure(BaseModel):
+    query_id: str
+    query: str
+    relevant_chunk_ids: list[str]
+    effective_candidate_k: int
+    lexical_first_rank: int | None
+    dense_first_rank: int | None
+    fused_first_rank: int | None
+    failure_type: Literal[
+        "metadata_filter_mismatch",
+        "candidate_budget_too_small",
+        "fusion_displacement",
+        "downstream_ranking",
+        "unresolved",
+    ]
+    explanation: str
+
+
+class RecallFailureReport(BaseModel):
+    dataset_id: str
+    evaluation_index_id: str
+    failure_count: int
+    failures_by_type: dict[str, int]
+    failures: list[RecallFailure]
 
 
 class DiagnosticSpec(BaseModel):
@@ -145,6 +184,13 @@ SPECS = (
         conflicting_cues=("分季度", "主要会计数据", "收入确认"),
     ),
 )
+
+
+def _first_relevant_rank(hits: list[SearchHit], relevant: set[str]) -> int | None:
+    return min(
+        (hit.rank for hit in hits if hit.chunk.chunk_id in relevant),
+        default=None,
+    )
 
 
 def _cue_match(chunk: DocumentChunk, cues: tuple[str, ...]) -> int:
@@ -284,35 +330,63 @@ def evaluate_diagnostic_dataset(
     max_candidate_k: int = 100,
 ) -> DiagnosticEvaluation:
     results: list[DiagnosticQueryResult] = []
-    for diagnostic in dataset.queries:
-        if diagnostic.status != "accepted":
-            continue
-        relevant = {
-            item.chunk_id for item in diagnostic.judgments if item.label == "relevant"
-        }
-        _, budget = plan_candidate_budget(
-            diagnostic.query,
+    accepted = [item for item in dataset.queries if item.status == "accepted"]
+    plans = [
+        plan_candidate_budget(
+            item.query,
             candidate_k,
             maximum_candidate_k=max_candidate_k,
             enabled=adaptive_candidate_budget,
+        )[1]
+        for item in accepted
+    ]
+    batch_filters = [
+        (
+            SearchFilters(company_names=[item.company], report_years=[item.year])
+            if use_metadata_filters
+            else None
         )
-        effective_candidate_k = budget.effective_candidate_k
+        for item in accepted
+    ]
+    dense_batch = None
+    if mode in {"dense", "hybrid"}:
+        dense_batch = index.search_dense_batch(
+            [item.query for item in accepted],
+            top_k=max(plan.effective_candidate_k for plan in plans),
+            filters=batch_filters,
+        )
+    for position, diagnostic in enumerate(accepted):
+        relevant = {
+            item.chunk_id for item in diagnostic.judgments if item.label == "relevant"
+        }
+        effective_candidate_k = plans[position].effective_candidate_k
         retrieval_k = (
             effective_candidate_k if reranker or use_scope_routing else top_k
         )
-        hits = index.search(
-            diagnostic.query,
-            top_k=retrieval_k,
-            mode=mode,
-            candidate_k=max(effective_candidate_k, retrieval_k),
-            filters=(
-                SearchFilters(
-                    company_names=[diagnostic.company], report_years=[diagnostic.year]
-                )
-                if use_metadata_filters
-                else None
-            ),
-        )
+        if mode == "lexical":
+            hits = index.search_lexical(diagnostic.query, retrieval_k, batch_filters[position])
+        elif mode == "dense":
+            hits = dense_batch[position][:retrieval_k]
+        else:
+            lexical = index.search_lexical(
+                diagnostic.query, effective_candidate_k, batch_filters[position]
+            )
+            dense = dense_batch[position][:effective_candidate_k]
+            hits = reciprocal_rank_fusion(
+                lexical,
+                dense,
+                top_k=(
+                    2 * effective_candidate_k
+                    if use_scope_routing
+                    else retrieval_k
+                ),
+                rrf_k=60,
+            )
+        candidate_ranks = [
+            hit.rank for hit in hits if hit.chunk.chunk_id in relevant
+        ]
+        candidate_first_rank = min(candidate_ranks, default=None)
+        candidate_pool_size = len(hits)
         inferred_scope = None
         if use_scope_routing:
             scope, hits = route_by_scope(
@@ -323,15 +397,37 @@ def evaluate_diagnostic_dataset(
             hits = reranker.rerank(diagnostic.query, hits, top_k)
         ranks = [hit.rank for hit in hits if hit.chunk.chunk_id in relevant]
         first_rank = min(ranks, default=None)
+        top_hits = hits[:top_k]
+        retrieved_relevant = [
+            hit for hit in top_hits if hit.chunk.chunk_id in relevant
+        ]
+        precision_at_k = len(retrieved_relevant) / top_k
+        recall_at_k = len(retrieved_relevant) / len(relevant)
+        dcg = sum(
+            1 / math.log2(rank + 1)
+            for rank, hit in enumerate(top_hits, start=1)
+            if hit.chunk.chunk_id in relevant
+        )
+        ideal_count = min(len(relevant), top_k)
+        ideal_dcg = sum(1 / math.log2(rank + 1) for rank in range(1, ideal_count + 1))
+        ndcg_at_k = dcg / ideal_dcg if ideal_dcg else 0.0
         results.append(
             DiagnosticQueryResult(
                 query_id=diagnostic.query_id,
                 first_relevant_rank=first_rank,
                 hit_at_k=first_rank is not None and first_rank <= top_k,
                 reciprocal_rank=1 / first_rank if first_rank is not None else 0,
-                ranked_chunk_ids=[hit.chunk.chunk_id for hit in hits[:top_k]],
+                ranked_chunk_ids=[hit.chunk.chunk_id for hit in top_hits],
                 inferred_scope=inferred_scope,
                 effective_candidate_k=effective_candidate_k,
+                candidate_first_rank=candidate_first_rank,
+                candidate_recall=candidate_first_rank is not None,
+                candidate_pool_size=candidate_pool_size,
+                relevant_count=len(relevant),
+                retrieved_relevant_count=len(retrieved_relevant),
+                precision_at_k=precision_at_k,
+                recall_at_k=recall_at_k,
+                ndcg_at_k=ndcg_at_k,
             )
         )
     if not results:
@@ -350,7 +446,106 @@ def evaluate_diagnostic_dataset(
         average_effective_candidate_k=(
             sum(item.effective_candidate_k for item in results) / len(results)
         ),
+        candidate_recall_rate=sum(item.candidate_recall for item in results) / len(results),
         hit_at_k=sum(item.hit_at_k for item in results) / len(results),
         mrr_at_k=sum(item.reciprocal_rank for item in results) / len(results),
+        precision_at_k=sum(item.precision_at_k for item in results) / len(results),
+        recall_at_k=sum(item.recall_at_k for item in results) / len(results),
+        ndcg_at_k=sum(item.ndcg_at_k for item in results) / len(results),
         results=results,
+    )
+
+
+def analyze_recall_failures(
+    dataset: DiagnosticDataset,
+    evaluation: DiagnosticEvaluation,
+    index: PersistentIndex,
+) -> RecallFailureReport:
+    diagnostics = {item.query_id: item for item in dataset.queries}
+    missed = [item for item in evaluation.results if not item.candidate_recall]
+    filters = [
+        (
+            SearchFilters(company_names=[diagnostics[item.query_id].company], report_years=[diagnostics[item.query_id].year])
+            if evaluation.metadata_filters
+            else None
+        )
+        for item in missed
+    ]
+    dense_results = (
+        index.search_dense_batch(
+            [diagnostics[item.query_id].query for item in missed],
+            top_k=index.manifest.chunk_count,
+            filters=filters,
+        )
+        if missed and evaluation.mode in {"dense", "hybrid"}
+        else [[] for _ in missed]
+    )
+    failures: list[RecallFailure] = []
+    for position, result in enumerate(missed):
+        diagnostic = diagnostics[result.query_id]
+        relevant = {
+            item.chunk_id for item in diagnostic.judgments if item.label == "relevant"
+        }
+        lexical = (
+            index.search_lexical(
+                diagnostic.query, index.manifest.chunk_count, filters[position]
+            )
+            if evaluation.mode in {"lexical", "hybrid"}
+            else []
+        )
+        dense = dense_results[position]
+        fused = (
+            reciprocal_rank_fusion(
+                lexical,
+                dense,
+                top_k=index.manifest.chunk_count,
+                rrf_k=60,
+            )
+            if evaluation.mode == "hybrid"
+            else lexical if evaluation.mode == "lexical" else dense
+        )
+
+        lexical_rank = _first_relevant_rank(lexical, relevant)
+        dense_rank = _first_relevant_rank(dense, relevant)
+        fused_rank = _first_relevant_rank(fused, relevant)
+        gold = index._load_chunks(list(relevant))
+        if len(gold) != len(relevant):
+            failure_type = "metadata_filter_mismatch"
+            explanation = "One or more gold chunk IDs are absent from the active index"
+        elif fused_rank is not None and fused_rank > result.effective_candidate_k:
+            if (
+                lexical_rank is not None
+                and lexical_rank <= result.effective_candidate_k
+            ) or (dense_rank is not None and dense_rank <= result.effective_candidate_k):
+                failure_type = "fusion_displacement"
+                explanation = "A component retrieved gold within budget, but RRF pushed it out"
+            else:
+                failure_type = "candidate_budget_too_small"
+                explanation = "Gold exists in the filtered corpus but ranks below the candidate budget"
+        elif fused_rank is not None:
+            failure_type = "downstream_ranking"
+            explanation = "Gold entered the candidate pool but was lost downstream"
+        else:
+            failure_type = "unresolved"
+            explanation = "Gold received no rank from the enabled retrievers"
+        failures.append(
+            RecallFailure(
+                query_id=result.query_id,
+                query=diagnostic.query,
+                relevant_chunk_ids=sorted(relevant),
+                effective_candidate_k=result.effective_candidate_k,
+                lexical_first_rank=lexical_rank,
+                dense_first_rank=dense_rank,
+                fused_first_rank=fused_rank,
+                failure_type=failure_type,
+                explanation=explanation,
+            )
+        )
+    counts = Counter(item.failure_type for item in failures)
+    return RecallFailureReport(
+        dataset_id=dataset.dataset_id,
+        evaluation_index_id=evaluation.index_id,
+        failure_count=len(failures),
+        failures_by_type=dict(counts),
+        failures=failures,
     )

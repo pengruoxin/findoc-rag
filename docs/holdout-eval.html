@@ -1,0 +1,9 @@
+<!doctype html><meta charset="utf-8"><title>FinDocRAG Holdout Evaluation</title>
+<style>body{font:16px system-ui;max-width:960px;margin:2rem auto;background:#f6f7f9}table{width:100%;background:#fff;border-collapse:collapse}td,th{padding:.7rem;border-bottom:1px solid #ddd;text-align:left}.ok{color:#087f23}</style>
+<h1>FinDocRAG provisional holdout</h1>
+<p>This dashboard displays the assistant-reviewed evaluation manifest. It is not an independent gold benchmark.</p>
+<p id="summary">Loading…</p><table><thead><tr><th>#</th><th>Query</th><th>Company</th><th>Gold chunks</th></tr></thead><tbody id="rows"></tbody></table>
+<script>
+const U='https://raw.githubusercontent.com/pengruoxin/findoc-rag/main/data/diagnostics/holdout-eval-v2.json';
+fetch(U).then(r=>r.json()).then(d=>{document.querySelector('#summary').innerHTML=`<span class="ok">${d.items.length} reviewed items loaded</span> · reviewer: ${d.reviewer} · independent gold: ${d.independent_gold}`;document.querySelector('#rows').innerHTML=d.items.map((x,i)=>`<tr><td>${i+1}</td><td>${x.query}</td><td>${x.company}</td><td><code>${x.gold_chunk_ids.join('<br>')}</code></td></tr>`).join('')}).catch(e=>document.querySelector('#summary').textContent='Load failed: '+e);
+</script>

@@ -3,6 +3,7 @@ from types import SimpleNamespace
 
 from findoc_rag.diagnostics import (
     DocumentProfile,
+    analyze_recall_failures,
     evaluate_diagnostic_dataset,
     generate_diagnostic_dataset,
 )
@@ -35,10 +36,23 @@ def make_chunk(chunk_id: str, document_id: str, text: str, section: str) -> Docu
 class FakeIndex:
     def __init__(self, hits: list[SearchHit]) -> None:
         self.hits = hits
-        self.manifest = SimpleNamespace(index_id="test-index")
+        self.manifest = SimpleNamespace(index_id="test-index", chunk_count=len(hits))
 
     def search(self, query: str, top_k: int, mode: str, candidate_k: int, filters=None):
         return self.hits[:top_k]
+
+    def search_dense_batch(self, queries, top_k: int, filters=None):
+        return [self.hits[:top_k] for _ in queries]
+
+    def search_lexical(self, query: str, top_k: int, filters=None):
+        return self.hits[:top_k]
+
+    def _load_chunks(self, chunk_ids: list[str]):
+        return {
+            hit.chunk.chunk_id: hit.chunk
+            for hit in self.hits
+            if hit.chunk.chunk_id in chunk_ids
+        }
 
 
 def activate_chunks(
@@ -113,3 +127,34 @@ def test_evaluation_uses_only_accepted_structural_gold(tmp_path: Path) -> None:
     assert evaluation.hit_at_k == 1
     assert evaluation.mrr_at_k == 0.75
     assert evaluation.results[0].first_relevant_rank == 2
+
+
+def test_failure_analysis_identifies_candidate_budget_miss(tmp_path: Path) -> None:
+    first = make_chunk("first-1", "first", "营业收入 100", "主要会计数据和财务指标")
+    second = make_chunk("second-1", "second", "营业收入 200", "主要会计数据和财务指标")
+    registry = DocumentRegistry(tmp_path / "registry.sqlite3")
+    activate_chunks(registry, tmp_path, "company:first", "a", [first])
+    activate_chunks(registry, tmp_path, "company:second", "b", [second])
+    index = FakeIndex(
+        [SearchHit(rank=1, chunk=second, score=1), SearchHit(rank=2, chunk=first, score=0.5)]
+    )
+    dataset = generate_diagnostic_dataset(
+        registry,
+        index,
+        [
+            DocumentProfile(document_key="company:first", company="甲公司", year=2024),
+            DocumentProfile(document_key="company:second", company="乙公司", year=2024),
+        ],
+        candidate_k=2,
+    )
+    evaluation = evaluate_diagnostic_dataset(dataset, index, mode="lexical", top_k=1)
+    evaluation.results = [evaluation.results[0].model_copy(
+        update={"candidate_recall": False, "candidate_first_rank": None, "effective_candidate_k": 1}
+    )]
+    evaluation.evaluated_query_count = 1
+
+    report = analyze_recall_failures(dataset, evaluation, index)
+
+    assert report.failure_count == 1
+    assert report.failures[0].failure_type == "candidate_budget_too_small"
+    assert report.failures[0].lexical_first_rank == 2

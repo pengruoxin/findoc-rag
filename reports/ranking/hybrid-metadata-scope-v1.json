@@ -8,6 +8,9 @@
   "candidate_k": 20,
   "metadata_filters": true,
   "scope_routing": true,
+  "adaptive_candidate_budget": false,
+  "average_effective_candidate_k": 20.0,
+  "candidate_recall_rate": 0.8,
   "hit_at_k": 0.8,
   "mrr_at_k": 0.8,
   "results": [
@@ -23,7 +26,10 @@
         "5299f4940e2c:c64:2eba4ee85d589498",
         "5299f4940e2c:c17:fd0681836703693e"
       ],
-      "inferred_scope": "annual_summary"
+      "inferred_scope": "annual_summary",
+      "effective_candidate_k": 20,
+      "candidate_first_rank": null,
+      "candidate_recall": false
     },
     {
       "query_id": "a32e79e33c9b3615",
@@ -37,7 +43,10 @@
         "5299f4940e2c:c324:e646da9aa1e81248",
         "5299f4940e2c:c1:e48167edf24567f1"
       ],
-      "inferred_scope": "annual_summary"
+      "inferred_scope": "annual_summary",
+      "effective_candidate_k": 20,
+      "candidate_first_rank": 5,
+      "candidate_recall": true
     },
     {
       "query_id": "9f3edde09c1aeebd",
@@ -51,7 +60,10 @@
         "5299f4940e2c:c61:50d86b7fb8107044",
         "5299f4940e2c:c62:e6c43ac844cc4f17"
       ],
-      "inferred_scope": "quarterly"
+      "inferred_scope": "quarterly",
+      "effective_candidate_k": 20,
+      "candidate_first_rank": 6,
+      "candidate_recall": true
     },
     {
       "query_id": "d111b2d4e10744ce",
@@ -65,7 +77,10 @@
         "5299f4940e2c:c15:21ea8a01397a570e",
         "5299f4940e2c:c324:e646da9aa1e81248"
       ],
-      "inferred_scope": "segment"
+      "inferred_scope": "segment",
+      "effective_candidate_k": 20,
+      "candidate_first_rank": 1,
+      "candidate_recall": true
     },
     {
       "query_id": "47d7026805f25313",
@@ -79,7 +94,10 @@
         "a82a81e52f52:c484:9cf7b65b3b49fef2",
         "a82a81e52f52:c77:ed0d447e9403ac62"
       ],
-      "inferred_scope": "annual_summary"
+      "inferred_scope": "annual_summary",
+      "effective_candidate_k": 20,
+      "candidate_first_rank": null,
+      "candidate_recall": false
     },
     {
       "query_id": "b6acfb2d2284285f",
@@ -93,7 +111,10 @@
         "a82a81e52f52:c1:793234fe6adf3a5b",
         "a82a81e52f52:c111:68fcbcbe4fd78836"
       ],
-      "inferred_scope": "annual_summary"
+      "inferred_scope": "annual_summary",
+      "effective_candidate_k": 20,
+      "candidate_first_rank": 6,
+      "candidate_recall": true
     },
     {
       "query_id": "51adc1f38920c5b2",
@@ -107,7 +128,10 @@
         "a82a81e52f52:c13:1557c17c79b6bb19",
         "a82a81e52f52:c223:8ba88cfa65496600"
       ],
-      "inferred_scope": "annual_summary"
+      "inferred_scope": "annual_summary",
+      "effective_candidate_k": 20,
+      "candidate_first_rank": 17,
+      "candidate_recall": true
     },
     {
       "query_id": "9133a2dc06b473dd",
@@ -121,7 +145,10 @@
         "a82a81e52f52:c607:91c62e88cbf97161",
         "a82a81e52f52:c223:8ba88cfa65496600"
       ],
-      "inferred_scope": "annual_summary"
+      "inferred_scope": "annual_summary",
+      "effective_candidate_k": 20,
+      "candidate_first_rank": 3,
+      "candidate_recall": true
     },
     {
       "query_id": "423818a830074b43",
@@ -135,7 +162,10 @@
         "a82a81e52f52:c75:9ae05154e8297a17",
         "a82a81e52f52:c1:793234fe6adf3a5b"
       ],
-      "inferred_scope": "quarterly"
+      "inferred_scope": "quarterly",
+      "effective_candidate_k": 20,
+      "candidate_first_rank": 4,
+      "candidate_recall": true
     },
     {
       "query_id": "f7ebee01383b90f7",
@@ -149,7 +179,10 @@
         "a82a81e52f52:c64:322bb74482db0c6b",
         "a82a81e52f52:c578:5cebb994696f77d4"
       ],
-      "inferred_scope": "segment"
+      "inferred_scope": "segment",
+      "effective_candidate_k": 20,
+      "candidate_first_rank": 1,
+      "candidate_recall": true
     }
   ]
 }

@@ -44,6 +44,12 @@ def test_mixed_language_tokenizer() -> None:
     assert "100.5" in tokens
 
 
+def test_tokenizer_preserves_financial_terms() -> None:
+    tokens = tokenize_for_search("2024年营业收入和经营活动产生的现金流量净额")
+    assert "营业收入" in tokens
+    assert "经营活动产生的现金流量净额" in tokens
+
+
 def test_persistent_lexical_index_returns_full_chunk(tmp_path: Path) -> None:
     chunks = [
         chunk("c0", "公司营业收入达到一百亿元。", "主要财务指标"),
@@ -158,6 +164,28 @@ def test_dense_model_is_loaded_once_per_open_index(tmp_path: Path, monkeypatch) 
     reopened.search_dense("营业收入", top_k=1)
 
     assert load_calls == ["fake-e5", "fake-e5"]
+
+
+def test_dense_batch_search_encodes_queries_once(tmp_path: Path) -> None:
+    chunks = [chunk("c0", "annual revenue", "annual"), chunk("c1", "quarterly revenue", "quarterly")]
+    source = tmp_path / "chunks.jsonl"
+    source.write_text("".join(item.model_dump_json() + "\n" for item in chunks), encoding="utf-8")
+    index = PersistentIndex.build(tmp_path / "index", chunks, source)
+    index.manifest.dense_model = "fake-model"
+    index._dense_embeddings = np.eye(2, dtype=np.float32)
+    index._dense_chunk_ids = ["c0", "c1"]
+    calls: list[int] = []
+
+    class BatchModel:
+        def encode(self, texts, **_kwargs):
+            calls.append(len(texts))
+            return np.eye(len(texts), 2, dtype=np.float32)
+
+    index._dense_model = BatchModel()
+    results = index.search_dense_batch(["annual", "quarterly"], top_k=1)
+
+    assert calls == [2]
+    assert [result[0].chunk.chunk_id for result in results] == ["c0", "c1"]
 
 
 def test_incremental_dense_build_reuses_unchanged_chunk_embeddings(

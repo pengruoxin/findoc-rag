@@ -1,0 +1,14 @@
+{
+  "run_id": "retrieved_context-generation-eval-v1-b7f4d6113c96-no-llm-baseline",
+  "dataset_id": "generation-eval-v1-b7f4d6113c96",
+  "lane": "retrieved_context",
+  "model": "no-llm-baseline",
+  "remote_generation": false,
+  "dataset_item_count": 48,
+  "item_count": 48,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 35,
+  "strict_success_rate": 0.02857142857142857,
+  "expected_behavior_accuracy": 0.7916666666666666,
+  "run_error_rate": 0.0
+}

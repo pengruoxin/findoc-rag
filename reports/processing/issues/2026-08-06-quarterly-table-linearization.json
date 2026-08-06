@@ -1,0 +1,35 @@
+{
+  "issue_id": "PDF-TABLE-001",
+  "detected_at": "2026-08-06",
+  "severity": "high",
+  "status": "observed",
+  "surface": "UI answer and evidence rendering",
+  "document": "伊利股份 2024 年年度报告",
+  "query": "伊利股份 2024 年各季度经营活动现金流量净额分别是多少",
+  "page": 8,
+  "symptom": "The answer area exposes a long linearized table instead of returning four quarter-value pairs.",
+  "evidence": {
+    "section": "2024 年分季度主要财务数据",
+    "headers": ["第一季度（1-3 月份）", "第二季度（4-6 月份）", "第三季度（7-9 月份）", "第四季度（10-12 月份）"],
+    "target_metric": "经营活动产生的现金流量净额",
+    "observed_values": ["2,267,600,204.82", "3,057,943,456.58", "8,544,068,622.02", "7,870,128,109.96"]
+  },
+  "root_cause_hypotheses": [
+    "PDF table cells are preserved as ordered text but not reconstructed into row/column coordinates.",
+    "Answer generation fallback is extractive and has no metric-to-column alignment step.",
+    "The UI renders a chunk excerpt as evidence, while the answer layer lacks structured financial values."
+  ],
+  "impact": [
+    "A user may not know which number belongs to which quarter.",
+    "The answer is verbose and not directly actionable.",
+    "Numeric extraction cannot yet be safely used for calculations or comparison."
+  ],
+  "planned_fixes": [
+    "Introduce table-aware row/column reconstruction in Document IR.",
+    "Represent extracted cells with row label, column label, value, unit and source bbox.",
+    "Add deterministic metric-period-value alignment before LLM generation.",
+    "Run arithmetic and column-count validation; abstain when alignment is ambiguous.",
+    "Render the final answer as a compact table and keep the raw excerpt collapsed."
+  ],
+  "regression_test_needed": true
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "project": "FinDocRAG",
+  "evaluation_policy": "Every score must include dataset, index, retrieval mode, candidate budget and provenance.",
+  "runs": [
+    {
+      "run_id": "adaptive-budget-v1",
+      "dataset": "structure-anchored diagnostics",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "hybrid",
+      "candidate_recall": 1.0,
+      "hit_at_5": 1.0,
+      "mrr_at_5": 1.0,
+      "status": "development-only",
+      "caveat": "Gold and routing cues are structurally related; not independent evaluation."
+    },
+    {
+      "run_id": "holdout-assistant-review-v1",
+      "dataset": "holdout-eval-v1",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "pending-execution",
+      "status": "assistant-reviewed-provisional",
+      "caveat": "Requires local index runtime; not independent human gold."
+    }
+  ]
+}

@@ -12,13 +12,20 @@ from findoc_rag.corpus import build_active_corpus_index, resolve_current_index
 from findoc_rag.datasets.financebench import convert_financebench, write_jsonl
 from findoc_rag.diagnostics import (
     DiagnosticDataset,
+    DiagnosticEvaluation,
     DocumentProfile,
+    analyze_recall_failures,
     evaluate_diagnostic_dataset,
     generate_diagnostic_dataset,
 )
 from findoc_rag.documents.models import DocumentChunk
 from findoc_rag.documents.pdf import parse_pdf
 from findoc_rag.evaluation.retrieval import evaluate_retriever
+from findoc_rag.holdout import (
+    generate_holdout_review_pack,
+    holdout_eval_to_diagnostics,
+    render_review_markdown,
+)
 from findoc_rag.indexing import DEFAULT_DENSE_MODEL, PersistentIndex, SearchFilters
 from findoc_rag.ingestion import ingest_pdf
 from findoc_rag.io import read_jsonl, write_dict_jsonl, write_json
@@ -436,7 +443,143 @@ def evaluate_ranking_diagnostics_command(
     console.print(
         f"Average effective candidate_k: {evaluation.average_effective_candidate_k:.1f}"
     )
+    console.print(f"Candidate recall: {evaluation.candidate_recall_rate:.4f}")
     console.print(f"Output: {output.resolve()}")
+
+
+@app.command("evaluate-holdout")
+def evaluate_holdout_command(
+    manifest_path: Annotated[Path, typer.Argument(exists=True, dir_okay=False)] = Path("data/diagnostics/holdout-eval-v2.json"),
+    index_root: Annotated[Path, typer.Option()] = Path("data/indexes/corpus"),
+    output: Annotated[Path, typer.Option()] = Path("reports/ranking/holdout-eval-v2-runtime.json"),
+    mode: Annotated[str, typer.Option()] = "hybrid",
+    top_k: Annotated[int, typer.Option(min=1, max=100)] = 5,
+    candidate_k: Annotated[int, typer.Option(min=1, max=1000)] = 20,
+    metadata_filters: Annotated[bool, typer.Option()] = False,
+    scope_routing: Annotated[bool, typer.Option()] = False,
+    adaptive_candidate_budget: Annotated[bool, typer.Option()] = True,
+    max_candidate_k: Annotated[int, typer.Option(min=1, max=1000)] = 100,
+    rerank: Annotated[bool, typer.Option()] = False,
+    reranker_model: Annotated[str, typer.Option()] = DEFAULT_RERANKER_MODEL,
+) -> None:
+    """Run the existing retrieval evaluator on the reviewed holdout manifest."""
+    if mode not in {"lexical", "dense", "hybrid"}:
+        raise typer.BadParameter("mode must be lexical, dense, or hybrid")
+    index = resolve_current_index(index_root) if (index_root / "current.json").is_file() else PersistentIndex(index_root)
+    dataset = holdout_eval_to_diagnostics(manifest_path, index)
+    reranker = CrossEncoderReranker(reranker_model) if rerank else None
+    evaluation = evaluate_diagnostic_dataset(
+        dataset, index, mode=mode, top_k=top_k, candidate_k=max(candidate_k, top_k),
+        reranker=reranker, use_metadata_filters=metadata_filters,
+        use_scope_routing=scope_routing,
+        adaptive_candidate_budget=adaptive_candidate_budget,
+        max_candidate_k=max_candidate_k,
+    )
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(evaluation.model_dump_json(indent=2) + "\n", encoding="utf-8")
+    console.print(f"[green]Evaluated {evaluation.evaluated_query_count} holdout queries.[/green]")
+    console.print(f"Hit@{top_k}: {evaluation.hit_at_k:.4f} | MRR: {evaluation.mrr_at_k:.4f}")
+
+
+@app.command("analyze-ranking-failures")
+def analyze_ranking_failures_command(
+    dataset_path: Annotated[Path, typer.Argument(exists=True, dir_okay=False)],
+    evaluation_path: Annotated[Path, typer.Argument(exists=True, dir_okay=False)],
+    index_root: Annotated[Path, typer.Option()] = Path("data/indexes/corpus"),
+    output: Annotated[Path, typer.Option()] = Path(
+        "reports/ranking/recall-failures.json"
+    ),
+) -> None:
+    """Explain candidate-recall failures using full component rankings."""
+    dataset = DiagnosticDataset.model_validate_json(dataset_path.read_text(encoding="utf-8"))
+    evaluation = DiagnosticEvaluation.model_validate_json(
+        evaluation_path.read_text(encoding="utf-8")
+    )
+    index = (
+        resolve_current_index(index_root)
+        if (index_root / "current.json").is_file()
+        else PersistentIndex(index_root)
+    )
+    report = analyze_recall_failures(dataset, evaluation, index)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(report.model_dump_json(indent=2) + "\n", encoding="utf-8")
+    console.print(f"[green]Analyzed {report.failure_count} recall failures.[/green]")
+    for failure_type, count in report.failures_by_type.items():
+        console.print(f"{failure_type}: {count}")
+    console.print(f"Output: {output.resolve()}")
+
+
+@app.command("analyze-holdout-failures")
+def analyze_holdout_failures_command(
+    evaluation_path: Annotated[Path, typer.Argument(exists=True, dir_okay=False)],
+    output: Annotated[Path, typer.Option()] = Path("reports/ranking/holdout-eval-v2-failures.json"),
+) -> None:
+    """Classify misses from a reviewed holdout evaluation without mixing datasets."""
+    evaluation = DiagnosticEvaluation.model_validate_json(evaluation_path.read_text(encoding="utf-8"))
+    failures = []
+    for result in evaluation.results:
+        if result.hit_at_k:
+            continue
+        if not result.candidate_recall:
+            failure_type = "candidate_recall"
+        elif result.first_relevant_rank is None:
+            failure_type = "downstream_ranking"
+        else:
+            failure_type = "unresolved"
+        failures.append({
+            "query_id": result.query_id,
+            "failure_type": failure_type,
+            "first_relevant_rank": result.first_relevant_rank,
+            "candidate_first_rank": result.candidate_first_rank,
+            "effective_candidate_k": result.effective_candidate_k,
+        })
+    report = {
+        "schema_version": 1, "evaluation_path": str(evaluation_path),
+        "failure_count": len(failures), "failures": failures,
+        "failures_by_type": {kind: sum(item["failure_type"] == kind for item in failures) for kind in {item["failure_type"] for item in failures}},
+    }
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    console.print(f"[green]Analyzed {len(failures)} holdout failures.[/green]")
+
+
+@app.command("generate-holdout-review")
+def generate_holdout_review_command(
+    profiles_path: Annotated[Path, typer.Argument(exists=True, dir_okay=False)],
+    dataset_path: Annotated[Path, typer.Argument(exists=True, dir_okay=False)] = Path(
+        "data/diagnostics/ranking-diagnostics-v1.json"
+    ),
+    registry_path: Annotated[Path, typer.Option()] = Path("data/catalog/registry.sqlite3"),
+    index_root: Annotated[Path, typer.Option()] = Path("data/indexes/corpus"),
+    output: Annotated[Path, typer.Option()] = Path(
+        "data/diagnostics/holdout-review-v1.json"
+    ),
+    markdown: Annotated[Path, typer.Option()] = Path(
+        "reports/ranking/holdout-review-v1.md"
+    ),
+) -> None:
+    """Generate new human-reviewable holdout questions without freezing gold labels."""
+    profiles = [
+        DocumentProfile.model_validate(item)
+        for item in json.loads(profiles_path.read_text(encoding="utf-8"))
+    ]
+    dataset = DiagnosticDataset.model_validate_json(dataset_path.read_text(encoding="utf-8"))
+    index = (
+        resolve_current_index(index_root)
+        if (index_root / "current.json").is_file()
+        else PersistentIndex(index_root)
+    )
+    pack = generate_holdout_review_pack(
+        DocumentRegistry(registry_path), profiles, index.manifest.index_id, dataset
+    )
+    output.parent.mkdir(parents=True, exist_ok=True)
+    markdown.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(pack.model_dump_json(indent=2) + "\n", encoding="utf-8")
+    markdown.write_text(render_review_markdown(pack), encoding="utf-8")
+    console.print(f"[green]Generated {pack.item_count} review candidates.[/green]")
+    console.print(f"Excluded existing queries: {pack.excluded_query_count}")
+    console.print(f"JSON: {output.resolve()}")
+    console.print(f"Review sheet: {markdown.resolve()}")
 
 
 @app.command("serve")

@@ -1,0 +1,14 @@
+{
+  "run_id": "oracle_context-generation-eval-v1-b7f4d6113c96-no-llm-clarify-v1",
+  "dataset_id": "generation-eval-v1-b7f4d6113c96",
+  "lane": "oracle_context",
+  "model": "no-llm-clarify-v1",
+  "remote_generation": false,
+  "dataset_item_count": 48,
+  "item_count": 48,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 35,
+  "strict_success_rate": 0.3142857142857143,
+  "expected_behavior_accuracy": 1.0,
+  "run_error_rate": 0.0
+}

@@ -1,0 +1,11 @@
+{
+  "run_id": "oracle_context-generation-eval-v1-82c3e242b307-no-llm-baseline-v2",
+  "dataset_id": "generation-eval-v1-82c3e242b307",
+  "lane": "oracle_context",
+  "model": "no-llm-baseline-v2",
+  "remote_generation": false,
+  "item_count": 32,
+  "strict_success_rate": 0.21875,
+  "expected_behavior_accuracy": 0.9375,
+  "run_error_rate": 0.0
+}

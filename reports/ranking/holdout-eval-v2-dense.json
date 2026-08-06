@@ -1,0 +1,306 @@
+{
+  "dataset_id": "409b77243b0eb13e4914",
+  "index_id": "10fb50419145d56720c9",
+  "mode": "dense",
+  "reranker_model": null,
+  "evaluated_query_count": 16,
+  "top_k": 5,
+  "candidate_k": 20,
+  "metadata_filters": false,
+  "scope_routing": false,
+  "adaptive_candidate_budget": true,
+  "average_effective_candidate_k": 72.5,
+  "candidate_recall_rate": 0.25,
+  "hit_at_k": 0.25,
+  "mrr_at_k": 0.08020833333333333,
+  "results": [
+    {
+      "query_id": "d7dcef54860ed8ce",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c1:e48167edf24567f1",
+        "5299f4940e2c:c17:fd0681836703693e",
+        "5299f4940e2c:c25:eeeae943350ec4e6",
+        "5299f4940e2c:c111:fd2241a99c82aed5",
+        "5299f4940e2c:c112:7b089d5cd076c13b"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 100,
+      "candidate_first_rank": null,
+      "candidate_recall": false,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "f56de64e14855312",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c110:e2bb6073302b9434",
+        "5299f4940e2c:c1:e48167edf24567f1",
+        "5299f4940e2c:c111:fd2241a99c82aed5",
+        "5299f4940e2c:c114:c5358d44ca56b298",
+        "5299f4940e2c:c322:be7fc6c1db669bac"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 100,
+      "candidate_first_rank": null,
+      "candidate_recall": false,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "dd8a4123df7d7d91",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c1:e48167edf24567f1",
+        "5299f4940e2c:c25:eeeae943350ec4e6",
+        "5299f4940e2c:c17:fd0681836703693e",
+        "5299f4940e2c:c28:cb63a349931d4b30",
+        "5299f4940e2c:c18:9e2aedcf9ff898fa"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 100,
+      "candidate_first_rank": null,
+      "candidate_recall": false,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "3b7ce64f8eb2cbfe",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c1:e48167edf24567f1",
+        "5299f4940e2c:c17:fd0681836703693e",
+        "5299f4940e2c:c37:c3b9216e60ba923d",
+        "5299f4940e2c:c110:e2bb6073302b9434",
+        "5299f4940e2c:c25:eeeae943350ec4e6"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 100,
+      "candidate_first_rank": null,
+      "candidate_recall": false,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "84f8b67df7b1b155",
+      "first_relevant_rank": 3,
+      "hit_at_k": true,
+      "reciprocal_rank": 0.3333333333333333,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c110:e2bb6073302b9434",
+        "5299f4940e2c:c18:9e2aedcf9ff898fa",
+        "5299f4940e2c:c19:807840659a321252",
+        "5299f4940e2c:c1:e48167edf24567f1",
+        "5299f4940e2c:c114:c5358d44ca56b298"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 40,
+      "candidate_first_rank": 3,
+      "candidate_recall": true,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "c3f212a7a3abbd8c",
+      "first_relevant_rank": 2,
+      "hit_at_k": true,
+      "reciprocal_rank": 0.5,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c110:e2bb6073302b9434",
+        "5299f4940e2c:c19:807840659a321252",
+        "5299f4940e2c:c112:7b089d5cd076c13b",
+        "5299f4940e2c:c114:c5358d44ca56b298",
+        "5299f4940e2c:c111:fd2241a99c82aed5"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 40,
+      "candidate_first_rank": 2,
+      "candidate_recall": true,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "b387da276ca33f47",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "5299f4940e2c:c25:eeeae943350ec4e6",
+        "5299f4940e2c:c18:9e2aedcf9ff898fa",
+        "5299f4940e2c:c324:e646da9aa1e81248",
+        "5299f4940e2c:c110:e2bb6073302b9434",
+        "5299f4940e2c:c322:be7fc6c1db669bac"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 60,
+      "candidate_first_rank": null,
+      "candidate_recall": false,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "a513407c11536dd8",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c1:793234fe6adf3a5b",
+        "a82a81e52f52:c568:06c780b01c58631c",
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c75:9ae05154e8297a17",
+        "a82a81e52f52:c106:637feb5ba3b1b6ff"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 100,
+      "candidate_first_rank": null,
+      "candidate_recall": false,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "12d36644cf225a3d",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c1:793234fe6adf3a5b",
+        "a82a81e52f52:c75:9ae05154e8297a17",
+        "a82a81e52f52:c28:dfdaa8768ea262c7",
+        "a82a81e52f52:c210:1c9f2088eae81e64"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 100,
+      "candidate_first_rank": null,
+      "candidate_recall": false,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "c6c7572f0c8ba105",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c568:06c780b01c58631c",
+        "a82a81e52f52:c1:793234fe6adf3a5b",
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "5299f4940e2c:c8:81a5543345db6ac2",
+        "a82a81e52f52:c110:dc6405733aa5828b"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 100,
+      "candidate_first_rank": null,
+      "candidate_recall": false,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "e5e3e11facaae53d",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c1:793234fe6adf3a5b",
+        "a82a81e52f52:c568:06c780b01c58631c",
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c75:9ae05154e8297a17",
+        "a82a81e52f52:c28:dfdaa8768ea262c7"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 100,
+      "candidate_first_rank": null,
+      "candidate_recall": false,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "9d1042bca1806c81",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c1:793234fe6adf3a5b",
+        "a82a81e52f52:c75:9ae05154e8297a17",
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c568:06c780b01c58631c",
+        "a82a81e52f52:c30:262585897930d441"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 40,
+      "candidate_first_rank": null,
+      "candidate_recall": false,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "cd4729eb5426b2f0",
+      "first_relevant_rank": 5,
+      "hit_at_k": true,
+      "reciprocal_rank": 0.2,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c568:06c780b01c58631c",
+        "a82a81e52f52:c1:793234fe6adf3a5b",
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c106:637feb5ba3b1b6ff",
+        "a82a81e52f52:c13:1557c17c79b6bb19"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 40,
+      "candidate_first_rank": 5,
+      "candidate_recall": true,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "db2c7f21ea24b826",
+      "first_relevant_rank": 4,
+      "hit_at_k": true,
+      "reciprocal_rank": 0.25,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c75:9ae05154e8297a17",
+        "a82a81e52f52:c77:ed0d447e9403ac62",
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c49:5b0070d92a364736",
+        "a82a81e52f52:c25:ae0bfdab1758f7ba"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 40,
+      "candidate_first_rank": 4,
+      "candidate_recall": true,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "f86b3c9d9b7af0e1",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c75:9ae05154e8297a17",
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c106:637feb5ba3b1b6ff",
+        "a82a81e52f52:c1:793234fe6adf3a5b",
+        "a82a81e52f52:c77:ed0d447e9403ac62"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 40,
+      "candidate_first_rank": null,
+      "candidate_recall": false,
+      "candidate_pool_size": 5
+    },
+    {
+      "query_id": "26bae24ca3b8d0c0",
+      "first_relevant_rank": null,
+      "hit_at_k": false,
+      "reciprocal_rank": 0.0,
+      "ranked_chunk_ids": [
+        "a82a81e52f52:c75:9ae05154e8297a17",
+        "a82a81e52f52:c112:185adf44cafb9f55",
+        "a82a81e52f52:c568:06c780b01c58631c",
+        "a82a81e52f52:c597:992785bb4bd937c8",
+        "a82a81e52f52:c1:793234fe6adf3a5b"
+      ],
+      "inferred_scope": null,
+      "effective_candidate_k": 60,
+      "candidate_first_rank": null,
+      "candidate_recall": false,
+      "candidate_pool_size": 5
+    }
+  ]
+}

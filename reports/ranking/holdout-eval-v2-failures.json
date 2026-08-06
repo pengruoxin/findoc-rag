@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "evaluation_path": "reports\\ranking\\holdout-eval-v2-hybrid.json",
+  "failure_count": 8,
+  "failures": [
+    {
+      "query_id": "d7dcef54860ed8ce",
+      "failure_type": "candidate_recall",
+      "first_relevant_rank": null,
+      "candidate_first_rank": null,
+      "effective_candidate_k": 100
+    },
+    {
+      "query_id": "f56de64e14855312",
+      "failure_type": "candidate_recall",
+      "first_relevant_rank": null,
+      "candidate_first_rank": null,
+      "effective_candidate_k": 100
+    },
+    {
+      "query_id": "3b7ce64f8eb2cbfe",
+      "failure_type": "candidate_recall",
+      "first_relevant_rank": null,
+      "candidate_first_rank": null,
+      "effective_candidate_k": 100
+    },
+    {
+      "query_id": "b387da276ca33f47",
+      "failure_type": "candidate_recall",
+      "first_relevant_rank": null,
+      "candidate_first_rank": null,
+      "effective_candidate_k": 60
+    },
+    {
+      "query_id": "a513407c11536dd8",
+      "failure_type": "candidate_recall",
+      "first_relevant_rank": null,
+      "candidate_first_rank": null,
+      "effective_candidate_k": 100
+    },
+    {
+      "query_id": "12d36644cf225a3d",
+      "failure_type": "candidate_recall",
+      "first_relevant_rank": null,
+      "candidate_first_rank": null,
+      "effective_candidate_k": 100
+    },
+    {
+      "query_id": "e5e3e11facaae53d",
+      "failure_type": "candidate_recall",
+      "first_relevant_rank": null,
+      "candidate_first_rank": null,
+      "effective_candidate_k": 100
+    },
+    {
+      "query_id": "26bae24ca3b8d0c0",
+      "failure_type": "candidate_recall",
+      "first_relevant_rank": null,
+      "candidate_first_rank": null,
+      "effective_candidate_k": 60
+    }
+  ],
+  "failures_by_type": {
+    "candidate_recall": 8
+  }
+}

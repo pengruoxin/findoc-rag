@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "run_id": "processing-baseline-2026-08-06-v1",
+  "pipeline": "pdf -> Document IR -> structure-aware chunks",
+  "config": {"target_tokens": 450, "max_tokens": 650, "min_tokens": 100, "overlap_tokens": 60, "repeated_margin_ratio": 0.12, "repeated_page_ratio": 0.2},
+  "documents": [
+    {"document_key":"cninfo:600519:annual:2024","company":"贵州茅台","pages":143,"chunks":349,"input_text_elements":3336,"repeated_margin_elements":286,"referenced_text_elements":3050,"source_element_coverage":1.0,"below_min_chunks":2,"above_max_chunks":0,"cross_page_chunks":95,"continuation_chunks":13,"token_p50":236,"token_p95":506,"token_max":640},
+    {"document_key":"cninfo:600887:annual:2024","company":"伊利股份","pages":270,"chunks":609,"input_text_elements":6435,"repeated_margin_elements":0,"referenced_text_elements":6435,"source_element_coverage":1.0,"below_min_chunks":0,"above_max_chunks":0,"cross_page_chunks":171,"continuation_chunks":0,"token_p50":238,"token_p95":513,"token_max":648}
+  ],
+  "limitations": ["OCR/table semantic quality is not independently scored yet", "The report records extraction and chunking provenance, not answer correctness", "Two chunks below minimum token target remain candidates for later tuning"]
+}

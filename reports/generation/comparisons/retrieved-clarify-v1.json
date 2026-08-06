@@ -1,0 +1,34 @@
+{
+  "dataset_id": "generation-eval-v1-b7f4d6113c96",
+  "lane": "retrieved_context",
+  "baseline_run_id": "retrieved_context-generation-eval-v1-b7f4d6113c96-no-llm-baseline",
+  "candidate_run_id": "retrieved_context-generation-eval-v1-b7f4d6113c96-no-llm-clarify-v1",
+  "paired_item_count": 48,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.02857142857142857,
+      "candidate": 0.08571428571428572,
+      "delta": 0.05714285714285715
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.7916666666666666,
+      "candidate": 0.8333333333333334,
+      "delta": 0.04166666666666674
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [
+    "u_moutai_profit_ambiguous",
+    "u_yili_cost_scope_ambiguous"
+  ],
+  "behavior_regressed": [],
+  "strict_fixed": [
+    "u_moutai_profit_ambiguous",
+    "u_yili_cost_scope_ambiguous"
+  ],
+  "strict_regressed": []
+}

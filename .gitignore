@@ -10,7 +10,13 @@ data/indexes/
 data/traces/
 data/catalog/
 data/cache/
+data/uploads/
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 reports/**/per_question.jsonl
 reports/**/*.csv
+
+# Local design drafts superseded by the current workspace and interview guide.
+docs/workspace-wireframe.html
+docs/workspace-v2.html
+docs/interview-capability-map.md

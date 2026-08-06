@@ -1,0 +1,9 @@
+{
+  "dataset_id": "generation-eval-v1-82c3e242b307",
+  "scorer_revision": "v2",
+  "item_count": 32,
+  "strict_success_eligible_count": 24,
+  "strict_success_rate": 0.9583333333333334,
+  "semantic_review_required_count": 8,
+  "expected_behavior_accuracy": 0.96875
+}

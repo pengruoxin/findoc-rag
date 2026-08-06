@@ -6,7 +6,7 @@
 <p>逐条点击“通过”“修改”“拒绝”。状态保存在浏览器 localStorage，完成后把 review ID 和决定发给我。</p>
 <p id="p">加载中…</p><button id="copy">复制复核结果</button><main id="app"></main>
 <script>
-const U='https://raw.githubusercontent.com/yiwu17/findoc-rag/main/data/diagnostics/holdout-review-v1.json',K='findoc-review-v1';
+const U='https://raw.githubusercontent.com/pengruoxin/findoc-rag/main/data/diagnostics/holdout-review-v1.json',K='findoc-review-v1';
 const S=()=>JSON.parse(localStorage[K]||'{}');const save=(id,v)=>{let x=S();x[id]=v;localStorage[K]=JSON.stringify(x)};
 function show(e){return `<pre>页码：${e.page_start}-${e.page_end}\n章节：${e.section_path.join(' > ')}\nchunk：${e.chunk_id}\n\n${e.excerpt}</pre>`}
 function render(d){let s=S(),app=document.querySelector('#app');app.innerHTML='';d.items.forEach((x,n)=>{let q=s[x.review_id]||{status:'pending'},a=document.createElement('article');a.innerHTML=`<h2>${n+1}. ${x.query}</h2><p>Review ID: <code>${x.review_id}</code>　口径：${x.scope}</p><h3>建议证据</h3>${show(x.proposed_evidence)}<h3>备选证据</h3>${x.alternatives.map(e=>show(e)).join('')||'无'}<button data-v="approved">通过</button><button data-v="edited">修改后通过</button><button data-v="rejected">拒绝</button><p>备注：<input></p>`;a.querySelectorAll('button').forEach(b=>b.onclick=()=>{save(x.review_id,{status:b.dataset.v,notes:a.querySelector('input').value,gold:[x.proposed_evidence.chunk_id]});render(d)});app.append(a)});let done=Object.values(s).filter(x=>x.status&&x.status!='pending').length;document.querySelector('#p').textContent=`已复核 ${done}/${d.items.length}；刷新页面会保留进度`}

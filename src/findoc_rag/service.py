@@ -235,8 +235,14 @@ class RetrievalService:
                     lambda: reciprocal_rank_fusion(
                         lexical,
                         dense,
-                        top_k=candidate_k if expand_candidates else top_k,
+                        top_k=(
+                            2 * candidate_k
+                            if scope_requested
+                            else candidate_k if expand_candidates else top_k
+                        ),
                         rrf_k=self.settings.rrf_k,
+                        lexical_weight=self.settings.lexical_weight,
+                        dense_weight=self.settings.dense_weight,
                     ),
                 )
             if scope_requested:

@@ -1,0 +1,34 @@
+{
+  "dataset_id": "generation-eval-v1-b7f4d6113c96",
+  "lane": "oracle_context",
+  "baseline_run_id": "oracle_context-generation-eval-v1-b7f4d6113c96-no-llm-baseline",
+  "candidate_run_id": "oracle_context-generation-eval-v1-b7f4d6113c96-no-llm-clarify-v1",
+  "paired_item_count": 48,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.2571428571428571,
+      "candidate": 0.3142857142857143,
+      "delta": 0.05714285714285716
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.9583333333333334,
+      "candidate": 1.0,
+      "delta": 0.04166666666666663
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [
+    "u_moutai_profit_ambiguous",
+    "u_yili_cost_scope_ambiguous"
+  ],
+  "behavior_regressed": [],
+  "strict_fixed": [
+    "u_moutai_profit_ambiguous",
+    "u_yili_cost_scope_ambiguous"
+  ],
+  "strict_regressed": []
+}

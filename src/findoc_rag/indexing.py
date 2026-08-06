@@ -12,7 +12,7 @@ from typing import Literal
 from uuid import uuid4
 
 import numpy as np
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, computed_field
 
 from findoc_rag.documents.models import DocumentChunk
 
@@ -20,6 +20,11 @@ INDEX_FORMAT_VERSION = 3
 DEFAULT_DENSE_MODEL = "intfloat/multilingual-e5-small"
 LATIN_OR_NUMBER = re.compile(r"[a-z0-9]+(?:[._%/-][a-z0-9]+)*", re.IGNORECASE)
 CJK_RUN = re.compile(r"[\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff]+")
+FINANCIAL_TERMS = (
+    "营业收入", "营业成本", "净利润", "归属于上市公司股东的净利润",
+    "经营活动产生的现金流量净额", "经营活动现金流量净额", "资产负债表",
+    "现金流量表", "利润表", "审计委员会", "董事会报告",
+)
 
 
 class IndexManifest(BaseModel):
@@ -55,6 +60,26 @@ class SearchHit(BaseModel):
     scope_score: int | None = None
     scope_rank_delta: int | None = None
 
+    @computed_field
+    @property
+    def text(self) -> str:
+        return self.chunk.text
+
+    @computed_field
+    @property
+    def page_start(self) -> int:
+        return self.chunk.page_start
+
+    @computed_field
+    @property
+    def page_end(self) -> int:
+        return self.chunk.page_end
+
+    @computed_field
+    @property
+    def section_path(self) -> list[str]:
+        return self.chunk.section_path
+
 
 class SearchFilters(BaseModel):
     document_keys: list[str] = Field(default_factory=list)
@@ -79,6 +104,7 @@ def tokenize_for_search(text: str) -> list[str]:
             tokens.append(run)
         else:
             tokens.extend(run[index : index + 2] for index in range(len(run) - 1))
+    tokens.extend(term for term in FINANCIAL_TERMS if term in normalized)
     return tokens
 
 
@@ -466,6 +492,48 @@ class PersistentIndex:
             for rank, index in enumerate(indices, start=1)
         ]
 
+    def search_dense_batch(
+        self,
+        queries: list[str],
+        top_k: int = 10,
+        filters: list[SearchFilters | None] | None = None,
+    ) -> list[list[SearchHit]]:
+        """Encode a query batch once for efficient offline evaluation."""
+        if not self.manifest.dense_model:
+            raise RuntimeError("This index was built without dense embeddings")
+        if filters is not None and len(filters) != len(queries):
+            raise ValueError("filters must have the same length as queries")
+        embeddings, chunk_ids = self._get_dense_data()
+        model = self._get_dense_model()
+        query_texts = [_dense_text(query, self.manifest.dense_model, "query") for query in queries]
+        with self._dense_model_lock:
+            query_embeddings = model.encode(
+                query_texts, normalize_embeddings=True, convert_to_numpy=True
+            ).astype(np.float32)
+        output: list[list[SearchHit]] = []
+        for index, query_embedding in enumerate(query_embeddings):
+            allowed_ids = self._matching_chunk_ids(filters[index] if filters else None)
+            scores = embeddings @ query_embedding
+            selected = [
+                int(position)
+                for position in np.argsort(-scores, kind="stable")
+                if allowed_ids is None or str(chunk_ids[position]) in allowed_ids
+            ][: min(top_k, len(chunk_ids))]
+            chunks = self._load_chunks([str(chunk_ids[position]) for position in selected])
+            output.append(
+                [
+                    SearchHit(
+                        rank=rank,
+                        chunk=chunks[str(chunk_ids[position])],
+                        score=float(scores[position]),
+                        dense_rank=rank,
+                        dense_score=float(scores[position]),
+                    )
+                    for rank, position in enumerate(selected, start=1)
+                ]
+            )
+        return output
+
     def search(
         self,
         query: str,
@@ -511,9 +579,13 @@ def reciprocal_rank_fusion(
     dense: list[SearchHit],
     top_k: int,
     rrf_k: int = 60,
+    lexical_weight: float = 2.0,
+    dense_weight: float = 1.0,
 ) -> list[SearchHit]:
     if rrf_k < 1:
         raise ValueError("rrf_k must be positive")
+    if lexical_weight <= 0 or dense_weight <= 0:
+        raise ValueError("RRF weights must be positive")
     by_id: dict[str, dict] = {}
     for hit in lexical:
         by_id.setdefault(hit.chunk.chunk_id, {"chunk": hit.chunk, "score": 0.0})
@@ -521,11 +593,11 @@ def reciprocal_rank_fusion(
             lexical_rank=hit.rank,
             lexical_score=hit.score,
         )
-        by_id[hit.chunk.chunk_id]["score"] += 1 / (rrf_k + hit.rank)
+        by_id[hit.chunk.chunk_id]["score"] += lexical_weight / (rrf_k + hit.rank)
     for hit in dense:
         by_id.setdefault(hit.chunk.chunk_id, {"chunk": hit.chunk, "score": 0.0})
         by_id[hit.chunk.chunk_id].update(dense_rank=hit.rank, dense_score=hit.score)
-        by_id[hit.chunk.chunk_id]["score"] += 1 / (rrf_k + hit.rank)
+        by_id[hit.chunk.chunk_id]["score"] += dense_weight / (rrf_k + hit.rank)
 
     ranked = sorted(
         by_id.values(),

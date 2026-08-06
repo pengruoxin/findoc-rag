@@ -19,6 +19,8 @@ class RetrievalSettings(BaseModel):
     top_k: int = Field(default=5, ge=1, le=100)
     candidate_k: int = Field(default=50, ge=1, le=1000)
     rrf_k: int = Field(default=60, ge=1, le=1000)
+    lexical_weight: float = Field(default=2.0, gt=0)
+    dense_weight: float = Field(default=1.0, gt=0)
 
     @model_validator(mode="after")
     def validate_candidate_count(self) -> "RetrievalSettings":
@@ -46,12 +48,19 @@ class ScopeRoutingSettings(BaseModel):
     max_candidate_k: int = Field(default=100, ge=1, le=1000)
 
 
+class AnswerGenerationSettings(BaseModel):
+    enabled: bool = False
+    model: str = "deepseek-chat"
+    endpoint: str = "https://api.deepseek.com/chat/completions"
+
+
 class AppSettings(BaseModel):
     server: ServerSettings = Field(default_factory=ServerSettings)
     retrieval: RetrievalSettings = Field(default_factory=RetrievalSettings)
     observability: ObservabilitySettings = Field(default_factory=ObservabilitySettings)
     reranker: RerankerSettings = Field(default_factory=RerankerSettings)
     scope_routing: ScopeRoutingSettings = Field(default_factory=ScopeRoutingSettings)
+    answer_generation: AnswerGenerationSettings = Field(default_factory=AnswerGenerationSettings)
 
 
 ENVIRONMENT_PATHS: dict[str, tuple[str, str]] = {
@@ -76,6 +85,9 @@ ENVIRONMENT_PATHS: dict[str, tuple[str, str]] = {
         "adaptive_candidate_budget",
     ),
     "FINDOC_RAG_MAX_CANDIDATE_K": ("scope_routing", "max_candidate_k"),
+    "FINDOC_RAG_ANSWER_ENABLED": ("answer_generation", "enabled"),
+    "FINDOC_RAG_ANSWER_MODEL": ("answer_generation", "model"),
+    "FINDOC_RAG_ANSWER_ENDPOINT": ("answer_generation", "endpoint"),
 }
 
 

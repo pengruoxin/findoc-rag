@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-08-06T09:13:06.0533224+08:00",
+  "feature": "adaptive_candidate_budget_and_batched_dense_evaluation",
+  "policy": {
+    "base_candidate_k": 20,
+    "annual_summary": 100,
+    "quarterly": 40,
+    "segment": 40,
+    "maximum_candidate_k": 100,
+    "average_effective_candidate_k": 76.0
+  },
+  "lexical_result": {
+    "hit_at_5": 1.0,
+    "mrr_at_5": 1.0,
+    "metadata_filters": true,
+    "scope_routing": true
+  },
+  "hybrid_result": {
+    "hit_at_5": 1.0,
+    "mrr_at_5": 1.0,
+    "candidate_recall_rate": 1.0,
+    "average_effective_candidate_k": 76.0,
+    "wall_clock_seconds": 10.23,
+    "hf_hub_offline": true
+  },
+  "profiling": {
+    "index_open_seconds": 0.30,
+    "dense_model_load_seconds": 8.15,
+    "diagnosis": "online Hub acquisition/checking caused earlier timeouts"
+  },
+  "dense_batch_interface": "implemented_and_unit_tested",
+  "hybrid_real_run": {"status": "completed_offline_cache"},
+  "failure_analysis": {
+    "before_fix": {
+      "type": "fusion_displacement",
+      "lexical_rank": 79,
+      "dense_rank": 120,
+      "rrf_rank": 104,
+      "candidate_budget": 100
+    },
+    "fix": "preserve component top-k union before scope routing",
+    "remaining_failures": 0
+  },
+  "quality_gates": {
+    "pytest_passed_before_experiment": 40,
+    "ruff": "passed"
+  }
+}
