@@ -191,8 +191,8 @@ GET  /v1/traces/{trace_id}
 GET  /v1/metrics
 ```
 
-See [API configuration and contracts](docs/api.md) and
-[retrieval observability](docs/observability.md).
+See [API configuration and contracts](docs/architecture/api.md) and
+[retrieval observability](docs/architecture/observability.md).
 
 ## Reproduce the Chinese ranking diagnostics
 
@@ -260,20 +260,29 @@ src/findoc_rag/
   diagnostics.py    Chinese ranking dataset and evaluation
 
 configs/            service and reviewed document profiles
-docs/               design and operational documentation
+docs/               documentation, see docs/README.md for the index
+  architecture/     system design and operational contracts
+  evaluation/       benchmark, baseline, and gate documentation
+  interview/        project narrative material
+  history/          audits and per-change optimization log
+  ui/               static review and workspace pages, mounted at /ui
 reports/            reproducible experiment summaries and snapshots
 tests/              unit and integration tests
 ```
 
-## Design documents
+## Documentation
 
-- [Product scope and non-toy criteria](docs/product-scope.md)
-- [Persistent indexing](docs/indexing.md)
-- [Document versioning and atomic generations](docs/versioning.md)
-- [Cross-encoder reranking](docs/reranking.md)
-- [Query scope routing](docs/scope-routing.md)
-- [Chinese ranking diagnostics](docs/ranking-diagnostics.md)
-- [Independent holdout review](docs/holdout-review.md)
+Full index with reading order: [docs/README.md](docs/README.md).
+
+- [Product scope and non-toy criteria](docs/architecture/product-scope.md)
+- [Persistent indexing](docs/architecture/indexing.md)
+- [Document versioning and atomic generations](docs/architecture/versioning.md)
+- [Cross-encoder reranking](docs/architecture/reranking.md)
+- [Query scope routing](docs/architecture/scope-routing.md)
+- [Benchmark construction, metrics, and gates](docs/evaluation/benchmark-and-metrics-zh.md)
+- [Current evaluation baseline](docs/evaluation/baseline-zh.md)
+- [Ranking diagnostics and holdout review](docs/evaluation/diagnostics-and-holdout.md)
+- [Roadmap and bottleneck analysis](docs/roadmap-zh.md)
 - [Engineering validation record](reports/engineering_validation.md)
 
 ## Current limitations and roadmap
@@ -294,10 +303,13 @@ Next milestones are candidate-recall diagnostics, a reviewed Chinese holdout set
 table-aware evidence construction, and deterministic financial calculations.
 
 The current pending holdout pack contains 16 new candidate questions. Generate or
-review it with the workflow in [holdout-review.md](docs/holdout-review.md); pending
+review it with the workflow in
+[diagnostics-and-holdout.md](docs/evaluation/diagnostics-and-holdout.md); pending
 items are never scored as gold.
 
 ## Development
+
+跨设备继续开发（Windows / Mac 交接、本地数据重建、常用评测命令）见 [docs/DEVELOPMENT-HANDOFF-zh.md](docs/DEVELOPMENT-HANDOFF-zh.md)。
 
 ```powershell
 uv run pytest -q
@@ -346,13 +358,13 @@ The service exposes `/health/live`, `/health/ready`, `/v1/search`, `/v1/traces/{
 and `/v1/metrics`. The static review and experiment pages can be opened directly in a
 browser after pushing the repository:
 
-- `docs/holdout-review.html` — candidate evidence review
-- `docs/holdout-eval.html` — assistant-reviewed provisional holdout manifest
-- `docs/experiment-dashboard.html` — versioned experiment registry and caveats
-- `docs/holdout-failures.html` — runtime retrieval failure taxonomy and examples
-- `docs/workspace-v3.html` — current user-facing query workspace
+- `docs/ui/holdout-review.html` — candidate evidence review
+- `docs/ui/holdout-eval.html` — assistant-reviewed provisional holdout manifest
+- `docs/ui/experiment-dashboard.html` — versioned experiment registry and caveats
+- `docs/ui/holdout-failures.html` — runtime retrieval failure taxonomy and examples
+- `docs/ui/workspace-v3.html` — current user-facing query workspace
 - `reports/processing/2026-08-06-baseline-v1.md` — PDF/IR/chunking processing baseline
-- `docs/findoc-rag-interview-guide-zh.md` — FinDocRAG 项目亮点、技术路线与面试问答
+- `docs/interview/findoc-rag-interview-guide-zh.md` — FinDocRAG 项目亮点、技术路线与面试问答
 
 The normalized holdout input is `data/diagnostics/holdout-eval-v2.json`. It contains
 16 reviewed questions and chunk-level evidence IDs. It is intentionally labelled
@@ -373,6 +385,22 @@ The default endpoint is `https://api.deepseek.com/chat/completions`. The generat
 passes only retrieved evidence to the model, requires citation markers, and falls
 back to an extractive answer when the token or model is not configured. Never commit
 the token to Git.
+
+### 数据集门禁与变体检索评测（P0 / P1）
+
+canonical 数据集为 `data/evaluation/benchmark-v2.json`（48 题 + 96 个 typed variants，由 `generation-eval-v1` 派生）。每次评测前先过数据集门禁（fail closed，绑定 corpus / chunk schema / gold / quote / 变体一致性）：
+
+```powershell
+.venv\Scripts\python.exe scripts\validate_benchmark_dataset.py
+```
+
+变体 regime 检索评测（canonical / ticker / 相对时间 × lexical / dense / hybrid × 无过滤 / query_parser 过滤）：
+
+```powershell
+.venv\Scripts\python.exe scripts\run_retrieval_variant_eval.py --output-dir reports\ranking\variant-regime-v2
+```
+
+输出包含 per-query、summary 与完整复现 config；最新结果与分析见 `reports/ranking/variant-regime-v1/analysis.md`。
 
 ### 生成评测集与三轨运行
 
@@ -396,7 +424,9 @@ $env:DEEPSEEK_API_KEY = "your-token"
 .venv\Scripts\python.exe scripts\run_generation_eval.py --lane robustness --require-remote
 ```
 
-Run 目录不可覆盖，并包含逐题答案、实际上下文、`gold / retrieved / hard_negative:<type>` 标签、确定性分数和汇总。当前 Dataset ID 为 `generation-eval-v1-b7f4d6113c96`。
+Run 目录不可覆盖，并包含逐题答案、实际上下文、`gold / retrieved / hard_negative:<type>` 标签、确定性分数和汇总。当前 canonical Dataset ID 为 `benchmark-v2`（生成 runner 默认加载它，由 `generation-eval-v1-b7f4d6113c96` 派生）。
+
+新 48 题 DeepSeek 三轨真实基线已跑（2026-08-07，`deepseek-chat`）：直接给答案 strict 0.9714 / 真实检索 0.5429 / 抗干扰 0.5455，RAGAS 已随三轨输出（同模型自评，仅作诊断）。
 
 对三条 lane 的 run 都可以执行 RAGAS；脚本会先校验 sibling `summary.json`、Dataset/Index ID、lane 问题范围、重复或未知 query、run error 和回答结构，再调用 Judge。Oracle/Retrieved 必须覆盖完整数据集，Robustness 必须精确覆盖 29 条 hard-negative 子集。行为与 gold contract 不一致的回答不会被剔除，而会保留在 eligible 分母并写入 `behavior_mismatch_query_ids`，避免错误拒答造成幸存者偏差：
 

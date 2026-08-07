@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "report_id": "example-run-001",
+  "created_at": "2026-08-07T14:28:00+08:00",
+  "dataset": {
+    "dataset_id": "benchmark-v2-retrieval-view",
+    "dataset_sha256": "4602468945161219ff3c24b9547c2b91a03ce089848e2b2c476f6309321d3823",
+    "split": "frozen_test",
+    "query_regime": "canonical"
+  },
+  "index": {
+    "index_id": "<required>",
+    "corpus_index_id": "10fb50419145d56720c9",
+    "index_build_id": "<required>"
+  },
+  "retrieval": {
+    "mode": "lexical",
+    "top_k": 5,
+    "candidate_k": 27,
+    "rrf_weights": {
+      "lexical": 2.0,
+      "dense": 0.5
+    },
+    "metadata_filters": {
+      "enabled": true,
+      "source": "query_parser",
+      "fields": [
+        "company_names",
+        "report_years"
+      ],
+      "oracle": false
+    },
+    "scope": "all_documents",
+    "adaptive": false,
+    "reranker": {
+      "enabled": true,
+      "model": "<required-when-enabled>",
+      "top_n": 10
+    }
+  },
+  "models": {
+    "dense_embedding_model": "<required-if-dense-used>",
+    "generation_model": null,
+    "judge_model": null
+  },
+  "time": {
+    "as_of_date": null,
+    "source": "none",
+    "note": "set as_of_date when query_regime includes relative-time variants"
+  },
+  "notes": ""
+}

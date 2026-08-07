@@ -17,6 +17,6 @@ reports/**/per_question.jsonl
 reports/**/*.csv
 
 # Local design drafts superseded by the current workspace and interview guide.
-docs/workspace-wireframe.html
-docs/workspace-v2.html
-docs/interview-capability-map.md
+docs/ui/workspace-wireframe.html
+docs/ui/workspace-v2.html
+docs/interview/interview-capability-map.md

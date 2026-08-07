@@ -5,8 +5,8 @@ log_level = "info"
 
 [retrieval]
 # Relative paths are resolved from this TOML file's directory.
-index_dir = "../data/indexes/example-hybrid"
-default_mode = "hybrid"
+index_dir = "../data/indexes/example"
+default_mode = "lexical"
 top_k = 5
 candidate_k = 50
 rrf_k = 60

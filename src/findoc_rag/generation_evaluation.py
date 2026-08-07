@@ -66,6 +66,14 @@ class AnnotationProvenance(BaseModel):
     notes: str = ""
 
 
+class QueryVariant(BaseModel):
+    variant_id: str
+    query: str
+    variant_types: list[str] = Field(default_factory=list)
+    query_regime: str
+    as_of_date: str | None = None
+
+
 class GenerationEvaluationItem(BaseModel):
     query_id: str
     family_id: str
@@ -92,6 +100,7 @@ class GenerationEvaluationItem(BaseModel):
     gold_evidence: list[GoldEvidence] = Field(default_factory=list)
     hard_negatives: list[HardNegative] = Field(default_factory=list)
     tags: list[str] = Field(default_factory=list)
+    query_variants: list[QueryVariant] = Field(default_factory=list)
     answer_contract: AnswerContract
     required_citation_count: int = Field(default=1, ge=0)
     abstention_reason: str | None = None
@@ -182,6 +191,10 @@ class GenerationRunItem(BaseModel):
     prompt_sha256: str
     latency_ms: float = Field(ge=0)
     grounded: bool
+    as_of_date: str | None = None
+    resolved_query: str | None = None
+    time_cues: list[str] = Field(default_factory=list)
+    context_tokens: int | None = None
     observed_behavior: Literal["answer", "abstain", "clarify"] | None = None
     error: str | None = None
 

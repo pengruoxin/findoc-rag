@@ -1,5 +1,6 @@
 import os
 import re
+import time
 from typing import Protocol
 
 import httpx
@@ -169,13 +170,23 @@ class GroundedAnswerGenerator:
                 {"role": "user", "content": f"问题：{query}\n\n证据：\n{context}"},
             ],
         }
-        response = httpx.post(
-            self.endpoint,
-            headers={"Authorization": f"Bearer {self.api_key}"},
-            json=payload,
-            timeout=60,
-        )
-        response.raise_for_status()
+        last_error: Exception | None = None
+        for attempt in range(3):
+            try:
+                response = httpx.post(
+                    self.endpoint,
+                    headers={"Authorization": f"Bearer {self.api_key}"},
+                    json=payload,
+                    timeout=httpx.Timeout(120.0, connect=30.0),
+                )
+                response.raise_for_status()
+                break
+            except (httpx.TransportError, httpx.HTTPStatusError) as exc:
+                last_error = exc
+                if attempt < 2:
+                    time.sleep(2 ** (attempt + 1))
+        else:
+            raise last_error  # type: ignore[misc]
         content = response.json()["choices"][0]["message"]["content"].strip()
         valid_citation = rf"\[(?:[1-{MAX_GENERATION_CONTEXTS}])\]"
         if not re.search(valid_citation, content):

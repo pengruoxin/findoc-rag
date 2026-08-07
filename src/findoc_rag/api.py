@@ -73,9 +73,9 @@ def create_app(settings: AppSettings | None = None) -> FastAPI:
         version=__version__,
         lifespan=lifespan,
     )
-    docs_dir = Path(__file__).resolve().parents[2] / "docs"
-    if docs_dir.is_dir():
-        app.mount("/ui", StaticFiles(directory=docs_dir), name="ui")
+    ui_dir = Path(__file__).resolve().parents[2] / "docs" / "ui"
+    if ui_dir.is_dir():
+        app.mount("/ui", StaticFiles(directory=ui_dir), name="ui")
 
     @app.get("/", include_in_schema=False)
     def ui_home() -> RedirectResponse:

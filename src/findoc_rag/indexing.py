@@ -538,7 +538,7 @@ class PersistentIndex:
         self,
         query: str,
         top_k: int = 10,
-        mode: Literal["lexical", "dense", "hybrid"] = "hybrid",
+        mode: Literal["lexical", "dense", "hybrid"] = "lexical",
         candidate_k: int = 50,
         rrf_k: int = 60,
         filters: SearchFilters | None = None,

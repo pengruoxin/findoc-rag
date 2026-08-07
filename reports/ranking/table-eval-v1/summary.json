@@ -1,0 +1,140 @@
+{
+  "run_id": "table-eval-v1",
+  "dataset_id": "table-eval-v1",
+  "table_count": 8,
+  "gold_cells_total": 149,
+  "by_table_type": {
+    "annual_data": {
+      "implemented": false,
+      "table_count": 2,
+      "gold_cells": 39,
+      "correct_cells": 0,
+      "precision": 0.0,
+      "recall": 0.0
+    },
+    "note_cost": {
+      "implemented": false,
+      "table_count": 2,
+      "gold_cells": 24,
+      "correct_cells": 0,
+      "precision": 0.0,
+      "recall": 0.0
+    },
+    "quarterly": {
+      "implemented": true,
+      "table_count": 2,
+      "gold_cells": 32,
+      "correct_cells": 28,
+      "precision": 0.875,
+      "recall": 0.875
+    },
+    "segment": {
+      "implemented": false,
+      "table_count": 2,
+      "gold_cells": 54,
+      "correct_cells": 0,
+      "precision": 0.0,
+      "recall": 0.0
+    }
+  },
+  "tables": [
+    {
+      "table_id": "moutai_quarterly",
+      "table_type": "quarterly",
+      "gold_cells": 16,
+      "predicted_cells": 16,
+      "correct_cells": 12,
+      "precision": 0.75,
+      "recall": 0.75,
+      "f1": 0.75,
+      "wrong_rows": [
+        "归属于上市公司股东的扣除非经常性损益后的净利润"
+      ],
+      "implemented": true
+    },
+    {
+      "table_id": "yili_quarterly",
+      "table_type": "quarterly",
+      "gold_cells": 16,
+      "predicted_cells": 16,
+      "correct_cells": 16,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "wrong_rows": [],
+      "implemented": true
+    },
+    {
+      "table_id": "moutai_note_cost",
+      "table_type": "note_cost",
+      "gold_cells": 12,
+      "predicted_cells": 0,
+      "correct_cells": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "wrong_rows": [],
+      "implemented": false
+    },
+    {
+      "table_id": "yili_note_cost",
+      "table_type": "note_cost",
+      "gold_cells": 12,
+      "predicted_cells": 0,
+      "correct_cells": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "wrong_rows": [],
+      "implemented": false
+    },
+    {
+      "table_id": "moutai_segment",
+      "table_type": "segment",
+      "gold_cells": 21,
+      "predicted_cells": 0,
+      "correct_cells": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "wrong_rows": [],
+      "implemented": false
+    },
+    {
+      "table_id": "yili_segment",
+      "table_type": "segment",
+      "gold_cells": 33,
+      "predicted_cells": 0,
+      "correct_cells": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "wrong_rows": [],
+      "implemented": false
+    },
+    {
+      "table_id": "moutai_annual_data",
+      "table_type": "annual_data",
+      "gold_cells": 21,
+      "predicted_cells": 0,
+      "correct_cells": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "wrong_rows": [],
+      "implemented": false
+    },
+    {
+      "table_id": "yili_annual_data",
+      "table_type": "annual_data",
+      "gold_cells": 18,
+      "predicted_cells": 0,
+      "correct_cells": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "wrong_rows": [],
+      "implemented": false
+    }
+  ]
+}

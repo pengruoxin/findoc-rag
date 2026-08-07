@@ -19,7 +19,7 @@ from findoc_rag.generation_evaluation import (
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("run_jsonl", type=Path)
-    parser.add_argument("--dataset", type=Path, default=Path("data/evaluation/generation-eval-v1.json"))
+    parser.add_argument("--dataset", type=Path, default=Path("data/evaluation/benchmark-v2.json"))
     parser.add_argument("--output", type=Path, default=Path("reports/generation/ragas-evaluation-v1.json"))
     parser.add_argument("--judge-model", default="deepseek-chat")
     parser.add_argument("--endpoint", default="https://api.deepseek.com")

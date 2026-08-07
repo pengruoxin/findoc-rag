@@ -320,7 +320,7 @@ def generate_diagnostic_dataset(
 def evaluate_diagnostic_dataset(
     dataset: DiagnosticDataset,
     index: PersistentIndex,
-    mode: Literal["lexical", "dense", "hybrid"] = "hybrid",
+    mode: Literal["lexical", "dense", "hybrid"] = "lexical",
     top_k: int = 5,
     candidate_k: int = 20,
     reranker=None,

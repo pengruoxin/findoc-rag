@@ -1,0 +1,253 @@
+{
+  "schema_version": 1,
+  "manifest_id": "holdout-eval-v2-to-benchmark-v2-migration",
+  "source_dataset_id": "holdout-eval-v2",
+  "target_dataset_id": "benchmark-v2",
+  "warning": "holdout-eval-v2 did not store original query text. Original wording has been recovered verbatim from reports/ranking/holdout-review-v1.md. Recovered legacy entries remain excluded from primary benchmark-v2 scoring until their gold bindings are independently verified.",
+  "items": [
+    {
+      "review_id": "d7dcef54860ed8ce",
+      "query_id": "moutai_deducted_net_profit",
+      "company": "Kweichow Moutai",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "5299f4940e2c:c11:4ee8dfe0e52fe716"
+      ],
+      "query": "贵州茅台2024年扣除非经常性损益后的净利润是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "f56de64e14855312",
+      "query_id": "moutai_total_assets",
+      "company": "Kweichow Moutai",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "5299f4940e2c:c8:81a5543345db6ac2"
+      ],
+      "query": "贵州茅台2024年末总资产是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "dd8a4123df7d7d91",
+      "query_id": "moutai_attributable_net_assets",
+      "company": "Kweichow Moutai",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "5299f4940e2c:c8:81a5543345db6ac2"
+      ],
+      "query": "贵州茅台2024年末归属于上市公司股东的净资产是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "3b7ce64f8eb2cbfe",
+      "query_id": "moutai_roe",
+      "company": "Kweichow Moutai",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "5299f4940e2c:c9:b7e5f0d6a604b703"
+      ],
+      "query": "贵州茅台2024年加权平均净资产收益率是多少？",
+      "query_provenance": "exact_from_generation_eval_overlap",
+      "original_query_text_recovered": true,
+      "migration_status": "mapped_to_canonical",
+      "primary_score_eligible": true
+    },
+    {
+      "review_id": "84f8b67df7b1b155",
+      "query_id": "moutai_segment_cost",
+      "company": "Kweichow Moutai",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "5299f4940e2c:c19:807840659a321252"
+      ],
+      "query": "贵州茅台2024年主营业务分行业或分产品营业成本是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "c3f212a7a3abbd8c",
+      "query_id": "moutai_segment_gross_margin",
+      "company": "Kweichow Moutai",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "5299f4940e2c:c19:807840659a321252"
+      ],
+      "query": "贵州茅台2024年主营业务分行业或分产品毛利率是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "b387da276ca33f47",
+      "query_id": "moutai_note_operating_cost",
+      "company": "Kweichow Moutai",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "5299f4940e2c:c264:8c3ffd81c4fbcad1"
+      ],
+      "query": "贵州茅台2024年财务报表附注披露的营业成本是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "a513407c11536dd8",
+      "query_id": "yili_deducted_net_profit",
+      "company": "Inner Mongolia Yili",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "a82a81e52f52:c11:beb4bd0cece25a50"
+      ],
+      "query": "伊利股份2024年扣除非经常性损益后的净利润是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "12d36644cf225a3d",
+      "query_id": "yili_total_assets",
+      "company": "Inner Mongolia Yili",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "a82a81e52f52:c10:0e6aa9a18586e694"
+      ],
+      "query": "伊利股份2024年末总资产是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "c6c7572f0c8ba105",
+      "query_id": "yili_attributable_net_assets",
+      "company": "Inner Mongolia Yili",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "a82a81e52f52:c10:0e6aa9a18586e694"
+      ],
+      "query": "伊利股份2024年末归属于上市公司股东的净资产是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "e5e3e11facaae53d",
+      "query_id": "yili_roe",
+      "company": "Inner Mongolia Yili",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "a82a81e52f52:c11:beb4bd0cece25a50"
+      ],
+      "query": "伊利股份2024年加权平均净资产收益率是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "9d1042bca1806c81",
+      "query_id": "yili_quarterly_net_profit",
+      "company": "Inner Mongolia Yili",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "a82a81e52f52:c13:1557c17c79b6bb19"
+      ],
+      "query": "伊利股份2024年各季度归母净利润分别是多少？",
+      "query_provenance": "exact_from_generation_eval_overlap",
+      "original_query_text_recovered": true,
+      "migration_status": "mapped_to_canonical",
+      "primary_score_eligible": true
+    },
+    {
+      "review_id": "cd4729eb5426b2f0",
+      "query_id": "yili_quarterly_operating_cashflow",
+      "company": "Inner Mongolia Yili",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "a82a81e52f52:c13:1557c17c79b6bb19"
+      ],
+      "query": "伊利股份2024年各季度经营活动现金流量净额分别是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "db2c7f21ea24b826",
+      "query_id": "yili_segment_cost",
+      "company": "Inner Mongolia Yili",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "a82a81e52f52:c49:5b0070d92a364736"
+      ],
+      "query": "伊利股份2024年主营业务分行业或分产品营业成本是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "f86b3c9d9b7af0e1",
+      "query_id": "yili_segment_gross_margin",
+      "company": "Inner Mongolia Yili",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "a82a81e52f52:c49:5b0070d92a364736"
+      ],
+      "query": "伊利股份2024年主营业务分行业或分产品毛利率是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    },
+    {
+      "review_id": "26bae24ca3b8d0c0",
+      "query_id": "yili_note_operating_cost",
+      "company": "Inner Mongolia Yili",
+      "year": 2024,
+      "gold_chunk_ids": [
+        "a82a81e52f52:c484:9cf7b65b3b49fef2"
+      ],
+      "query": "伊利股份2024年财务报表附注披露的营业成本是多少",
+      "query_provenance": "recovered_from_holdout_review_v1_md",
+      "original_query_text_recovered": true,
+      "migration_status": "recovered_legacy_only_excluded_from_primary",
+      "primary_score_eligible": false,
+      "notes": "query text recovered verbatim from reports/ranking/holdout-review-v1.md; gold binding remains assistant-reviewed and excluded from primary until independently verified."
+    }
+  ],
+  "counts": {
+    "total": 16,
+    "mapped_exact": 2,
+    "recovered_from_review": 14,
+    "reconstructed_remaining": 0
+  }
+}

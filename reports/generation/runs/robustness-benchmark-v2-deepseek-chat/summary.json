@@ -1,0 +1,17 @@
+{
+  "run_id": "robustness-benchmark-v2-deepseek-chat",
+  "dataset_id": "benchmark-v2",
+  "lane": "robustness",
+  "model": "deepseek-chat",
+  "variant_mode": "canonical",
+  "remote_generation": true,
+  "dataset_item_count": 48,
+  "item_count": 29,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 22,
+  "strict_success_rate": 0.5454545454545454,
+  "expected_behavior_accuracy": 0.7931034482758621,
+  "avg_context_tokens": 783.7931034482758,
+  "p95_latency_ms": 2441.4113000093494,
+  "run_error_rate": 0.0
+}

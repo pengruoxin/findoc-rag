@@ -21,6 +21,34 @@
       "mode": "pending-execution",
       "status": "assistant-reviewed-provisional",
       "caveat": "Requires local index runtime; not independent human gold."
+    },
+    {
+      "run_id": "variant-regime-v1",
+      "dataset": "benchmark-v2-retrieval-view",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "lexical/dense/hybrid-rrf-2to1",
+      "hit_at_5": 0.838,
+      "mrr_at_5": 0.694,
+      "status": "development-v1",
+      "caveat": "111 positive query instances (37 canonical groups x 3 regimes); partial-judgment precision/NDCG; query_parser filter mode best lexical. See reports/ranking/variant-regime-v1/analysis.md"
+    },
+    {
+      "run_id": "fusion-sweep-v1",
+      "dataset": "benchmark-v2-retrieval-view",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "rrf-weight-sweep (1:1 to 0:1)",
+      "hit_at_5": 0.838,
+      "mrr_at_5": 0.694,
+      "status": "development-v1",
+      "caveat": "lexical-only (1:0) beats every fused weight in all regimes; per-regime best selected on eval set; default strategy changed to lexical. See reports/ranking/fusion-sweep-v1/analysis.md"
+    },
+    {
+      "run_id": "table-eval-v1",
+      "dataset": "table-eval-v1",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "cell-level extraction (regex baseline)",
+      "status": "development-v1",
+      "caveat": "149 annotated cells across 8 tables; quarterly baseline 28/32; other table types unimplemented. See reports/ranking/table-eval-v1/analysis.md"
     }
   ]
 }

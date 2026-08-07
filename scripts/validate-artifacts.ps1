@@ -43,4 +43,8 @@ $text = ($chunkFiles | Get-Content -Raw -ErrorAction SilentlyContinue) -join "`n
 $missing = @($ids | ? { $text -notmatch [regex]::Escape($_) } | Select -Unique)
 if ($missing.Count) { throw "Missing gold chunk IDs: $($missing -join ', ')" }
 
-Write-Host "Artifacts valid: $($eval.items.Count) retrieval holdout items, $($generation.item_count) generation items, $($registry.runs.Count) experiment runs."
+$benchmarkGate = Join-Path $repo "scripts\validate_benchmark_dataset.py"
+& (Join-Path $repo ".venv\Scripts\python.exe") $benchmarkGate
+if ($LASTEXITCODE -ne 0) { throw "Benchmark v2 integrity gate failed" }
+
+Write-Host "Artifacts valid: $($eval.items.Count) retrieval holdout items, $($generation.item_count) generation items, benchmark-v2 integrity gate passed, $($registry.runs.Count) experiment runs."

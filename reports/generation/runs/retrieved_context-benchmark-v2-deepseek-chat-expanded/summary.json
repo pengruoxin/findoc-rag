@@ -1,0 +1,17 @@
+{
+  "run_id": "retrieved_context-benchmark-v2-deepseek-chat-expanded",
+  "dataset_id": "benchmark-v2",
+  "lane": "retrieved_context",
+  "model": "deepseek-chat-expanded",
+  "variant_mode": "canonical",
+  "remote_generation": true,
+  "dataset_item_count": 48,
+  "item_count": 48,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 35,
+  "strict_success_rate": 0.5428571428571428,
+  "expected_behavior_accuracy": 0.8333333333333334,
+  "avg_context_tokens": 1542.3958333333333,
+  "p95_latency_ms": 1876.690699980827,
+  "run_error_rate": 0.0
+}

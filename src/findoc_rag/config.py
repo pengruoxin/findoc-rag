@@ -15,7 +15,7 @@ class ServerSettings(BaseModel):
 
 class RetrievalSettings(BaseModel):
     index_dir: Path = Path("data/indexes/default")
-    default_mode: Literal["lexical", "dense", "hybrid"] = "hybrid"
+    default_mode: Literal["lexical", "dense", "hybrid"] = "lexical"
     top_k: int = Field(default=5, ge=1, le=100)
     candidate_k: int = Field(default=50, ge=1, le=1000)
     rrf_k: int = Field(default=60, ge=1, le=1000)
