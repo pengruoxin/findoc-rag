@@ -8,7 +8,7 @@ from findoc_rag.generation_evaluation import (
     GenerationRunItem,
     select_ragas_run_items,
 )
-from scripts.run_ragas_generation_eval import load_and_validate_run_manifest
+from findoc_rag.ragas_runner import load_and_validate_run_manifest
 
 ROOT = Path(__file__).resolve().parents[1]
 
