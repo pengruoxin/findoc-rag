@@ -113,6 +113,15 @@
       "strict_success_rate": 0.8286,
       "status": "development-v2",
       "caveat": "Single-variable experiment (FINDOC_RAG_REMOTE_DETERMINISTIC_TABLES=1): Oracle strict 0.9429->1.0, Retrieved 0.80->0.8286 (+1), Robustness 0.8636 flat; behavior 1.0/0.9583/0.8621; zero regressions; table-item refusals eliminated; runs carry code_revision. See reports/generation/comparisons/*-table-remote-v1"
+    },
+    {
+      "run_id": "deepseek-concentration-v2",
+      "dataset": "benchmark-v2",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "deepseek-chat three lanes with concentration table type (5th type)",
+      "strict_success_rate": 0.9545,
+      "status": "development-v2",
+      "caveat": "Robustness strict 0.8636->0.9545 (+2 concentration items) and behavior 0.8621->0.9655; Oracle 1.0; Retrieved flat (one unrelated model-variance behavior flip); extractor 8/8 cells on table-eval-concentration-v1; v1 run exposed and v2 fixed a query-company selection bug under negative-precedes-gold ordering. See reports/generation/comparisons/*-concentration-v2"
     }
   ]
 }

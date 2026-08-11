@@ -1,0 +1,20 @@
+{
+  "run_id": "oracle_context-benchmark-v2-deepseek-chat-concentration-v2",
+  "dataset_id": "benchmark-v2",
+  "lane": "oracle_context",
+  "model": "deepseek-chat-concentration-v2",
+  "api_model": "deepseek-chat",
+  "code_revision": "f8a1be898b9a67d9684a409b73bf8e9889d325de",
+  "code_dirty": false,
+  "variant_mode": "canonical",
+  "remote_generation": true,
+  "dataset_item_count": 48,
+  "item_count": 48,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 35,
+  "strict_success_rate": 1.0,
+  "expected_behavior_accuracy": 1.0,
+  "avg_context_tokens": 303.1458333333333,
+  "p95_latency_ms": 1634.8644000245258,
+  "run_error_rate": 0.0
+}

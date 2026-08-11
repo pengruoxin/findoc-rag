@@ -22,6 +22,24 @@
 结论：
 ```
 
+## 2026-08-11：concentration 表型抽取器 + 单公司选题修复（受控实验，`deepseek-chat-concentration-v2`）
+
+- 目标问题：moutai_concentration / yili_concentration 是剩余行为失败集中点（Robustness 全中），且未被四类表型覆盖。
+- 基线（table-remote-v1，同 dataset / index / api_model / runner）：Oracle 1.0 / Retrieved 0.8286 / Robustness 0.8636（strict）；行为 1.0 / 0.9583 / 0.8621。
+- 受控变量：新增 concentration 表型（抽取 + 生成格式化 + 单公司按查询公司选题修复）；其余固定。
+- 修改内容：
+  - `table_extraction.py`：`concentration` 表型，正则抽取前五名客户/供应商的销售额（万元）、销售/采购占比（%），关联方第二次占比不误取；新增 table-eval-concentration-v1（8 单元格）；
+  - `answer_generation.py`：`_concentration_answer` 单公司与跨公司（客户/供应商集中度差）格式化；v1 暴露 bug 后修复为按查询公司选题；
+  - 新增 3 个抽取 + 4 个生成单测（35 passed）。
+- 测试命令：`pytest tests/test_table_extraction.py tests/test_answer_generation.py`（35 passed）；全量 127 passed；ruff 通过。
+- 评测结果变化（concentration-v2 vs table-remote-v1，零回归）：
+  - Robustness strict **0.8636 → 0.9545**（+2：moutai_concentration、yili_concentration），行为 0.8621 → 0.9655（+3，含 1 个无关模型波动 audit_opinion_comparison）；
+  - Oracle 持平 1.0 / 1.0；Retrieved strict 持平 0.8286，行为 0.9583 → 0.9375（-1 为 yili_2025_plan_bounded 模型波动，与 concentration 无关）；
+  - RAGAS（clean `f8a1be8`、`code_dirty=false`）：Oracle 0.773 / Retrieved 0.804 / Robustness 0.731。
+- 新增能力：第五类表型抽取 + 集中度对比的确定性回答；单公司选题不再依赖 hit 顺序。
+- 已知退化/未覆盖：Retrieved 行为波动（非表格题）仍在；坐标级表格重建（PDF 文字层丢字）未做；LLM 改写仍未落地。
+- 结论：concentration 表型按预期消灭剩余集中度误拒答；过程中受控对比抓到一个真实 bug（负例前置取错公司），已修复并保留 v1 run 作审计记录。
+
 ## 2026-08-11：远程模式确定性表格优先（受控实验，`deepseek-chat-table-remote-v1`）
 
 - 目标问题：远程模式下确定性表格路径被跳过，表格类可答题交给 DeepSeek 后出现"证据齐全仍误拒答"（moutai_quarterly_cashflow facts=1.0 拒答、yili_consolidated_parent_revenue 拒答）。

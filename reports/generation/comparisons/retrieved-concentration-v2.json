@@ -1,0 +1,34 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "retrieved_context",
+  "baseline_run_id": "retrieved_context-benchmark-v2-deepseek-chat-concentration-v1",
+  "candidate_run_id": "retrieved_context-benchmark-v2-deepseek-chat-concentration-v2",
+  "baseline_code_revision": "c828639d856ea5b6bc24df0893be895cccc3af8f",
+  "candidate_code_revision": "f8a1be898b9a67d9684a409b73bf8e9889d325de",
+  "code_revision_match": false,
+  "controlled_change": "修复 concentration 单公司选题 bug：按查询中的公司选取（Robustness 负例前置场景）",
+  "paired_item_count": 48,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.8285714285714286,
+      "candidate": 0.8285714285714286,
+      "delta": 0.0
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.9583333333333334,
+      "candidate": 0.9375,
+      "delta": -0.02083333333333337
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [],
+  "behavior_regressed": [
+    "yili_2025_plan_bounded"
+  ],
+  "strict_fixed": [],
+  "strict_regressed": []
+}

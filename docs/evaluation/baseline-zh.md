@@ -173,6 +173,20 @@ Oracle 12 题全部命中预期：季度现金流 / 季度归母 / 两个季度-
 - 剩余行为失败集中在**未被四类抽取器覆盖的表格**（moutai_concentration / yili_concentration 等）与个别模型波动；
 - 新 run 已带 `code_revision` / `code_dirty`；RAGAS：Oracle faithfulness 0.783 / Retrieved 0.868 / Robustness 0.813。
 
+#### 3.2.5 concentration 表型抽取器（2026-08-11，`deepseek-chat-concentration-v2`）
+
+新增第五类表型：前五名客户/供应商集中度（句子式披露，正则抽取金额与占比）。table-eval-concentration-v1：**8/8 单元格**（茅台 + 伊利，含"关联方第二次占比"不误取）。生成链路支持单公司与跨公司客户/供应商集中度对比（带引用）。
+
+受控实验（单变量：新增 concentration 表型 + 修复"单公司查询按查询公司选题"）：基线 table-remote-v1（同 dataset / index / api_model / runner）：
+
+| Lane | strict（前 → 后） | 行为（前 → 后） | 配对 |
+|---|---:|---:|---:|
+| Oracle | 1.0 → 1.0 | 1.0 → 1.0 | 持平 |
+| Retrieved | 0.8286 → 0.8286 | 0.9583 → 0.9375 | strict 持平；行为 -1 为模型波动（yili_2025_plan_bounded，与 concentration 无关） |
+| Robustness | 0.8636 → **0.9545** | 0.8621 → **0.9655** | **+2 strict（moutai_concentration、yili_concentration）/+3 行为**，零回归 |
+
+过程中发现并修复一个真 bug：Robustness 负例前置时，单公司 concentration 题可能取到另一家公司的值（v1 run 保留为历史记录）；修复后按查询中的公司显式选题。RAGAS（clean revision `f8a1be8`、`code_dirty=false`）：Oracle faithfulness 0.773 / Retrieved 0.804 / Robustness 0.731（robustness answer_relevancy 0.909，较前显著提升）。
+
 DeepSeek 与 RAGAS 语义评测见 §3.1（8/7 基线）与 §3.2.2（2026-08-11 表格路径重跑，均 `independent_judge=false` 自评）。旧 32 题的 0.9583 只作历史记录——那是另一个版本的数据集，不能搬过来用。
 
 ## 4. 当前薄弱点（优化起点）

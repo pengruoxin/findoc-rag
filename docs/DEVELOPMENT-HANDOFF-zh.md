@@ -124,11 +124,12 @@ uv run python scripts/run_ragas_generation_eval.py \
 - DeepSeek 三轨重跑完成（2026-08-11，`deepseek-chat-table-v2` + RAGAS）：Oracle 0.9714（持平）、Retrieved **0.5714**、Robustness **0.6364**；RAGAS faithfulness 全轨提升；修复 `api_model` 元数据（新产物 `independent_judge=false` 正确标注自评）。
 - 远程拒答检测完成（2026-08-11，`deepseek-chat-abstain-v2`）：伪拒答不再刷分，应拒答被如实计分；真实基线 Retrieved strict **0.8000** / 行为 0.8958，Robustness strict **0.8636** / 行为 0.8276，Oracle 0.9429（单题波动）。
 - 远程确定性表格优先完成（2026-08-11，`deepseek-chat-table-remote-v1`，受控开关）：Oracle strict 1.0、Retrieved strict **0.8286** / 行为 **0.9583**、Robustness 行为 0.8621，零回归；新 run 已带 `code_revision`。
+- concentration 表型完成（2026-08-11，`deepseek-chat-concentration-v2`）：第五类表型 8/8 单元格；Robustness strict **0.9545** / 行为 0.9655；期间受控对比抓到"负例前置取错公司"bug 并修复。
 
 ### 下一步（方案已定，待执行）
 
 1. **LLM 改写落地生产**：接入 `/v1/query`；改写缓存持久化到 run 目录（当前跨 run 不稳定，36 条中 8 条不同）；改写后叠加 deterministic 词表兜底；
-2. 行为拒答策略：剩余误拒答集中在 concentration 类表格（moutai_concentration / yili_concentration，未被四类抽取器覆盖）与非表格波动；坐标级表格重建修复 PDF 文字层丢字；
+2. 坐标级表格重建修复 PDF 文字层丢字（伊利 segment"其他地区"）；非表格题行为波动（yili_2025_plan_bounded 等）继续观察；
 3. 96 变体与 OOV 实例人工审核；多轮评测；公信力工程（独立 judge、多公司多年度）。
 
 方案文档：[term-normalization-design-zh.md](./architecture/term-normalization-design-zh.md)

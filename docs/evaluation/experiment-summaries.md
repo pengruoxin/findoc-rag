@@ -21,6 +21,8 @@
 | deepseek-table-v2 | 2026-08-11 | 表格路径接入后重跑 DeepSeek 三轨 + RAGAS，并修复 `api_model` 元数据（`--model` 只是 run 标签，之前 `independent_judge` 被误标 True） | **Oracle strict 0.9714（持平，单题互换）、Retrieved 0.5714（+1）、Robustness 0.6364（+2，零回归）**；RAGAS faithfulness 0.778 / 0.845 / 0.849 全部提升；新产物 `api_model_recorded=true`、`independent_judge=false` | [配对报告](../../reports/generation/comparisons/robustness-deepseek-table-v2.json) |
 | deepseek-abstain-v2 | 2026-08-11 | 远程拒答检测修正打分口径：伪拒答（拒答文本里带数字）不再刷分，应拒答题的拒答被如实计分 | **Retrieved strict 0.5714 → 0.8000（+8 应拒答 / -0）、Robustness 0.6364 → 0.8636（+6 / -1 怪癖消除）**；行为 0.8958 / 0.8276 为真实基线；Oracle 0.9429（单题波动） | [配对报告](../../reports/generation/comparisons/retrieved-abstain-v2.json) |
 | deepseek-table-remote-v1 | 2026-08-11 | 受控实验：远程模式启用确定性表格优先（单变量开关），消除表格类可答题误拒答 | **Oracle strict 0.9429→1.0、Retrieved 0.80→0.8286、Robustness 0.8636（持平）**；行为 1.0 / **0.9583** / 0.8621，零回归；新 run 带 code_revision | [配对报告](../../reports/generation/comparisons/retrieved-table-remote-v1.json) |
+| concentration-table-v1 | 2026-08-11 | 新增 concentration 表型（前五名客户/供应商集中度），消除剩余集中度误拒答 | 抽取 8/8 单元格；Robustness 行为 0.8621→0.9655；v1 run 暴露"负例前置取错公司"bug（保留审计） | [表格评测](../../reports/ranking/table-eval-concentration-v1/summary.md) |
+| concentration-bugfix-v2 | 2026-08-11 | 修复单公司 concentration 按查询公司选题（受控 bugfix） | **Robustness strict 0.8636→0.9545（+2）、行为 0.9655，零回归**；Oracle 1.0；Retrieved -1 行为为无关模型波动 | [配对报告](../../reports/generation/comparisons/robustness-concentration-v2.json) |
 
 ## 分析总结规范
 
