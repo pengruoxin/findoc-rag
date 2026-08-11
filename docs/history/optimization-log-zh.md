@@ -22,6 +22,21 @@
 结论：
 ```
 
+## 2026-08-11：生产 /v1/query 查询归一化接入（相对时间 + 别名/代码路由 + 改写）
+
+- 目标问题：`/v1/query` 只认两家公司全名和 `20xx` 正则；相对时间、股票代码、简称、"营收"等口语都不处理，生产链路与检索侧成果脱节。
+- 修改内容（`api.py`）：
+  - `infer_finance_filters`：公司别名/代码（600519/茅台/Kweichow Moutai/伊利等）与年份推断，显式 filters 优先；
+  - `prepare_finance_query`：相对时间解析（生产用当前日期作锚点；评测链路仍禁用系统时钟）+ 确定性同义词改写（默认）或 LLM 改写（`FINDOC_RAG_QUERY_REWRITE=llm`，缓存 `FINDOC_RAG_REWRITE_CACHE`，默认 `data/cache/rewrites.json`；无 key 自动回退 deterministic）；
+  - `/v1/query` 使用归一化后的 query 做检索与生成。
+- 测试命令：`pytest tests/test_api.py tests/test_query_rewriting.py`（14 passed）；全量 147 passed；ruff 通过；真实索引冒烟：
+  - `600519 2024 年营收是多少` → 命中证据（extractive，5 citations）；
+  - `伊利股份2024年各季度归母净利润分别是多少` → deterministic-table 精确答案 + [1]；
+  - `茅台去年营收是多少` → "去年"=2025（当前 2026），语料无 2025 → guardrail-abstention 正确拒答。
+- 新增能力：生产问答支持相对时间、别名/代码路由、确定性/LLM 改写（带缓存）、确定性表格优先。
+- 已知退化/未覆盖：改写质量门控（LLM 改写后校验检索质量）未做；`/v1/query` 的端到端评测指标（路由错误率等）未建；改写缓存按单文件全局共享，多用户并发下无锁。
+- 结论：生产链路已接入检索侧全部成果（同义词 + 可选 LLM 改写 + 表格确定性）；下一步补改写质量门控与生产评测指标。
+
 ## 2026-08-11：坐标重建迭代 v1→v9（92/157 → 154/157，追平文本基线）
 
 - 目标问题：外部模型交付的坐标重建真实数据仅 92/157（R=0.586），远低于文本基线 154/157。

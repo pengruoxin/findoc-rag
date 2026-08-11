@@ -1,14 +1,50 @@
 import asyncio
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from pathlib import Path
 
 import httpx
 
-from findoc_rag.api import create_app
+from findoc_rag.api import (
+    create_app,
+    infer_finance_filters,
+    prepare_finance_query,
+)
 from findoc_rag.config import AppSettings, ObservabilitySettings, RetrievalSettings
 from findoc_rag.corpus import CurrentIndexPointer
 from findoc_rag.documents.models import BoundingBox, DocumentChunk, ElementReference
 from findoc_rag.indexing import PersistentIndex
+from findoc_rag.query_rewriting import LLMQueryRewriter
+
+
+def test_infer_finance_filters_maps_aliases_and_tickers() -> None:
+    companies, years = infer_finance_filters("600519 2024 年营收是多少")
+    assert companies == ["贵州茅台"]
+    assert years == [2024]
+    companies, years = infer_finance_filters("伊利去年营收和净利")
+    assert companies == ["伊利股份"]
+    assert years == []
+
+
+def test_prepare_finance_query_resolves_relative_time_and_synonyms() -> None:
+    resolved = prepare_finance_query(
+        "贵州茅台去年营收是多少",
+        as_of_date=date(2025, 4, 30),
+        rewrite_mode="deterministic",
+    )
+    assert "2024年" in resolved
+    assert "营业收入" in resolved
+
+
+def test_prepare_finance_query_llm_mode_falls_back_without_key() -> None:
+    rewriter = LLMQueryRewriter(api_key="")
+    resolved = prepare_finance_query(
+        "贵州茅台去年营收是多少",
+        as_of_date=date(2025, 4, 30),
+        rewrite_mode="llm",
+        rewriter=rewriter,
+    )
+    assert "2024年" in resolved
+    assert "营业收入" in resolved
 
 
 def build_test_index(tmp_path: Path) -> Path:

@@ -1,6 +1,8 @@
+import os
 import re
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
+from datetime import UTC, date, datetime
 from pathlib import Path
 from uuid import uuid4
 
@@ -15,15 +17,58 @@ from findoc_rag.answer_generation import GeneratedAnswer, GroundedAnswerGenerato
 from findoc_rag.config import AppSettings, load_settings
 from findoc_rag.indexing import IndexManifest, SearchFilters
 from findoc_rag.observability import RetrievalMetrics, RetrievalTrace
+from findoc_rag.query_expansion import expand_query
+from findoc_rag.query_rewriting import LLMQueryRewriter
 from findoc_rag.service import (
     RetrievalService,
     SearchRequest,
     SearchResponse,
     TracedSearchError,
 )
+from findoc_rag.time_utils import resolve_relative_time
 
 REQUEST_ID_PATTERN = re.compile(r"^[A-Za-z0-9._:-]{1,128}$")
 MAX_UPLOAD_BYTES = 100 * 1024 * 1024
+YEAR_PATTERN = re.compile(r"20\d{2}")
+COMPANY_ALIASES = {
+    "600519": "贵州茅台",
+    "贵州茅台": "贵州茅台",
+    "茅台": "贵州茅台",
+    "kweichow moutai": "贵州茅台",
+    "600887": "伊利股份",
+    "伊利股份": "伊利股份",
+    "伊利": "伊利股份",
+}
+COMPANY_ALIAS_KEYS = tuple(
+    sorted(COMPANY_ALIASES, key=len, reverse=True)
+)
+
+
+def infer_finance_filters(query: str) -> tuple[list[str], list[int]]:
+    """Map company aliases/tickers and years to metadata-filter signals."""
+    companies = [
+        COMPANY_ALIASES[alias]
+        for alias in COMPANY_ALIAS_KEYS
+        if alias in query.lower()
+    ]
+    years = [int(year) for year in YEAR_PATTERN.findall(query)]
+    return list(dict.fromkeys(companies)), years
+
+
+def prepare_finance_query(
+    query: str,
+    *,
+    as_of_date: date | None,
+    rewrite_mode: str = "deterministic",
+    rewriter: LLMQueryRewriter | None = None,
+) -> str:
+    """Resolve relative time, then apply deterministic or LLM term rewriting."""
+    resolved, _ = resolve_relative_time(query, as_of_date)
+    if rewrite_mode == "llm" and rewriter is not None:
+        return rewriter.rewrite(resolved)
+    if rewrite_mode != "none":
+        return expand_query(resolved)
+    return resolved
 
 
 class UploadJob(BaseModel):
@@ -52,6 +97,10 @@ def create_app(settings: AppSettings | None = None) -> FastAPI:
     resolved_settings = settings or load_settings()
     upload_root = Path("data/uploads")
     upload_jobs: dict[str, UploadJob] = {}
+    rewrite_mode = os.getenv("FINDOC_RAG_QUERY_REWRITE", "deterministic")
+    rewrite_cache = Path(
+        os.getenv("FINDOC_RAG_REWRITE_CACHE", "data/cache/rewrites.json")
+    )
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
@@ -66,6 +115,12 @@ def create_app(settings: AppSettings | None = None) -> FastAPI:
             resolved_settings.answer_generation.endpoint,
             resolved_settings.answer_generation.enabled,
         )
+        app.state.query_rewriter = (
+            LLMQueryRewriter(cache_path=rewrite_cache)
+            if rewrite_mode == "llm"
+            else None
+        )
+        app.state.query_rewrite_mode = rewrite_mode
         yield
 
     app = FastAPI(
@@ -204,22 +259,26 @@ def create_app(settings: AppSettings | None = None) -> FastAPI:
     @app.post("/v1/query", response_model=GeneratedAnswer)
     def query(payload: SearchRequest, request: Request) -> GeneratedAnswer:
         try:
-            # 财务问答默认按问题中的公司和报告年份路由，避免跨公司串文档。
-            inferred_company = next(
-                (name for name in ("贵州茅台", "伊利股份") if name in payload.query),
-                None,
+            # 生产环境使用当前日期作为相对时间锚点（评测链路禁用系统时钟，
+            # 见 time_utils 文档）；公司别名/代码归一化后参与 metadata 路由。
+            companies, years = infer_finance_filters(payload.query)
+            resolved = prepare_finance_query(
+                payload.query,
+                as_of_date=datetime.now(UTC).date(),
+                rewrite_mode=request.app.state.query_rewrite_mode,
+                rewriter=request.app.state.query_rewriter,
             )
-            year_match = re.search(r"20\d{2}", payload.query)
             current = payload.filters or SearchFilters()
-            if inferred_company or year_match:
+            if companies or years:
                 payload.filters = SearchFilters(
                     document_keys=current.document_keys,
-                    company_names=current.company_names or ([inferred_company] if inferred_company else []),
-                    report_years=current.report_years or ([int(year_match.group())] if year_match else []),
+                    company_names=current.company_names or companies,
+                    report_years=current.report_years or years,
                     document_types=current.document_types,
                 )
+            payload.query = resolved
             result = service(request).search(payload, request.state.request_id)
-            return request.app.state.answer_generator.generate(payload.query, result.hits)
+            return request.app.state.answer_generator.generate(resolved, result.hits)
         except TracedSearchError as exc:
             raise ApiError(400 if exc.client_error else 500, "query_failure", str(exc), trace_id=exc.trace_id) from exc
 
