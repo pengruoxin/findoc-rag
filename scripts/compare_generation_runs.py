@@ -12,6 +12,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("baseline", type=Path)
     parser.add_argument("candidate", type=Path)
     parser.add_argument("--output-prefix", type=Path, required=True)
+    parser.add_argument(
+        "--change",
+        help=(
+            "required when the two runs come from different code revisions: "
+            "describe the single controlled variable, e.g. 'abstention detection'"
+        ),
+    )
     return parser.parse_args()
 
 
@@ -24,12 +31,35 @@ def read_jsonl(path: Path) -> dict[str, dict]:
     return {row["query_id"]: row for row in rows}
 
 
-def compare_runs(baseline_dir: Path, candidate_dir: Path) -> dict:
+def compare_runs(baseline_dir: Path, candidate_dir: Path, change: str | None = None) -> dict:
     baseline_summary = read_json(baseline_dir / "summary.json")
     candidate_summary = read_json(candidate_dir / "summary.json")
     for field in ("dataset_id", "lane"):
         if baseline_summary[field] != candidate_summary[field]:
             raise ValueError(f"Cannot compare runs with different {field}")
+    if (
+        baseline_summary.get("remote_generation")
+        != candidate_summary.get("remote_generation")
+    ):
+        raise ValueError(
+            "Cannot compare runs with different remote_generation flags "
+            "(LLM vs no-LLM is more than one variable)"
+        )
+
+    baseline_revision = baseline_summary.get("code_revision")
+    candidate_revision = candidate_summary.get("code_revision")
+    revision_match = (
+        baseline_revision == candidate_revision
+        and baseline_revision is not None
+        and baseline_revision != "unknown"
+    )
+    if not revision_match and not change:
+        raise ValueError(
+            "Runs were produced by different (or unrecorded) code revisions; "
+            "this is not a controlled comparison. Pass --change "
+            "'<single variable description>' to declare the controlled change, "
+            "or compare two runs from the same revision."
+        )
 
     baseline_scores = read_jsonl(baseline_dir / "deterministic-scores.jsonl")
     candidate_scores = read_jsonl(candidate_dir / "deterministic-scores.jsonl")
@@ -71,6 +101,10 @@ def compare_runs(baseline_dir: Path, candidate_dir: Path) -> dict:
         "lane": baseline_summary["lane"],
         "baseline_run_id": baseline_summary["run_id"],
         "candidate_run_id": candidate_summary["run_id"],
+        "baseline_code_revision": baseline_revision,
+        "candidate_code_revision": candidate_revision,
+        "code_revision_match": revision_match,
+        "controlled_change": change if not revision_match else None,
         "paired_item_count": len(baseline_scores),
         "metrics": metrics,
         "behavior_fixed": behavior_fixed,
@@ -88,6 +122,10 @@ def render_markdown(report: dict) -> str:
         f"- Dataset：`{report['dataset_id']}`",
         f"- Baseline：`{report['baseline_run_id']}`",
         f"- Candidate：`{report['candidate_run_id']}`",
+        f"- 代码版本：baseline `{report['baseline_code_revision']}` / "
+        f"candidate `{report['candidate_code_revision']}`"
+        + ("（一致）" if report["code_revision_match"] else "（不同）"),
+        f"- 受控变量：{report['controlled_change'] or '无（同代码复现/稳定性对照）'}",
         f"- 配对样本：{report['paired_item_count']}",
         "",
         "| 指标 | Baseline | Candidate | 变化 |",
@@ -120,7 +158,7 @@ def render_markdown(report: dict) -> str:
 
 def main() -> None:
     args = parse_args()
-    report = compare_runs(args.baseline, args.candidate)
+    report = compare_runs(args.baseline, args.candidate, change=args.change)
     args.output_prefix.parent.mkdir(parents=True, exist_ok=True)
     args.output_prefix.with_suffix(".json").write_text(
         json.dumps(report, ensure_ascii=False, indent=2),

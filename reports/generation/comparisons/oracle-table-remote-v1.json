@@ -1,0 +1,37 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "oracle_context",
+  "baseline_run_id": "oracle_context-benchmark-v2-deepseek-chat-abstain-v2",
+  "candidate_run_id": "oracle_context-benchmark-v2-deepseek-chat-table-remote-v1",
+  "baseline_code_revision": null,
+  "candidate_code_revision": "640ab99b9cbd609d8be7b24d620caccee44ebc01",
+  "code_revision_match": false,
+  "controlled_change": "远程模式启用确定性表格优先（单变量：FINDOC_RAG_REMOTE_DETERMINISTIC_TABLES）",
+  "paired_item_count": 48,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.9428571428571428,
+      "candidate": 1.0,
+      "delta": 0.05714285714285716
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.9791666666666666,
+      "candidate": 1.0,
+      "delta": 0.02083333333333337
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [
+    "yili_consolidated_parent_revenue"
+  ],
+  "behavior_regressed": [],
+  "strict_fixed": [
+    "moutai_annual_deducted_profit",
+    "yili_consolidated_parent_revenue"
+  ],
+  "strict_regressed": []
+}

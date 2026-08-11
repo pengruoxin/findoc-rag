@@ -1,0 +1,36 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "robustness",
+  "baseline_run_id": "robustness-benchmark-v2-no-llm-clarify-v1",
+  "candidate_run_id": "robustness-benchmark-v2-no-llm-table-v1",
+  "baseline_code_revision": null,
+  "candidate_code_revision": null,
+  "code_revision_match": false,
+  "controlled_change": "no-LLM A/B：确定性表格路径开关",
+  "paired_item_count": 29,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.22727272727272727,
+      "candidate": 0.36363636363636365,
+      "delta": 0.13636363636363638
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.7931034482758621,
+      "candidate": 0.7931034482758621,
+      "delta": 0.0
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [],
+  "behavior_regressed": [],
+  "strict_fixed": [
+    "moutai_revenue_yoy",
+    "yili_note_cost_scope",
+    "yili_quarterly_profit_reconcile"
+  ],
+  "strict_regressed": []
+}

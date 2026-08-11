@@ -1,0 +1,15 @@
+{
+  "view": "D:\\202607\\raglab\\data\\evaluation\\benchmark-v2-retrieval-view.json",
+  "index_root": "D:\\202607\\raglab\\data\\indexes\\corpus-bge-zh",
+  "top_k": 5,
+  "candidate_k": 20,
+  "rrf_k": 60,
+  "rrf_weights": {
+    "lexical": 2.0,
+    "dense": 1.0
+  },
+  "metadata_filter_source": {
+    "none": "none",
+    "query_parser": "query_parser"
+  }
+}

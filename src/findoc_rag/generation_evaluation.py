@@ -187,6 +187,7 @@ class GenerationRunItem(BaseModel):
     context_labels: list[str] = Field(default_factory=list)
     provider: str
     model: str
+    api_model: str | None = None
     index_id: str
     prompt_sha256: str
     latency_ms: float = Field(ge=0)

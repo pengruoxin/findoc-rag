@@ -69,6 +69,18 @@
 
 43 个相对时间问句全部正确解析成 2024。唯一的例外 `yili_2025_plan_bounded` 暴露了一个真实 bug：这题的提问时点设在 2026-04-30，"去年"解析成 2025 是对的，但系统直接拿 2025 去过滤年报年份，把正确证据排除了——那份证据是**2024 年报里写的 2025 年经营计划**。教训是**问题问的年份 ≠ 文档的报告年份**，中间需要一层时间对齐判断。
 
+### 2.2 词表外改写（OOV）与中文 dense 对照（2026-08-11）
+
+OOV 集 36 实例 / 12 题，全部是 deterministic 词表外的口语改写（如"扣非净利润与净利润的差额""风险因素有哪些"），top_k=5 / candidate_k=20 / query_parser 过滤：
+
+| rewrite | lexical Hit@5 / MRR@5 | dense Hit@5 | hybrid Hit@5 |
+|---|---:|---:|---:|
+| none | 0.194 / 0.148 | 0.139 | 0.222 |
+| deterministic（7 组词表） | 0.194 / 0.148 | 0.139 | 0.222 |
+| **LLM 改写** | **0.694 / 0.498** | 0.167 | 0.472 |
+
+中文 dense 对照（bge-small-zh-v1.5，索引 `6a951f4e8b7bd913d918`）：OOV dense 0.083，LLM 改写后仍 0.083；变体三问法 0.162 / 0.568 / 0.162，全部低于 E5（0.216 / 0.703 / 0.189）。**结论：换中文小 dense 模型没有收益，问题在问句形态与上游表格线性化；LLM 查询改写是 OOV 的决定性杠杆，但改写需持久化缓存 + 确定性词表兜底**（剩余 miss 归因见 [oov-eval-llm-v1 分析](../../reports/ranking/oov-eval-llm-v1/analysis.md)）。
+
 ## 3. 生成基线（48 题，不接大模型的确定性链路，clarify-v1 策略）
 
 ### 3.1 DeepSeek 真实基线（2026-08-07，`deepseek-chat`，48 题）——主基线
@@ -96,7 +108,72 @@
 
 同 48 题、clarify-v1 策略，只验证评测闭环与门禁：直接给答案 0.3143 / 真实检索 0.0857 / 抗干扰 0.2273（strict）；行为 1.0 / 0.8333 / 0.7931。确定性链路的表格正则抽取明显弱于 DeepSeek 直接读表，因此 strict 远低于真实模型。
 
-DeepSeek 与 RAGAS 语义评测：新 48 题尚未运行。旧 32 题的 0.9583 只作历史记录——那是另一个版本的数据集，不能搬过来用。
+#### 3.2.1 表格确定性回答接入后（2026-08-11，`no-llm-table-v1`）
+
+把 `extract_cells` 接入 answer_generation 的确定性表格路径（季度 / 附注收入成本 / 分部毛利率 / 年度营业收入 + 跨公司 / 合并母公司口径，带 `[n]` 引用），同一 dataset 逐题配对：
+
+| Lane | clarify-v1 基线 | table-v1 | Δ | 修复题数 |
+|---|---:|---:|---:|---:|
+| Oracle | 0.3143 | **0.6571** | +0.3428 | 12 / 0 回归 |
+| Retrieved | 0.0857 | **0.2571** | +0.1714 | 6 / 0 回归 |
+| Robustness | 0.2273 | **0.3636** | +0.1364 | 3 / 0 回归 |
+
+Oracle 12 题全部命中预期：季度现金流 / 季度归母 / 两个季度-年度核对 / 附注成本 / 两个成本核对 / 产品毛利率（茅台 / 伊利）/ 渠道毛利率差 / 年度营收同比 / 跨公司营收差 / 合并-母公司营收差。Retrieved 修复 6 题，剩余 6 题卡在检索证据不在 top-5。行为准确率不变（1.0 / 0.8333 / 0.7931），零回归。配对报告：`reports/generation/comparisons/{oracle,retrieved,robustness}-table-v1`。
+
+#### 3.2.2 DeepSeek 三轨重跑（2026-08-11，`deepseek-chat-table-v2`，真实 api_model 已落盘）
+
+| Lane | 8/7 基线 strict | 重跑 strict | Δ | 配对（修复/回归） |
+|---|---:|---:|---:|---:|
+| Oracle | 0.9714 | 0.9714 | 0.0000 | +moutai_annual_deducted_profit / -yili_quarterly_profit_reconcile（单题互换） |
+| Retrieved | 0.5429 | **0.5714** | +0.0286 | +2 / -1（含单题波动） |
+| Robustness | 0.5455 | **0.6364** | +0.0909 | +2 / -0 |
+
+行为准确率不变（1.0 / 0.8333 / 0.7931）。RAGAS（`independent_judge=false`，元数据已修正）：
+
+| Lane | Faithfulness | Answer Relevancy | Context Relevance | Context Recall |
+|---|---:|---:|---:|---:|
+| Oracle | 0.778（旧 0.682） | 0.977 | 1.000 | 0.973 |
+| Retrieved | 0.845（旧 0.836） | 0.845（旧 0.733） | 0.973（旧 0.932） | 0.892（旧 0.824） |
+| Robustness | 0.849（旧 0.680） | 0.765（旧 0.708） | 0.944 | 1.000 |
+
+说明：DeepSeek 同模型自评，只作语义诊断；单题级存在 ±1 波动（同温度下 API 非确定性），结论看趋势而非单题。修复 `api_model` 元数据记录（`--model` 只是 run 标签），新产物 `api_model_recorded=true`、`independent_judge=false`。
+
+> ⚠️ 本表与 8/7 基线的对比**不是受控实验**：8/7 基线跑在同义词改写落地之前的 runner 上，之后还叠加了 `api_model` 元数据修正。按[实验协议](./experiment-protocol-zh.md)，这组数字只能作趋势参考，不能作为单变量结论；受控对比见 §3.2.1（功能开关 A/B）与 §3.2.3（单一测量变更）。
+
+#### 3.2.3 拒答检测修正后的真实基线（2026-08-11，`deepseek-chat-abstain-v2`）
+
+问题：远程回答无论内容是否拒答，`grounded` 一律为 True，导致"无法回答……数字……"这种自带数字的拒答被算成正确回答（如 yili_concentration），且 9 条应拒答题的拒答永远计为"answer"→ 行为与 strict 双输。修复：`_is_abstention` 检测明确拒答措辞（无法/不能+回答/确认/给出等、证据不足等），命中则 `grounded=false`、provider=`remote-abstention`。
+
+| Lane | strict（修正后） | 行为准确率（修正后） | 相对 table-v2 的严格变化 |
+|---|---:|---:|---:|
+| Oracle | 0.9429（v1 曾 1.0，波动） | 0.9792 | +1 / -2（可答题拒答被如实计分） |
+| Retrieved | **0.8000** | **0.8958** | **+8 应拒答修复 / -0** |
+| Robustness | **0.8636** | **0.8276** | +6 应拒答修复 / -1（yili_concentration 打分怪癖消除） |
+
+解读：
+
+- strict 的大幅上升主要是**计分修正**：8 条应拒答题的拒答此前被误计为"answer"（0 分），现在如实计为 abstain（满分）。不是检索/生成能力突变。
+- 行为准确率上升同理；同时可答题的拒答（每轨 4–5 条，如 moutai_product_margin、yili_consolidated_parent_revenue）现在如实计为行为失败——这是更诚实的数字，也是下一步"行为拒答策略"要修的样本。
+- Oracle 出现 0.94–1.0 波动：取决于当次运行模型是否对个别可答题拒答（单题级 API 非确定性）。
+- RAGAS（`api_model_recorded=true`、`independent_judge=false`）：Oracle faithfulness 0.796 / Retrieved 0.887 / Robustness 0.834。
+
+#### 3.2.4 远程确定性表格优先（2026-08-11，`deepseek-chat-table-remote-v1`）
+
+受控实验：单变量为 `FINDOC_RAG_REMOTE_DETERMINISTIC_TABLES=1`（远程模式下表格题优先走确定性抽取，不再交给 DeepSeek）；dataset / index / api_model / runner 均与 abstain-v2 一致，代码版本 `640ab99`（工作区脏）。
+
+| Lane | strict（abstain-v2 → 新） | 行为（abstain-v2 → 新） | 配对 |
+|---|---:|---:|---:|
+| Oracle | 0.9429 → **1.0000** | 0.9792 → **1.0000** | +2 / -0（其中 moutai_annual_deducted_profit 为模型波动，yili_consolidated_parent_revenue 为确定性修复） |
+| Retrieved | 0.8000 → **0.8286** | 0.8958 → **0.9583** | +1 / -0（strict）；+3 / -0（行为：moutai_quarterly_cashflow、yili_consolidated_parent_revenue 确定性修复 + yili_2025_plan_bounded 模型波动） |
+| Robustness | 0.8636 → 0.8636 | 0.8276 → **0.8621** | +0 / -0（strict）；+1 / -0（行为：yili_consolidated_parent_revenue） |
+
+解读：
+
+- 确定性表格路径在远程模式下的效果符合预期：**表格类可答题的误拒答被消除**（moutai_quarterly_cashflow、yili_consolidated_parent_revenue 三轨全中），零回归；
+- 剩余行为失败集中在**未被四类抽取器覆盖的表格**（moutai_concentration / yili_concentration 等）与个别模型波动；
+- 新 run 已带 `code_revision` / `code_dirty`；RAGAS：Oracle faithfulness 0.783 / Retrieved 0.868 / Robustness 0.813。
+
+DeepSeek 与 RAGAS 语义评测见 §3.1（8/7 基线）与 §3.2.2（2026-08-11 表格路径重跑，均 `independent_judge=false` 自评）。旧 32 题的 0.9583 只作历史记录——那是另一个版本的数据集，不能搬过来用。
 
 ## 4. 当前薄弱点（优化起点）
 
@@ -104,11 +181,11 @@ DeepSeek 与 RAGAS 语义评测：新 48 题尚未运行。旧 32 题的 0.9583 
 
 | 层 | 观察 | 证据 |
 |---|---|---|
-| **表格抽取** | 全链路最大的单点瓶颈。季度表和附注表现在还是"拉平成一行文字 + 正则取数"；**单元格级尺子（table-eval-v1，149 cells）已就位**：quarterly 28/32，茅台扣非行 4 格全错（标签在数值后） | 直接给正确答案也只有 0.31；全表型单元格正确率 28/149（18.8%）——证据都摆在眼前还答不对，卡在"从证据里把数字抽出来" |
-| **同义词** | 专业表达换个说法就找不到，是口语问法的主要失败原因 | 11 道题三种检索方式全都没找到 |
+| **表格抽取** | 四类表型确定性抽取器 + 生成链路接入（2026-08-11）：table-eval 146/149（98.0%）；no-LLM 三轨 strict 0.3143→0.6571 / 0.0857→0.2571 / 0.2273→0.3636，零回归；唯一残差是伊利 segment"其他地区"行的 PDF 文字层丢字，需坐标级重建 | table-eval-v2 + generation comparisons/*-table-v1 |
+| **同义词** | 词表内改写（7 组映射）把口语问法 Hit@5 提到 0.92；词表外改写原为 0.194，LLM 改写提到 0.694；剩余 miss 主要是简称未归一（扣非→扣除非经常性损益）、行内换行和文档措辞未知 | OOV 36 实例：none / deterministic 0.194 → LLM 0.694；剩余 11 个 miss 归因见 [oov-eval-llm-v1 分析](../../reports/ranking/oov-eval-llm-v1/analysis.md) |
 | **时间对齐** | 问题问的年份被直接拿去过滤文档年份，两者不一致时会把正确证据排除 | `yili_2025_plan_bounded`：问 2025，证据在 2024 年报里 |
 | ~~融合~~ | 已定论：混合检索确实是负优化，默认已改成纯关键词检索 | fusion-sweep-v1，见 §2.1 |
-| 语义检索 | 只在"股票代码 / 简称"这类短问句上有用；主要瓶颈是问句形态 + **上游 PDF 表格线性化**（数字密集无结构文本放大表面误导）。决策：暂用关键词检索，表格结构化后与更强模型一起重验 | 0.676 vs 另两类 0.2 左右 |
+| 语义检索 | 只在"股票代码 / 简称"这类短问句上有用；**换中文专用小模型（bge-small-zh-v1.5）全面退化**，证明主因是问句形态 + **上游 PDF 表格线性化**（数字密集无结构文本放大表面误导）。决策：暂用关键词检索 + LLM 查询改写，表格结构化后与更强模型（如 bge-m3）一起重验 | E5 0.216 / 0.703 / 0.189 vs bge-zh 0.162 / 0.568 / 0.162；OOV dense 0.083 |
 | 查询路由 | `/v1/query` 只认两家公司的全名和 `20xx` 这个正则，不认别名、股票代码、相对时间；过滤条件的来源在运行时也没记录下来 | |
 | 生成 | DeepSeek 在新 48 题上从没跑过，目前无法归因 | |
 | 行为 | 拒答 / 追问只有 11 题，且偏"因果推断、投资建议"这类明显该拒的，缺"数字确实存在但口径或期间不对"的近失拒答 | |
@@ -120,11 +197,11 @@ PDF 解析的源元素覆盖率 100%，958 个切片，切片长度中位数约 
 
 每轮优化固定流程：
 
-1. 从 §4 选定一个薄弱点，一次只动一层
+1. 从 §4 选定一个薄弱点，一次只动一层（**控制变量纪律见 [实验协议](./experiment-protocol-zh.md)**）
 2. 改代码 + 补单元测试
 3. 跑完整矩阵：检索 3 种方式 × 2 种过滤态 + 生成 3 条赛道 + 语义评测；变体按问法类型分组报告
-4. 与本文档的基线做逐题配对对比（哪些修好了、哪些退化了），更新 §2 §3 表格
-5. 记录到实验注册表和 [变更日志](../history/optimization-log-zh.md)；结论必须带数据集 / 索引 / 配置三个版本号，否则无法复现
+4. 与本文档的基线做逐题配对对比（哪些修好了、哪些退化了），更新 §2 §3 表格；配对报告必须记录 `code_revision` 与 `controlled_change`
+5. 记录到实验注册表和 [变更日志](../history/optimization-log-zh.md)；结论必须带数据集 / 索引 / 代码版本 / 配置四重身份，否则无法复现
 
 每步最低验收：单元测试覆盖新增逻辑；Ruff 通过；跑回归并记录指标变化；至少记录一个未解决问题或潜在退化——只报成功的记录没有参考价值。
 

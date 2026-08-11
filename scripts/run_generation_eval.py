@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import os
+import subprocess
 from pathlib import Path
 from time import perf_counter
 
@@ -51,6 +52,32 @@ def parse_args() -> argparse.Namespace:
         help="query instances to run: canonical, one variant regime, or all",
     )
     return parser.parse_args()
+
+
+def code_revision() -> tuple[str, bool]:
+    """Return (git HEAD sha, dirty flag) for controlled experiment records."""
+    try:
+        head = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            timeout=10,
+            check=True,
+        ).stdout.strip()
+        dirty = bool(
+            subprocess.run(
+                ["git", "status", "--porcelain"],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                timeout=10,
+                check=True,
+            ).stdout.strip()
+        )
+        return head, dirty
+    except (subprocess.SubprocessError, OSError):
+        return "unknown", False
 
 
 def load_chunks() -> dict[str, DocumentChunk]:
@@ -201,6 +228,7 @@ def main() -> None:
                     hits = retrieved_hits(item, resolved_query, index)
                     context_labels = ["retrieved"] * len(hits)
                 answer = generator.generate(resolved_query, hits)
+                is_remote = answer.provider in {"openai-compatible", "remote-abstention"}
                 run_item = GenerationRunItem(
                     query_id=instance["query_id"],
                     response=answer.answer,
@@ -212,7 +240,8 @@ def main() -> None:
                     ],
                     context_labels=context_labels[:MAX_GENERATION_CONTEXTS],
                     provider=answer.provider,
-                    model=args.model if answer.provider == "openai-compatible" else "deterministic",
+                    model=args.model if is_remote else "deterministic",
+                    api_model=args.api_model if is_remote else None,
                     index_id=index.manifest.index_id if index else dataset.corpus_index_id,
                     prompt_sha256=prompt_sha256,
                     latency_ms=(perf_counter() - started) * 1000,
@@ -244,6 +273,7 @@ def main() -> None:
                     context_labels=[],
                     provider="error",
                     model=args.model,
+                    api_model=None,
                     index_id=index.manifest.index_id if index else dataset.corpus_index_id,
                     prompt_sha256=prompt_sha256,
                     latency_ms=(perf_counter() - started) * 1000,
@@ -276,11 +306,15 @@ def main() -> None:
         if latencies
         else None
     )
+    revision, dirty = code_revision()
     summary = {
         "run_id": run_id,
         "dataset_id": dataset.dataset_id,
         "lane": args.lane,
         "model": args.model,
+        "api_model": args.api_model,
+        "code_revision": revision,
+        "code_dirty": dirty,
         "variant_mode": args.variant,
         "remote_generation": api_key_set,
         "dataset_item_count": dataset.item_count,

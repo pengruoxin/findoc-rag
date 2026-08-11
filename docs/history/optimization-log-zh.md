@@ -9,6 +9,9 @@
 ```text
 日期：
 目标问题：
+基线（run_id + code_revision + 是否脏）：
+受控变量（只允许一个；同版本重复 run 用于噪声估计）：
+固定变量（dataset / index / runner 参数 / api_model / remote / 功能开关）：
 修改前基线：
 修改内容：
 测试命令：
@@ -18,6 +21,112 @@
 已知退化/未覆盖：
 结论：
 ```
+
+## 2026-08-11：远程模式确定性表格优先（受控实验，`deepseek-chat-table-remote-v1`）
+
+- 目标问题：远程模式下确定性表格路径被跳过，表格类可答题交给 DeepSeek 后出现"证据齐全仍误拒答"（moutai_quarterly_cashflow facts=1.0 拒答、yili_consolidated_parent_revenue 拒答）。
+- 基线（abstain-v2，同 dataset / index / api_model / runner）：Oracle 0.9429 / Retrieved 0.8000 / Robustness 0.8636（strict）；行为 0.9792 / 0.8958 / 0.8276。
+- 受控变量：`FINDOC_RAG_REMOTE_DETERMINISTIC_TABLES=1`（只动这一个开关；默认关）。
+- 固定变量：benchmark-v2 / index `10fb50419145d56720c9` / api_model=deepseek-chat / remote=true / top-k=5 / candidate-k=20 / hybrid。
+- 修改内容：`generate()` 中远程模式默认仍跳过表格路径；开关开启时表格题优先返回确定性答案（带引用）。
+- 测试命令：`pytest tests/test_answer_generation.py`（21 passed）；新增 2 个开关单测。
+- 评测结果变化（配对，零回归）：
+  - Oracle strict **0.9429 → 1.0000**（+2：yili_consolidated_parent_revenue 确定性修复、moutai_annual_deducted_profit 模型波动），行为 1.0000；
+  - Retrieved strict **0.8000 → 0.8286**（+1：moutai_quarterly_cashflow），行为 **0.8958 → 0.9583**（+3 / -0）；
+  - Robustness strict 0.8636（持平），行为 **0.8276 → 0.8621**（+1 / -0）；
+  - RAGAS：Oracle faithfulness 0.783 / Retrieved 0.868 / Robustness 0.813（`independent_judge=false`，带 code_revision）。
+- 新增能力：远程模式下表格题的确定性兜底，消除表格类误拒答与 API 波动。
+- 已知退化/未覆盖：concentration 类表格（未被四类抽取器覆盖）仍会误拒答；非表格题的行为波动仍在（yili_2025_plan_bounded 等）；工作区未提交，`code_dirty=true`。
+- 结论：单变量验证成立——确定性表格优先在远程模式零回归地提升行为与 strict；下一步扩展抽取器覆盖 concentration 表型或做拒答 prompt 策略。
+
+## 2026-08-11：远程拒答检测（打分口径修正，`deepseek-chat-abstain-v2`）
+
+- 目标问题：远程回答 `grounded` 恒为 True，"无法回答……数字……"的拒答被算成正确回答（yili_concentration 实证）；9 条应拒答题的拒答永远计为 answer → 行为与 strict 被低估；可答题的拒答被掩盖。
+- 修改前基线（table-v2）：Oracle 0.9714 / Retrieved 0.5714 / Robustness 0.6364（strict），行为 1.0 / 0.8333 / 0.7931。
+- 修改内容：
+  - `answer_generation.py` 新增 `ABSTENTION_PATTERNS` + `_is_abstention`（保守规则：无法/不能+回答/确认/给出/判断等、证据不足、信息不足等；不含"不确定性"等中性词），`_generate_remote` 命中后返回 `provider=remote-abstention`、`grounded=false`；
+  - `run_generation_eval.py` 将 `remote-abstention` 计入远程调用（model/api_model 正确落盘）；
+  - 新增 3 个拒答检测单测（19 passed）。
+- 测试命令：`pytest tests/test_answer_generation.py`（19 passed）；全量 118 passed；ruff 通过。
+- 评测结果变化（abstain-v2 vs table-v2，逐题配对）：
+  - Retrieved strict **0.5714 → 0.8000**（+8 应拒答修复 / -0 回归），行为 0.8333 → 0.8958；
+  - Robustness strict **0.6364 → 0.8636**（+6 / -1：yili_concentration 打分怪癖消除），行为 0.7931 → 0.8276；
+  - Oracle strict 0.9714 → 0.9429（+1 / -2：个别可答题本轮拒答被如实计分；abstain-v1 曾 1.0，属单题波动）；
+  - RAGAS：Oracle faithfulness 0.796 / Retrieved 0.887 / Robustness 0.834（`independent_judge=false`、`api_model_recorded=true`）。
+- 新增能力：拒答/回答边界可审计（provider 区分 remote-abstention），行为准确率不再虚高。
+- 已知退化/未覆盖：拒答检测是启发式（可能漏检极少数措辞变体）；可答题拒答（每轨 4–5 条）成为行为层当前主要失败，属模型行为问题而非评测问题；Oracle 单题波动仍存在。
+- 结论：这是打分口径修正而非能力突变——应拒答被正确计分、自带数字的伪拒答不再刷分；真实行为基线为 Retrieved 0.8958 / Robustness 0.8276，下一步修可答题误拒答与检索缺证据。
+
+## 2026-08-11：DeepSeek 三轨重跑 + RAGAS 元数据修复（表格路径端到端验证）
+
+- 目标问题：表格确定性路径只验证了 no-LLM；DeepSeek 三轨仍是 8/7 旧基线；且 RAGAS 产物 `independent_judge` 用 run 标签（`--model`）判断，真实 API 模型未落盘，自评被误标为独立评测。
+- 修改前基线：Oracle 0.9714 / Retrieved 0.5429 / Robustness 0.5455（8/7）；RAGAS 元数据 `independent_judge=true`（错误）。
+- 修改内容：
+  - `GenerationRunItem` 增加 `api_model` 字段；`run_generation_eval.py` 落盘真实 API 模型（`--api-model`），`--model` 保持纯 run 标签；
+  - `run_ragas_generation_eval.py` 用 `api_model` 判断独立性，输出 `api_model_recorded` 审计字段；
+  - 重跑 DeepSeek 三轨（`deepseek-chat-table-v2`，本地 key）并跑 RAGAS。
+- 测试命令：全量 pytest 待跑；ruff 待跑。
+- 评测结果变化（配对 vs 8/7 基线）：
+  - Oracle strict 0.9714 → 0.9714（修复 moutai_annual_deducted_profit / 回归 yili_quarterly_profit_reconcile，单题互换，v1 run 曾到 1.0——属 API 非确定性）；
+  - Retrieved strict 0.5429 → **0.5714**（+2/-1）；Robustness strict 0.5455 → **0.6364**（+2/-0）；
+  - RAGAS faithfulness：Oracle 0.682→0.778、Retrieved 0.836→0.845、Robustness 0.680→0.849；answer_relevancy 三轨全部提升；产物 `independent_judge=false`、`api_model_recorded=true`。
+- 新增能力：DeepSeek 三轨 + RAGAS 的真实当前基线（表格路径、修正元数据）；run 级单题波动可审计。
+- 已知退化/未覆盖：单题 ±1 波动（同模型温度 0 仍非确定），结论看趋势；Retrieved 仍 15 题 strict 失败（检索 top-5 缺证据为主）；RAGAS 仍是同模型自评，独立 judge 归公信力阶段。
+- 结论：表格路径在真实模型下无退化且有提升（Retrieved +1、Robustness +2），元数据可信度问题已修复；下一步转向行为拒答与检索侧（LLM 改写落地）。
+
+## 2026-08-11：表格确定性回答接入生成链路（no-LLM 三轨验证，清单 P1-11 收口）
+
+- 目标问题：单元格抽取器只停留在评测层，生成链路仍用旧季度正则；no-LLM 确定性链路 strict 只有 0.3143 / 0.0857 / 0.2273。
+- 修改前基线（benchmark-v2，disable 表格路径复跑确认）：Oracle 0.3143 / Retrieved 0.0857 / Robustness 0.2273。
+- 修改内容：
+  - `table_extraction.py`：`ExtractedCell` 增加 `section` 字段（区分分行业/分产品/分地区/分销售模式）；新增 `extract_annual_rows`（保留同比列），`extract_annual_data` 改为其投影，table-eval 数字不变（146/149）；
+  - `answer_generation.py`：新增 `_deterministic_table_answer` 及季度（含季度-年度核对）、附注成本（含核对差额）、分部毛利率（产品/渠道、最高项）、年度营收（同比）、跨公司营收差、合并-母公司营收差六个格式化路径，全部带 `[n]` 引用；
+  - A/B 开关：`FINDOC_RAG_DISABLE_DETERMINISTIC_TABLES=1` 可关闭表格路径，用于复现旧基线；
+  - 新增 10 个单测（24 passed）。
+- 测试命令：`pytest tests/test_answer_generation.py tests/test_table_extraction.py`（24 passed）；全量 `pytest -q` 待跑。
+- 评测结果变化（逐题配对，零回归）：
+  - Oracle strict **0.3143 → 0.6571**（12 题修复：季度现金流/归母、季度-年度核对×2、附注成本、成本核对×2、产品毛利率×2、渠道毛利率差、年度营收同比、跨公司营收差、合并-母公司营收差）；
+  - Retrieved strict **0.0857 → 0.2571**（6 题修复）；Robustness strict **0.2273 → 0.3636**（3 题修复）；
+  - 行为准确率不变（1.0 / 0.8333 / 0.7931），error rate 0。
+- 新增能力：确定性表格回答成为 no-LLM 链路的一部分；`extract_annual_rows` 供同比等派生事实使用。
+- 已知退化/未覆盖：Retrieved 剩余 6 题因证据不在 top-5 未受益（检索侧）；计算题如非经常性损益核对未纳入确定性路径；表格回答对"表格格式变化"仍脆弱，需坐标级重建兜底。
+- 结论：B 阶段表格抽取层已传导到端到端（no-LLM 基线翻倍以上），下一步重跑 DeepSeek 三轨验证真实模型下的端到端 strict（需要 key）。
+
+## 2026-08-11：B 阶段表格重建第一步——四类表型单元格抽取器（清单 P1-11）
+
+- 目标问题：季度、附注收入成本、分部、年度数据四类表只有 quarterly 正则基线（28/32），其余三类 0/149；表格数字抽不出来是端到端 strict（0.54）与 Oracle（0.97）差距之外的最大单点瓶颈。
+- 修改前基线：table-eval-v1 全表型 28/149（18.8%）；quarterly 茅台扣非行 4 格全错。
+- 修改内容：
+  - `table_extraction.py` 新增 note_cost / segment / annual_data 抽取器，重写 quarterly（按"4 个数值一组 × 出现指标"对齐，修好标签在数值后的扣非行；剔除季度区间"（1-3 月份）"与标题年份）；
+  - 关键实现：保留空白做数字分隔（避免压缩后数字粘连）、小节头部按"最后一个表头词之后"剔除、行标签监管科目集合校验、annual_data 跳过同比列并兼容 3 数值行（股本）；
+  - `evaluate_table_extraction.py` 移除"只有 quarterly 算 implemented"的旧标记；
+  - 新增 5 个抽取器单测（共 8 passed）。
+- 测试命令：`pytest tests/test_table_extraction.py -q`（8 passed）；`ruff check` 通过。
+- 评测结果变化：table-eval-v2 **28/149 → 146/149（98.0%）**：quarterly 32/32、note_cost 24/24、segment 51/54、annual_data 39/39。
+- 新增能力：四类表型可回归的单元格抽取层，`extract_cells` 统一入口。
+- 已知退化/未覆盖：伊利 segment"其他地区"行 3 格不匹配——chunk 文本层只有"其他"（PDF 文字层丢"地区"），gold 按视觉复核标注"其他地区"；这是上游 Document IR 文字层丢失，需坐标级重建修复，不在抽取器内硬编码改名。抽取器尚未接入 answer_generation，端到端指标未重跑。
+- 结论：表格抽取层从 18.8% 提到 98.0%；下一步接入 answer_generation 确定性表格路径，重跑 no-LLM 三轨，再跑 DeepSeek 三轨验证端到端。
+
+## 2026-08-11：OOV 评测 + 中文 dense 对照（roadmap 阶段 0 / 清单 P2-17）
+
+- 目标问题：词表外改写（OOV）能否被 LLM 查询改写救回？更强的中文 dense（bge-small-zh-v1.5）能不能替代/补充查询改写？
+- 修改前基线：OOV 36 实例（12 题），rewrite=none，lexical Hit@5 0.194 / MRR 0.148；dense 0.139；hybrid 0.222。
+- 修改内容：
+  - `indexing._dense_text` 支持 BGE v1.5 查询指令前缀（`为这个句子生成表示以用于检索相关文章：`），E5 / BGE-M3 / 其他模型路径不变；新增 4 个单测；
+  - 用同一份 958 chunks 构建第二个语料索引 `data/indexes/corpus-bge-zh`（`6a951f4e8b7bd913d918`，bge-small-zh-v1.5，512 维），不覆盖 E5 索引；
+  - 新跑 4 个实验：`oov-eval-bge-zh-v1`、`oov-eval-llm-v1`、`oov-eval-llm-bge-zh-v1`、`variant-regime-bge-zh-v1`，另补 `oov-eval-deterministic-v1` 对照。
+- 测试命令：`pytest tests/test_indexing.py -q`（13 passed）；全量 `pytest -q`（97 passed）。
+- 评测结果变化：
+  - LLM 改写：lexical Hit@5 0.194 → **0.694**（MRR 0.148 → 0.498），候选召回 0.333 → 0.861；
+  - deterministic 改写对 OOV 无效果（0.194，符合设计）；
+  - bge-zh dense：OOV 0.083（< E5 0.139）；变体三问法 0.162 / 0.568 / 0.162（均 < E5 0.216 / 0.703 / 0.189）；LLM 改写后 dense 仍 0.083；
+  - hybrid 依旧负优化：LLM 改写后 0.472（E5）/ 0.444（bge）均低于 lexical 0.694 / 0.667。
+- 新增能力：OOV 评测三档改写（none / deterministic / llm）在 E5 与 bge-zh 两套索引上的完整矩阵；BGE 指令前缀支持。
+- 已知退化/未覆盖：
+  - LLM 改写跨 run 不稳定（36 条中 8 条输出不同、1 条改变命中），改写缓存未持久化；
+  - 剩余 11 个 miss 归因：财务简称未归一（扣非净利润、同比变化）、PDF 行内换行导致 bigram 断裂（其他系列 酒）、文档措辞未知（风险因素→可能面对的风险）、LLM 改写引入原问题没有的指标；
+  - bge-m3 等更大模型未测；未做人工审核。
+- 结论：**默认 lexical-only 不变；LLM 查询改写是 OOV 的决定性杠杆，应进入生产链路；换中文小 dense 模型在当前输入上没有收益，待表格结构化后与更强模型一起重验**。
 
 ## 2026-08-07：同义词查询改写（清单 P1-5 收口 / roadmap A 阶段）
 

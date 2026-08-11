@@ -88,7 +88,17 @@ def main() -> None:
     for query_id, row in zip(selection.eligible_query_ids, rows, strict=True):
         row["query_id"] = query_id
     metric_names = [metric.name for metric in metrics]
-    answer_models = sorted({run[item.query_id].model for item in answerable})
+    # --model is only a run label; the actual API model is what matters for
+    # judging independence. Older runs without api_model fall back to the label.
+    answer_models = sorted(
+        {
+            run[item.query_id].api_model or run[item.query_id].model
+            for item in answerable
+        }
+    )
+    api_model_recorded = all(
+        run[item.query_id].api_model is not None for item in answerable
+    )
     independent_judge = args.judge_model not in answer_models
     summary = {
         name: float(frame[name].dropna().mean()) if name in frame else None
@@ -98,11 +108,14 @@ def main() -> None:
         "run_id": run_summary["run_id"],
         "run_jsonl": str(args.run_jsonl),
         "dataset_id": dataset.dataset_id,
+        "code_revision": run_summary.get("code_revision"),
+        "code_dirty": run_summary.get("code_dirty"),
         "dataset_status": dataset.status,
         "independent_gold": dataset.independent_gold,
         "judge_provider": "deepseek-openai-compatible",
         "judge_model": args.judge_model,
         "answer_models": answer_models,
+        "api_model_recorded": api_model_recorded,
         "independent_judge": independent_judge,
         "embedding_model": args.embedding_model,
         **selection.model_dump(),
@@ -127,6 +140,7 @@ def main() -> None:
                 "coverage": selection.coverage,
                 "judge_model": args.judge_model,
                 "answer_models": answer_models,
+                "api_model_recorded": api_model_recorded,
                 "independent_judge": independent_judge,
                 "embedding_model": args.embedding_model,
             },

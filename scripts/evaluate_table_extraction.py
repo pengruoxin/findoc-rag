@@ -79,7 +79,7 @@ def eval_table(table: dict, text: str) -> dict:
         "recall": recall,
         "f1": f1,
         "wrong_rows": wrong_rows[:10],
-        "implemented": table["table_type"] == "quarterly",
+        "implemented": True,
     }
 
 

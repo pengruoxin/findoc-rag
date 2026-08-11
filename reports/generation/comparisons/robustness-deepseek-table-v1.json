@@ -1,0 +1,30 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "robustness",
+  "baseline_run_id": "robustness-benchmark-v2-deepseek-chat",
+  "candidate_run_id": "robustness-benchmark-v2-deepseek-chat-table-v1",
+  "paired_item_count": 29,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.5454545454545454,
+      "candidate": 0.5909090909090909,
+      "delta": 0.045454545454545525
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.7931034482758621,
+      "candidate": 0.7931034482758621,
+      "delta": 0.0
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [],
+  "behavior_regressed": [],
+  "strict_fixed": [
+    "yili_quarterly_profit_reconcile"
+  ],
+  "strict_regressed": []
+}

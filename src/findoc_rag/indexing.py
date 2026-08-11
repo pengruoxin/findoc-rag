@@ -25,6 +25,7 @@ FINANCIAL_TERMS = (
     "经营活动产生的现金流量净额", "经营活动现金流量净额", "资产负债表",
     "现金流量表", "利润表", "审计委员会", "董事会报告",
 )
+BGE_QUERY_INSTRUCTION = "为这个句子生成表示以用于检索相关文章："
 
 
 class IndexManifest(BaseModel):
@@ -132,7 +133,12 @@ def _load_sentence_transformer(model_name: str):
 
 
 def _dense_text(text: str, model_name: str, kind: Literal["query", "passage"]) -> str:
-    return f"{kind}: {text}" if "e5" in model_name.lower() else text
+    lowered = model_name.lower()
+    if "e5" in lowered:
+        return f"{kind}: {text}"
+    if "bge" in lowered and "m3" not in lowered and kind == "query":
+        return f"{BGE_QUERY_INSTRUCTION}{text}"
+    return text
 
 
 class PersistentIndex:

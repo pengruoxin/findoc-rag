@@ -1,0 +1,17 @@
+{
+  "run_id": "retrieved_context-benchmark-v2-no-llm-table-v1",
+  "dataset_id": "benchmark-v2",
+  "lane": "retrieved_context",
+  "model": "no-llm-table-v1",
+  "variant_mode": "canonical",
+  "remote_generation": false,
+  "dataset_item_count": 48,
+  "item_count": 48,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 35,
+  "strict_success_rate": 0.2571428571428571,
+  "expected_behavior_accuracy": 0.8333333333333334,
+  "avg_context_tokens": 1542.3958333333333,
+  "p95_latency_ms": 17.99419999588281,
+  "run_error_rate": 0.0
+}

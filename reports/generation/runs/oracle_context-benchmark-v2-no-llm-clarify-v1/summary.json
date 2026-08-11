@@ -1,0 +1,17 @@
+{
+  "run_id": "oracle_context-benchmark-v2-no-llm-clarify-v1",
+  "dataset_id": "benchmark-v2",
+  "lane": "oracle_context",
+  "model": "no-llm-clarify-v1",
+  "variant_mode": "canonical",
+  "remote_generation": false,
+  "dataset_item_count": 48,
+  "item_count": 48,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 35,
+  "strict_success_rate": 0.3142857142857143,
+  "expected_behavior_accuracy": 1.0,
+  "avg_context_tokens": 303.1458333333333,
+  "p95_latency_ms": 0.1449999981559813,
+  "run_error_rate": 0.0
+}

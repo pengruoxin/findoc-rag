@@ -1,0 +1,35 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "robustness",
+  "baseline_run_id": "robustness-benchmark-v2-deepseek-chat",
+  "candidate_run_id": "robustness-benchmark-v2-deepseek-chat-table-v2",
+  "baseline_code_revision": null,
+  "candidate_code_revision": null,
+  "code_revision_match": false,
+  "controlled_change": "非受控参考：8/7 基线早于同义词改写 runner 与 api_model 元数据修正，仅趋势观察",
+  "paired_item_count": 29,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.5454545454545454,
+      "candidate": 0.6363636363636364,
+      "delta": 0.09090909090909094
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.7931034482758621,
+      "candidate": 0.7931034482758621,
+      "delta": 0.0
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [],
+  "behavior_regressed": [],
+  "strict_fixed": [
+    "yili_concentration",
+    "yili_quarterly_profit_reconcile"
+  ],
+  "strict_regressed": []
+}

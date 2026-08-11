@@ -8,6 +8,7 @@ from findoc_rag.indexing import (
     PersistentIndex,
     SearchFilters,
     SearchHit,
+    _dense_text,
     reciprocal_rank_fusion,
     tokenize_for_search,
 )
@@ -237,3 +238,25 @@ def test_incremental_dense_build_reuses_unchanged_chunk_embeddings(
     assert second_index.manifest.reused_embedding_count == 1
     assert second_index.manifest.encoded_embedding_count == 1
     assert load_calls == ["fake-e5", "fake-e5"]
+
+
+def test_dense_text_e5_uses_kind_prefix() -> None:
+    assert _dense_text("营收", "intfloat/multilingual-e5-small", "query") == "query: 营收"
+    assert _dense_text("营收", "intfloat/multilingual-e5-small", "passage") == "passage: 营收"
+
+
+def test_dense_text_bge_zh_uses_query_instruction() -> None:
+    assert (
+        _dense_text("营收", "BAAI/bge-small-zh-v1.5", "query")
+        == "为这个句子生成表示以用于检索相关文章：营收"
+    )
+    assert _dense_text("营收", "BAAI/bge-small-zh-v1.5", "passage") == "营收"
+
+
+def test_dense_text_bge_m3_keeps_plain_text() -> None:
+    assert _dense_text("营收", "BAAI/bge-m3", "query") == "营收"
+    assert _dense_text("营收", "BAAI/bge-m3", "passage") == "营收"
+
+
+def test_dense_text_unknown_model_keeps_plain_text() -> None:
+    assert _dense_text("营收", "some-other-model", "query") == "营收"

@@ -1,0 +1,17 @@
+{
+  "run_id": "oracle_context-benchmark-v2-deepseek-chat-abstain-v2",
+  "dataset_id": "benchmark-v2",
+  "lane": "oracle_context",
+  "model": "deepseek-chat-abstain-v2",
+  "variant_mode": "canonical",
+  "remote_generation": true,
+  "dataset_item_count": 48,
+  "item_count": 48,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 35,
+  "strict_success_rate": 0.9428571428571428,
+  "expected_behavior_accuracy": 0.9791666666666666,
+  "avg_context_tokens": 303.1458333333333,
+  "p95_latency_ms": 2553.3778999815695,
+  "run_error_rate": 0.0
+}

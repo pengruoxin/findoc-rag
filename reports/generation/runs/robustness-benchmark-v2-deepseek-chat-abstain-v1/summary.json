@@ -1,0 +1,17 @@
+{
+  "run_id": "robustness-benchmark-v2-deepseek-chat-abstain-v1",
+  "dataset_id": "benchmark-v2",
+  "lane": "robustness",
+  "model": "deepseek-chat-abstain-v1",
+  "variant_mode": "canonical",
+  "remote_generation": true,
+  "dataset_item_count": 48,
+  "item_count": 29,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 22,
+  "strict_success_rate": 0.8636363636363636,
+  "expected_behavior_accuracy": 0.8620689655172413,
+  "avg_context_tokens": 783.7931034482758,
+  "p95_latency_ms": 2033.4187999833375,
+  "run_error_rate": 0.0
+}

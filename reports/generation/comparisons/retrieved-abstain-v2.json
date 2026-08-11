@@ -1,0 +1,56 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "retrieved_context",
+  "baseline_run_id": "retrieved_context-benchmark-v2-deepseek-chat-table-v2",
+  "candidate_run_id": "retrieved_context-benchmark-v2-deepseek-chat-abstain-v2",
+  "baseline_code_revision": null,
+  "candidate_code_revision": null,
+  "code_revision_match": false,
+  "controlled_change": "测量变更：远程拒答检测（grounded/abstain 判定 + provider=remote-abstention）",
+  "paired_item_count": 48,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.5714285714285714,
+      "candidate": 0.8,
+      "delta": 0.22857142857142865
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.8333333333333334,
+      "candidate": 0.8958333333333334,
+      "delta": 0.0625
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [
+    "u_compare_audit_quality",
+    "u_investment_advice",
+    "u_moutai_liquid_milk",
+    "u_moutai_stock_cause",
+    "u_yili_moutai_wine",
+    "u_yili_profit_causality",
+    "u_yili_q4_loss_cause",
+    "u_yili_top_customer_names"
+  ],
+  "behavior_regressed": [
+    "moutai_product_margin",
+    "moutai_quarterly_cashflow",
+    "yili_2025_plan_bounded",
+    "yili_consolidated_parent_revenue",
+    "yili_quarterly_cashflow_reconcile"
+  ],
+  "strict_fixed": [
+    "u_compare_audit_quality",
+    "u_investment_advice",
+    "u_moutai_liquid_milk",
+    "u_moutai_stock_cause",
+    "u_yili_moutai_wine",
+    "u_yili_profit_causality",
+    "u_yili_q4_loss_cause",
+    "u_yili_top_customer_names"
+  ],
+  "strict_regressed": []
+}

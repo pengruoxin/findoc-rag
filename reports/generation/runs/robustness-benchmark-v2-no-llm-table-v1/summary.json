@@ -1,0 +1,17 @@
+{
+  "run_id": "robustness-benchmark-v2-no-llm-table-v1",
+  "dataset_id": "benchmark-v2",
+  "lane": "robustness",
+  "model": "no-llm-table-v1",
+  "variant_mode": "canonical",
+  "remote_generation": false,
+  "dataset_item_count": 48,
+  "item_count": 29,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 22,
+  "strict_success_rate": 0.36363636363636365,
+  "expected_behavior_accuracy": 0.7931034482758621,
+  "avg_context_tokens": 783.7931034482758,
+  "p95_latency_ms": 0.5112999933771789,
+  "run_error_rate": 0.0
+}

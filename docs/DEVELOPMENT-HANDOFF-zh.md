@@ -114,11 +114,22 @@ uv run python scripts/run_ragas_generation_eval.py \
 - 真实基线：DeepSeek 三轨（Oracle strict 0.9714 / Retrieved 0.5429 / Robustness 0.5455）+ RAGAS
 - 文档重组：docs/README.md 为索引；docs/architecture、evaluation、history、interview、ui 分类
 
+### 已完成（2026-08-11）
+
+- 阶段 0 收口：构建 bge-small-zh-v1.5 语料索引 `6a951f4e8b7bd913d918`（不覆盖 E5 索引），跑完 OOV ×（none / deterministic / llm）×（E5 / bge-zh）与变体矩阵；
+- 结论：LLM 改写是 OOV 决定性杠杆（0.194 → 0.694），bge-zh dense 全面弱于 E5，默认 lexical-only 不变；
+- `_dense_text` 增加 BGE v1.5 查询指令前缀（含单测）；新增 4 个实验目录与 2 份 analysis.md。
+- B 阶段第一步：四类表型单元格抽取器（quarterly / note_cost / segment / annual_data）全部实现，table-eval **28/149 → 146/149（98.0%）**，8 个单测；唯一残差为 PDF 文字层丢"地区"（伊利 segment），需坐标级重建。
+- B 阶段第二步：`extract_cells` 已接入 answer_generation 确定性表格路径（季度/附注成本/分部毛利率/年度营收/跨公司/合并-母公司，带引用）；no-LLM 三轨 strict **0.3143→0.6571 / 0.0857→0.2571 / 0.2273→0.3636**，零回归；A/B 开关 `FINDOC_RAG_DISABLE_DETERMINISTIC_TABLES=1`。
+- DeepSeek 三轨重跑完成（2026-08-11，`deepseek-chat-table-v2` + RAGAS）：Oracle 0.9714（持平）、Retrieved **0.5714**、Robustness **0.6364**；RAGAS faithfulness 全轨提升；修复 `api_model` 元数据（新产物 `independent_judge=false` 正确标注自评）。
+- 远程拒答检测完成（2026-08-11，`deepseek-chat-abstain-v2`）：伪拒答不再刷分，应拒答被如实计分；真实基线 Retrieved strict **0.8000** / 行为 0.8958，Robustness strict **0.8636** / 行为 0.8276，Oracle 0.9429（单题波动）。
+- 远程确定性表格优先完成（2026-08-11，`deepseek-chat-table-remote-v1`，受控开关）：Oracle strict 1.0、Retrieved strict **0.8286** / 行为 **0.9583**、Robustness 行为 0.8621，零回归；新 run 已带 `code_revision`。
+
 ### 下一步（方案已定，待执行）
 
-1. **阶段 0：dense 对照实验**——在现有输入上用中文专用向量模型（bge-small-zh-v1.5）跑 OOV 对比，回答"更强的 dense 能不能解决同义词、是否与 LLM 改写重复"；
-2. 查询侧 MVP：OOV 集跑 `--rewrite llm` 对比（36 条已生成）；
-3. 行为拒答（8 题）+ 表格抽取（5 题）是端到端 strict 的当前瓶颈。
+1. **LLM 改写落地生产**：接入 `/v1/query`；改写缓存持久化到 run 目录（当前跨 run 不稳定，36 条中 8 条不同）；改写后叠加 deterministic 词表兜底；
+2. 行为拒答策略：剩余误拒答集中在 concentration 类表格（moutai_concentration / yili_concentration，未被四类抽取器覆盖）与非表格波动；坐标级表格重建修复 PDF 文字层丢字；
+3. 96 变体与 OOV 实例人工审核；多轮评测；公信力工程（独立 judge、多公司多年度）。
 
 方案文档：[term-normalization-design-zh.md](./architecture/term-normalization-design-zh.md)
 
@@ -128,6 +139,7 @@ uv run python scripts/run_ragas_generation_eval.py \
 - 总览：[roadmap-zh.md](./roadmap-zh.md)（项目水平、瓶颈、路线）
 - 数字：[evaluation/baseline-zh.md](./evaluation/baseline-zh.md)
 - 规则：[evaluation/benchmark-and-metrics-zh.md](./evaluation/benchmark-and-metrics-zh.md)
+- 纪律：[evaluation/experiment-protocol-zh.md](./evaluation/experiment-protocol-zh.md)（控制变量实验协议，所有对比必须遵守）
 - 清单：[evaluation/improvement-list-zh.md](./evaluation/improvement-list-zh.md)
 - 实验结论：[evaluation/experiment-summaries.md](./evaluation/experiment-summaries.md)
 - 变更记录：[history/optimization-log-zh.md](./history/optimization-log-zh.md)

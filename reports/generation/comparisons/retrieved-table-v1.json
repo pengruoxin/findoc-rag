@@ -1,0 +1,39 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "retrieved_context",
+  "baseline_run_id": "retrieved_context-benchmark-v2-no-llm-clarify-v1",
+  "candidate_run_id": "retrieved_context-benchmark-v2-no-llm-table-v1",
+  "baseline_code_revision": null,
+  "candidate_code_revision": null,
+  "code_revision_match": false,
+  "controlled_change": "no-LLM A/B：确定性表格路径开关",
+  "paired_item_count": 48,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.08571428571428572,
+      "candidate": 0.2571428571428571,
+      "delta": 0.1714285714285714
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.8333333333333334,
+      "candidate": 0.8333333333333334,
+      "delta": 0.0
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [],
+  "behavior_regressed": [],
+  "strict_fixed": [
+    "moutai_channel_margin",
+    "moutai_quarterly_cashflow",
+    "moutai_revenue_yoy",
+    "yili_cost_reconciliation",
+    "yili_note_cost_scope",
+    "yili_quarterly_net_profit"
+  ],
+  "strict_regressed": []
+}

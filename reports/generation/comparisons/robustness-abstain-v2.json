@@ -1,0 +1,54 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "robustness",
+  "baseline_run_id": "robustness-benchmark-v2-deepseek-chat-table-v2",
+  "candidate_run_id": "robustness-benchmark-v2-deepseek-chat-abstain-v2",
+  "baseline_code_revision": null,
+  "candidate_code_revision": null,
+  "code_revision_match": false,
+  "controlled_change": "测量变更：远程拒答检测（grounded/abstain 判定 + provider=remote-abstention）",
+  "paired_item_count": 29,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.6363636363636364,
+      "candidate": 0.8636363636363636,
+      "delta": 0.2272727272727273
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.7931034482758621,
+      "candidate": 0.8275862068965517,
+      "delta": 0.03448275862068961
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [
+    "u_compare_audit_quality",
+    "u_investment_advice",
+    "u_moutai_stock_cause",
+    "u_yili_profit_causality",
+    "u_yili_q4_loss_cause",
+    "u_yili_top_customer_names"
+  ],
+  "behavior_regressed": [
+    "audit_opinion_comparison",
+    "moutai_concentration",
+    "yili_2025_plan_bounded",
+    "yili_concentration",
+    "yili_consolidated_parent_revenue"
+  ],
+  "strict_fixed": [
+    "u_compare_audit_quality",
+    "u_investment_advice",
+    "u_moutai_stock_cause",
+    "u_yili_profit_causality",
+    "u_yili_q4_loss_cause",
+    "u_yili_top_customer_names"
+  ],
+  "strict_regressed": [
+    "yili_concentration"
+  ]
+}

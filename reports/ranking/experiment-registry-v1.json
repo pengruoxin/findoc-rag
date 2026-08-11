@@ -49,6 +49,70 @@
       "mode": "cell-level extraction (regex baseline)",
       "status": "development-v1",
       "caveat": "149 annotated cells across 8 tables; quarterly baseline 28/32; other table types unimplemented. See reports/ranking/table-eval-v1/analysis.md"
+    },
+    {
+      "run_id": "oov-eval-llm-v1",
+      "dataset": "oov-variants-v1",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "lexical/dense/hybrid with rewrite none|deterministic|llm",
+      "hit_at_5": 0.694,
+      "mrr_at_5": 0.498,
+      "status": "development-v2",
+      "caveat": "36 OOV instances / 12 questions; LLM rewrite is the decisive lever (none 0.194 -> llm 0.694); hybrid remains worse than lexical; rewrites not yet persisted across runs. See reports/ranking/oov-eval-llm-v1/analysis.md"
+    },
+    {
+      "run_id": "variant-regime-bge-zh-v1",
+      "dataset": "benchmark-v2-retrieval-view",
+      "index_id": "6a951f4e8b7bd913d918",
+      "mode": "lexical/dense/hybrid with bge-small-zh-v1.5 dense",
+      "status": "development-v2",
+      "caveat": "bge-zh dense is worse than E5 in every regime (0.162/0.568/0.162 vs 0.216/0.703/0.189); Chinese-specific small model does not solve synonym gaps. See reports/ranking/variant-regime-bge-zh-v1/analysis.md"
+    },
+    {
+      "run_id": "table-eval-v2",
+      "dataset": "table-eval-v1",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "deterministic cell extraction (all four table types)",
+      "precision": 0.98,
+      "recall": 0.98,
+      "status": "development-v2",
+      "caveat": "146/149 cells; sole residual is Yili segment '其他地区' where the PDF text layer dropped '地区' (gold from visual review). See reports/ranking/table-eval-v2/analysis.md"
+    },
+    {
+      "run_id": "table-generation-v1",
+      "dataset": "benchmark-v2",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "deterministic table answers wired into answer_generation",
+      "strict_success_rate": 0.6571,
+      "status": "development-v2",
+      "caveat": "No-LLM three lanes: Oracle 0.3143->0.6571, Retrieved 0.0857->0.2571, Robustness 0.2273->0.3636; zero regressions. Retrieved still misses 6 table items due to evidence not in top-5. See reports/generation/comparisons/*-table-v1"
+    },
+    {
+      "run_id": "deepseek-table-v2",
+      "dataset": "benchmark-v2",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "deepseek-chat three lanes + RAGAS after table path",
+      "strict_success_rate": 0.5714,
+      "status": "development-v2",
+      "caveat": "Oracle 0.9714 (flat, one-item swap), Retrieved 0.5429->0.5714, Robustness 0.5455->0.6364; RAGAS faithfulness up in all lanes; api_model metadata fixed (independent_judge=false correctly recorded). See reports/generation/comparisons/*-deepseek-table-v2"
+    },
+    {
+      "run_id": "deepseek-abstain-v2",
+      "dataset": "benchmark-v2",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "deepseek-chat three lanes with remote-abstention detection",
+      "strict_success_rate": 0.8,
+      "status": "development-v2",
+      "caveat": "Retrieved strict 0.5714->0.8000 (+8 correctly-scored refusals, -0), Robustness 0.6364->0.8636 (+6, -1 artifact), Oracle 0.9429 (item-level variance); behavior is now measured honestly (0.8958/0.8276); hedged refusals containing numbers no longer score. See reports/generation/comparisons/*-abstain-v2"
+    },
+    {
+      "run_id": "deepseek-table-remote-v1",
+      "dataset": "benchmark-v2",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "deepseek-chat three lanes with remote deterministic-table priority (controlled toggle)",
+      "strict_success_rate": 0.8286,
+      "status": "development-v2",
+      "caveat": "Single-variable experiment (FINDOC_RAG_REMOTE_DETERMINISTIC_TABLES=1): Oracle strict 0.9429->1.0, Retrieved 0.80->0.8286 (+1), Robustness 0.8636 flat; behavior 1.0/0.9583/0.8621; zero regressions; table-item refusals eliminated; runs carry code_revision. See reports/generation/comparisons/*-table-remote-v1"
     }
   ]
 }

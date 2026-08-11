@@ -1,0 +1,76 @@
+{
+  "run_id": "oov-eval-llm",
+  "dataset_id": "oov-variants-v1",
+  "index_id": "10fb50419145d56720c9",
+  "rewrite_mode": "llm",
+  "top_k": 5,
+  "candidate_k": 20,
+  "instance_count": 36,
+  "question_count": 12,
+  "by_filter_mode": {
+    "none": {
+      "lexical": {
+        "hit_at_5": 0.6944444444444444,
+        "mrr_at_5": 0.4074074074074074,
+        "recall_at_5": 0.6944444444444444,
+        "precision_at_5": 0.17222222222222222,
+        "ndcg_at_5": 0.48561012595437614,
+        "candidate_recall": 0.8333333333333334,
+        "negative_count_in_top5": 0.25,
+        "avg_evidence_tokens_top5": 296.4166666666667
+      },
+      "dense": {
+        "hit_at_5": 0.16666666666666666,
+        "mrr_at_5": 0.1111111111111111,
+        "recall_at_5": 0.16666666666666666,
+        "precision_at_5": 0.03333333333333333,
+        "ndcg_at_5": 0.125,
+        "candidate_recall": 0.2777777777777778,
+        "negative_count_in_top5": 0,
+        "avg_evidence_tokens_top5": 397.10555555555555
+      },
+      "hybrid": {
+        "hit_at_5": 0.5277777777777778,
+        "mrr_at_5": 0.29953703703703705,
+        "recall_at_5": 0.4861111111111111,
+        "precision_at_5": 0.11666666666666667,
+        "ndcg_at_5": 0.34610091832458456,
+        "candidate_recall": 0.8333333333333334,
+        "negative_count_in_top5": 0.25,
+        "avg_evidence_tokens_top5": 345.4222222222222
+      }
+    },
+    "query_parser": {
+      "lexical": {
+        "hit_at_5": 0.6944444444444444,
+        "mrr_at_5": 0.4976851851851852,
+        "recall_at_5": 0.6944444444444444,
+        "precision_at_5": 0.17222222222222222,
+        "ndcg_at_5": 0.5535406678868169,
+        "candidate_recall": 0.8611111111111112,
+        "negative_count_in_top5": 0.1111111111111111,
+        "avg_evidence_tokens_top5": 314.21666666666664
+      },
+      "dense": {
+        "hit_at_5": 0.16666666666666666,
+        "mrr_at_5": 0.1111111111111111,
+        "recall_at_5": 0.16666666666666666,
+        "precision_at_5": 0.03333333333333333,
+        "ndcg_at_5": 0.125,
+        "candidate_recall": 0.2777777777777778,
+        "negative_count_in_top5": 0,
+        "avg_evidence_tokens_top5": 399.7944444444444
+      },
+      "hybrid": {
+        "hit_at_5": 0.4722222222222222,
+        "mrr_at_5": 0.26944444444444443,
+        "recall_at_5": 0.4583333333333333,
+        "precision_at_5": 0.11666666666666667,
+        "ndcg_at_5": 0.32384718654360484,
+        "candidate_recall": 0.8611111111111112,
+        "negative_count_in_top5": 0.1111111111111111,
+        "avg_evidence_tokens_top5": 356.00555555555553
+      }
+    }
+  }
+}

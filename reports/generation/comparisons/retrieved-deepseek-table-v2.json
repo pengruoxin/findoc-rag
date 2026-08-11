@@ -1,0 +1,37 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "retrieved_context",
+  "baseline_run_id": "retrieved_context-benchmark-v2-deepseek-chat-v2",
+  "candidate_run_id": "retrieved_context-benchmark-v2-deepseek-chat-table-v2",
+  "baseline_code_revision": null,
+  "candidate_code_revision": null,
+  "code_revision_match": false,
+  "controlled_change": "非受控参考：8/7 基线早于同义词改写 runner 与 api_model 元数据修正，仅趋势观察",
+  "paired_item_count": 48,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.5428571428571428,
+      "candidate": 0.5714285714285714,
+      "delta": 0.02857142857142858
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.8333333333333334,
+      "candidate": 0.8333333333333334,
+      "delta": 0.0
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [],
+  "behavior_regressed": [],
+  "strict_fixed": [
+    "moutai_annual_deducted_profit",
+    "moutai_revenue_yoy"
+  ],
+  "strict_regressed": [
+    "moutai_quarterly_cashflow"
+  ]
+}
