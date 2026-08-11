@@ -5,6 +5,7 @@ from __future__ import annotations
 from findoc_rag.table_extraction import (
     extract_annual_data,
     extract_cells,
+    extract_concentration,
     extract_note_cost,
     extract_quarterly,
     extract_segment,
@@ -61,6 +62,7 @@ def test_unimplemented_table_types_return_empty() -> None:
     assert extract_cells("任意文本", "segment") == []
     assert extract_cells("任意文本", "note_cost") == []
     assert extract_cells("任意文本", "annual_data") == []
+    assert extract_cells("任意文本", "concentration") == []
 
 
 def test_quarterly_handles_label_after_values() -> None:
@@ -180,3 +182,36 @@ def test_annual_data_skips_yoy_and_handles_three_number_row() -> None:
     assert total_assets["2022年"] == "254500826096.02"
     equity = {cell.column: cell.value for cell in cells if cell.row == "股本"}
     assert equity["2022年"] == "1256197800.00"
+
+
+def test_concentration_extracts_customer_and_supplier() -> None:
+    text = """(7). 主要销售客户及主要供应商情况
+A.公司主要销售客户情况 √适用 □不适用
+前五名客户销售额1,964,793.93 万元，占年度销售总额11.52%；其中前五名客户销售额中
+关联方销售额656,041.77 万元，占年度销售总额3.85%。
+B.公司主要供应商情况 √适用 □不适用
+前五名供应商采购额304,247.59 万元，占年度采购总额35.43%；其中前五名供应商采购额
+中关联方采购额130,712.33 万元，占年度采购总额15.22%。
+"""
+    cells = extract_concentration(text)
+    assert len(cells) == 4
+    customer = {cell.column: cell.value for cell in cells if cell.row == "前五名客户"}
+    assert customer["销售额(万元)"] == "1964793.93"
+    assert customer["销售占比(%)"] == "11.52"
+    supplier = {cell.column: cell.value for cell in cells if cell.row == "前五名供应商"}
+    assert supplier["采购额(万元)"] == "304247.59"
+    assert supplier["采购占比(%)"] == "35.43"
+
+
+def test_concentration_ignores_related_party_second_occurrence() -> None:
+    text = """A.公司主要销售客户情况
+前五名客户销售额711,963.51万元，占年度销售总额6.17%；其中前五名客户销售额中关联
+方销售额0万元，占年度销售总额0% 。
+B.公司主要供应商情况
+前五名供应商采购额2,337,679.39万元，占年度采购总额40.03%。
+"""
+    cells = extract_concentration(text)
+    customer = {cell.column: cell.value for cell in cells if cell.row == "前五名客户"}
+    assert customer["销售占比(%)"] == "6.17"
+    supplier = {cell.column: cell.value for cell in cells if cell.row == "前五名供应商"}
+    assert supplier["采购占比(%)"] == "40.03"

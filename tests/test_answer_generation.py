@@ -121,6 +121,24 @@ SEGMENT_YILI_TEXT = """(1)主营业务分行业、分产品、分地区、分销
 直销 74,843,327,030.79 3,493,952,839.59 95.33 11.32 14.52 减少0.13 个百分点
 """
 
+CONCENTRATION_MOUTAI_TEXT = """(7). 主要销售客户及主要供应商情况
+A.公司主要销售客户情况 √适用 □不适用
+前五名客户销售额1,964,793.93 万元，占年度销售总额11.52%；其中前五名客户销售额中
+关联方销售额656,041.77 万元，占年度销售总额3.85%。
+B.公司主要供应商情况 √适用 □不适用
+前五名供应商采购额304,247.59 万元，占年度采购总额35.43%；其中前五名供应商采购额
+中关联方采购额130,712.33 万元，占年度采购总额15.22%。
+"""
+
+CONCENTRATION_YILI_TEXT = """(7)主要销售客户及主要供应商情况
+A.公司主要销售客户情况 √适用 □不适用
+前五名客户销售额711,963.51万元，占年度销售总额6.17%；其中前五名客户销售额中关联
+方销售额0万元，占年度销售总额0% 。
+B.公司主要供应商情况 √适用 □不适用
+前五名供应商采购额2,337,679.39万元，占年度采购总额40.03%；其中前五名供应商采购额
+中关联方采购额1,447,899.24万元，占年度采购总额24.79%。
+"""
+
 
 def _hit(text: str, company: str = "伊利股份", year: int = 2024):
     chunk = SimpleNamespace(
@@ -289,3 +307,41 @@ def test_remote_mode_deterministic_tables_priority(monkeypatch) -> None:
     )
     assert answer.provider == "deterministic-table"
     assert "第一至第四季度分别为5,922,814,507.71元" in answer.answer
+
+
+def test_deterministic_concentration_single_company() -> None:
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "贵州茅台2024年前五名客户销售占比和前五名供应商采购占比分别是多少",
+        [_hit(CONCENTRATION_MOUTAI_TEXT, company="贵州茅台")],
+    )
+    assert answer is not None
+    assert "前五名客户销售占比为11.52%" in answer
+    assert "前五名供应商采购占比为35.43%[1]" in answer
+
+
+def test_deterministic_concentration_cross_company_customer() -> None:
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "贵州茅台和伊利股份2024年前五名客户销售占比谁更高，高多少个百分点",
+        [
+            _hit(CONCENTRATION_MOUTAI_TEXT, company="贵州茅台"),
+            _hit(CONCENTRATION_YILI_TEXT, company="伊利股份"),
+        ],
+    )
+    assert answer is not None
+    assert "贵州茅台为11.52%[1]" in answer
+    assert "伊利股份为6.17%[2]" in answer
+    assert "贵州茅台高5.35个百分点" in answer
+
+
+def test_deterministic_concentration_cross_company_supplier() -> None:
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "贵州茅台和伊利股份2024年前五名供应商采购占比谁更高，高多少个百分点",
+        [
+            _hit(CONCENTRATION_MOUTAI_TEXT, company="贵州茅台"),
+            _hit(CONCENTRATION_YILI_TEXT, company="伊利股份"),
+        ],
+    )
+    assert answer is not None
+    assert "贵州茅台为35.43%[1]" in answer
+    assert "伊利股份为40.03%[2]" in answer
+    assert "伊利股份高4.60个百分点" in answer

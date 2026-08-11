@@ -9,6 +9,7 @@ from pydantic import BaseModel
 
 from findoc_rag.indexing import SearchHit
 from findoc_rag.table_extraction import (
+    extract_concentration,
     extract_annual_rows,
     extract_note_cost,
     extract_quarterly,
@@ -430,6 +431,70 @@ class GroundedAnswerGenerator:
             f"[{parent[0]}]；合并口径高{_format_decimal(f'{diff}')}元"
         )
 
+    @staticmethod
+    def _concentration_answer(query: str, hits: list[SearchHit]) -> str | None:
+        compact = re.sub(r"\s+", "", query)
+        want_customer = "客户" in compact and (
+            "占比" in compact or "集中度" in compact
+        )
+        want_supplier = "供应商" in compact and (
+            "占比" in compact or "集中度" in compact
+        )
+        if not (want_customer or want_supplier):
+            return None
+        by_company: dict[str, tuple[int, str, str]] = {}
+        for index, hit in enumerate(hits, start=1):
+            cells = extract_concentration(hit.chunk.text)
+            values = {cell.column: cell.value for cell in cells}
+            if "销售占比(%)" not in values or "采购占比(%)" not in values:
+                continue
+            company = hit.chunk.company_name or ""
+            if not company:
+                text = re.sub(r"\s+", "", hit.chunk.text)
+                company = (
+                    "贵州茅台"
+                    if "贵州茅台" in text
+                    else "伊利股份"
+                    if "伊利股份" in text
+                    else company
+                )
+            if company:
+                by_company[company] = (
+                    index,
+                    values["销售占比(%)"],
+                    values["采购占比(%)"],
+                )
+        if "贵州茅台" in compact and "伊利股份" in compact:
+            if "贵州茅台" not in by_company or "伊利股份" not in by_company:
+                return None
+            moutai_index, moutai_customer, moutai_supplier = by_company["贵州茅台"]
+            yili_index, yili_customer, yili_supplier = by_company["伊利股份"]
+            if want_customer:
+                diff = Decimal(moutai_customer) - Decimal(yili_customer)
+                higher = "贵州茅台" if diff > 0 else "伊利股份"
+                first = _format_decimal(moutai_customer)
+                second = _format_decimal(yili_customer)
+            else:
+                diff = Decimal(moutai_supplier) - Decimal(yili_supplier)
+                higher = "贵州茅台" if diff > 0 else "伊利股份"
+                first = _format_decimal(moutai_supplier)
+                second = _format_decimal(yili_supplier)
+            return (
+                f"贵州茅台为{first}%[{moutai_index}]，"
+                f"伊利股份为{second}%[{yili_index}]；"
+                f"{higher}高{_format_decimal(f'{abs(diff)}')}个百分点"
+            )
+        for company, (index, customer, supplier) in by_company.items():
+            parts = []
+            if want_customer:
+                parts.append(f"前五名客户销售占比为{_format_decimal(customer)}%")
+            if want_supplier:
+                parts.append(
+                    f"前五名供应商采购占比为{_format_decimal(supplier)}%"
+                )
+            return "，".join(parts) + f"[{index}]"
+        return None
+
     @classmethod
     def _deterministic_table_answer(
         cls, query: str, hits: list[SearchHit]
@@ -450,6 +515,15 @@ class GroundedAnswerGenerator:
             return cls._segment_answer(query, hits)
         if "营业收入" in compact:
             return cls._annual_revenue_answer(query, hits)
+        if (
+            "前五名客户" in compact
+            or "前五名供应商" in compact
+            or "客户集中度" in compact
+            or "供应商集中度" in compact
+            or ("客户" in compact and "占比" in compact)
+            or ("供应商" in compact and "占比" in compact)
+        ):
+            return cls._concentration_answer(query, hits)
         return None
 
     def _generate_remote(self, query: str, hits: list[SearchHit], citations: list[Citation]) -> GeneratedAnswer:

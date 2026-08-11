@@ -12,7 +12,7 @@ import re
 from dataclasses import dataclass
 from typing import Literal
 
-TableType = Literal["quarterly", "note_cost", "segment", "annual_data"]
+TableType = Literal["quarterly", "note_cost", "segment", "annual_data", "concentration"]
 
 NUMBER_PATTERN = re.compile(r"[-−]?\d[\d,]*(?:\.\d+)?")
 QUARTER_RANGE_PATTERN = re.compile(r"[（(]\s*\d+\s*[-—]\s*\d+\s*月份?[）)]")
@@ -107,6 +107,29 @@ ANNUAL_HEADER_TERMS = (
     "同期末",
     "本期",
     "增减",
+)
+
+CONCENTRATION_PATTERNS = (
+    (
+        "前五名客户",
+        "销售额(万元)",
+        re.compile(r"前五名客户销售额\s*([\d,]+(?:\.\d+)?)\s*万元"),
+    ),
+    (
+        "前五名客户",
+        "销售占比(%)",
+        re.compile(r"占年度销售总额\s*([\d.]+)\s*%"),
+    ),
+    (
+        "前五名供应商",
+        "采购额(万元)",
+        re.compile(r"前五名供应商采购额\s*([\d,]+(?:\.\d+)?)\s*万元"),
+    ),
+    (
+        "前五名供应商",
+        "采购占比(%)",
+        re.compile(r"占年度采购总额\s*([\d.]+)\s*%"),
+    ),
 )
 
 
@@ -345,6 +368,25 @@ def extract_annual_data(text: str) -> list[ExtractedCell]:
     return cells
 
 
+def extract_concentration(text: str) -> list[ExtractedCell]:
+    """Extract top-five customer/supplier concentration sentence cells."""
+    normalized = _normalize(text)
+    cells: list[ExtractedCell] = []
+    for row, column, pattern in CONCENTRATION_PATTERNS:
+        match = pattern.search(normalized)
+        if match is None:
+            continue
+        cells.append(
+            ExtractedCell(
+                row=row,
+                column=column,
+                value=normalize_value(match.group(1)),
+                section="主要销售客户及主要供应商情况",
+            )
+        )
+    return cells
+
+
 def extract_cells(text: str, table_type: TableType) -> list[ExtractedCell]:
     """Extract cell triples from linearized chunk text."""
     if table_type == "quarterly":
@@ -355,4 +397,6 @@ def extract_cells(text: str, table_type: TableType) -> list[ExtractedCell]:
         return extract_segment(text)
     if table_type == "annual_data":
         return extract_annual_data(text)
+    if table_type == "concentration":
+        return extract_concentration(text)
     return []

@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "dataset_id": "table-eval-concentration-v1",
+  "source": "benchmark-v2 concentration items (assistant-verified gold)",
+  "index_id": "10fb50419145d56720c9",
+  "unit_note": "占比为百分比；金额单位为万元",
+  "tables": [
+    {
+      "table_id": "moutai_concentration",
+      "table_type": "concentration",
+      "chunk_id": "5299f4940e2c:c21:5f126f59fff9e0f8",
+      "cells": [
+        {"row": "前五名客户", "column": "销售额(万元)", "value": "1964793.93"},
+        {"row": "前五名客户", "column": "销售占比(%)", "value": "11.52"},
+        {"row": "前五名供应商", "column": "采购额(万元)", "value": "304247.59"},
+        {"row": "前五名供应商", "column": "采购占比(%)", "value": "35.43"}
+      ]
+    },
+    {
+      "table_id": "yili_concentration",
+      "table_type": "concentration",
+      "chunk_id": "a82a81e52f52:c54:4fd21da6c3f59495",
+      "cells": [
+        {"row": "前五名客户", "column": "销售额(万元)", "value": "711963.51"},
+        {"row": "前五名客户", "column": "销售占比(%)", "value": "6.17"},
+        {"row": "前五名供应商", "column": "采购额(万元)", "value": "2337679.39"},
+        {"row": "前五名供应商", "column": "采购占比(%)", "value": "40.03"}
+      ]
+    }
+  ]
+}
