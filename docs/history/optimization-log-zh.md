@@ -22,6 +22,23 @@
 结论：
 ```
 
+## 2026-08-11：坐标级表格重建集成与真实数据评测（P0，外部模型交付）
+
+- 目标问题：把外部模型交付的坐标重建模块集成进仓库，并在真实 PDF 数据上验证，而不是只信合成夹具。
+- 修改内容：
+  - 集成 `src/findoc_rag/table_reconstruction.py`（span→token→行带聚类→列对齐→标签-数值配对 + 文本回退 + `merge_pages`），legacy 回退改指向 `findoc_rag.table_extraction`；
+  - 集成 11 个单测（含"标签后置""跨行标签"夹具）；
+  - 新增 `scripts/evaluate_coordinate_reconstruction.py`：把标注表覆盖页的完整 pymupdf blocks 喂给坐标路径，按同一单元格三元组打分；
+  - 修复 ruff 12 处（import 排序、盲异常、getattr 常量、隐式拼接等）。
+- 测试命令：`pytest -q`（142 passed）；`ruff check` 通过。
+- 评测结果变化：
+  - 文本基线（生产路径）不变：154/157（98.1%）；
+  - 坐标路径 P0（整页无裁剪）：**92/157（Recall 58.6%）**——concentration 8/8、note_cost R=1.0（P 仅 0.27–0.32）、annual R≈0.85、quarterly R=0.75（扣非行未配对）、segment R=0.06（最差）；
+  - 外部模型自评的 150/157 是其内置文本回退在独立环境的结果，接入仓库后未复现，不作为坐标路径成绩。
+- 新增能力：坐标重建的合成级与真实数据级双轨回归尺子。
+- 已知退化/未覆盖：整页输入下精度/召回低于文本基线，**坐标路径暂不接入生产**；瓶颈为表格区域定位缺失（prose 行误当数据行）、segment 子表隔离、quarterly 扣非行配对；"其他地区"维持 OCR/标注分歧结论。
+- 结论：坐标路径 P0 不可替代文本路径；下一步按 analysis.md 优先级迭代（区域定位 → segment 隔离 → 扣非行配对），每步用 `evaluate_coordinate_reconstruction.py` 回归。
+
 ## 2026-08-11：LLM 查询改写 retrieved lane 受控实验（阴性结果，不落地）
 
 - 目标问题：OOV 实验证明 LLM 改写有效（Hit@5 0.194→0.694），能否直接用于 benchmark retrieved lane 补检索证据？

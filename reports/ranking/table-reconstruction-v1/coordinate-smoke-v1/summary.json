@@ -1,0 +1,110 @@
+{
+  "run_id": "coordinate-smoke-v1",
+  "input_mode": "whole-pages-no-cropping",
+  "table_count": 10,
+  "gold_cells_total": 157,
+  "correct_cells_total": 92,
+  "recall_total": 0.5859872611464968,
+  "tables": [
+    {
+      "table_id": "moutai_quarterly",
+      "table_type": "quarterly",
+      "pages": "6-6",
+      "gold_cells": 16,
+      "predicted_cells": 31,
+      "correct_cells": 12,
+      "precision": 0.3870967741935484,
+      "recall": 0.75
+    },
+    {
+      "table_id": "yili_quarterly",
+      "table_type": "quarterly",
+      "pages": "8-8",
+      "gold_cells": 16,
+      "predicted_cells": 29,
+      "correct_cells": 12,
+      "precision": 0.41379310344827586,
+      "recall": 0.75
+    },
+    {
+      "table_id": "moutai_note_cost",
+      "table_type": "note_cost",
+      "pages": "108-108",
+      "gold_cells": 12,
+      "predicted_cells": 44,
+      "correct_cells": 12,
+      "precision": 0.2727272727272727,
+      "recall": 1.0
+    },
+    {
+      "table_id": "yili_note_cost",
+      "table_type": "note_cost",
+      "pages": "206-206",
+      "gold_cells": 12,
+      "predicted_cells": 38,
+      "correct_cells": 12,
+      "precision": 0.3157894736842105,
+      "recall": 1.0
+    },
+    {
+      "table_id": "moutai_segment",
+      "table_type": "segment",
+      "pages": "9-9",
+      "gold_cells": 21,
+      "predicted_cells": 23,
+      "correct_cells": 0,
+      "precision": 0.0,
+      "recall": 0.0
+    },
+    {
+      "table_id": "yili_segment",
+      "table_type": "segment",
+      "pages": "19-20",
+      "gold_cells": 33,
+      "predicted_cells": 37,
+      "correct_cells": 3,
+      "precision": 0.08108108108108109,
+      "recall": 0.09090909090909091
+    },
+    {
+      "table_id": "moutai_annual_data",
+      "table_type": "annual_data",
+      "pages": "5-5",
+      "gold_cells": 21,
+      "predicted_cells": 34,
+      "correct_cells": 18,
+      "precision": 0.5294117647058824,
+      "recall": 0.8571428571428571
+    },
+    {
+      "table_id": "yili_annual_data",
+      "table_type": "annual_data",
+      "pages": "7-7",
+      "gold_cells": 18,
+      "predicted_cells": 31,
+      "correct_cells": 15,
+      "precision": 0.4838709677419355,
+      "recall": 0.8333333333333334
+    },
+    {
+      "table_id": "moutai_concentration",
+      "table_type": "concentration",
+      "pages": "10-11",
+      "gold_cells": 4,
+      "predicted_cells": 4,
+      "correct_cells": 4,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "table_id": "yili_concentration",
+      "table_type": "concentration",
+      "pages": "22-22",
+      "gold_cells": 4,
+      "predicted_cells": 4,
+      "correct_cells": 4,
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  ]
+}

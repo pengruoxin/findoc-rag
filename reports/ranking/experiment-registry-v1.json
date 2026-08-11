@@ -131,6 +131,14 @@
       "strict_success_rate": 0.8286,
       "status": "development-v2-negative",
       "caveat": "Negative result: strict flat (+1/-1), behavior -2 (variance), 38/48 evidence changed but 3 legacy retrieval misses unfixed and 3 new evidence regressions (revenue_yoy, disclosed_risks x2); RAGAS context relevance 0.973->0.892. LLM rewrite NOT adopted for the canonical retrieved lane; deterministic synonyms remain default. OOV benefit does not transfer to canonical queries."
+    },
+    {
+      "run_id": "table-reconstruction-p0",
+      "dataset": "table-eval-v1 + table-eval-concentration-v1",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "coordinate-level reconstruction (whole-page blocks, no cropping)",
+      "status": "development-p0",
+      "caveat": "Synthetic fixtures 11/11 pass, but real whole-page input scores 92/157 (Recall 0.586) vs text baseline 154/157; not production-ready. Bottlenecks: table-region localization, segment section isolation, quarterly label-after-values pairing. Harness: scripts/evaluate_coordinate_reconstruction.py. See reports/ranking/table-reconstruction-v1/analysis.md"
     }
   ]
 }
