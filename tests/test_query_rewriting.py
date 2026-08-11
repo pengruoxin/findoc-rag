@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 from findoc_rag.query_rewriting import LLMQueryRewriter
 
 
@@ -43,3 +45,30 @@ def test_cache_prevents_duplicate_calls() -> None:
     rewriter.rewrite("问题")
     rewriter.rewrite("问题")
     assert calls == ["问题"]
+
+
+def test_cache_persists_across_instances(tmp_path: Path) -> None:
+    calls: list[str] = []
+
+    class CountingRewriter(LLMQueryRewriter):
+        def _rewrite_remote(self, query: str) -> str | None:
+            calls.append(query)
+            return query + "改写"
+
+    cache_path = tmp_path / "rewrites.json"
+    first = CountingRewriter(api_key="", cache_path=cache_path)
+    assert first.rewrite("问题A") == "问题A改写"
+    assert first.rewrite("问题B") == "问题B改写"
+    assert cache_path.is_file()
+
+    second = CountingRewriter(api_key="", cache_path=cache_path)
+    assert second.rewrite("问题A") == "问题A改写"
+    assert second.rewrite("问题B") == "问题B改写"
+    assert calls == ["问题A", "问题B"]
+
+
+def test_cache_ignores_corrupt_file(tmp_path: Path) -> None:
+    cache_path = tmp_path / "rewrites.json"
+    cache_path.write_text("{not json", encoding="utf-8")
+    rewriter = LLMQueryRewriter(api_key="", cache_path=cache_path)
+    assert rewriter._cache == {}

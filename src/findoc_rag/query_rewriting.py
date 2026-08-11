@@ -8,8 +8,10 @@ when the LLM is unavailable, but it is no longer the primary mechanism.
 
 from __future__ import annotations
 
+import json
 import os
 import time
+from pathlib import Path
 from typing import Protocol
 
 import httpx
@@ -39,6 +41,7 @@ class LLMQueryRewriter:
         model: str = "",
         endpoint: str = "",
         api_key: str | None = None,
+        cache_path: Path | None = None,
     ) -> None:
         self.model = model or os.getenv("FINDOC_RAG_ANSWER_MODEL", "deepseek-chat")
         self.endpoint = endpoint or os.getenv(
@@ -47,7 +50,15 @@ class LLMQueryRewriter:
         self.api_key = api_key or os.getenv("DEEPSEEK_API_KEY", "") or os.getenv(
             "OPENAI_API_KEY", ""
         )
+        self.cache_path = Path(cache_path) if cache_path else None
         self._cache: dict[str, str] = {}
+        if self.cache_path is not None and self.cache_path.is_file():
+            try:
+                self._cache = json.loads(
+                    self.cache_path.read_text(encoding="utf-8")
+                )
+            except (OSError, json.JSONDecodeError):
+                self._cache = {}
 
     def rewrite(self, query: str) -> str:
         """Return an LLM-rewritten query, or the deterministic expansion on failure."""
@@ -58,7 +69,20 @@ class LLMQueryRewriter:
         if rewritten is None:
             rewritten = expand_query(query)
         self._cache[query] = rewritten
+        self._persist()
         return rewritten
+
+    def _persist(self) -> None:
+        """Persist the rewrite cache so reruns are reproducible."""
+        if self.cache_path is None:
+            return
+        self.cache_path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = self.cache_path.with_suffix(".json.part")
+        temporary.write_text(
+            json.dumps(self._cache, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        temporary.replace(self.cache_path)
 
     def _rewrite_remote(self, query: str) -> str | None:
         if not self.api_key:

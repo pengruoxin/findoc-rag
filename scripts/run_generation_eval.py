@@ -21,6 +21,7 @@ from findoc_rag.generation_evaluation import (
 )
 from findoc_rag.indexing import SearchFilters, SearchHit
 from findoc_rag.query_expansion import expand_query
+from findoc_rag.query_rewriting import LLMQueryRewriter
 from findoc_rag.time_utils import parse_as_of_date, resolve_relative_time
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -50,6 +51,12 @@ def parse_args() -> argparse.Namespace:
         choices=("canonical", "ticker_or_finance_shorthand", "semantic_or_relative_time", "all"),
         default="canonical",
         help="query instances to run: canonical, one variant regime, or all",
+    )
+    parser.add_argument(
+        "--rewrite",
+        choices=("none", "deterministic", "llm"),
+        default="deterministic",
+        help="retrieved-lane query rewrite mode (deterministic preserves the baseline)",
     )
     return parser.parse_args()
 
@@ -141,7 +148,6 @@ def robustness_hits(
 
 
 def retrieved_hits(item, query, index) -> list[SearchHit]:
-    query = expand_query(query)
     filters = SearchFilters(
         company_names=item.company_names,
         report_years=item.report_years,
@@ -195,6 +201,11 @@ def main() -> None:
     if run_dir.exists():
         raise FileExistsError(f"Run directory already exists and will not be overwritten: {run_dir}")
     run_dir.mkdir(parents=True)
+    rewriter = (
+        LLMQueryRewriter(cache_path=run_dir / "rewrites.json")
+        if args.rewrite == "llm"
+        else None
+    )
 
     evaluation_items = (
         [item for item in dataset.items if item.hard_negatives]
@@ -213,6 +224,7 @@ def main() -> None:
                 instance["variant"].as_of_date if instance["variant"] else None
             )
             resolved_query = instance["query"]
+            search_query: str | None = None
             time_cues: list[str] = []
             try:
                 if as_of_date is not None:
@@ -225,7 +237,12 @@ def main() -> None:
                 elif args.lane == "robustness":
                     hits, context_labels = robustness_hits(item, chunks)
                 else:
-                    hits = retrieved_hits(item, resolved_query, index)
+                    search_query = resolved_query
+                    if args.rewrite == "deterministic":
+                        search_query = expand_query(resolved_query)
+                    elif args.rewrite == "llm" and rewriter is not None:
+                        search_query = rewriter.rewrite(resolved_query)
+                    hits = retrieved_hits(item, search_query, index)
                     context_labels = ["retrieved"] * len(hits)
                 answer = generator.generate(resolved_query, hits)
                 is_remote = answer.provider in {"openai-compatible", "remote-abstention"}
@@ -248,6 +265,9 @@ def main() -> None:
                     grounded=answer.grounded,
                     as_of_date=str(as_of_date) if as_of_date else None,
                     resolved_query=resolved_query,
+                    search_query=(
+                        search_query if args.lane == "retrieved_context" else None
+                    ),
                     time_cues=time_cues,
                     context_tokens=sum(
                         estimate_tokens(text)
@@ -280,6 +300,7 @@ def main() -> None:
                     grounded=False,
                     as_of_date=str(as_of_date) if as_of_date else None,
                     resolved_query=resolved_query,
+                    search_query=search_query,
                     time_cues=time_cues,
                     observed_behavior="abstain",
                     error=str(exc),
@@ -313,6 +334,7 @@ def main() -> None:
         "lane": args.lane,
         "model": args.model,
         "api_model": args.api_model,
+        "rewrite_mode": args.rewrite,
         "code_revision": revision,
         "code_dirty": dirty,
         "variant_mode": args.variant,

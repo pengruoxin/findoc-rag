@@ -190,6 +190,7 @@ class GenerationRunItem(BaseModel):
     api_model: str | None = None
     index_id: str
     prompt_sha256: str
+    search_query: str | None = None
     latency_ms: float = Field(ge=0)
     grounded: bool
     as_of_date: str | None = None
