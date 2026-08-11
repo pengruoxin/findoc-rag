@@ -22,6 +22,22 @@
 结论：
 ```
 
+## 2026-08-11：LLM 查询改写 retrieved lane 受控实验（阴性结果，不落地）
+
+- 目标问题：OOV 实验证明 LLM 改写有效（Hit@5 0.194→0.694），能否直接用于 benchmark retrieved lane 补检索证据？
+- 基线（concentration-v2，同 dataset / index / api_model / runner）：Retrieved strict 0.8286 / 行为 0.9375。
+- 受控变量：retrieved lane 改写模式 deterministic → LLM（`--rewrite llm`，新增持久化缓存 `rewrites.json`）；其余固定。
+- 修改内容：`LLMQueryRewriter` 支持持久化缓存（原子写）；`run_generation_eval` 增加 `--rewrite none|deterministic|llm` 并记录 `search_query`；新增缓存单测。
+- 测试命令：`pytest -q`（131 passed）；ruff 通过。
+- 评测结果变化（rewrite-llm-v1 vs concentration-v2）：
+  - Retrieved strict 0.8286 → 0.8286（+1 yili_annual_deducted_profit / -1 moutai_revenue_yoy），行为 0.9375 → 0.8958（-2 为无关模型波动）；
+  - 证据层：38/48 条 top-5 改变，遗留 3 个 miss 未修复，新增 3 个证据回归（moutai_revenue_yoy、moutai_disclosed_risks、yili_disclosed_risks）；
+  - RAGAS：Retrieved context relevance 0.973→0.892、context recall 0.901→0.811；
+  - 机制：LLM 把"同比增幅"改写为"同比增长率"，覆盖了精选映射"同比增幅→比上年同期增减"。
+- 新增能力：改写缓存持久化 + rewrite 模式 A/B 基础设施（对 OOV/生产接入仍有用）。
+- 已知退化/未覆盖：三个证据回归已确认由改写引入；生产 `/v1/query` 的 paraphrase 门控与"改写+确定性兜底"未做。
+- 结论：**retrieved lane 默认保持 deterministic 词表；LLM 改写不进入 canonical 评测链路**。OOV 收益与 canonical 无收益并不矛盾——问句分布不同。此阴性结论防止了一次会伤害 3 题的发布。
+
 ## 2026-08-11：concentration 表型抽取器 + 单公司选题修复（受控实验，`deepseek-chat-concentration-v2`）
 
 - 目标问题：moutai_concentration / yili_concentration 是剩余行为失败集中点（Robustness 全中），且未被四类表型覆盖。

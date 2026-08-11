@@ -122,6 +122,15 @@
       "strict_success_rate": 0.9545,
       "status": "development-v2",
       "caveat": "Robustness strict 0.8636->0.9545 (+2 concentration items) and behavior 0.8621->0.9655; Oracle 1.0; Retrieved flat (one unrelated model-variance behavior flip); extractor 8/8 cells on table-eval-concentration-v1; v1 run exposed and v2 fixed a query-company selection bug under negative-precedes-gold ordering. See reports/generation/comparisons/*-concentration-v2"
+    },
+    {
+      "run_id": "rewrite-llm-v1",
+      "dataset": "benchmark-v2",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "retrieved lane LLM rewrite A/B (persistent cache)",
+      "strict_success_rate": 0.8286,
+      "status": "development-v2-negative",
+      "caveat": "Negative result: strict flat (+1/-1), behavior -2 (variance), 38/48 evidence changed but 3 legacy retrieval misses unfixed and 3 new evidence regressions (revenue_yoy, disclosed_risks x2); RAGAS context relevance 0.973->0.892. LLM rewrite NOT adopted for the canonical retrieved lane; deterministic synonyms remain default. OOV benefit does not transfer to canonical queries."
     }
   ]
 }

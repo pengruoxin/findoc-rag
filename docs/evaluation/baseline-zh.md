@@ -187,6 +187,16 @@ Oracle 12 题全部命中预期：季度现金流 / 季度归母 / 两个季度-
 
 过程中发现并修复一个真 bug：Robustness 负例前置时，单公司 concentration 题可能取到另一家公司的值（v1 run 保留为历史记录）；修复后按查询中的公司显式选题。RAGAS（clean revision `f8a1be8`、`code_dirty=false`）：Oracle faithfulness 0.773 / Retrieved 0.804 / Robustness 0.731（robustness answer_relevancy 0.909，较前显著提升）。
 
+#### 3.2.6 LLM 查询改写 retrieved lane 实验（2026-08-11，`deepseek-chat-rewrite-llm-v1`，**阴性结果，不落地**）
+
+受控实验：单变量为 retrieved lane 改写模式 deterministic → LLM（含持久化缓存 `rewrites.json`）；其余固定。结论：
+
+- **端到端无净收益**：Retrieved strict 0.8286 → 0.8286（+1/-1）、行为 0.9375 → 0.8958（-2，均为无关模型波动）；Oracle/Robustness 持平。
+- **证据层更清楚**：改写改变了 38/48 条的 top-5，但三个遗留检索 miss（revenue_cross_company、moutai_product_margin、yili_quarterly_cashflow_reconcile）**仍未修好**，反而新增 3 个证据回归（moutai_revenue_yoy、moutai_disclosed_risks、yili_disclosed_risks 的 gold 掉出 top-5）。
+- **机制**：LLM 把"同比增幅"改写为"同比增长率"，覆盖了确定性词表里专门从失败案例提炼的"同比增幅→比上年同期增减"，与年报措辞反而更远；RAGAS context relevance 0.973 → 0.892、context recall 0.901 → 0.811。
+- **为什么与 OOV 实验（0.194→0.694）不矛盾**：OOV 是词表外口语，LLM 归一化收益大；benchmark canonical 问句已接近年报措辞，通用改写反而破坏精选映射；剩余 miss 是结构性问题（跨公司双表共现、segment chunk 排序），不是同义词问题。
+- **决策**：retrieved lane 默认保持 deterministic 词表；LLM 改写仅用于生产 `/v1/query` 的用户自由文本，且必须叠加"改写后确定性兜底 + 检索质量门控"再上线（待做）。
+
 DeepSeek 与 RAGAS 语义评测见 §3.1（8/7 基线）与 §3.2.2（2026-08-11 表格路径重跑，均 `independent_judge=false` 自评）。旧 32 题的 0.9583 只作历史记录——那是另一个版本的数据集，不能搬过来用。
 
 ## 4. 当前薄弱点（优化起点）

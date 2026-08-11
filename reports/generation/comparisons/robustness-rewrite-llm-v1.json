@@ -1,0 +1,32 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "robustness",
+  "baseline_run_id": "robustness-benchmark-v2-deepseek-chat-concentration-v2",
+  "candidate_run_id": "robustness-benchmark-v2-deepseek-chat-rewrite-llm-v1",
+  "baseline_code_revision": "f8a1be898b9a67d9684a409b73bf8e9889d325de",
+  "candidate_code_revision": "271588fb09da43ba48984190361b846408a9d26a",
+  "code_revision_match": false,
+  "controlled_change": "retrieved lane 查询改写模式：deterministic -> llm（含持久化缓存，单变量）",
+  "paired_item_count": 29,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.9545454545454546,
+      "candidate": 0.9545454545454546,
+      "delta": 0.0
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.9655172413793104,
+      "candidate": 0.9655172413793104,
+      "delta": 0.0
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [],
+  "behavior_regressed": [],
+  "strict_fixed": [],
+  "strict_regressed": []
+}

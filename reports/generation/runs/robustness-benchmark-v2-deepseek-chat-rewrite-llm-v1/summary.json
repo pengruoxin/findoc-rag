@@ -1,0 +1,21 @@
+{
+  "run_id": "robustness-benchmark-v2-deepseek-chat-rewrite-llm-v1",
+  "dataset_id": "benchmark-v2",
+  "lane": "robustness",
+  "model": "deepseek-chat-rewrite-llm-v1",
+  "api_model": "deepseek-chat",
+  "rewrite_mode": "llm",
+  "code_revision": "271588fb09da43ba48984190361b846408a9d26a",
+  "code_dirty": false,
+  "variant_mode": "canonical",
+  "remote_generation": true,
+  "dataset_item_count": 48,
+  "item_count": 29,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 22,
+  "strict_success_rate": 0.9545454545454546,
+  "expected_behavior_accuracy": 0.9655172413793104,
+  "avg_context_tokens": 783.7931034482758,
+  "p95_latency_ms": 2520.4390000435524,
+  "run_error_rate": 0.0
+}
