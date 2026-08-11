@@ -127,10 +127,11 @@ uv run python scripts/run_ragas_generation_eval.py \
 - concentration 表型完成（2026-08-11，`deepseek-chat-concentration-v2`）：第五类表型 8/8 单元格；Robustness strict **0.9545** / 行为 0.9655；期间受控对比抓到"负例前置取错公司"bug 并修复。
 - LLM 改写 retrieved lane 实验为**阴性**（2026-08-11，`rewrite-llm-v1`）：strict 持平、3 个证据回归，不落地；retrieved lane 默认保持 deterministic 词表。改写缓存持久化基础设施已就绪，生产 `/v1/query` 接入需 paraphrase 门控（待做）。
 - 坐标级表格重建 P0（2026-08-11，外部模型交付集成）：合成夹具 11/11 过，真实整页输入 92/157（< 文本基线 154/157），**暂不接入生产**；回归尺子 `scripts/evaluate_coordinate_reconstruction.py` 已就位。
+- 坐标重建迭代完成（2026-08-11，v1→v9）：**92/157 → 154/157（R=0.981，追平文本基线）**；实现区域定位、拆开标题边界、季度标签修复、散文过滤、segment 列结构、跨页隔离；唯一残差"其他地区"。
 
 ### 下一步（方案已定，待执行）
 
-1. **坐标重建迭代**：按 `reports/ranking/table-reconstruction-v1/analysis.md` 优先级（表格区域定位 → segment 子表隔离 → 季度扣非行配对），每步用坐标评测脚本回归；"其他地区"需 OCR 或标注分歧；
+1. **坐标路径接入生产生成链路**：复用几何层替换/校验 `extract_cells` 文本回退并接入 `answer_generation`，先全量三轨回归（需要 key）；
 2. 生产 `/v1/query` 接入：deterministic 词表 + LLM 改写（paraphrase 门控、改写后兜底、缓存复用）；
 3. 96 变体与 OOV 实例人工审核；多轮评测；公信力工程（独立 judge、多公司多年度）。
 

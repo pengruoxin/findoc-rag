@@ -65,11 +65,14 @@ def score_table(table: dict, chunks: dict[str, dict]) -> dict:
     if pdf_path is None or not pdf_path.is_file():
         raise FileNotFoundError(f"Missing PDF for {table['table_id']}: {pdf_path}")
     pdf = pymupdf.open(pdf_path)
-    blocks: list[dict] = []
+    model_blocks = []
     for page_no in range(chunk["page_start"], chunk["page_end"] + 1):
-        blocks.extend(pdf[page_no - 1].get_text("dict", sort=True).get("blocks", []))
-    model_blocks = blocks_from_pymupdf_dict({"blocks": blocks})
-    predicted = reconstruct_cells(model_blocks, table["table_type"])
+        page_raw = pdf[page_no - 1].get_text("dict", sort=True)
+        model_blocks.extend(
+            blocks_from_pymupdf_dict(page_raw, page=page_no)
+        )
+    region = chunk.get("section_path", [""])[-1] or ""
+    predicted = reconstruct_cells(model_blocks, table["table_type"], region=region)
     pred_keys = {cell_key(c.row, c.column, c.value) for c in predicted}
     gold = {cell_key(cell["row"], cell["column"], cell["value"]) for cell in table["cells"]}
     correct = len(pred_keys & gold)

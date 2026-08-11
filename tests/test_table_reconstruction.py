@@ -178,3 +178,51 @@ def test_merge_pages_is_order_preserving_and_deduplicates():
     a = ExtractedCell("营业收入", "2024年", "100.00")
     b = ExtractedCell("总资产", "2024年", "200.00")
     assert merge_pages([[a], [a, b]]) == [a, b]
+
+
+def test_quarterly_split_label_is_repaired():
+    blocks = [
+        {"lines": [{"spans": [
+            {"text": "归属于上市公司股东的扣除非经常性损益",
+             "bbox": (40, 100, 180, 109)},
+            {"text": "24,051,471,185.69", "bbox": (200, 100, 260, 109)},
+            {"text": "17,618,626,634.30", "bbox": (280, 100, 340, 109)},
+            {"text": "19,108,543,634.77", "bbox": (360, 100, 420, 109)},
+            {"text": "25,462,264,522.66", "bbox": (440, 100, 500, 109)},
+        ]}]},
+        {"lines": [{"spans": [
+            {"text": "后的净利润", "bbox": (40, 118, 100, 127)},
+            {"text": "经营活动产生的现金流量净额", "bbox": (100, 118, 180, 127)},
+            {"text": "9,187,422,415.09", "bbox": (200, 118, 260, 127)},
+            {"text": "27,434,411,397.54", "bbox": (280, 118, 340, 127)},
+            {"text": "7,799,552,404.82", "bbox": (360, 118, 420, 127)},
+            {"text": "48,042,305,950.98", "bbox": (440, 118, 500, 127)},
+        ]}]},
+    ]
+    cells = reconstruct_cells(blocks, "quarterly")
+    rows = {normalize_label(c.row) for c in cells}
+    assert "归属于上市公司股东的扣除非经常性损益后的净利润" in rows
+    assert "经营活动产生的现金流量净额" in rows
+
+
+def test_segment_rows_do_not_cross_pages():
+    page1 = {"lines": [{"spans": [
+        {"text": "主营业务分行业情况", "bbox": (40, 50, 200, 59)},
+        {"text": "酒类", "bbox": (40, 100, 80, 109)},
+        {"text": "170,611,838,052.02", "bbox": (150, 100, 220, 109)},
+        {"text": "13,629,995,812.89", "bbox": (240, 100, 310, 109)},
+        {"text": "92.01", "bbox": (330, 100, 370, 109)},
+    ]}]}
+    page2_prose = {"lines": [{"spans": [
+        {"text": "液体乳库存量增加主要原因：春节备货", "bbox": (40, 700, 400, 709)},
+        {"text": "123,456,789.01", "bbox": (410, 700, 480, 709)},
+    ]}]}
+    blocks = [
+        blocks_from_pymupdf_dict({"blocks": [page1]}, page=1),
+        blocks_from_pymupdf_dict({"blocks": [page2_prose]}, page=2),
+    ]
+    flat = [block for page in blocks for block in page]
+    cells = reconstruct_cells(flat, "segment")
+    rows = {c.row for c in cells}
+    assert rows == {"酒类"}
+    assert not any("主要原因" in row for row in rows)

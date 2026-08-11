@@ -25,6 +25,7 @@
 | concentration-bugfix-v2 | 2026-08-11 | 修复单公司 concentration 按查询公司选题（受控 bugfix） | **Robustness strict 0.8636→0.9545（+2）、行为 0.9655，零回归**；Oracle 1.0；Retrieved -1 行为为无关模型波动 | [配对报告](../../reports/generation/comparisons/robustness-concentration-v2.json) |
 | rewrite-llm-v1 | 2026-08-11 | LLM 改写能否直接用于 retrieved lane（受控实验） | **阴性结果**：strict 持平（+1/-1）、行为 -2（波动）；38/48 证据改变但遗留 miss 未修复，新增 3 个证据回归；RAGAS context relevance 0.973→0.892 → **不落地，默认保持 deterministic 词表** | [配对报告](../../reports/generation/comparisons/retrieved-rewrite-llm-v1.json) |
 | table-reconstruction-p0 | 2026-08-11 | 外部模型坐标重建模块集成 + 真实数据验证 | 合成夹具 11/11 通过；**真实整页输入 92/157（58.6%）低于文本基线 154/157** → 坐标路径暂不接入生产；新增整页回归尺子 | [分析](../../reports/ranking/table-reconstruction-v1/analysis.md) |
+| table-reconstruction-v9 | 2026-08-11 | 坐标重建迭代（区域定位/边界/标签修复/跨页隔离） | **92/157 → 154/157（R=0.981），追平文本基线**；唯一残差"其他地区"；新增 2 个回归测试（13 passed） | [分析](../../reports/ranking/table-reconstruction-v1/analysis.md) |
 
 ## 分析总结规范
 

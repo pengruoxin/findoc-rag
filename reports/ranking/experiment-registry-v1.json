@@ -139,6 +139,14 @@
       "mode": "coordinate-level reconstruction (whole-page blocks, no cropping)",
       "status": "development-p0",
       "caveat": "Synthetic fixtures 11/11 pass, but real whole-page input scores 92/157 (Recall 0.586) vs text baseline 154/157; not production-ready. Bottlenecks: table-region localization, segment section isolation, quarterly label-after-values pairing. Harness: scripts/evaluate_coordinate_reconstruction.py. See reports/ranking/table-reconstruction-v1/analysis.md"
+    },
+    {
+      "run_id": "table-reconstruction-v9",
+      "dataset": "table-eval-v1 + table-eval-concentration-v1",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "coordinate-level reconstruction v9 (region localization, page isolation, label repair)",
+      "status": "development-v9",
+      "caveat": "92/157 -> 154/157 (Recall 0.981), matching the text baseline; sole residual is Yili segment '其他地区' (text-layer loss). Fixes: anchor last-match + tail exclusion, split-heading boundary, decimal-heading regex, quarterly label-tail repair, prose label filter, segment x-order columns, page-aware regions/bands. See reports/ranking/table-reconstruction-v1/analysis.md"
     }
   ]
 }

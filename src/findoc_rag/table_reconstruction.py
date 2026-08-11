@@ -53,6 +53,7 @@ class Line:
 @dataclass(frozen=True)
 class Block:
     lines: list[Line]
+    page: int = 0
 
 
 @dataclass(frozen=True)
@@ -61,6 +62,7 @@ class _Token:
     bbox: tuple[float, float, float, float]
     numeric: bool
     source_text: str
+    page: int = 0
 
     @property
     def x0(self) -> float:
@@ -96,6 +98,7 @@ class _Band:
     tokens: list[_Token]
     y0: float
     y1: float
+    page: int = 0
 
     @property
     def yc(self) -> float:
@@ -152,6 +155,55 @@ _SECTION_PATTERNS = (
     ("分销售模式", re.compile(r"主营业务分销售模式情况")),
 )
 
+_REGION_MARKERS: dict[TableType, str] = {
+    "quarterly": "分季度主要财务数据",
+    "note_cost": "营业收入和营业成本情况",
+    "segment": "主营业务分行业情况",
+    "annual_data": "主要会计数据",
+    "concentration": "主要销售客户及主要供应商情况",
+}
+
+_REGION_END_MARKERS: dict[TableType, tuple[str, ...]] = {
+    "quarterly": ("季度数据与已披露",),
+    "note_cost": ("注：", "注:",),
+    "segment": ("其他说明", "情况的说明", "报告期内向单个客户"),
+    "annual_data": ("报告期末公司前三年",),
+    "concentration": ("其他说明",),
+}
+
+_HEADING_START = re.compile(
+    r"^(?:[（(]\s*[一二三四五六七八九十\d]+\s*[）)][.、]?|"
+    r"[一二三四五六七八九十\d]+(?:[、.](?!\d)))"
+)
+
+_PUNCT_ONLY = re.compile(r"^[（()）\-—\s]+$")
+_RANGE_TAIL = re.compile(r"^月份?[）)]$")
+_PROSE_MARKERS = (
+    "：",
+    "，",
+    "。",
+    "；",
+    "主要原因",
+    "说明",
+    "春节",
+    "备货",
+    "增加",
+    "减少",
+)
+_ANCHOR_EXCLUDE = (
+    "报告期末公司前三年",
+    "差异说明",
+    "情况的说明",
+    "其他说明",
+)
+
+_QUARTERLY_ROW_LABELS = (
+    "营业收入",
+    "归属于上市公司股东的净利润",
+    "归属于上市公司股东的扣除非经常性损益后的净利润",
+    "经营活动产生的现金流量净额",
+)
+
 try:  # Optional compatibility with the project-local legacy parser.
     from findoc_rag.table_extraction import (
         extract_cells as _legacy_extract_cells,
@@ -170,7 +222,9 @@ def _is_bold(font: str, flags: int = 0, explicit: object = None) -> bool:
     return bool(flags & 16)
 
 
-def blocks_from_pymupdf_dict(raw: dict | list[dict]) -> list[Block]:
+def blocks_from_pymupdf_dict(
+    raw: dict | list[dict], page: int = 0
+) -> list[Block]:
     """Convert PyMuPDF ``get_text("dict")`` output or block-like dicts.
 
     Unknown/non-text blocks are ignored. Missing font/size/bold metadata is
@@ -202,7 +256,7 @@ def blocks_from_pymupdf_dict(raw: dict | list[dict]) -> list[Block]:
             if spans:
                 lines.append(Line(spans))
         if lines:
-            out.append(Block(lines))
+            out.append(Block(lines, page=page))
     return out
 
 
@@ -214,7 +268,7 @@ def _coerce_blocks(blocks: Sequence[dict | Block]) -> list[Block]:
     return blocks_from_pymupdf_dict(list(blocks))  # type: ignore[arg-type]
 
 
-def _split_span(span: Span) -> list[_Token]:
+def _split_span(span: Span, page: int = 0) -> list[_Token]:
     """Split mixed spans into approximate label/number tokens.
 
     PyMuPDF often emits a whole table row as one span. Character-proportional
@@ -224,10 +278,18 @@ def _split_span(span: Span) -> list[_Token]:
     stripped = normalize_label(text)
     # Year/quarter headers contain digits but are categorical column labels.
     if _YEAR_RE.match(stripped) or _QUARTER_RE.match(stripped):
-        return [_Token(text.strip(), span.bbox, False, span.text)] if text.strip() else []
+        return (
+            [_Token(text.strip(), span.bbox, False, span.text, page)]
+            if text.strip()
+            else []
+        )
     matches = list(_NUM_RE.finditer(text))
     if not matches:
-        return [_Token(text.strip(), span.bbox, False, span.text)] if text.strip() else []
+        return (
+            [_Token(text.strip(), span.bbox, False, span.text, page)]
+            if text.strip()
+            else []
+        )
 
     x0, y0, x1, y1 = span.bbox
     width = max(0.01, x1 - x0)
@@ -244,17 +306,23 @@ def _split_span(span: Span) -> list[_Token]:
             a = last + len(prefix) - len(prefix.lstrip())
             b = m.start() - (len(prefix) - len(prefix.rstrip()))
             if b > a:
-                out.append(_Token(text[a:b].strip(), bbox_for(a, b), False, span.text))
+                out.append(
+                    _Token(text[a:b].strip(), bbox_for(a, b), False, span.text, page)
+                )
         raw = m.group(0).strip()
         if raw:
-            out.append(_Token(raw, bbox_for(m.start(), m.end()), True, span.text))
+            out.append(
+                _Token(raw, bbox_for(m.start(), m.end()), True, span.text, page)
+            )
         last = m.end()
     suffix = text[last:]
     if suffix.strip():
         a = last + len(suffix) - len(suffix.lstrip())
         b = len(text) - (len(suffix) - len(suffix.rstrip()))
         if b > a:
-            out.append(_Token(text[a:b].strip(), bbox_for(a, b), False, span.text))
+            out.append(
+                _Token(text[a:b].strip(), bbox_for(a, b), False, span.text, page)
+            )
     return out
 
 
@@ -263,8 +331,27 @@ def _flatten_tokens(blocks: Sequence[Block]) -> list[_Token]:
     for block in blocks:
         for line in block.lines:
             for span in line.spans:
-                tokens.extend(_split_span(span))
-    return [t for t in tokens if t.text.strip()]
+                tokens.extend(_split_span(span, block.page))
+    filtered: list[_Token] = []
+    for token in tokens:
+        text = token.text.strip()
+        if not text:
+            continue
+        if _PUNCT_ONLY.fullmatch(text) or _RANGE_TAIL.fullmatch(text):
+            continue
+        filtered.append(token)
+    return filtered
+
+
+def _is_anchor_candidate(token: _Token) -> bool:
+    normalized = normalize_label(token.text)
+    return not any(marker in normalized for marker in _ANCHOR_EXCLUDE)
+
+
+def _is_prose_label(label: str) -> bool:
+    return any(marker in label for marker in _PROSE_MARKERS) or bool(
+        re.search(r"20\d{2}", label)
+    )
 
 
 def cluster_row_bands(tokens: Sequence[_Token], gap_factor: float = 0.28) -> list[_Band]:
@@ -284,6 +371,8 @@ def cluster_row_bands(tokens: Sequence[_Token], gap_factor: float = 0.28) -> lis
     for tok in ordered:
         candidates: list[tuple[float, int]] = []
         for i, band in enumerate(bands):
+            if band.page != tok.page:
+                continue
             overlap = min(tok.y1, band.y1) - max(tok.y0, band.y0)
             near = max(tok.y0, band.y0) - min(tok.y1, band.y1)
             if overlap >= -gap or near <= gap:
@@ -295,7 +384,7 @@ def cluster_row_bands(tokens: Sequence[_Token], gap_factor: float = 0.28) -> lis
             band.y0 = min(band.y0, tok.y0)
             band.y1 = max(band.y1, tok.y1)
         else:
-            bands.append(_Band([tok], tok.y0, tok.y1))
+            bands.append(_Band([tok], tok.y0, tok.y1, tok.page))
 
     # Merge overlapping bands created before a bridging token arrived.
     changed = True
@@ -304,7 +393,7 @@ def cluster_row_bands(tokens: Sequence[_Token], gap_factor: float = 0.28) -> lis
         bands.sort(key=lambda b: b.y0)
         merged: list[_Band] = []
         for b in bands:
-            if merged and b.y0 <= merged[-1].y1 + gap:
+            if merged and b.page == merged[-1].page and b.y0 <= merged[-1].y1 + gap:
                 prev = merged[-1]
                 prev.tokens.extend(b.tokens)
                 prev.y0 = min(prev.y0, b.y0)
@@ -378,11 +467,11 @@ def _header_positions(tokens: Sequence[_Token], table_type: TableType) -> dict[s
     return {k: sum(v) / len(v) for k, v in out.items()}
 
 
-def _section_at_y(tokens: Sequence[_Token], y: float) -> str:
+def _section_at_y(tokens: Sequence[_Token], page: int, y: float) -> str:
     latest_y = -math.inf
     latest = ""
     for t in tokens:
-        if t.numeric or t.y0 > y:
+        if t.numeric or t.page != page or t.y0 > y:
             continue
         s = normalize_label(t.text)
         for name, pat in _SECTION_PATTERNS:
@@ -409,6 +498,99 @@ def _is_headerish(text: str, table_type: TableType) -> bool:
     return any(k in s for k in ("比上年增", "上年增减", "毛利率比上年"))
 
 
+def _is_region_boundary(text: str, table_type: TableType) -> bool:
+    s = normalize_label(text)
+    if any(marker in s for marker in _REGION_END_MARKERS.get(table_type, ())):
+        return True
+    if table_type == "annual_data" and "主要财务指标" in s:
+        return True
+    return bool(_HEADING_START.match(s))
+
+
+def _is_split_heading_boundary(
+    tokens: Sequence[_Token], index: int, table_type: TableType
+) -> bool:
+    """Detect headings split into separate number and ')' spans."""
+    token = tokens[index]
+    if not token.numeric or not re.fullmatch(r"\d{1,3}", token.text):
+        return False
+    for other in tokens[index + 1 :]:
+        if other.page != token.page:
+            break
+        if other.y0 > token.y1 + 2.0:
+            break
+        if not other.numeric and normalize_label(other.text).startswith(
+            (")", "）")
+        ):
+            return True
+    return False
+
+
+def _localize_tokens(
+    tokens: Sequence[_Token],
+    region: str,
+    table_type: TableType,
+) -> list[_Token]:
+    """Keep only tokens belonging to the target table's y-region.
+
+    The anchor is the region title (when provided) or a table-type marker;
+    the region ends at the first heading-like / type-specific end token after
+    it, otherwise at the bottom of the supplied pages.
+    """
+    if not tokens:
+        return []
+    anchor: _Token | None = None
+    candidates = [t for t in tokens if not t.numeric]
+    norm_region = normalize_label(region)
+    if norm_region:
+        region_matches = [
+            t
+            for t in candidates
+            if norm_region in normalize_label(t.text)
+            and _is_anchor_candidate(t)
+        ]
+        anchor = max(region_matches, key=lambda t: (t.y0, t.x0), default=None)
+    if anchor is None:
+        marker = _REGION_MARKERS.get(table_type)
+        if marker:
+            marker_matches = [
+                t
+                for t in candidates
+                if marker in normalize_label(t.text)
+                and _is_anchor_candidate(t)
+            ]
+            anchor = max(
+                marker_matches, key=lambda t: (t.y0, t.x0), default=None
+            )
+    if anchor is None:
+        return list(tokens)
+
+    anchor_page = anchor.page
+    start_y = anchor.y0
+    boundary_page = anchor_page
+    end_y = max((t.y1 for t in tokens if t.page == anchor_page), default=0.0)
+    ordered = sorted(tokens, key=lambda t: (t.y0, t.x0))
+    for index, token in enumerate(ordered):
+        if (token.page, token.y0) <= (anchor_page, anchor.y1 + 1.0):
+            continue
+        if _is_region_boundary(token.text, table_type) or (
+            token.numeric and _is_split_heading_boundary(ordered, index, table_type)
+        ):
+            boundary_page = token.page
+            end_y = token.y0
+            break
+    kept: list[_Token] = []
+    for token in tokens:
+        if token.page < anchor_page or token.page > boundary_page:
+            continue
+        if token.page == anchor_page and token.y0 < start_y - 2.0:
+            continue
+        if token.page == boundary_page and token.y1 > end_y + 1.0:
+            continue
+        kept.append(token)
+    return kept
+
+
 def _label_from_band(
     band: _Band,
     first_numeric_x: float,
@@ -418,6 +600,14 @@ def _label_from_band(
         t for t in band.text_tokens
         if t.x0 < first_numeric_x and not _is_headerish(t.text, table_type)
     ]
+    if not parts and len(band.numeric_tokens) >= 3:
+        # Column names can double as row labels (e.g. 营业收入 in quarterly);
+        # when the band clearly carries a numeric row, trust the geometry.
+        parts = [
+            t
+            for t in band.text_tokens
+            if t.x0 < first_numeric_x and not _is_prose_label(t.text)
+        ]
     if not parts:
         return ""
     parts.sort(key=lambda t: (t.y0, t.x0))
@@ -439,7 +629,7 @@ def _nearest_pending_label(
     j = i - 1
     while j >= 0:
         prev = bands[j]
-        if prev.numeric_tokens:
+        if prev.page != bands[i].page or prev.numeric_tokens:
             break
         gap = current_y - prev.y1
         if gap > max_gap:
@@ -457,6 +647,51 @@ def _nearest_pending_label(
     return "".join(reversed(pieces))
 
 
+def _repair_quarterly_labels(cells: list[ExtractedCell]) -> list[ExtractedCell]:
+    """Reattach split quarterly row labels (label tail lands in the next band)."""
+    by_row: dict[str, list[ExtractedCell]] = {}
+    order: list[str] = []
+    for cell in cells:
+        if cell.row not in by_row:
+            by_row[cell.row] = []
+            order.append(cell.row)
+        by_row[cell.row].append(cell)
+    relabel: dict[str, str] = {}
+    for row in order:
+        compact = normalize_label(row)
+        for canonical in _QUARTERLY_ROW_LABELS:
+            if not canonical.startswith(compact) or canonical == compact:
+                continue
+            suffix = canonical[len(compact):]
+            for other in order:
+                if other == row:
+                    continue
+                other_compact = normalize_label(other)
+                if other_compact.startswith(suffix):
+                    relabel[row] = canonical
+                    remainder = other[len(suffix):]
+                    if remainder:
+                        relabel[other] = remainder
+                    else:
+                        relabel[other] = ""
+            break
+    if not relabel:
+        return cells
+    out: list[ExtractedCell] = []
+    for cell in cells:
+        target = relabel.get(cell.row, cell.row)
+        if target:
+            out.append(
+                ExtractedCell(
+                    row=target,
+                    column=cell.column,
+                    value=cell.value,
+                    section=cell.section,
+                )
+            )
+    return out
+
+
 def _assign_columns(
     nums: Sequence[_Token],
     table_type: TableType,
@@ -467,6 +702,12 @@ def _assign_columns(
     expected = list(_EXPECTED_COLUMNS[table_type])
     if not expected:
         return []
+
+    # Segment sub-tables have a stable regulatory row schema: the first three
+    # value columns are 营业收入/营业成本/毛利率. Header geometry is unreliable
+    # here because "营业收入比/上年增" fragments pollute header positions.
+    if table_type == "segment":
+        return list(zip(expected, ordered[:3]))
 
     # Prefer actual header geometry if enough canonical positions were observed.
     if len(header_pos) >= min(2, len(expected)):
@@ -513,6 +754,7 @@ def _text_from_blocks(blocks: Sequence[Block]) -> str:
 def reconstruct_cells(
     blocks: list[dict] | list[Block],
     table_type: TableType,
+    region: str = "",
 ) -> list[ExtractedCell]:
     """Reconstruct cells from span/line geometry, with conservative fallback."""
     model = _coerce_blocks(blocks)
@@ -522,6 +764,10 @@ def reconstruct_cells(
 
     text = _text_from_blocks(model)
     if table_type == "concentration":
+        return extract_cells(text, table_type)
+
+    tokens = _localize_tokens(tokens, region, table_type)
+    if not tokens:
         return extract_cells(text, table_type)
 
     nums_all = [t for t in tokens if t.numeric]
@@ -547,14 +793,25 @@ def reconstruct_cells(
             continue
 
         # Reject sentence-like prose and growth annotations as row labels.
-        if len(label) > 80 or any(k in label for k in ("个百分点", "适用", "不适用", "年度销售总额", "年度采购总额")):
+        if (
+            len(label) > 80
+            or _is_prose_label(label)
+            or any(
+                k in label
+                for k in ("个百分点", "适用", "不适用", "年度销售总额", "年度采购总额")
+            )
+        ):
             continue
 
         assignments = _assign_columns(nums, table_type, header_pos, global_cols)
         for column, tok in assignments:
             value = normalize_value(tok.text.rstrip("%"))
             if value:
-                section = _section_at_y(tokens, band.y0) if table_type == "segment" else ""
+                section = (
+                    _section_at_y(tokens, band.page, band.y0)
+                    if table_type == "segment"
+                    else ""
+                )
                 out.append(ExtractedCell(row=label, column=column, value=value, section=section))
 
     # Geometry can be too sparse (e.g. block-level only or no row labels).
@@ -572,6 +829,8 @@ def reconstruct_cells(
         if key not in seen:
             seen.add(key)
             deduped.append(c)
+    if table_type == "quarterly":
+        return _repair_quarterly_labels(deduped)
     return deduped
 
 
