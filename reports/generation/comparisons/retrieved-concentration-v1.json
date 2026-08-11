@@ -1,0 +1,32 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "retrieved_context",
+  "baseline_run_id": "retrieved_context-benchmark-v2-deepseek-chat-table-remote-v1",
+  "candidate_run_id": "retrieved_context-benchmark-v2-deepseek-chat-concentration-v1",
+  "baseline_code_revision": "640ab99b9cbd609d8be7b24d620caccee44ebc01",
+  "candidate_code_revision": "c828639d856ea5b6bc24df0893be895cccc3af8f",
+  "code_revision_match": false,
+  "controlled_change": "新增 concentration 表型抽取与生成路径（单一能力变更，其余固定）",
+  "paired_item_count": 48,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.8285714285714286,
+      "candidate": 0.8285714285714286,
+      "delta": 0.0
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.9583333333333334,
+      "candidate": 0.9583333333333334,
+      "delta": 0.0
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [],
+  "behavior_regressed": [],
+  "strict_fixed": [],
+  "strict_regressed": []
+}

@@ -9,8 +9,8 @@ from pydantic import BaseModel
 
 from findoc_rag.indexing import SearchHit
 from findoc_rag.table_extraction import (
-    extract_concentration,
     extract_annual_rows,
+    extract_concentration,
     extract_note_cost,
     extract_quarterly,
     extract_segment,
@@ -484,6 +484,25 @@ class GroundedAnswerGenerator:
                 f"伊利股份为{second}%[{yili_index}]；"
                 f"{higher}高{_format_decimal(f'{abs(diff)}')}个百分点"
             )
+        query_company = (
+            "贵州茅台"
+            if "贵州茅台" in compact
+            else "伊利股份"
+            if "伊利股份" in compact
+            else None
+        )
+        if query_company is not None:
+            if query_company not in by_company:
+                return None
+            index, customer, supplier = by_company[query_company]
+            parts = []
+            if want_customer:
+                parts.append(f"前五名客户销售占比为{_format_decimal(customer)}%")
+            if want_supplier:
+                parts.append(
+                    f"前五名供应商采购占比为{_format_decimal(supplier)}%"
+                )
+            return "，".join(parts) + f"[{index}]"
         for company, (index, customer, supplier) in by_company.items():
             parts = []
             if want_customer:

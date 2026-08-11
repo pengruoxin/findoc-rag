@@ -319,6 +319,22 @@ def test_deterministic_concentration_single_company() -> None:
     assert "前五名供应商采购占比为35.43%[1]" in answer
 
 
+def test_deterministic_concentration_selects_query_company_when_negative_precedes() -> None:
+    """Robustness interleaves hard negatives first; the answer must follow the
+    company named in the query, not the first matching chunk in hit order."""
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "贵州茅台2024年前五名客户销售占比和前五名供应商采购占比分别是多少",
+        [
+            _hit(CONCENTRATION_YILI_TEXT, company="伊利股份"),
+            _hit(CONCENTRATION_MOUTAI_TEXT, company="贵州茅台"),
+        ],
+    )
+    assert answer is not None
+    assert "前五名客户销售占比为11.52%" in answer
+    assert "前五名供应商采购占比为35.43%" in answer
+    assert "6.17" not in answer
+
+
 def test_deterministic_concentration_cross_company_customer() -> None:
     answer = GroundedAnswerGenerator._deterministic_table_answer(
         "贵州茅台和伊利股份2024年前五名客户销售占比谁更高，高多少个百分点",

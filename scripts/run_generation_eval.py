@@ -67,7 +67,7 @@ def code_revision() -> tuple[str, bool]:
         ).stdout.strip()
         dirty = bool(
             subprocess.run(
-                ["git", "status", "--porcelain"],
+                ["git", "status", "--porcelain", "--untracked-files=no"],
                 cwd=ROOT,
                 capture_output=True,
                 text=True,

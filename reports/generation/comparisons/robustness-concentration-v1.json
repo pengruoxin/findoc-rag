@@ -1,0 +1,36 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "robustness",
+  "baseline_run_id": "robustness-benchmark-v2-deepseek-chat-table-remote-v1",
+  "candidate_run_id": "robustness-benchmark-v2-deepseek-chat-concentration-v1",
+  "baseline_code_revision": "640ab99b9cbd609d8be7b24d620caccee44ebc01",
+  "candidate_code_revision": "c828639d856ea5b6bc24df0893be895cccc3af8f",
+  "code_revision_match": false,
+  "controlled_change": "新增 concentration 表型抽取与生成路径（单一能力变更，其余固定）",
+  "paired_item_count": 29,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.8636363636363636,
+      "candidate": 0.8636363636363636,
+      "delta": 0.0
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.8620689655172413,
+      "candidate": 0.9655172413793104,
+      "delta": 0.10344827586206906
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [
+    "audit_opinion_comparison",
+    "moutai_concentration",
+    "yili_concentration"
+  ],
+  "behavior_regressed": [],
+  "strict_fixed": [],
+  "strict_regressed": []
+}
