@@ -10,6 +10,7 @@
 | 指标怎么定义、门禁怎么判 | [evaluation/benchmark-and-metrics-zh.md](./evaluation/benchmark-and-metrics-zh.md) |
 | 系统怎么实现的 | [architecture/](./architecture/) |
 | 怎么讲这个项目 | [interview/findoc-rag-interview-guide-zh.md](./interview/findoc-rag-interview-guide-zh.md) |
+| 简历要写哪些数字 | [interview/phase-summaries-zh.md](./interview/phase-summaries-zh.md) |
 
 ## 系统设计 [architecture/](./architecture/)
 
