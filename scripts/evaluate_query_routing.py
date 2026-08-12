@@ -84,8 +84,10 @@ def main() -> None:
             [
                 "# 查询路由评测 v1（query-routing-v1）",
                 "",
-                f"- 数据集：`{dataset['dataset_id']}` | 样本：{total} | "
-                f"as_of_date：{as_of.isoformat()}",
+                (
+                    f"- 数据集：`{dataset['dataset_id']}` | 样本：{total} | "
+                    f"as_of_date：{as_of.isoformat()}"
+                ),
                 "",
                 "| 指标 | 值 |",
                 "|---|---:|",
