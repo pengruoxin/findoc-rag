@@ -11,7 +11,7 @@
 
 - [为什么不是普通 RAG](#为什么不是普通-rag)
 - [功能](#功能)
-- [当前真实基线](#当前真实基线)
+- [目前的提升](#目前的提升)
 - [架构](#架构)
 - [快速开始](#快速开始)
 - [试一下](#试一下)
@@ -43,32 +43,41 @@
 - **混合检索可评测**：BM25 / 多语 E5 / RRF 在同一冻结集上对比，配 `avg_context_tokens` 等成本指标
 - **口径路由与元数据过滤**：公司 / 年份 / 文档类型 + 可解释的年度 / 季度 / 分部 / 附注路由
 - **证据门禁回答**：DeepSeek 只拿检索证据回答，强制引用，证据与问题不一致时拒答
-- **单元格级表格尺子**：8 张真实表格、149 个单元格三元组，让表格重建有精确分数
+- **五类表型抽取 + 坐标级重建**：季度 / 附注 / 分部 / 年度 / 集中度 157 个单元格三元组尺子，坐标重建召回追平文本基线
+- **生产问答归一化**：相对时间、公司别名 / 股票代码路由、确定性 / LLM 改写（带缓存与质量门控）
 - **双语评测体系**：48 题 + 96 个专业表达变体 + 53 个真实干扰 + 词表外改写（OOV）验证
 
 ---
 
-## 当前真实基线
+## 目前的提升（截至 2026-08-12，全部为受控实验，含逐题配对）
 
-### 检索（2026-08-07，公司 + 年份过滤，Hit@5）
+### 检索侧
 
-| 问法 | 纯关键词 | 语义检索 | 同义词改写后 |
-|---|---:|---:|---:|
-| 原题（照年报原文问） | 0.838 | 0.216 | **0.892** |
-| 代码 / 简称（600519 2024 年营收） | 0.811 | 0.676 | **0.892** |
-| 口语 / 相对时间（去年营收、毛利水平） | 0.730 | 0.162 | **0.919** |
+| 亮点 | 结果 |
+|---|---|
+| 口语 / 相对时间问法 Hit@5 | 0.730 → **0.919**（同义词改写，零回归） |
+| 词表外口语改写 Hit@5 | 0.194 → **0.694**（LLM 查询改写） |
+| 检索策略 | 权重扫描定论：纯关键词全面优于任何 BM25×Dense 融合；中文 dense 对照（bge-small-zh-v1.5）三种问法全部低于 E5，语义路暂不启用 |
+| 生产路由 | 别名 / 股票代码 / 相对时间解析 + 改写质量门控，路由评测 **18/18 精确匹配** |
+| 负向结论 | LLM 改写进入 canonical 检索链路为阴性（strict 持平、3 个证据回归），只用于生产自由文本 |
 
-结论：当前语义分支在三种问法上都是负资产，**默认策略 = 纯关键词检索**；同义词改写（7 组映射，全部来自失败案例）零回归地救回口语问法。
+### 表格侧
 
-### 生成（48 题，DeepSeek 三轨）
+| 亮点 | 结果 |
+|---|---|
+| 五类表型单元格抽取 | 28/149 → **146/149（98.0%）**，另集中度表 8/8 |
+| 坐标级表格重建 | 92/157 → **154/157（R=0.981）**，追平文本基线（修复标签后置 / 跨行标签 / 跨页 / 散文污染） |
+| 远程确定性表格优先 | Oracle strict **1.000**、Retrieved **0.829**（行为 0.958）、Robustness **0.955**（行为 0.966），零回归 |
 
-| 赛道 | 全对率（strict） | 行为准确率 | 平均上下文 | p95 延迟 |
-|---|---:|---:|---:|---:|
-| 直接给答案（生成上限） | **0.9714** | 1.0000 | 303 token | 1.7s |
-| 真实检索（端到端） | **0.5429** | 0.8333 | 1536 token | 1.8s |
-| 抗干扰（gold + 真实干扰） | **0.5455** | 0.7931 | 784 token | 2.4s |
+### 生成侧（DeepSeek 三轨，48 题）
 
-核心结论：**只要证据给对，模型能答对 97%；走真实检索只剩 54%**——瓶颈在检索 / 路由 / 证据选择，不在生成。RAGAS 已随三轨输出（同模型自评，仅作诊断）。
+| 赛道 | strict | 行为准确率 |
+|---|---:|---:|
+| Oracle（生成上限） | **1.000** | 1.000 |
+| Retrieved（端到端） | **0.829** | 0.958 |
+| Robustness（抗干扰） | **0.955** | 0.966 |
+
+说明：早前"Retrieved strict 0.57 → 0.80"一类提升属于**打分口径修正**（远程拒答检测：应拒答被如实计分、带数字的伪拒答不再刷分），不是模型能力提升，对外表述时不混用。RAGAS 四项随三轨输出（DeepSeek 自评，仅作语义诊断）。
 
 ---
 
@@ -163,10 +172,13 @@ uv run python scripts/run_generation_eval.py --lane retrieved_context --model de
 
 ## 评测体系
 
+- **双层 8 指标**：检索侧 Recall@K / Precision@K / MRR@K / NDCG@K（另配候选池召回、干扰污染计数）；生成侧 Faithfulness / Answer Relevancy / Context Relevancy / Context Recall + 确定性事实 / 数值 / 单位 / 引用 / 行为门禁
+- **受控实验协议**：每个 run 记录 `code_revision`；跨版本对比必须声明单变量（`--change`）；配对报告输出 fixed / regressed
 - **数据门禁**：`scripts/validate_benchmark_dataset.py`（gold 存在性 / quote 匹配 / 变体一致性，fail closed）
 - **检索评测**：`run_retrieval_variant_eval.py`（3 路 × 3 问法 × 2 过滤态）、`run_retrieval_fusion_sweep.py`（权重扫描）、`run_oov_eval.py`（词表外改写）
-- **表格评测**：`evaluate_table_extraction.py`（单元格三元组 Precision / Recall）
+- **表格评测**：`evaluate_table_extraction.py`（单元格三元组 Precision / Recall）+ `evaluate_coordinate_reconstruction.py`（整页输入坐标重建回归）
 - **生成评测**：`run_generation_eval.py` 三轨（oracle / retrieved / robustness）+ `run_ragas_generation_eval.py`
+- **路由评测**：`evaluate_query_routing.py`（该过滤没过滤 / 错过滤 / 过滤过头）
 - 每个实验同时报告：Hit@5 / MRR / strict / `avg_context_tokens` / `p95_latency_ms`
 
 ---
@@ -183,6 +195,8 @@ uv run python scripts/run_generation_eval.py --lane retrieved_context --model de
 - [术语处理方案（同义词可扩展性）](docs/architecture/term-normalization-design-zh.md)
 - [跨设备开发交接（Windows / Mac）](docs/DEVELOPMENT-HANDOFF-zh.md)
 - [面试说明](docs/interview/findoc-rag-interview-guide-zh.md)
+- [分阶段成果摘要（简历 / 面试，含对外口径）](docs/interview/phase-summaries-zh.md)
+- [控制变量实验协议](docs/evaluation/experiment-protocol-zh.md)
 - [变更记录](docs/history/optimization-log-zh.md)
 
 ---
@@ -192,15 +206,16 @@ uv run python scripts/run_generation_eval.py --lane retrieved_context --model de
 局限（对外主张时必须声明）：
 
 - 只有 2 家公司、1 个年度，`independent_gold=false`，未做第二人复核
-- 表格仍以线性文本为主，单元格级尺子已就位但抽取器只实现了季度表基线
-- 语义检索（dense）当前是负资产，等待"表格结构化 + 更强中文模型"后重新验证
-- 术语处理方案已定（LLM 改写 → 指标知识库 → dense 终局），OOV 验证进行中
+- RAGAS 为 DeepSeek 自评（`independent_judge=false`）；Precision / NDCG 是部分判定下界
+- 伊利 segment"其他地区"在 PDF 文字层无"地区" span（坐标无法修复，需 OCR 或标注分歧）
+- 坐标几何层已追平文本基线但尚未接入生产生成链路；OOV / 96 变体实例未经人工审核
 
 下一步：
 
-1. **阶段 0：dense 对照实验**——用中文专用向量模型跑 OOV，回答"更强的 dense 能不能解决同义词、是否与 LLM 改写重复"
-2. 查询侧 MVP：OOV 集跑 `--rewrite llm` 对比
-3. 端到端 strict 的当前瓶颈：行为拒答（8 题）+ 表格抽取（5 题）
+1. **PDF 侧审计与改进（当前重点）**：从复杂中文文档出发，已确认的问题包括——文本层丢字（伊利"其他地区"）、IR 只有 block 级 bbox（span / line 几何未入库）、跨页表格坐标混用、表格线性化；接下来扩展 span 级 IR、文本层质量门禁与 OCR 兜底
+2. 坐标几何层接入生产生成链路（先全量三轨回归）
+3. 行为拒答策略（可答题误拒答）+ 时间对齐实时模式
+4. 公信力：多公司多年度 document-blind、第二人独立复核、独立 judge、置信区间
 
 ---
 
