@@ -212,7 +212,7 @@ uv run python scripts/run_generation_eval.py --lane retrieved_context --model de
 
 下一步：
 
-1. **PDF 侧审计与改进（当前重点）**：从复杂中文文档出发，已确认的问题包括——文本层丢字（伊利"其他地区"）、IR 只有 block 级 bbox（span / line 几何未入库）、跨页表格坐标混用、表格线性化；接下来扩展 span 级 IR、文本层质量门禁与 OCR 兜底
+1. **PDF 侧审计与改进（当前重点）**：审计报告见 [pdf-audit-2026-08-12.md](reports/processing/pdf-audit-2026-08-12.md)（可复现脚本 `scripts/audit_pdf_pipeline.py`）——文本层健康，问题集中在结构层：IR 只有 block 级 bbox、表格行阅读顺序反转、42% block 表格线性化、伊利"其他地区"文本层丢字；接下来扩展 span 级 IR、文本层质量门禁与 OCR 兜底
 2. 坐标几何层接入生产生成链路（先全量三轨回归）
 3. 行为拒答策略（可答题误拒答）+ 时间对齐实时模式
 4. 公信力：多公司多年度 document-blind、第二人独立复核、独立 judge、置信区间
