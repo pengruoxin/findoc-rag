@@ -3,6 +3,45 @@
 > 每阶段一行定位 + 可量化的指标提升。**对外口径**与**内部口径**分开标：带 ⚠️ 的数字只在内部迭代用，简历上不要写。
 > 完整证据与受控实验记录见 [baseline-zh.md](../evaluation/baseline-zh.md)、[optimization-log](../history/optimization-log-zh.md)。
 
+## 双层 RAG 评估体系（面试必讲）
+
+RAG 评估分两层：**检索侧保证能找到，生成侧保证用得好**。没有评估的优化，就是拿着锤子找钉子。
+
+### 检索侧：4 个指标全部落地
+
+| 指标 | 实现位置 | 最新数字示例（variant-regime，query_parser 过滤） | 口径 |
+|---|---|---|---|
+| Recall@K | `run_retrieval_variant_eval.py` / `diagnostics.py` | canonical lexical Recall@5 = **0.8108** | gold 在 top-K 中的覆盖率 |
+| Precision@K | 同上 | canonical lexical Precision@5 = **0.2216** | 部分判定（见下） |
+| MRR@K | 同上 + `evaluation/retrieval.py` | canonical lexical MRR@5 = **0.6937** | 首个 gold 排名倒数 |
+| NDCG@K | `run_retrieval_variant_eval.py`（`ndcg_at_k`） | canonical lexical NDCG@5 = **0.7089** | 当前只有"相关/不相关"两档 |
+
+另外还有两个超出标准清单、专门用于失败归因的指标：**候选池召回 candidate_recall**（区分"根本没捞到"和"捞到了排序砸了"）和**前 K 中干扰段落数 negative_count_in_top5**。
+
+### 生成侧：4 个指标全部落地（RAGAS + 确定性打分双轨）
+
+| 指标 | 实现位置 | 最新数字（concentration-v2 基线） | 备注 |
+|---|---|---|---|
+| Faithfulness | `run_ragas_generation_eval.py`（`Faithfulness`） | oracle **0.773** / retrieved **0.804** / robustness **0.731** | LLM judge，`independent_judge=false` 自评 |
+| Answer Relevancy | `ResponseRelevancy` | **0.943** / **0.839** / **0.909** | 同上 |
+| Context Relevancy | `ContextRelevance`（产物字段 `nv_context_relevance`） | **1.000** / **0.973** / **0.944** | RAGAS 0.3.1 非原生实现，字段带 nv_ 前缀 |
+| Context Recall | `LLMContextRecall` | **0.986** / **0.901** / **1.000** | 需要参考答案 |
+
+生成侧还有一层**确定性打分器**（不依赖 LLM judge）：fact recall、数值/单位准确率、引用有效性、行为准确率（答/拒答/澄清）、context recall（gold chunk 是否在检索上下文里）——这些是 RAGAS 之外更硬的契约检查。
+
+### 边界（面试主动说）
+
+- Precision/NDCG 是部分判定下界（只有 gold 和 hard negatives 被标注，其余按不相关计）；
+- NDCG 当前为二元相关，未做分级相关度；
+- RAGAS 为 DeepSeek 自评（`independent_judge=false`），只作语义诊断；
+- 冻结集 48 题 / 2 家公司 / 1 个年度，绝对分数需带边界声明。
+
+简历一句话：
+
+> 构建双层 RAG 评测体系：检索侧覆盖 Recall@K / Precision@K / MRR@K / NDCG@K 及候选召回与干扰污染归因，生成侧覆盖 RAGAS 四指标与确定性事实/单位/引用/行为门禁；所有优化以受控实验和逐题配对为准。
+
+⚠️ 边界：RAGAS 为 DeepSeek 自评（`independent_judge=false`）；Precision/NDCG 是部分判定下界；NDCG 当前为二元相关；冻结集为 48 题 / 2 家公司 / 1 个年度。
+
 ## A 阶段：检索定论（✅ 完成）
 
 **定位**：用受控实验证明"该用哪种检索"，并沉淀生产链路。
