@@ -22,6 +22,20 @@
 结论：
 ```
 
+## 2026-08-12：A 阶段软收尾——改写质量门控 + 路由错误率指标
+
+- 目标问题：LLM 改写可能劣化检索（canonical lane 已证 3 个证据回归）；生产路由没有"该过滤没过滤/错过滤/过滤过头"的量化指标。
+- 修改内容：
+  - 新增 `src/findoc_rag/query_gating.py`：`select_best_query` 对比 LLM 改写与 deterministic 基线的 top-k 词法结果，改写 top-1 分数 < 基线×0.8 且候选集 Jaccard 重叠 < 0.4 时回退 deterministic；
+  - `/v1/query` 接入门控（`FINDOC_RAG_QUERY_GATE` 默认开）；**过滤信号改为在相对时间解析后推断**（"去年"→2024 才进入年份过滤），并记录 `query_route` 日志（companies/years/rewrite_mode/gate）；
+  - 新增 `data/evaluation/query-routing-v1.json`（18 条：全名/代码/别名/相对时间/跨公司/无实体/英文别名等）+ `scripts/evaluate_query_routing.py`；
+  - 新增门控单测 2 条、路由回归 1 条。
+- 测试命令：`pytest tests/test_query_gating.py tests/test_query_routing.py tests/test_api.py`（11 passed）；全量 150 passed；ruff 通过。
+- 评测结果变化（query-routing-v1）：**exact_match 18/18（1.0）**，公司/年份 miss 与 extra 均为 0；门控在"改写丢关键词"场景回退、在"证据不变"场景保留 LLM。
+- 新增能力：生产改写可自动回退；路由错误率指标可回归。
+- 已知退化/未覆盖：门控阈值为启发式（0.8/0.4），未做阈值扫描；路由指标只覆盖单轮单公司/跨公司场景，未覆盖多义词歧义；OOV 实例人工审核仍未做（归公信力）。
+- 结论：A 阶段软收尾完成——改写不再无门控上线，路由行为有量化基线。
+
 ## 2026-08-11：生产 /v1/query 查询归一化接入（相对时间 + 别名/代码路由 + 改写）
 
 - 目标问题：`/v1/query` 只认两家公司全名和 `20xx` 正则；相对时间、股票代码、简称、"营收"等口语都不处理，生产链路与检索侧成果脱节。

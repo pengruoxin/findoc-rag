@@ -1,3 +1,4 @@
+import logging
 import os
 import re
 from collections.abc import AsyncIterator
@@ -18,6 +19,7 @@ from findoc_rag.config import AppSettings, load_settings
 from findoc_rag.indexing import IndexManifest, SearchFilters
 from findoc_rag.observability import RetrievalMetrics, RetrievalTrace
 from findoc_rag.query_expansion import expand_query
+from findoc_rag.query_gating import select_best_query
 from findoc_rag.query_rewriting import LLMQueryRewriter
 from findoc_rag.service import (
     RetrievalService,
@@ -30,6 +32,7 @@ from findoc_rag.time_utils import resolve_relative_time
 REQUEST_ID_PATTERN = re.compile(r"^[A-Za-z0-9._:-]{1,128}$")
 MAX_UPLOAD_BYTES = 100 * 1024 * 1024
 YEAR_PATTERN = re.compile(r"20\d{2}")
+logger = logging.getLogger(__name__)
 COMPANY_ALIASES = {
     "600519": "贵州茅台",
     "贵州茅台": "贵州茅台",
@@ -261,13 +264,9 @@ def create_app(settings: AppSettings | None = None) -> FastAPI:
         try:
             # 生产环境使用当前日期作为相对时间锚点（评测链路禁用系统时钟，
             # 见 time_utils 文档）；公司别名/代码归一化后参与 metadata 路由。
-            companies, years = infer_finance_filters(payload.query)
-            resolved = prepare_finance_query(
-                payload.query,
-                as_of_date=datetime.now(UTC).date(),
-                rewrite_mode=request.app.state.query_rewrite_mode,
-                rewriter=request.app.state.query_rewriter,
-            )
+            as_of = datetime.now(UTC).date()
+            resolved_base, _ = resolve_relative_time(payload.query, as_of)
+            companies, years = infer_finance_filters(resolved_base)
             current = payload.filters or SearchFilters()
             if companies or years:
                 payload.filters = SearchFilters(
@@ -276,7 +275,40 @@ def create_app(settings: AppSettings | None = None) -> FastAPI:
                     report_years=current.report_years or years,
                     document_types=current.document_types,
                 )
+            deterministic_query = prepare_finance_query(
+                resolved_base,
+                as_of_date=as_of,
+                rewrite_mode="deterministic",
+            )
+            mode = request.app.state.query_rewrite_mode
+            resolved = deterministic_query
+            gate = "deterministic"
+            if mode == "llm":
+                llm_query = prepare_finance_query(
+                    resolved_base,
+                    as_of_date=as_of,
+                    rewrite_mode="llm",
+                    rewriter=request.app.state.query_rewriter,
+                )
+                if os.getenv("FINDOC_RAG_QUERY_GATE", "1") == "1":
+                    resolved, gate = select_best_query(
+                        request.app.state.retrieval_service.index,
+                        llm_query,
+                        deterministic_query,
+                        payload.filters,
+                    )
+                else:
+                    resolved, gate = llm_query, "llm"
             payload.query = resolved
+            logger.info(
+                "query_route request_id=%s companies=%s years=%s "
+                "rewrite_mode=%s gate=%s",
+                request.state.request_id,
+                companies,
+                years,
+                mode,
+                gate,
+            )
             result = service(request).search(payload, request.state.request_id)
             return request.app.state.answer_generator.generate(resolved, result.hits)
         except TracedSearchError as exc:
