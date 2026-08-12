@@ -11,7 +11,6 @@ from __future__ import annotations
 import argparse
 import glob
 import json
-import statistics
 from collections import Counter
 from pathlib import Path
 
