@@ -16,6 +16,7 @@
 - [目前的提升](#目前的提升)
 - [当前真实基线（完整数字）](#当前真实基线完整数字)
 - [架构](#架构)
+- [模型交代](#模型交代)
 - [快速开始](#快速开始)
 - [试一下](#试一下)
 - [文档导航](#文档导航)
@@ -154,6 +155,22 @@ strict 括号内是符合确定性数值评分条件的题数；叙述类题不�
 ```
 
 服务端点：`/health/live`、`/health/ready`、`/v1/index`、`/v1/search`、`/v1/query`、`/v1/capabilities`、`/v1/evidence:resolve`、`/v1/uploads`、`/v1/uploads/{job_id}:process`、`/v1/traces/{trace_id}`、`/v1/metrics`。
+
+---
+
+## 模型交代
+
+默认离线可运行：检索走 BM25 关键词（`rank-bm25`），表格题走确定性抽取，不需要下载模型，也不需要 API key。
+
+| 环节 | 模型 | 说明 |
+|---|---|---|
+| 检索（默认） | BM25 关键词 | `default_mode=lexical`，纯本地 |
+| Dense 检索（可选） | `intfloat/multilingual-e5-small` | 仅 dense / hybrid 模式启用 |
+| 重排（可选） | `BAAI/bge-reranker-v2-m3` | 默认关闭 |
+| 生成 / 查询改写 | `deepseek-chat` | 默认关闭，temperature=0 |
+| RAGAS 评测 | judge / embedding 可配置 | 仅评测使用 |
+
+远程生成和查询改写需要 `DEEPSEEK_API_KEY`，通过被 `.gitignore` 忽略的 `local-keys.env` 注入。
 
 ---
 
