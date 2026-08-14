@@ -1,9 +1,17 @@
+import json
 import sqlite3
 from pathlib import Path
 
 import numpy as np
+import pytest
 
-from findoc_rag.documents.models import BoundingBox, DocumentChunk, ElementReference
+from findoc_rag.documents.models import (
+    BoundingBox,
+    DocumentChunk,
+    ElementReference,
+    StructuredTable,
+    StructuredTableCell,
+)
 from findoc_rag.indexing import (
     PersistentIndex,
     SearchFilters,
@@ -12,6 +20,7 @@ from findoc_rag.indexing import (
     reciprocal_rank_fusion,
     tokenize_for_search,
 )
+from findoc_rag.structured_tables import chunk_payload_sha256
 
 
 def chunk(chunk_id: str, text: str, section: str) -> DocumentChunk:
@@ -32,6 +41,23 @@ def chunk(chunk_id: str, text: str, section: str) -> DocumentChunk:
         ],
         character_count=len(text),
         estimated_token_count=10,
+    )
+
+
+def quarterly_table(source: DocumentChunk) -> StructuredTable:
+    return StructuredTable(
+        table_id=f"{source.chunk_id}:quarterly",
+        chunk_id=source.chunk_id,
+        chunk_sha256=chunk_payload_sha256(source),
+        table_type="quarterly",
+        page_start=source.page_start,
+        page_end=source.page_end,
+        source="coordinate",
+        cells=[
+            StructuredTableCell(
+                row="营业收入", column="第一季度", value="100.00"
+            )
+        ],
     )
 
 
@@ -69,6 +95,101 @@ def test_persistent_lexical_index_returns_full_chunk(tmp_path: Path) -> None:
     assert hits[0].chunk.element_references[0].element_id == "element-c0"
 
 
+def test_structured_table_sidecar_enriches_hits_without_changing_chunk_identity(
+    tmp_path: Path,
+) -> None:
+    source_chunk = chunk("c0", "第一季度 营业收入 100.00", "分季度主要财务数据")
+    source = tmp_path / "chunks.jsonl"
+    serialized_chunk = source_chunk.model_dump_json()
+    source.write_text(serialized_chunk + "\n", encoding="utf-8")
+    plain = PersistentIndex.build(tmp_path / "plain", [source_chunk], source)
+    enriched = PersistentIndex.build(
+        tmp_path / "enriched",
+        [source_chunk],
+        source,
+        structured_tables=[quarterly_table(source_chunk)],
+    )
+
+    [hit] = enriched.search("营业收入", mode="lexical", top_k=1, candidate_k=1)
+
+    assert plain.manifest.index_id == enriched.manifest.index_id
+    assert hit.chunk.structured_tables[0].cells[0].value == "100.00"
+    assert hit.chunk.model_dump_json() == serialized_chunk
+    assert "structured_tables" not in hit.chunk.model_dump()
+
+
+def test_structured_table_build_rejects_wrong_source_chunk_hash(tmp_path: Path) -> None:
+    source_chunk = chunk("c0", "营业收入 100.00", "分季度主要财务数据")
+    source = tmp_path / "chunks.jsonl"
+    source.write_text(source_chunk.model_dump_json() + "\n", encoding="utf-8")
+    table = quarterly_table(source_chunk).model_copy(
+        update={"chunk_sha256": "0" * 64}
+    )
+
+    with pytest.raises(ValueError, match="source chunk hash mismatch"):
+        PersistentIndex.build(
+            tmp_path / "index", [source_chunk], source, structured_tables=[table]
+        )
+
+
+def test_structured_table_content_tampering_fails_closed(tmp_path: Path) -> None:
+    source_chunk = chunk("c0", "营业收入 100.00", "分季度主要财务数据")
+    source = tmp_path / "chunks.jsonl"
+    source.write_text(source_chunk.model_dump_json() + "\n", encoding="utf-8")
+    index_dir = tmp_path / "index"
+    PersistentIndex.build(
+        index_dir, [source_chunk], source, structured_tables=[quarterly_table(source_chunk)]
+    )
+    tables_path = index_dir / "structured_tables.jsonl"
+    tables_path.write_text(
+        tables_path.read_text(encoding="utf-8").replace("100.00", "999.00"),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(ValueError, match="content digest mismatch"):
+        PersistentIndex(index_dir)
+
+
+def test_structured_table_manifest_index_binding_fails_closed(tmp_path: Path) -> None:
+    source_chunk = chunk("c0", "营业收入 100.00", "分季度主要财务数据")
+    source = tmp_path / "chunks.jsonl"
+    source.write_text(source_chunk.model_dump_json() + "\n", encoding="utf-8")
+    index_dir = tmp_path / "index"
+    PersistentIndex.build(
+        index_dir, [source_chunk], source, structured_tables=[quarterly_table(source_chunk)]
+    )
+    artifact_path = index_dir / "structured_tables.manifest.json"
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    artifact["index_id"] = "wrong-index"
+    artifact_path.write_text(json.dumps(artifact), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="index ID mismatch"):
+        PersistentIndex(index_dir)
+
+
+def test_legacy_index_without_structured_table_artifact_still_opens(
+    tmp_path: Path,
+) -> None:
+    source_chunk = chunk("c0", "营业收入 100.00", "主要财务指标")
+    source = tmp_path / "chunks.jsonl"
+    source.write_text(source_chunk.model_dump_json() + "\n", encoding="utf-8")
+    index_dir = tmp_path / "index"
+    PersistentIndex.build(index_dir, [source_chunk], source)
+    (index_dir / "structured_tables.jsonl").unlink()
+    (index_dir / "structured_tables.manifest.json").unlink()
+    manifest_path = index_dir / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    for field in tuple(manifest):
+        if field.startswith("structured_table"):
+            manifest.pop(field)
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+    reopened = PersistentIndex(index_dir)
+
+    assert reopened.manifest.structured_table_count == 0
+    assert reopened.resolve_chunks(["c0"])[0].structured_tables == []
+
+
 def test_metadata_filters_exclude_other_company_and_year(tmp_path: Path) -> None:
     first = chunk("c0", "annual revenue 100", "financial indicators").model_copy(
         update={"company_name": "甲公司", "report_year": 2024, "document_type": "annual"}
@@ -97,6 +218,28 @@ def test_metadata_filters_exclude_other_company_and_year(tmp_path: Path) -> None
 
     assert [hit.chunk.chunk_id for hit in hits] == ["c1"]
     assert missing == []
+
+
+def test_index_propagates_statement_scope_from_explicit_section_boundaries(
+    tmp_path: Path,
+) -> None:
+    chunks = [
+        chunk("c0", "七、合并财务报表项目注释", "财务报告"),
+        chunk("c1", "61、营业收入和营业成本", "(1)营业收入和营业成本情况"),
+        chunk("c2", "十九、母公司财务报表主要项目注释", "财务报告"),
+        chunk("c3", "4、营业收入和营业成本", "(1)营业收入和营业成本情况"),
+    ]
+    source = tmp_path / "chunks.jsonl"
+    source.write_text(
+        "".join(item.model_dump_json() + "\n" for item in chunks), encoding="utf-8"
+    )
+    index = PersistentIndex.build(tmp_path / "index", chunks, source)
+
+    resolved = index.resolve_chunks(["c1", "c3"])
+
+    assert resolved[0].statement_scope == "consolidated"
+    assert resolved[1].statement_scope == "parent"
+    assert "statement_scope" not in resolved[0].model_dump()
 
 
 def test_index_detects_manifest_database_count_mismatch(tmp_path: Path) -> None:

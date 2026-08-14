@@ -12,9 +12,17 @@ from typing import Literal
 from uuid import uuid4
 
 import numpy as np
-from pydantic import BaseModel, Field, computed_field
+from pydantic import BaseModel, ConfigDict, Field, computed_field
 
-from findoc_rag.documents.models import DocumentChunk
+from findoc_rag.documents.models import DocumentChunk, StructuredTable
+from findoc_rag.structured_tables import (
+    STRUCTURED_TABLE_GENERATOR,
+    STRUCTURED_TABLE_SCHEMA_VERSION,
+    StructuredTableArtifactManifest,
+    chunk_payload_sha256,
+    load_structured_tables,
+    serialize_structured_tables,
+)
 
 INDEX_FORMAT_VERSION = 3
 DEFAULT_DENSE_MODEL = "intfloat/multilingual-e5-small"
@@ -44,6 +52,11 @@ class IndexManifest(BaseModel):
     parent_index_id: str | None = None
     reused_embedding_count: int = 0
     encoded_embedding_count: int = 0
+    structured_table_schema_version: int | None = None
+    structured_table_generator: str | None = None
+    structured_table_count: int = Field(default=0, ge=0)
+    structured_table_cell_count: int = Field(default=0, ge=0)
+    structured_tables_sha256: str | None = None
 
 
 class SearchHit(BaseModel):
@@ -83,6 +96,8 @@ class SearchHit(BaseModel):
 
 
 class SearchFilters(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     document_keys: list[str] = Field(default_factory=list)
     company_names: list[str] = Field(default_factory=list)
     report_years: list[int] = Field(default_factory=list)
@@ -159,6 +174,8 @@ class PersistentIndex:
         self._dense_model_lock = RLock()
         self._dense_embeddings = None
         self._dense_chunk_ids: list[str] | None = None
+        self._statement_scope_cache: dict[str, str] | None = None
+        self._structured_table_cache: dict[str, list[StructuredTable]] | None = None
         self.validate()
 
     @classmethod
@@ -169,6 +186,7 @@ class PersistentIndex:
         source_chunk_path: Path,
         dense_model: str | None = None,
         reuse_dense_from: "PersistentIndex | None" = None,
+        structured_tables: list[StructuredTable] | None = None,
     ) -> "PersistentIndex":
         if not chunks:
             raise ValueError("Cannot build an index without chunks")
@@ -315,6 +333,26 @@ class PersistentIndex:
             )
 
         source_digest = _sha256_file(source_chunk_path)
+        table_records = structured_tables or []
+        chunk_by_id = {chunk.chunk_id: chunk for chunk in chunks}
+        table_ids: set[str] = set()
+        for table in table_records:
+            if table.table_id in table_ids:
+                raise ValueError(f"Duplicate structured table ID: {table.table_id}")
+            table_ids.add(table.table_id)
+            source_chunk = chunk_by_id.get(table.chunk_id)
+            if source_chunk is None:
+                raise ValueError(
+                    f"Structured table references an unknown chunk: {table.chunk_id}"
+                )
+            expected_chunk_hash = chunk_payload_sha256(source_chunk)
+            if table.chunk_sha256 != expected_chunk_hash:
+                raise ValueError(
+                    "Structured table source chunk hash mismatch: "
+                    f"{table.table_id}"
+                )
+        tables_content = serialize_structured_tables(table_records)
+        tables_digest = hashlib.sha256(tables_content.encode()).hexdigest()
         document_ids = list(dict.fromkeys(chunk.document_id for chunk in chunks))
         index_seed = f"{source_digest}:{dense_model or 'lexical'}:{INDEX_FORMAT_VERSION}"
         manifest = IndexManifest(
@@ -329,6 +367,23 @@ class PersistentIndex:
             parent_index_id=(reuse_dense_from.manifest.index_id if reuse_dense_from else None),
             reused_embedding_count=reused_embedding_count,
             encoded_embedding_count=encoded_embedding_count,
+            structured_table_schema_version=STRUCTURED_TABLE_SCHEMA_VERSION,
+            structured_table_generator=STRUCTURED_TABLE_GENERATOR,
+            structured_table_count=len(table_records),
+            structured_table_cell_count=sum(len(table.cells) for table in table_records),
+            structured_tables_sha256=tables_digest,
+        )
+        tables_path = directory / "structured_tables.jsonl"
+        tables_path.write_text(tables_content, encoding="utf-8")
+        table_manifest = StructuredTableArtifactManifest(
+            index_id=manifest.index_id,
+            source_chunk_sha256=source_digest,
+            tables_sha256=tables_digest,
+            table_count=len(table_records),
+            cell_count=sum(len(table.cells) for table in table_records),
+        )
+        (directory / "structured_tables.manifest.json").write_text(
+            table_manifest.model_dump_json(indent=2) + "\n", encoding="utf-8"
         )
         (directory / "manifest.json").write_text(
             manifest.model_dump_json(indent=2) + "\n", encoding="utf-8"
@@ -371,6 +426,81 @@ class PersistentIndex:
         elif dense_path.exists() or dense_ids_path.exists():
             raise ValueError("Dense embeddings exist but the manifest has no dense model")
 
+        tables_path = self.directory / "structured_tables.jsonl"
+        tables_manifest_path = self.directory / "structured_tables.manifest.json"
+        declared_table_artifact = any(
+            value is not None
+            for value in (
+                self.manifest.structured_table_schema_version,
+                self.manifest.structured_table_generator,
+                self.manifest.structured_tables_sha256,
+            )
+        ) or bool(
+            self.manifest.structured_table_count
+            or self.manifest.structured_table_cell_count
+        )
+        if tables_path.exists() != tables_manifest_path.exists():
+            raise FileNotFoundError(
+                "Structured-table data and manifest must either both exist or both be absent"
+            )
+        if tables_path.is_file():
+            artifact = StructuredTableArtifactManifest.model_validate_json(
+                tables_manifest_path.read_text(encoding="utf-8")
+            )
+            if artifact.schema_version != STRUCTURED_TABLE_SCHEMA_VERSION:
+                raise ValueError("Unsupported structured-table artifact schema")
+            if artifact.generator != STRUCTURED_TABLE_GENERATOR:
+                raise ValueError("Unsupported structured-table artifact generator")
+            if self.manifest.structured_table_schema_version != artifact.schema_version:
+                raise ValueError("Index manifest structured-table schema mismatch")
+            if self.manifest.structured_table_generator != artifact.generator:
+                raise ValueError("Index manifest structured-table generator mismatch")
+            if artifact.index_id != self.manifest.index_id:
+                raise ValueError("Structured-table artifact index ID mismatch")
+            if artifact.source_chunk_sha256 != self.manifest.source_chunk_sha256:
+                raise ValueError("Structured-table artifact source digest mismatch")
+            actual_digest = _sha256_file(tables_path)
+            if actual_digest != artifact.tables_sha256:
+                raise ValueError("Structured-table artifact content digest mismatch")
+            tables = load_structured_tables(tables_path.read_text(encoding="utf-8"))
+            if len(tables) != artifact.table_count:
+                raise ValueError("Structured-table artifact table count mismatch")
+            if sum(len(table.cells) for table in tables) != artifact.cell_count:
+                raise ValueError("Structured-table artifact cell count mismatch")
+            if self.manifest.structured_tables_sha256 != actual_digest:
+                raise ValueError("Index manifest structured-table digest mismatch")
+            if self.manifest.structured_table_count != artifact.table_count:
+                raise ValueError("Index manifest structured-table count mismatch")
+            if self.manifest.structured_table_cell_count != artifact.cell_count:
+                raise ValueError("Index manifest structured-table cell count mismatch")
+            table_ids: set[str] = set()
+            with closing(sqlite3.connect(self.database_path)) as connection:
+                payloads = dict(
+                    connection.execute(
+                        "SELECT chunk_id, payload_json FROM chunks"
+                    ).fetchall()
+                )
+            for table in tables:
+                if table.table_id in table_ids:
+                    raise ValueError(
+                        f"Duplicate structured table ID: {table.table_id}"
+                    )
+                table_ids.add(table.table_id)
+                payload = payloads.get(table.chunk_id)
+                if payload is None:
+                    raise ValueError(
+                        "Structured table references an unknown persisted chunk: "
+                        f"{table.chunk_id}"
+                    )
+                persisted_chunk = DocumentChunk.model_validate_json(payload)
+                if table.chunk_sha256 != chunk_payload_sha256(persisted_chunk):
+                    raise ValueError(
+                        "Structured table persisted chunk hash mismatch: "
+                        f"{table.table_id}"
+                    )
+        elif declared_table_artifact:
+            raise FileNotFoundError("Index manifest declares a missing structured-table artifact")
+
     def _load_chunks(self, chunk_ids: list[str]) -> dict[str, DocumentChunk]:
         if not chunk_ids:
             return {}
@@ -380,7 +510,85 @@ class PersistentIndex:
                 f"SELECT chunk_id, payload_json FROM chunks WHERE chunk_id IN ({placeholders})",
                 chunk_ids,
             ).fetchall()
-        return {chunk_id: DocumentChunk.model_validate_json(payload) for chunk_id, payload in rows}
+        scopes = self._statement_scopes()
+        tables = self._structured_tables()
+        return {
+            chunk_id: DocumentChunk.model_validate_json(payload).model_copy(
+                update={
+                    "statement_scope": scopes.get(chunk_id, "unspecified"),
+                    "structured_tables": tables.get(chunk_id, []),
+                }
+            )
+            for chunk_id, payload in rows
+        }
+
+    def _structured_tables(self) -> dict[str, list[StructuredTable]]:
+        if self._structured_table_cache is not None:
+            return self._structured_table_cache
+        path = self.directory / "structured_tables.jsonl"
+        by_chunk: dict[str, list[StructuredTable]] = defaultdict(list)
+        if path.is_file():
+            for table in load_structured_tables(path.read_text(encoding="utf-8")):
+                by_chunk[table.chunk_id].append(table)
+        self._structured_table_cache = dict(by_chunk)
+        return self._structured_table_cache
+
+    def _statement_scopes(self) -> dict[str, str]:
+        """Propagate explicit filing section boundaries across chunk payloads."""
+        if self._statement_scope_cache is not None:
+            return self._statement_scope_cache
+        with closing(sqlite3.connect(self.database_path)) as connection:
+            rows = connection.execute(
+                "SELECT chunk_id, document_id, chunk_index, payload_json "
+                "FROM chunks ORDER BY document_id, chunk_index"
+            ).fetchall()
+        scopes: dict[str, str] = {}
+        current_document = ""
+        scope = "unspecified"
+        for chunk_id, document_id, _chunk_index, payload in rows:
+            if document_id != current_document:
+                current_document = document_id
+                scope = "unspecified"
+            chunk = DocumentChunk.model_validate_json(payload)
+            context = re.sub(r"\s+", "", "".join(chunk.section_path) + chunk.text[:800])
+            parent_positions = [
+                position
+                for marker in (
+                    "母公司资产负债表",
+                    "母公司利润表",
+                    "母公司现金流量表",
+                    "母公司所有者权益变动表",
+                    "母公司财务报表主要项目注释",
+                )
+                if (position := context.rfind(marker)) >= 0
+            ]
+            consolidated_positions = [
+                position
+                for marker in (
+                    "合并资产负债表",
+                    "合并利润表",
+                    "合并现金流量表",
+                    "合并所有者权益变动表",
+                    "合并财务报表项目注释",
+                )
+                if (position := context.rfind(marker)) >= 0
+            ]
+            parent_position = max(parent_positions, default=-1)
+            consolidated_position = max(consolidated_positions, default=-1)
+            if parent_position >= 0 or consolidated_position >= 0:
+                scope = (
+                    "parent"
+                    if parent_position > consolidated_position
+                    else "consolidated"
+                )
+            scopes[chunk_id] = scope
+        self._statement_scope_cache = scopes
+        return scopes
+
+    def resolve_chunks(self, chunk_ids: list[str]) -> list[DocumentChunk | None]:
+        """Resolve exact evidence IDs while preserving caller order and duplicates."""
+        chunks = self._load_chunks(chunk_ids)
+        return [chunks.get(chunk_id) for chunk_id in chunk_ids]
 
     def _matching_chunk_ids(self, filters: SearchFilters | None) -> set[str] | None:
         if filters is None or not filters.active:

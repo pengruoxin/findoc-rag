@@ -147,6 +147,65 @@
       "mode": "coordinate-level reconstruction v9 (region localization, page isolation, label repair)",
       "status": "development-v9",
       "caveat": "92/157 -> 154/157 (Recall 0.981), matching the text baseline; sole residual is Yili segment '其他地区' (text-layer loss). Fixes: anchor last-match + tail exclusion, split-heading boundary, decimal-heading regex, quarterly label-tail repair, prose label filter, segment x-order columns, page-aware regions/bands. See reports/ranking/table-reconstruction-v1/analysis.md"
+    },
+    {
+      "run_id": "coordinate-safe-v10",
+      "dataset": "table-eval-v1 + table-eval-concentration-v1",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "chunk-grounded safe coordinate selection, source PDF and persisted IR v2 replay",
+      "precision": 0.9808917197452229,
+      "recall": 0.9808917197452229,
+      "status": "development-v10",
+      "caveat": "157 predictions / 154 hits on both PDF and IR v2, versus raw 165 / 154. The selector does not read gold: it requires headers, unit, complete row-column bundles and source-chunk consistency. It removes 2 quarterly heading cells and 6 adjacent-table leaks. The remaining 3 cells are the frozen '其他地区' versus page/text-layer '其他' disagreement; no benchmark-specific relabeling is used. See coordinate-safe-v10-pdf and coordinate-safe-v10-ir."
+    },
+    {
+      "run_id": "benchmark-repro-agent-v1",
+      "dataset": "benchmark-v2",
+      "index_id": "10fb50419145d56720c9",
+      "mode": "asset integrity and Agent evidence contract",
+      "status": "infrastructure-v1",
+      "caveat": "Frozen questions, answers and primary metrics are unchanged. A 38-chunk minimal catalog covers 35 unique gold chunks and all 53 hard negatives; external SHA locks support clean-clone validation. Formal retrieved runs fail closed when the active index differs. Agent endpoints expose versioned query outcomes, route/filter/trace/index identities, dynamic capabilities, and index-bound evidence resolution with SHA-256. No new remote DeepSeek/RAGAS score is claimed."
+    },
+    {
+      "run_id": "benchmark-v2-to-e5-c3f157-v1",
+      "dataset": "benchmark-v2-retrieval-view",
+      "source_index_id": "10fb50419145d56720c9",
+      "index_id": "9898c95e13d01c51c156",
+      "mode": "explicit migration contract + lexical/dense/hybrid paired evaluation",
+      "hit_at_5": 0.918918918918919,
+      "mrr_at_5": 0.7612612612612613,
+      "status": "validated-migration-v1",
+      "caveat": "Canonical benchmark assets remain immutable. The manifest binds E5 revision 614241f..., model/embedding/BM25/sidecar checksums, snapshot c3f157..., and 38 judged chunks whose semantic cores are unchanged. Paired lexical results versus historical 10fb are identical on Hit/MRR for all 111 positive instances; semantic-regime Recall@5 improves +0.027 through the shared production query router. Dev fusion sweep with deterministic rewrite again selects lexical-only for every regime. This migration experiment itself makes no remote-score claim; the later deepseek-index-bound-final entry records the formal generation run."
+    },
+    {
+      "run_id": "structured-sidecar-v1",
+      "dataset": "table-eval-v1 + table-eval-concentration-v1",
+      "index_id": "9898c95e13d01c51c156",
+      "mode": "index-bound structured-table sidecar with coordinate-safe extraction and text fallback",
+      "table_count": 15,
+      "cell_count": 195,
+      "precision": 0.9808917197452229,
+      "recall": 0.9808917197452229,
+      "status": "production-path-v1",
+      "caveat": "The real 958-chunk corpus yields 15 tables / 195 cells: 12 coordinate-derived and 3 safety-gated text fallbacks. The sidecar binds schema/generator/index/source/content/chunk SHA and does not change chunk serialization or index identity. Frozen 157-cell evaluation remains 154 hits / 157 predictions. Three residual cells are the source text-layer '其他' versus provisional gold '其他地区'; no benchmark-specific relabeling."
+    },
+    {
+      "run_id": "deepseek-index-bound-final",
+      "dataset": "benchmark-v2",
+      "source_index_id": "10fb50419145d56720c9",
+      "index_id": "9898c95e13d01c51c156",
+      "migration_id": "benchmark-v2-to-e5-c3f157-v1",
+      "code_fingerprint": "5f02074f2fd4e08042a2c9a05123c83d199d325959e271178a7ff849f40aff06",
+      "mode": "DeepSeek Oracle/Retrieved/Robustness with index-bound structured routing and scope-adaptive candidate budget",
+      "oracle_strict_success_rate": 1.0,
+      "retrieved_strict_success_rate": 1.0,
+      "robustness_strict_success_rate": 1.0,
+      "oracle_behavior_accuracy": 1.0,
+      "retrieved_behavior_accuracy": 1.0,
+      "robustness_behavior_accuracy": 1.0,
+      "run_error_rate": 0.0,
+      "status": "final-v1",
+      "caveat": "Strict denominators are 35/35/22, not all 48 items. Retrieved deterministic gold-context coverage is 37/37. RAGAS metric and complete-row coverage are 100%, but the judge is DeepSeek itself (independent_judge=false). Against each lane's historical best, Retrieved has 6 strict fixed / 0 regressed and Robustness has 1 / 0 (0.9545->1.0); the older Robustness table-remote comparison has 3 / 0 but is not the historical best. These comparisons include multiple engineering changes plus DeepSeek stochasticity and are not single-variable causal experiments. The earlier remote-v1 Oracle run with 43.75% item errors was a sandbox network-permission failure and is invalid."
     }
   ]
 }

@@ -1,6 +1,11 @@
 from types import SimpleNamespace
 
-from findoc_rag.answer_generation import GeneratedAnswer, GroundedAnswerGenerator
+from findoc_rag.answer_generation import (
+    MAX_GENERATION_CONTEXT_CHARS,
+    GeneratedAnswer,
+    GroundedAnswerGenerator,
+)
+from findoc_rag.documents.models import StructuredTable, StructuredTableCell
 
 
 def test_quarterly_cashflow_is_structured_into_four_pairs() -> None:
@@ -89,6 +94,11 @@ ANNUAL_MOUTAI_TEXT = """七、 近三年主要会计数据和财务指标
 归属于上市公司股东的净利润 86,228,146,421.62 74,734,071,550.75 15.38 62,717,467,870.12
 """
 
+ANNUAL_FUTURE_TEXT = """近三年主要会计数据
+主要会计数据 2026年 2025年 本期比上年同期增减(%) 2024年
+营业收入 300.00 200.00 50.00 100.00
+"""
+
 NOTE_COST_MOUTAI_TEXT = """40、 营业收入和营业成本
 (1). 营业收入和营业成本情况
 单位：元  币种：人民币
@@ -140,7 +150,13 @@ B.公司主要供应商情况 √适用 □不适用
 """
 
 
-def _hit(text: str, company: str = "伊利股份", year: int = 2024):
+def _hit(
+    text: str,
+    company: str = "伊利股份",
+    year: int = 2024,
+    *,
+    statement_scope: str | None = None,
+):
     chunk = SimpleNamespace(
         text=text,
         company_name=company,
@@ -149,6 +165,7 @@ def _hit(text: str, company: str = "伊利股份", year: int = 2024):
         page_start=1,
         page_end=1,
         section_path=["测试章节"],
+        statement_scope=statement_scope,
     )
     return SimpleNamespace(chunk=chunk)
 
@@ -163,6 +180,39 @@ def test_deterministic_quarterly_answer_with_citations() -> None:
     assert "、-2,415,620,352.16元[1]" in answer
 
 
+def test_deterministic_answer_prefers_structured_sidecar_over_linear_text() -> None:
+    hit = _hit(QUARTERLY_YILI_TEXT)
+    hit.chunk.structured_tables = [
+        StructuredTable(
+            table_id="test-chunk:quarterly",
+            chunk_id="test-chunk",
+            chunk_sha256="a" * 64,
+            table_type="quarterly",
+            page_start=1,
+            page_end=1,
+            source="coordinate",
+            cells=[
+                StructuredTableCell(
+                    row="归属于上市公司股东的净利润",
+                    column=column,
+                    value=value,
+                )
+                for column, value in zip(
+                    ("第一季度", "第二季度", "第三季度", "第四季度"),
+                    ("1.00", "2.00", "3.00", "4.00"),
+                    strict=True,
+                )
+            ],
+        )
+    ]
+
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "伊利股份2024年各季度归母净利润分别是多少", [hit]
+    )
+
+    assert answer == "第一至第四季度分别为1.00元、2.00元、3.00元、4.00元[1]"
+
+
 def test_deterministic_quarterly_reconcile_with_annual() -> None:
     answer = GroundedAnswerGenerator._deterministic_table_answer(
         "伊利股份2024年各季度归母净利润分别是多少，加总后是否等于全年披露值",
@@ -175,7 +225,7 @@ def test_deterministic_quarterly_reconcile_with_annual() -> None:
 
 def test_deterministic_note_cost_scope() -> None:
     answer = GroundedAnswerGenerator._deterministic_table_answer(
-        "伊利股份财务报表附注中2024年主营业务、其他业务和营业成本合计分别是多少",
+        "贵州茅台财务报表附注中2024年主营业务、其他业务和营业成本合计分别是多少",
         [_hit(NOTE_COST_MOUTAI_TEXT, company="贵州茅台")],
     )
     assert answer is not None
@@ -191,6 +241,64 @@ def test_deterministic_cost_reconciliation() -> None:
     )
     assert answer is not None
     assert "差额159,486,555.09元" in answer
+
+
+def test_note_cost_defaults_to_consolidated_scope_over_parent_first_hit() -> None:
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "为什么贵州茅台2024年主营业务成本与营业成本合计不同，差额是多少",
+        [
+            _hit(
+                NOTE_COST_PARENT_TEXT,
+                company="贵州茅台",
+                statement_scope="parent",
+            ),
+            _hit(
+                NOTE_COST_MOUTAI_TEXT,
+                company="贵州茅台",
+                statement_scope="consolidated",
+            ),
+        ],
+    )
+
+    assert answer is not None
+    assert "差额159,486,555.09元" in answer
+    assert answer.endswith("[2]")
+
+
+def test_deducted_profit_reconciliation_preserves_difference_direction() -> None:
+    annual = """近三年主要会计数据 单位：元
+2024年 2023年 2022年
+归属于上市公司股东的净利润 86,228,146,421.62 74,734,071,550.75 62,717,467,870.12
+归属于上市公司股东的扣除非经常性损益的净利润 86,240,905,977.42 74,752,564,425.52 62,792,896,829.57
+"""
+    nonrecurring = "非经常性损益项目 2024年金额 合计 -12,759,555.80"
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "贵州茅台2024年归母净利润与扣非归母净利润分别是多少？结合非经常性损益合计核对两者差额。",
+        [
+            _hit(annual, company="贵州茅台"),
+            _hit(nonrecurring, company="贵州茅台"),
+        ],
+    )
+
+    assert answer is not None
+    assert "扣非口径高12,759,555.80元" in answer
+    assert "非经常性损益合计-12,759,555.80元" in answer
+    assert "[1]" in answer and "[2]" in answer
+
+
+def test_forecast_target_is_answered_as_non_commitment_not_abstention() -> None:
+    evidence = """根据行业发展情况，2025 年，公司计划实现营业总收入1,190 亿元。
+    该经营目标受未来经营环境影响，存在一定的不确定性，并不构成对投资者的业绩承诺。"""
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "伊利股份是否保证2025年一定实现1,190亿元营业总收入？",
+        [_hit(evidence, company="伊利股份")],
+    )
+
+    assert answer is not None
+    assert answer.startswith("不能保证")
+    assert "1,190亿元" in answer
+    assert "不构成对投资者的业绩承诺[1]" in answer
+    assert not GroundedAnswerGenerator._is_abstention(answer)
 
 
 def test_deterministic_segment_product_margin_highest() -> None:
@@ -224,6 +332,17 @@ def test_deterministic_annual_revenue_with_yoy() -> None:
     assert "同比增长15.71%[1]" in answer
 
 
+def test_deterministic_annual_revenue_uses_header_year_not_fixed_position() -> None:
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "伊利股份2025年营业收入是多少",
+        [_hit(ANNUAL_FUTURE_TEXT, year=2025)],
+    )
+
+    assert answer is not None
+    assert "伊利股份2025年营业收入为200.00元" in answer
+    assert "300.00" not in answer
+
+
 def test_deterministic_cross_company_revenue_delta() -> None:
     answer = GroundedAnswerGenerator._deterministic_table_answer(
         "比较贵州茅台与伊利股份2024年营业收入，哪家更高，差额是多少",
@@ -238,18 +357,147 @@ def test_deterministic_cross_company_revenue_delta() -> None:
     assert "贵州茅台高55,505,841,299.65元" in answer
 
 
+def test_deterministic_cross_company_revenue_supports_tickers() -> None:
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "比较600519与600887在2024年的营业收入，哪家更高",
+        [
+            _hit(ANNUAL_MOUTAI_TEXT, company="贵州茅台"),
+            _hit(ANNUAL_YILI_TEXT, company="伊利股份"),
+        ],
+    )
+
+    assert answer is not None
+    assert "贵州茅台为170,899,152,276.34元" in answer
+    assert "伊利股份为115,393,310,976.69元" in answer
+
+
 def test_deterministic_consolidated_parent_revenue_delta() -> None:
     answer = GroundedAnswerGenerator._deterministic_table_answer(
         "伊利股份2024年合并口径与母公司口径营业收入分别是多少，差额多少",
         [
-            _hit(NOTE_COST_MOUTAI_TEXT, company="伊利股份"),
-            _hit(NOTE_COST_PARENT_TEXT, company="伊利股份"),
+            _hit(
+                NOTE_COST_MOUTAI_TEXT,
+                company="伊利股份",
+                statement_scope="consolidated",
+            ),
+            _hit(
+                NOTE_COST_PARENT_TEXT,
+                company="伊利股份",
+                statement_scope="parent",
+            ),
         ],
     )
     assert answer is not None
     assert "合并口径营业收入为170,899,152,276.34元" in answer
     assert "母公司口径为102,395,394,662.41元" in answer
     assert "合并口径高68,503,757,613.93元" in answer
+
+
+def test_consolidated_parent_scope_is_not_guessed_from_value_size() -> None:
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "伊利股份2024年合并口径与母公司口径营业收入分别是多少，差额多少",
+        [
+            _hit(
+                NOTE_COST_PARENT_TEXT,
+                company="伊利股份",
+                statement_scope="consolidated",
+            ),
+            _hit(
+                NOTE_COST_MOUTAI_TEXT,
+                company="伊利股份",
+                statement_scope="parent",
+            ),
+        ],
+    )
+
+    assert answer is not None
+    assert "合并口径营业收入为102,395,394,662.41元" in answer
+    assert "母公司口径为170,899,152,276.34元" in answer
+    assert "母公司口径高68,503,757,613.93元" in answer
+
+
+def test_consolidated_parent_answer_refuses_unlabelled_scopes() -> None:
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "伊利股份2024年合并口径与母公司口径营业收入分别是多少",
+        [
+            _hit(NOTE_COST_MOUTAI_TEXT, company="伊利股份"),
+            _hit(NOTE_COST_PARENT_TEXT, company="伊利股份"),
+        ],
+    )
+
+    assert answer is None
+
+
+def test_consolidated_parent_answer_rejects_unverified_text_fallback_false_positive() -> None:
+    false_positive = """单位：亿元 本期发生额 上期发生额 项目 收入 成本 收入 成本 合计 1 1 136.25 136.25"""
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "伊利股份2024年合并口径与母公司口径营业收入分别是多少，差额多少",
+        [
+            _hit(
+                false_positive,
+                company="伊利股份",
+                statement_scope="consolidated",
+            ),
+            _hit(
+                NOTE_COST_PARENT_TEXT,
+                company="伊利股份",
+                statement_scope="parent",
+            ),
+        ],
+    )
+
+    assert answer is None
+
+
+def test_quarterly_reconciliation_reports_real_mismatch() -> None:
+    mismatched = ANNUAL_YILI_TEXT.replace("8,452,859,993.18", "8,452,859,993.19")
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "伊利股份2024年各季度归母净利润分别是多少，加总后是否等于全年披露值",
+        [_hit(QUARTERLY_YILI_TEXT), _hit(mismatched)],
+    )
+
+    assert answer is not None
+    assert "不一致" in answer
+    assert "差额-0.01元" in answer
+
+
+def test_single_company_answer_ignores_wrong_company_first_hit() -> None:
+    answer = GroundedAnswerGenerator._deterministic_table_answer(
+        "贵州茅台2024年营业收入及同比增幅是多少",
+        [
+            _hit(ANNUAL_YILI_TEXT, company="伊利股份"),
+            _hit(ANNUAL_MOUTAI_TEXT, company="贵州茅台"),
+        ],
+    )
+
+    assert answer is not None
+    assert "170,899,152,276.34" in answer
+    assert "115,393,310,976.69" not in answer
+
+
+def test_citation_excerpt_matches_remote_context_slice(monkeypatch) -> None:
+    text = "营业收入" + "证据" * (MAX_GENERATION_CONTEXT_CHARS + 10)
+    generator = GroundedAnswerGenerator(enabled=True, model="test")
+    generator.api_key = "test-key"
+    captured = {}
+
+    class Response:
+        def raise_for_status(self):
+            return None
+
+        def json(self):
+            return {"choices": [{"message": {"content": "回答[1]。"}}]}
+
+    def fake_post(*_args, **kwargs):
+        captured["payload"] = kwargs["json"]
+        return Response()
+
+    monkeypatch.setattr("findoc_rag.answer_generation.httpx.post", fake_post)
+    result = generator.generate("营业收入", [_hit(text)])
+
+    assert result.citations[0].excerpt == text[:MAX_GENERATION_CONTEXT_CHARS]
+    assert result.citations[0].excerpt in captured["payload"]["messages"][1]["content"]
+    assert result.claim_citations[0].citation_ordinals == [1]
 
 
 def test_abstention_detection_marks_refusal() -> None:
@@ -307,6 +555,49 @@ def test_remote_mode_deterministic_tables_priority(monkeypatch) -> None:
     )
     assert answer.provider == "deterministic-table"
     assert "第一至第四季度分别为5,922,814,507.71元" in answer.answer
+
+
+def test_deepseek_generation_never_falls_back_to_openai_key(monkeypatch) -> None:
+    monkeypatch.delenv("DEEPSEEK_API_KEY", raising=False)
+    monkeypatch.setenv("OPENAI_API_KEY", "must-not-leak-to-deepseek")
+
+    generator = GroundedAnswerGenerator(
+        enabled=True,
+        model="deepseek-chat",
+        endpoint="https://api.deepseek.com/chat/completions",
+    )
+
+    assert generator.api_key == ""
+
+
+def test_custom_generation_endpoint_uses_only_dedicated_key(monkeypatch) -> None:
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "must-not-leak-to-custom")
+    monkeypatch.setenv("OPENAI_API_KEY", "also-must-not-leak-to-custom")
+    monkeypatch.setenv("FINDOC_RAG_ANSWER_API_KEY", "custom-key")
+
+    generator = GroundedAnswerGenerator(
+        enabled=True,
+        model="custom-model",
+        endpoint="https://llm.example.test/v1/chat/completions",
+    )
+
+    assert generator.api_key == "custom-key"
+
+
+def test_custom_generation_endpoint_without_dedicated_key_gets_no_provider_key(
+    monkeypatch,
+) -> None:
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "must-not-leak-to-custom")
+    monkeypatch.setenv("OPENAI_API_KEY", "also-must-not-leak-to-custom")
+    monkeypatch.delenv("FINDOC_RAG_ANSWER_API_KEY", raising=False)
+
+    generator = GroundedAnswerGenerator(
+        enabled=True,
+        model="custom-model",
+        endpoint="https://llm.example.test/v1/chat/completions",
+    )
+
+    assert generator.api_key == ""
 
 
 def test_deterministic_concentration_single_company() -> None:

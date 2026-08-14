@@ -2,13 +2,16 @@ import os
 import re
 import time
 from decimal import Decimal, InvalidOperation
-from typing import Protocol
+from typing import Literal, Protocol
 
 import httpx
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
+from findoc_rag.documents.models import StructuredTableCell
 from findoc_rag.indexing import SearchHit
+from findoc_rag.provider_credentials import resolve_provider_api_key
 from findoc_rag.table_extraction import (
+    ExtractedCell,
     extract_annual_rows,
     extract_concentration,
     extract_note_cost,
@@ -17,6 +20,8 @@ from findoc_rag.table_extraction import (
 )
 
 MAX_GENERATION_CONTEXTS = 5
+MAX_GENERATION_CONTEXT_CHARS = 1800
+CITATION_ORDINAL_PATTERN = re.compile(r"\[(\d+)\]")
 
 QUARTERLY_ROW_ALIASES = (
     ("经营活动现金流量净额", "经营活动产生的现金流量净额"),
@@ -61,6 +66,7 @@ def _format_decimal(value: str) -> str:
 
 
 class Citation(BaseModel):
+    ordinal: int
     chunk_id: str
     page_start: int
     page_end: int
@@ -68,11 +74,19 @@ class Citation(BaseModel):
     excerpt: str = ""
 
 
+class ClaimCitation(BaseModel):
+    """A machine-readable claim-to-evidence edge for Agent consumers."""
+
+    claim: str
+    citation_ordinals: list[int]
+
+
 class GeneratedAnswer(BaseModel):
     answer: str
     citations: list[Citation]
     provider: str
     grounded: bool = True
+    claim_citations: list[ClaimCitation] = Field(default_factory=list)
 
 
 class AnswerGenerator(Protocol):
@@ -82,26 +96,67 @@ class AnswerGenerator(Protocol):
 class GroundedAnswerGenerator:
     """Evidence-first answer generator with an optional OpenAI-compatible backend."""
 
-    def __init__(self, model: str = "", endpoint: str = "", enabled: bool = False) -> None:
+    def __init__(
+        self,
+        model: str = "",
+        endpoint: str = "",
+        enabled: bool = False,
+        api_key: str | None = None,
+    ) -> None:
         self.enabled = enabled
         self.model = model or os.getenv("FINDOC_RAG_ANSWER_MODEL", "")
         self.endpoint = endpoint or os.getenv(
             "FINDOC_RAG_ANSWER_ENDPOINT", "https://api.deepseek.com/chat/completions"
         )
-        self.api_key = os.getenv("DEEPSEEK_API_KEY", "") or os.getenv("OPENAI_API_KEY", "")
+        self.api_key = resolve_provider_api_key(self.endpoint, api_key)
 
     @staticmethod
     def _citations(hits: list[SearchHit]) -> list[Citation]:
         return [
             Citation(
+                ordinal=ordinal,
                 chunk_id=h.chunk.chunk_id,
                 page_start=h.chunk.page_start,
                 page_end=h.chunk.page_end,
                 section_path=h.chunk.section_path,
-                excerpt=h.chunk.text[:1200],
+                excerpt=h.chunk.text[:MAX_GENERATION_CONTEXT_CHARS],
             )
-            for h in hits[:MAX_GENERATION_CONTEXTS]
+            for ordinal, h in enumerate(hits[:MAX_GENERATION_CONTEXTS], start=1)
         ]
+
+    @staticmethod
+    def _referenced_citations(
+        content: str, citations: list[Citation]
+    ) -> list[Citation] | None:
+        """Resolve every answer ordinal to the exact evidence item it names.
+
+        ``None`` means the answer is not safely displayable: it either contains
+        no citation or references an ordinal outside the supplied context.  A
+        filtered list is returned so API callers never receive unrelated hits
+        disguised as citations used by the answer.
+        """
+        ordinals = [int(value) for value in CITATION_ORDINAL_PATTERN.findall(content)]
+        available = {citation.ordinal: citation for citation in citations}
+        if not ordinals or any(ordinal not in available for ordinal in ordinals):
+            return None
+        return [available[ordinal] for ordinal in dict.fromkeys(ordinals)]
+
+    @staticmethod
+    def _claim_citations(content: str, citations: list[Citation]) -> list[ClaimCitation]:
+        available = {citation.ordinal for citation in citations}
+        claims: list[ClaimCitation] = []
+        for raw in re.split(r"(?<=[。；;])", content):
+            ordinals = [
+                ordinal
+                for ordinal in dict.fromkeys(
+                    int(value) for value in CITATION_ORDINAL_PATTERN.findall(raw)
+                )
+                if ordinal in available
+            ]
+            claim = CITATION_ORDINAL_PATTERN.sub("", raw).strip(" ，,。；;")
+            if claim and ordinals:
+                claims.append(ClaimCitation(claim=claim, citation_ordinals=ordinals))
+        return claims
 
     def generate(self, query: str, hits: list[SearchHit]) -> GeneratedAnswer:
         clarification = self._clarification_prompt(query)
@@ -133,17 +188,27 @@ class GroundedAnswerGenerator:
             os.getenv("FINDOC_RAG_REMOTE_DETERMINISTIC_TABLES") == "1"
         )
         if structured and (not remote or remote_deterministic):
+            referenced = self._referenced_citations(structured, citations)
+            if referenced is None:
+                return GeneratedAnswer(
+                    answer="当前结构化回答未提供可验证引用，系统拒绝展示。",
+                    citations=[],
+                    provider="guardrail-abstention",
+                    grounded=False,
+                )
             return GeneratedAnswer(
                 answer=structured,
-                citations=citations,
+                citations=referenced,
                 provider="deterministic-table",
+                claim_citations=self._claim_citations(structured, referenced),
             )
         if remote:
             return self._generate_remote(query, selected, citations)
         return GeneratedAnswer(
             answer="已找到相关证据，请展开“查看证据”核验原文。",
             citations=citations,
-            provider="extractive",
+            provider="evidence-only",
+            grounded=False,
         )
 
     @staticmethod
@@ -237,28 +302,80 @@ class GroundedAnswerGenerator:
         return text if "主要会计数据" in compact else None
 
     @staticmethod
+    def _table_cells(
+        hit: SearchHit,
+        table_type: Literal[
+            "quarterly", "note_cost", "segment", "annual_data", "concentration"
+        ],
+    ) -> list[StructuredTableCell | ExtractedCell]:
+        """Prefer verified index sidecars and retain the legacy text fallback."""
+        structured = [
+            cell
+            for table in getattr(hit.chunk, "structured_tables", [])
+            if table.table_type == table_type
+            for cell in table.cells
+        ]
+        if structured:
+            return structured
+        extractors = {
+            "quarterly": extract_quarterly,
+            "note_cost": extract_note_cost,
+            "segment": extract_segment,
+            "concentration": extract_concentration,
+        }
+        extractor = extractors.get(table_type)
+        return extractor(hit.chunk.text) if extractor is not None else []
+
+    @classmethod
+    def _annual_value(
+        cls, hit: SearchHit, row: str, year: int | None
+    ) -> str | None:
+        cells = cls._table_cells(hit, "annual_data")
+        matching = [cell for cell in cells if cell.row == row]
+        if matching:
+            if year is not None:
+                year_pattern = re.compile(rf"^{year}年(?:末)?$")
+                value = next(
+                    (cell.value for cell in matching if year_pattern.match(cell.column)),
+                    None,
+                )
+                if value is not None:
+                    return value
+            return matching[0].value
+        annual_text = cls._annual_table_text(hit)
+        if annual_text is None:
+            return None
+        rows = [item for item in extract_annual_rows(annual_text) if item.label == row]
+        if not rows:
+            return None
+        return rows[0].value_for_year(year) if year is not None else rows[0].values[0]
+
+    @staticmethod
     def _quarterly_table_answer(query: str, hits: list[SearchHit]) -> str | None:
         row = GroundedAnswerGenerator._quarterly_row(query)
         if row is None:
             return None
+        query_company = GroundedAnswerGenerator._query_company(query)
+        query_year = GroundedAnswerGenerator._query_year(query)
         quarterly: tuple[int, list[str]] | None = None
         annual: tuple[int, str] | None = None
         for index, hit in enumerate(hits, start=1):
-            cells = [
-                cell for cell in extract_quarterly(hit.chunk.text) if cell.row == row
-            ]
+            if not GroundedAnswerGenerator._hit_matches_identity(
+                hit, company=query_company, year=query_year
+            ):
+                continue
+            cells = [cell for cell in GroundedAnswerGenerator._table_cells(
+                hit, "quarterly"
+            ) if cell.row == row]
             if len(cells) == 4 and quarterly is None:
                 quarterly = (index, [cell.value for cell in cells])
-            annual_rows = []
-            annual_text = GroundedAnswerGenerator._annual_table_text(hit)
-            if annual_text is not None:
-                annual_rows = [
-                    annual_row
-                    for annual_row in extract_annual_rows(annual_text)
-                    if annual_row.label == row
-                ]
-            if annual_rows and annual is None:
-                annual = (index, annual_rows[0].value_2024)
+            if annual is None:
+                annual_year = query_year or hit.chunk.report_year
+                annual_value = GroundedAnswerGenerator._annual_value(
+                    hit, row, annual_year
+                )
+                if annual_value is not None:
+                    annual = (index, annual_value)
         if quarterly is None:
             return None
         values = [_format_decimal(value) for value in quarterly[1]]
@@ -274,11 +391,54 @@ class GroundedAnswerGenerator:
                 total = sum(Decimal(value) for value in quarterly[1])
             except InvalidOperation:
                 return None
+            annual_value = Decimal(annual[1])
+            relation = "一致" if total == annual_value else (
+                f"不一致，差额{_format_decimal(f'{total - annual_value}')}元"
+            )
             quote += (
                 f"；合计{_format_decimal(f'{total}')}元，"
-                f"与全年披露值{_format_decimal(annual[1])}元一致[{annual[0]}]"
+                f"与全年披露值{_format_decimal(annual[1])}元{relation}[{annual[0]}]"
             )
         return quote
+
+    @staticmethod
+    def _query_company(query: str) -> str | None:
+        companies = GroundedAnswerGenerator._query_companies(query)
+        return companies[0] if len(companies) == 1 else None
+
+    @staticmethod
+    def _query_companies(query: str) -> list[str]:
+        companies = []
+        if any(alias in query for alias in ("贵州茅台", "茅台", "600519")):
+            companies.append("贵州茅台")
+        if any(alias in query for alias in ("伊利股份", "伊利", "600887")):
+            companies.append("伊利股份")
+        return companies
+
+    @staticmethod
+    def _query_year(query: str) -> int | None:
+        match = re.search(r"20\d{2}", query)
+        return int(match.group()) if match else None
+
+    @staticmethod
+    def _hit_company(hit: SearchHit) -> str:
+        company = hit.chunk.company_name or ""
+        compact = re.sub(r"\s+", "", hit.chunk.text)
+        if company:
+            return company
+        if "贵州茅台" in compact:
+            return "贵州茅台"
+        if "伊利股份" in compact or "伊利集团" in compact:
+            return "伊利股份"
+        return ""
+
+    @staticmethod
+    def _hit_matches_identity(
+        hit: SearchHit, *, company: str | None, year: int | None
+    ) -> bool:
+        if company and GroundedAnswerGenerator._hit_company(hit) not in {"", company}:
+            return False
+        return not (year and hit.chunk.report_year not in {None, year})
 
     @staticmethod
     def _note_cost_answer(query: str, hits: list[SearchHit]) -> str | None:
@@ -286,8 +446,18 @@ class GroundedAnswerGenerator:
         want_revenue = "收入" in query and "成本" not in query
         if not (want_cost or want_revenue):
             return None
+        query_company = GroundedAnswerGenerator._query_company(query)
+        query_year = GroundedAnswerGenerator._query_year(query)
+        requested_scope = "parent" if "母公司" in query else "consolidated"
         for index, hit in enumerate(hits, start=1):
-            cells = extract_note_cost(hit.chunk.text)
+            if not GroundedAnswerGenerator._hit_matches_identity(
+                hit, company=query_company, year=query_year
+            ):
+                continue
+            hit_scope = GroundedAnswerGenerator._statement_scope(hit)
+            if hit_scope in {"consolidated", "parent"} and hit_scope != requested_scope:
+                continue
+            cells = GroundedAnswerGenerator._table_cells(hit, "note_cost")
             if not cells:
                 continue
             column = "本期成本" if want_cost else "本期收入"
@@ -313,12 +483,110 @@ class GroundedAnswerGenerator:
             )
         return None
 
+    @classmethod
+    def _deducted_profit_answer(
+        cls, query: str, hits: list[SearchHit]
+    ) -> str | None:
+        if not (
+            "归母净利润" in query
+            and "扣非" in query
+            and "非经常性损益" in query
+        ):
+            return None
+        query_company = cls._query_company(query)
+        query_year = cls._query_year(query)
+        annual: tuple[int, Decimal, Decimal] | None = None
+        deducted_rows = (
+            "归属于上市公司股东的扣除非经常性损益的净利润",
+            "归属于上市公司股东的扣除非经常性损益后的净利润",
+        )
+        for index, hit in enumerate(hits, start=1):
+            if not cls._hit_matches_identity(
+                hit, company=query_company, year=query_year
+            ):
+                continue
+            requested_year = query_year or hit.chunk.report_year
+            reported = cls._annual_value(
+                hit, "归属于上市公司股东的净利润", requested_year
+            )
+            deducted = next(
+                (
+                    value
+                    for row in deducted_rows
+                    if (value := cls._annual_value(hit, row, requested_year))
+                    is not None
+                ),
+                None,
+            )
+            if reported is not None and deducted is not None:
+                annual = (index, Decimal(reported), Decimal(deducted))
+                break
+        if annual is None:
+            return None
+        annual_index, reported, deducted = annual
+        nonrecurring = reported - deducted
+        formatted_nonrecurring = _format_decimal(f"{nonrecurring}")
+        evidence_index = next(
+            (
+                index
+                for index, hit in enumerate(hits, start=1)
+                if formatted_nonrecurring in re.sub(r"\s+", "", hit.chunk.text)
+            ),
+            None,
+        )
+        if evidence_index is None:
+            return None
+        difference = abs(nonrecurring)
+        higher = "归母口径" if nonrecurring >= 0 else "扣非口径"
+        return (
+            f"归母净利润为{_format_decimal(f'{reported}')}元，"
+            f"扣非归母净利润为{_format_decimal(f'{deducted}')}元[{annual_index}]；"
+            f"{higher}高{_format_decimal(f'{difference}')}元，"
+            f"与非经常性损益合计{formatted_nonrecurring}元的方向和金额一致"
+            f"[{evidence_index}]"
+        )
+
+    @staticmethod
+    def _forecast_commitment_answer(
+        query: str, hits: list[SearchHit]
+    ) -> str | None:
+        compact_query = re.sub(r"\s+", "", query)
+        if not any(cue in compact_query for cue in ("保证", "承诺")):
+            return None
+        for index, hit in enumerate(hits, start=1):
+            compact = re.sub(r"\s+", "", hit.chunk.text)
+            if not (
+                "不构成对投资者的业绩承诺" in compact
+                or "不构成业绩承诺" in compact
+            ):
+                continue
+            target = re.search(
+                r"计划实现营业总收入(?P<value>\d[\d,]*(?:\.\d+)?)亿元",
+                compact,
+            )
+            if target is None:
+                continue
+            year = re.search(r"20\d{2}", compact)
+            year_text = f"{year.group()}年" if year else ""
+            return (
+                f"不能保证。{year_text}营业总收入{target.group('value')}亿元"
+                "是经营计划目标，受未来经营环境影响存在不确定性，"
+                f"并不构成对投资者的业绩承诺[{index}]"
+            )
+        return None
+
     @staticmethod
     def _segment_answer(query: str, hits: list[SearchHit]) -> str | None:
         if "毛利率" not in query:
             return None
+        query_company = GroundedAnswerGenerator._query_company(query)
+        query_year = GroundedAnswerGenerator._query_year(query)
         for index, hit in enumerate(hits, start=1):
-            cells = extract_segment(hit.chunk.text)
+            if not GroundedAnswerGenerator._hit_matches_identity(
+                hit, company=query_company, year=query_year
+            ):
+                continue
+            cells = GroundedAnswerGenerator._table_cells(hit, "segment")
             if not cells:
                 continue
             if "直销" in query or "批发代理" in query or "销售模式" in query:
@@ -359,30 +627,35 @@ class GroundedAnswerGenerator:
     def _annual_revenue_answer(query: str, hits: list[SearchHit]) -> str | None:
         if "营业收入" not in query:
             return None
+        query_year = GroundedAnswerGenerator._query_year(query)
         company_values: dict[str, tuple[int, str, str | None]] = {}
         for index, hit in enumerate(hits, start=1):
+            if not GroundedAnswerGenerator._hit_matches_identity(
+                hit, company=None, year=query_year
+            ):
+                continue
+            company = GroundedAnswerGenerator._hit_company(hit)
+            if company not in ("贵州茅台", "伊利股份"):
+                continue
+            requested_year = query_year or hit.chunk.report_year
+            value = GroundedAnswerGenerator._annual_value(
+                hit, "营业收入", requested_year
+            )
+            if value is None:
+                continue
             annual_text = GroundedAnswerGenerator._annual_table_text(hit)
-            if annual_text is None:
-                continue
-            rows = [
-                row
-                for row in extract_annual_rows(annual_text)
-                if row.label == "营业收入"
-            ]
-            if not rows:
-                continue
-            company = hit.chunk.company_name or ""
-            if not company:
-                text = re.sub(r"\s+", "", hit.chunk.text)
-                company = (
-                    "贵州茅台"
-                    if "贵州茅台" in text
-                    else "伊利股份"
-                    if "伊利股份" in text
-                    else company
-                )
-            company_values[company] = (index, rows[0].value_2024, rows[0].yoy)
-        if "贵州茅台" in query and "伊利股份" in query:
+            text_rows = (
+                [row for row in extract_annual_rows(annual_text) if row.label == "营业收入"]
+                if annual_text is not None
+                else []
+            )
+            company_values[company] = (
+                index,
+                value,
+                text_rows[0].yoy if text_rows else None,
+            )
+        query_companies = GroundedAnswerGenerator._query_companies(query)
+        if set(query_companies) == {"贵州茅台", "伊利股份"}:
             if "贵州茅台" not in company_values or "伊利股份" not in company_values:
                 return None
             moutai_index, moutai_value, _ = company_values["贵州茅台"]
@@ -394,8 +667,15 @@ class GroundedAnswerGenerator:
                 f"伊利股份为{_format_decimal(yili_value)}元[{yili_index}]；"
                 f"{higher}高{_format_decimal(f'{abs(diff)}')}元"
             )
+        query_company = GroundedAnswerGenerator._query_company(query)
+        if query_company is not None:
+            selected = company_values.get(query_company)
+            if selected is None:
+                return None
+            company_values = {query_company: selected}
         for company, (index, value, yoy) in company_values.items():
-            parts = [f"{company}2024年营业收入为{_format_decimal(value)}元"]
+            year = query_year or 2024
+            parts = [f"{company}{year}年营业收入为{_format_decimal(value)}元"]
             if yoy is not None and ("同比" in query or "增幅" in query):
                 parts.append(f"同比增长{_format_decimal(yoy)}%")
             return "，".join(parts) + f"[{index}]"
@@ -407,9 +687,27 @@ class GroundedAnswerGenerator:
     ) -> str | None:
         if "合并" not in query or "母公司" not in query or "营业收入" not in query:
             return None
-        values: list[tuple[int, Decimal]] = []
+        query_company = GroundedAnswerGenerator._query_company(query)
+        query_year = GroundedAnswerGenerator._query_year(query)
+        values: dict[str, tuple[int, Decimal]] = {}
         for index, hit in enumerate(hits, start=1):
-            cells = extract_note_cost(hit.chunk.text)
+            if not GroundedAnswerGenerator._hit_matches_identity(
+                hit, company=query_company, year=query_year
+            ):
+                continue
+            cells = GroundedAnswerGenerator._table_cells(hit, "note_cost")
+            # Text fallback can hallucinate a four-column note table from an
+            # unrelated debt table.  This scope-sensitive answer therefore
+            # accepts only the coordinate-verified sidecar representation.
+            has_verified_note_cost = any(
+                table.table_type == "note_cost"
+                for table in getattr(hit.chunk, "structured_tables", [])
+            )
+            text_declares_yuan = bool(
+                re.search(r"单位\s*[：:]\s*元(?![万亿])", hit.chunk.text)
+            )
+            if not has_verified_note_cost and not text_declares_yuan:
+                continue
             total = next(
                 (
                     cell.value
@@ -419,17 +717,32 @@ class GroundedAnswerGenerator:
                 None,
             )
             if total is not None:
-                values.append((index, Decimal(total)))
-        if len(values) < 2:
+                scope = GroundedAnswerGenerator._statement_scope(hit)
+                if scope and scope not in values:
+                    values[scope] = (index, Decimal(total))
+        if "consolidated" not in values or "parent" not in values:
             return None
-        consolidated = max(values, key=lambda item: item[1])
-        parent = min(values, key=lambda item: item[1])
+        consolidated = values["consolidated"]
+        parent = values["parent"]
         diff = consolidated[1] - parent[1]
+        higher = "合并口径" if diff >= 0 else "母公司口径"
         return (
             f"合并口径营业收入为{_format_decimal(f'{consolidated[1]}')}元"
             f"[{consolidated[0]}]，母公司口径为{_format_decimal(f'{parent[1]}')}元"
-            f"[{parent[0]}]；合并口径高{_format_decimal(f'{diff}')}元"
+            f"[{parent[0]}]；{higher}高{_format_decimal(f'{abs(diff)}')}元"
         )
+
+    @staticmethod
+    def _statement_scope(hit: SearchHit) -> Literal["consolidated", "parent"] | None:
+        explicit = getattr(hit.chunk, "statement_scope", None)
+        if explicit in {"consolidated", "parent"}:
+            return explicit
+        context = normalize_scope_text(" ".join(hit.chunk.section_path) + "\n" + hit.chunk.text)
+        if "母公司财务报表主要项目注释" in context or "母公司利润表" in context:
+            return "parent"
+        if "合并财务报表项目注释" in context or "合并利润表" in context:
+            return "consolidated"
+        return None
 
     @staticmethod
     def _concentration_answer(query: str, hits: list[SearchHit]) -> str | None:
@@ -443,8 +756,13 @@ class GroundedAnswerGenerator:
         if not (want_customer or want_supplier):
             return None
         by_company: dict[str, tuple[int, str, str]] = {}
+        query_year = GroundedAnswerGenerator._query_year(query)
         for index, hit in enumerate(hits, start=1):
-            cells = extract_concentration(hit.chunk.text)
+            if not GroundedAnswerGenerator._hit_matches_identity(
+                hit, company=None, year=query_year
+            ):
+                continue
+            cells = GroundedAnswerGenerator._table_cells(hit, "concentration")
             values = {cell.column: cell.value for cell in cells}
             if "销售占比(%)" not in values or "采购占比(%)" not in values:
                 continue
@@ -520,6 +838,12 @@ class GroundedAnswerGenerator:
     ) -> str | None:
         """Return a citation-formatted deterministic answer from table cells."""
         compact = re.sub(r"\s+", "", query)
+        forecast_commitment = cls._forecast_commitment_answer(query, hits)
+        if forecast_commitment is not None:
+            return forecast_commitment
+        deducted_profit = cls._deducted_profit_answer(query, hits)
+        if deducted_profit is not None:
+            return deducted_profit
         if "季度" in compact:
             return cls._quarterly_table_answer(query, hits)
         if "合并" in compact and "母公司" in compact and "营业收入" in compact:
@@ -546,7 +870,10 @@ class GroundedAnswerGenerator:
         return None
 
     def _generate_remote(self, query: str, hits: list[SearchHit], citations: list[Citation]) -> GeneratedAnswer:
-        context = "\n\n".join(f"[{i + 1}] {hit.chunk.text[:1800]}" for i, hit in enumerate(hits))
+        context = "\n\n".join(
+            f"[{i + 1}] {hit.chunk.text[:MAX_GENERATION_CONTEXT_CHARS]}"
+            for i, hit in enumerate(hits)
+        )
         payload = {
             "model": self.model,
             "temperature": 0,
@@ -574,13 +901,29 @@ class GroundedAnswerGenerator:
             raise last_error  # type: ignore[misc]
         content = response.json()["choices"][0]["message"]["content"].strip()
         if self._is_abstention(content):
+            referenced = self._referenced_citations(content, citations)
             return GeneratedAnswer(
                 answer=content,
-                citations=citations,
+                citations=referenced or [],
                 provider="remote-abstention",
                 grounded=False,
+                claim_citations=self._claim_citations(content, referenced or []),
             )
-        valid_citation = rf"\[(?:[1-{MAX_GENERATION_CONTEXTS}])\]"
-        if not re.search(valid_citation, content):
-            return GeneratedAnswer(answer="当前回答未提供可验证引用，系统拒绝展示。", citations=citations, provider="guardrail-abstention", grounded=False)
-        return GeneratedAnswer(answer=content, citations=citations, provider="openai-compatible")
+        referenced = self._referenced_citations(content, citations)
+        if referenced is None:
+            return GeneratedAnswer(
+                answer="当前回答包含缺失或越界引用，系统拒绝展示。",
+                citations=[],
+                provider="guardrail-abstention",
+                grounded=False,
+            )
+        return GeneratedAnswer(
+            answer=content,
+            citations=referenced,
+            provider="openai-compatible",
+            claim_citations=self._claim_citations(content, referenced),
+        )
+
+
+def normalize_scope_text(text: str) -> str:
+    return re.sub(r"\s+", "", text)

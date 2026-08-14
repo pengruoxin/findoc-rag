@@ -6,6 +6,7 @@ import argparse
 import json
 from pathlib import Path
 
+from findoc_rag.benchmark_assets import benchmark_chunk_paths
 from findoc_rag.table_extraction import (
     extract_cells,
     normalize_label,
@@ -27,9 +28,7 @@ def parse_args() -> argparse.Namespace:
 
 def load_chunks(paths: list[Path] | None) -> dict[str, str]:
     chunks: dict[str, str] = {}
-    candidates = paths or sorted(
-        (ROOT / "data/catalog/versions").glob("*/chunks.jsonl")
-    )
+    candidates = paths or benchmark_chunk_paths(ROOT)
     for path in candidates:
         for line in path.read_text(encoding="utf-8").splitlines():
             if line.strip():

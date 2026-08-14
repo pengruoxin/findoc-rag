@@ -1,0 +1,47 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "robustness",
+  "baseline_run_id": "robustness-benchmark-v2-deepseek-chat-table-remote-v1",
+  "candidate_run_id": "robustness-benchmark-v2-deepseek-index-bound-final",
+  "baseline_code_revision": "640ab99b9cbd609d8be7b24d620caccee44ebc01",
+  "candidate_code_revision": "30d108d604f22e4db9588613614848b996917618",
+  "code_revision_match": false,
+  "baseline_code_dirty": true,
+  "candidate_code_dirty": true,
+  "baseline_code_fingerprint": null,
+  "candidate_code_fingerprint": "5f02074f2fd4e08042a2c9a05123c83d199d325959e271178a7ff849f40aff06",
+  "code_fingerprint_match": false,
+  "code_state_match": false,
+  "controlled_change": "index-bound structured artifacts in robustness + deterministic financial reconciliation + scorer/runner audit fixes; DeepSeek output is stochastic",
+  "paired_item_count": 29,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.8636363636363636,
+      "candidate": 1.0,
+      "delta": 0.13636363636363635
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.8620689655172413,
+      "candidate": 1.0,
+      "delta": 0.13793103448275867
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [
+    "audit_opinion_comparison",
+    "moutai_concentration",
+    "yili_2025_plan_bounded",
+    "yili_concentration"
+  ],
+  "behavior_regressed": [],
+  "strict_fixed": [
+    "moutai_concentration",
+    "yili_concentration",
+    "yili_consolidated_parent_revenue"
+  ],
+  "strict_regressed": []
+}

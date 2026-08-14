@@ -8,7 +8,35 @@ from findoc_rag.generation_evaluation import (
     GenerationRunItem,
     select_ragas_run_items,
 )
+from findoc_rag.ragas_coverage import (
+    count_complete_metric_rows,
+    summarize_metric_coverage,
+)
 from findoc_rag.ragas_runner import load_and_validate_run_manifest
+
+
+def test_ragas_metric_summary_exposes_failed_judge_coverage() -> None:
+    rows = [
+        {"faithfulness": 1.0, "answer_relevancy": 0.5},
+        {"faithfulness": None, "answer_relevancy": 0.75},
+    ]
+    metrics, coverage = summarize_metric_coverage(
+        rows, ["faithfulness", "answer_relevancy", "missing_metric"]
+    )
+
+    assert metrics["faithfulness"] == 1.0
+    assert coverage["faithfulness"] == {
+        "eligible_count": 2,
+        "valid_count": 1,
+        "failure_count": 1,
+        "coverage": 0.5,
+    }
+    assert metrics["missing_metric"] is None
+    assert coverage["missing_metric"]["failure_count"] == 2
+    assert count_complete_metric_rows(
+        rows, ["faithfulness", "answer_relevancy"]
+    ) == 1
+    assert count_complete_metric_rows(rows, ["missing_metric"]) == 0
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -136,8 +164,19 @@ def test_ragas_selection_rejects_run_errors_and_wrong_index() -> None:
 
     wrong_index = list(run_items)
     wrong_index[0] = wrong_index[0].model_copy(update={"index_id": "stale-index"})
-    with pytest.raises(ValueError, match="other than the dataset corpus index"):
+    with pytest.raises(ValueError, match="outside the validated evaluation binding"):
         select_ragas_run_items(dataset, wrong_index, "oracle_context")
+
+    migrated_run = [
+        item.model_copy(update={"index_id": "migration-index"}) for item in run_items
+    ]
+    eligible, _ = select_ragas_run_items(
+        dataset,
+        migrated_run,
+        "oracle_context",
+        allowed_index_ids={"migration-index"},
+    )
+    assert len(eligible) == 37
 
     inconsistent = list(run_items)
     inconsistent[0] = inconsistent[0].model_copy(update={"grounded": False})

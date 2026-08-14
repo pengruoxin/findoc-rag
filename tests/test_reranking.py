@@ -6,10 +6,17 @@ from findoc_rag.config import (
     RetrievalSettings,
     ScopeRoutingSettings,
 )
-from findoc_rag.documents.models import BoundingBox, DocumentChunk, ElementReference
+from findoc_rag.documents.models import (
+    BoundingBox,
+    DocumentChunk,
+    ElementReference,
+    StructuredTable,
+    StructuredTableCell,
+)
 from findoc_rag.indexing import PersistentIndex, SearchHit
 from findoc_rag.reranking import CrossEncoderReranker
 from findoc_rag.service import RetrievalService, SearchRequest
+from findoc_rag.structured_tables import chunk_payload_sha256
 
 
 def chunk(chunk_id: str, text: str) -> DocumentChunk:
@@ -151,5 +158,53 @@ def test_service_records_scope_routing_stage(tmp_path: Path) -> None:
 
     assert response.inferred_scope == "annual_summary"
     assert response.hits[0].chunk.chunk_id == "chunk-2"
-    assert [stage.stage for stage in trace.stages] == ["lexical", "scope"]
+    assert [stage.stage for stage in trace.stages] == ["lexical", "scope", "structured"]
     assert trace.inferred_scope == "annual_summary"
+
+
+def test_service_consumes_index_bound_structured_table_artifact_online(
+    tmp_path: Path,
+) -> None:
+    plain = chunk("chunk-1", "各季度营业收入经营情况说明")
+    verified = chunk("chunk-2", "2024年分季度主要财务数据")
+    table = StructuredTable(
+        table_id="chunk-2:quarterly",
+        chunk_id=verified.chunk_id,
+        chunk_sha256=chunk_payload_sha256(verified),
+        table_type="quarterly",
+        page_start=1,
+        page_end=1,
+        source="coordinate",
+        cells=[
+            StructuredTableCell(row="营业收入", column="第一季度", value="1")
+        ],
+    )
+    source = tmp_path / "chunks.jsonl"
+    source.write_text(
+        plain.model_dump_json() + "\n" + verified.model_dump_json() + "\n",
+        encoding="utf-8",
+    )
+    index_dir = tmp_path / "index"
+    PersistentIndex.build(
+        index_dir,
+        [plain, verified],
+        source,
+        structured_tables=[table],
+    )
+    service = RetrievalService(
+        RetrievalSettings(
+            index_dir=index_dir, default_mode="lexical", top_k=1, candidate_k=2
+        ),
+        ObservabilitySettings(trace_db=tmp_path / "traces.sqlite3"),
+    )
+
+    response = service.search(
+        SearchRequest(query="2024年各季度营业收入是多少"),
+        "request-structured",
+    )
+    trace = service.trace_store.get(response.trace_id)
+
+    assert response.hits[0].chunk.chunk_id == "chunk-2"
+    assert response.hits[0].chunk.structured_tables[0].table_id == table.table_id
+    assert [stage.stage for stage in trace.stages] == ["lexical", "structured"]
+    assert trace.stages[-1].hits[0].retrieval_rank is not None

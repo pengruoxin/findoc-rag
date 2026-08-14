@@ -1,0 +1,2317 @@
+{
+  "filter": "query_parser",
+  "mode": "lexical",
+  "positive_pair_count": 111,
+  "exact_metric_match_count": 109,
+  "fixed": [],
+  "regressed": [],
+  "mrr_improved": [],
+  "mrr_regressed": [],
+  "by_regime": {
+    "canonical": {
+      "hit_at_5": {
+        "old": 0.8918918918918919,
+        "new": 0.8918918918918919,
+        "delta": 0.0
+      },
+      "mrr_at_5": {
+        "old": 0.7387387387387387,
+        "new": 0.7387387387387387,
+        "delta": 0.0
+      },
+      "recall_at_5": {
+        "old": 0.8648648648648649,
+        "new": 0.8648648648648649,
+        "delta": 0.0
+      },
+      "ndcg_at_5": {
+        "old": 0.754336086311279,
+        "new": 0.754336086311279,
+        "delta": 0.0
+      },
+      "candidate_recall": {
+        "old": 0.9459459459459459,
+        "new": 0.9459459459459459,
+        "delta": 0.0
+      }
+    },
+    "ticker_or_finance_shorthand": {
+      "hit_at_5": {
+        "old": 0.8918918918918919,
+        "new": 0.8918918918918919,
+        "delta": 0.0
+      },
+      "mrr_at_5": {
+        "old": 0.7599099099099099,
+        "new": 0.7599099099099099,
+        "delta": 0.0
+      },
+      "recall_at_5": {
+        "old": 0.8513513513513513,
+        "new": 0.8513513513513513,
+        "delta": 0.0
+      },
+      "ndcg_at_5": {
+        "old": 0.766455823550951,
+        "new": 0.766455823550951,
+        "delta": 0.0
+      },
+      "candidate_recall": {
+        "old": 0.918918918918919,
+        "new": 0.918918918918919,
+        "delta": 0.0
+      }
+    },
+    "semantic_or_relative_time": {
+      "hit_at_5": {
+        "old": 0.918918918918919,
+        "new": 0.918918918918919,
+        "delta": 0.0
+      },
+      "mrr_at_5": {
+        "old": 0.7612612612612613,
+        "new": 0.7612612612612613,
+        "delta": 0.0
+      },
+      "recall_at_5": {
+        "old": 0.8513513513513513,
+        "new": 0.8783783783783784,
+        "delta": 0.027027027027027084
+      },
+      "ndcg_at_5": {
+        "old": 0.7540916672435497,
+        "new": 0.7709578975139236,
+        "delta": 0.016866230270373928
+      },
+      "candidate_recall": {
+        "old": 0.9459459459459459,
+        "new": 0.9459459459459459,
+        "delta": 0.0
+      }
+    }
+  },
+  "pairs": [
+    {
+      "query_id": "audit_opinion_comparison",
+      "canonical_id": "audit_opinion_comparison",
+      "regime": "canonical",
+      "query": "贵州茅台和伊利股份2024年财务报表的审计意见分别是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.8503449055347546,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.8503449055347546,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "audit_opinion_comparison::audit_opinion_comparison:v1",
+      "canonical_id": "audit_opinion_comparison",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519和600887 2024年财务报表的审计意见都是什么？",
+      "old": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "audit_opinion_comparison::audit_opinion_comparison:v2",
+      "canonical_id": "audit_opinion_comparison",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台和伊利去年的财务报表各自拿到什么审计意见？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.6131471927654584,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "customer_concentration_comparison",
+      "canonical_id": "customer_concentration_comparison",
+      "regime": "canonical",
+      "query": "贵州茅台和伊利股份2024年前五名客户销售占比谁更高，高多少个百分点？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "customer_concentration_comparison::customer_concentration_comparison:v1",
+      "canonical_id": "customer_concentration_comparison",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519和600887 2024年前五大客户销售占比谁更高，高多少个百分点？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "customer_concentration_comparison::customer_concentration_comparison:v2",
+      "canonical_id": "customer_concentration_comparison",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台和伊利股份去年前五大客户贡献的销售占比哪家占比更高，领先多少个百分点？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "key_audit_matters_comparison",
+      "canonical_id": "key_audit_matters_comparison",
+      "regime": "canonical",
+      "query": "贵州茅台和伊利股份2024年关键审计事项分别有哪些？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9558295932317544,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9558295932317544,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "key_audit_matters_comparison::key_audit_matters_comparison:v1",
+      "canonical_id": "key_audit_matters_comparison",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519和600887 2024年关键审计事项分别有哪些？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "key_audit_matters_comparison::key_audit_matters_comparison:v2",
+      "canonical_id": "key_audit_matters_comparison",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台和伊利股份去年各自的关键审计事项是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9047172294870751,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9047172294870751,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_annual_deducted_profit",
+      "canonical_id": "moutai_annual_deducted_profit",
+      "regime": "canonical",
+      "query": "贵州茅台2024年归母净利润与扣非归母净利润分别是多少？结合非经常性损益合计核对两者差额。",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.3333333333333333,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.5437713091520254,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.3333333333333333,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.5437713091520254,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_annual_deducted_profit::moutai_annual_deducted_profit:v1",
+      "canonical_id": "moutai_annual_deducted_profit",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 2024年归母净利与扣非净利各是多少？结合非经损益合计核对两者差额。",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6240505200038379,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6240505200038379,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_annual_deducted_profit::moutai_annual_deducted_profit:v2",
+      "canonical_id": "moutai_annual_deducted_profit",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台去年归属于母公司股东的净利润与扣非归属于母公司股东的净利润分别是多少？结合非经常性损益合计核对两者差额。",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.38685280723454163,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.38685280723454163,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_business_chain",
+      "canonical_id": "moutai_business_chain",
+      "regime": "canonical",
+      "query": "贵州茅台的主要业务、生产工艺流程和销售渠道分别是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_business_chain::moutai_business_chain:v1",
+      "canonical_id": "moutai_business_chain",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 的主要业务、生产工艺流程和渠道都是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_business_chain::moutai_business_chain:v2",
+      "canonical_id": "moutai_business_chain",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台的主要业务、生产工艺流程和销售渠道各自是怎样的？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_cashflow_change",
+      "canonical_id": "moutai_cashflow_change",
+      "regime": "canonical",
+      "query": "贵州茅台2024年经营活动现金流量净额、同比增幅及增长原因分别是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_cashflow_change::moutai_cashflow_change:v1",
+      "canonical_id": "moutai_cashflow_change",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 2024年经营现金流净额、同比增幅及增长原因都是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.43067655807339306,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.43067655807339306,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_cashflow_change::moutai_cashflow_change:v2",
+      "canonical_id": "moutai_cashflow_change",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台去年经营现金流净额、同比增幅及增长原因分别是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_channel_margin",
+      "canonical_id": "moutai_channel_margin",
+      "regime": "canonical",
+      "query": "贵州茅台2024年直销与批发代理哪种模式毛利率更高，高多少个百分点？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_channel_margin::moutai_channel_margin:v1",
+      "canonical_id": "moutai_channel_margin",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 2024年直销与批发代理哪种模式毛利率更高，高多少个百分点？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_channel_margin::moutai_channel_margin:v2",
+      "canonical_id": "moutai_channel_margin",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台去年直销与批发代理两种模式差几个百分点，哪种更高？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_concentration",
+      "canonical_id": "moutai_concentration",
+      "regime": "canonical",
+      "query": "贵州茅台2024年前五名客户销售占比和前五名供应商采购占比分别是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_concentration::moutai_concentration:v1",
+      "canonical_id": "moutai_concentration",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 2024年前五大客户销售占比和前五大供应商采购占比各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_concentration::moutai_concentration:v2",
+      "canonical_id": "moutai_concentration",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台去年前五大客户贡献的销售占比和前五大供应商对应的采购占比各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_cost_components",
+      "canonical_id": "moutai_cost_components",
+      "regime": "canonical",
+      "query": "贵州茅台2024年酒类成本由哪些项目构成，各项目金额是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_cost_components::moutai_cost_components:v1",
+      "canonical_id": "moutai_cost_components",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 2024年酒类成本由哪些项目构成，各项目金额是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_cost_components::moutai_cost_components:v2",
+      "canonical_id": "moutai_cost_components",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台去年酒类成本由哪些项目构成，各项目金额是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_cost_reconciliation",
+      "canonical_id": "moutai_cost_reconciliation",
+      "regime": "canonical",
+      "query": "为什么贵州茅台2024年主营业务成本与营业成本合计不同，差额是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.43067655807339306,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.43067655807339306,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_cost_reconciliation::moutai_cost_reconciliation:v1",
+      "canonical_id": "moutai_cost_reconciliation",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "为什么600519 2024年主营业务成本与营业成本合计不同，差额是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_cost_reconciliation::moutai_cost_reconciliation:v2",
+      "canonical_id": "moutai_cost_reconciliation",
+      "regime": "semantic_or_relative_time",
+      "query": "为什么贵州茅台去年主营业务成本与营业成本合计不同，差额是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.43067655807339306,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.43067655807339306,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_disclosed_risks",
+      "canonical_id": "moutai_disclosed_risks",
+      "regime": "canonical",
+      "query": "贵州茅台2024年报披露了哪些可能面对的风险？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_disclosed_risks::moutai_disclosed_risks:v1",
+      "canonical_id": "moutai_disclosed_risks",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 2024年报披露了哪些可能面对的风险？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_disclosed_risks::moutai_disclosed_risks:v2",
+      "canonical_id": "moutai_disclosed_risks",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台去年的年报里提到的主要风险有哪些？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_product_margin",
+      "canonical_id": "moutai_product_margin",
+      "regime": "canonical",
+      "query": "贵州茅台2024年茅台酒和其他系列酒的毛利率分别是多少？",
+      "old": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_product_margin::moutai_product_margin:v1",
+      "canonical_id": "moutai_product_margin",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 2024年茅台酒和其他系列酒的毛利率各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.3333333333333333,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.5,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.3333333333333333,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.5,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_product_margin::moutai_product_margin:v2",
+      "canonical_id": "moutai_product_margin",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台去年茅台酒和其他系列酒的毛利水平各是多少？",
+      "old": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_production_sales_inventory",
+      "canonical_id": "moutai_production_sales_inventory",
+      "regime": "canonical",
+      "query": "贵州茅台2024年酒类生产量、销售量和库存量分别是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_production_sales_inventory::moutai_production_sales_inventory:v1",
+      "canonical_id": "moutai_production_sales_inventory",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 2024年酒类生产量、销售量和库存量各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_production_sales_inventory::moutai_production_sales_inventory:v2",
+      "canonical_id": "moutai_production_sales_inventory",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台去年酒类生产量、销售量和库存量各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_quarterly_cashflow",
+      "canonical_id": "moutai_quarterly_cashflow",
+      "regime": "canonical",
+      "query": "贵州茅台2024年四个季度经营活动现金流量净额分别是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.43067655807339306,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.43067655807339306,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_quarterly_cashflow::moutai_quarterly_cashflow:v1",
+      "canonical_id": "moutai_quarterly_cashflow",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 2024年四个季度经营现金流净额各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_quarterly_cashflow::moutai_quarterly_cashflow:v2",
+      "canonical_id": "moutai_quarterly_cashflow",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台去年四个季度经营现金流净额各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.3333333333333333,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.5,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.3333333333333333,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.5,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_rd_composition",
+      "canonical_id": "moutai_rd_composition",
+      "regime": "canonical",
+      "query": "贵州茅台2024年研发投入由哪些部分构成，合计及占营收比例是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_rd_composition::moutai_rd_composition:v1",
+      "canonical_id": "moutai_rd_composition",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 2024年研发投入由哪些部分构成，合计及占营收比例是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_rd_composition::moutai_rd_composition:v2",
+      "canonical_id": "moutai_rd_composition",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台去年研发投入总额由哪些部分构成，合计及占营收比例是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_revenue_yoy",
+      "canonical_id": "moutai_revenue_yoy",
+      "regime": "canonical",
+      "query": "贵州茅台2024年营业收入及同比增幅是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_revenue_yoy::moutai_revenue_yoy:v1",
+      "canonical_id": "moutai_revenue_yoy",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 2024年营收及同比增幅是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_revenue_yoy::moutai_revenue_yoy:v2",
+      "canonical_id": "moutai_revenue_yoy",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台去年营收及同比增幅是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_roe",
+      "canonical_id": "moutai_roe",
+      "regime": "canonical",
+      "query": "贵州茅台2024年加权平均净资产收益率是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "moutai_roe::moutai_roe:v1",
+      "canonical_id": "moutai_roe",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519 2024年ROE是多少？",
+      "old": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      },
+      "new": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      }
+    },
+    {
+      "query_id": "moutai_roe::moutai_roe:v2",
+      "canonical_id": "moutai_roe",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台去年净资产回报率是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "rd_cross_company",
+      "canonical_id": "rd_cross_company",
+      "regime": "canonical",
+      "query": "比较贵州茅台和伊利股份2024年披露的研发投入合计，哪家更高，差额多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "rd_cross_company::rd_cross_company:v1",
+      "canonical_id": "rd_cross_company",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "比较600519和600887 2024年披露的研发投入合计，哪家更高，差额多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "rd_cross_company::rd_cross_company:v2",
+      "canonical_id": "rd_cross_company",
+      "regime": "semantic_or_relative_time",
+      "query": "比较贵州茅台和伊利股份去年披露的研发投入总额合计，哪家更高，差额多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "revenue_cross_company",
+      "canonical_id": "revenue_cross_company",
+      "regime": "canonical",
+      "query": "比较贵州茅台与伊利股份2024年营业收入，哪家更高，差额是多少？",
+      "old": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      },
+      "new": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      }
+    },
+    {
+      "query_id": "revenue_cross_company::revenue_cross_company:v1",
+      "canonical_id": "revenue_cross_company",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "比较600519与600887 2024年营收，哪家更高，差额是多少？",
+      "old": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      },
+      "new": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      }
+    },
+    {
+      "query_id": "revenue_cross_company::revenue_cross_company:v2",
+      "canonical_id": "revenue_cross_company",
+      "regime": "semantic_or_relative_time",
+      "query": "比较贵州茅台与伊利股份去年营收，两家相差多少，哪家更高？",
+      "old": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      },
+      "new": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      }
+    },
+    {
+      "query_id": "supplier_concentration_comparison",
+      "canonical_id": "supplier_concentration_comparison",
+      "regime": "canonical",
+      "query": "贵州茅台和伊利股份2024年前五名供应商采购占比谁更高，高多少个百分点？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "supplier_concentration_comparison::supplier_concentration_comparison:v1",
+      "canonical_id": "supplier_concentration_comparison",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600519和600887 2024年前五大供应商采购占比谁更高，高多少个百分点？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "supplier_concentration_comparison::supplier_concentration_comparison:v2",
+      "canonical_id": "supplier_concentration_comparison",
+      "regime": "semantic_or_relative_time",
+      "query": "贵州茅台和伊利股份去年前五大供应商对应的采购占比哪家占比更高，领先多少个百分点？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_2025_plan_bounded",
+      "canonical_id": "yili_2025_plan_bounded",
+      "regime": "canonical",
+      "query": "伊利股份是否保证2025年一定实现1,190亿元营业总收入？",
+      "old": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      },
+      "new": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      }
+    },
+    {
+      "query_id": "yili_2025_plan_bounded::yili_2025_plan_bounded:v1",
+      "canonical_id": "yili_2025_plan_bounded",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 是否保证2025年一定实现1,190亿元营收？",
+      "old": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      },
+      "new": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      }
+    },
+    {
+      "query_id": "yili_2025_plan_bounded::yili_2025_plan_bounded:v2",
+      "canonical_id": "yili_2025_plan_bounded",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份有没有承诺去年一定实现1,190亿元营业总收入？",
+      "old": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      },
+      "new": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": false
+      }
+    },
+    {
+      "query_id": "yili_annual_deducted_profit",
+      "canonical_id": "yili_annual_deducted_profit",
+      "regime": "canonical",
+      "query": "伊利股份2024年归母净利润与扣非归母净利润分别是多少？结合非经常性损益合计核对两者差额。",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.2640681225725909,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.2640681225725909,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_annual_deducted_profit::yili_annual_deducted_profit:v1",
+      "canonical_id": "yili_annual_deducted_profit",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 2024年归母净利与扣非净利各是多少？结合非经损益合计核对两者差额。",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.2,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.23719771276929622,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.2,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.23719771276929622,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_annual_deducted_profit::yili_annual_deducted_profit:v2",
+      "canonical_id": "yili_annual_deducted_profit",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份去年归属于母公司股东的净利润与扣非归属于母公司股东的净利润分别是多少？结合非经常性损益合计核对两者差额。",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.3333333333333333,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.3065735963827292,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.3333333333333333,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.3065735963827292,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_cashflow_change",
+      "canonical_id": "yili_cashflow_change",
+      "regime": "canonical",
+      "query": "伊利股份2024年经营活动现金流量净额、同比增幅和变动原因是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_cashflow_change::yili_cashflow_change:v1",
+      "canonical_id": "yili_cashflow_change",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 2024年经营现金流净额、同比增幅和变动原因是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_cashflow_change::yili_cashflow_change:v2",
+      "canonical_id": "yili_cashflow_change",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份去年经营现金流净额、同比增幅和变动原因是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_concentration",
+      "canonical_id": "yili_concentration",
+      "regime": "canonical",
+      "query": "伊利股份2024年前五名客户销售占比和前五名供应商采购占比分别是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_concentration::yili_concentration:v1",
+      "canonical_id": "yili_concentration",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 2024年前五大客户销售占比和前五大供应商采购占比各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_concentration::yili_concentration:v2",
+      "canonical_id": "yili_concentration",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份去年前五大客户贡献的销售占比和前五大供应商对应的采购占比各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_consolidated_parent_revenue",
+      "canonical_id": "yili_consolidated_parent_revenue",
+      "regime": "canonical",
+      "query": "伊利股份2024年合并口径与母公司口径营业收入分别是多少，差额多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.5012658353418871,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.5012658353418871,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_consolidated_parent_revenue::yili_consolidated_parent_revenue:v1",
+      "canonical_id": "yili_consolidated_parent_revenue",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 2024年合并口径与母公司口径营收分别是多少，差额多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.3333333333333333,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.5706417189553201,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.3333333333333333,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.5706417189553201,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_consolidated_parent_revenue::yili_consolidated_parent_revenue:v2",
+      "canonical_id": "yili_consolidated_parent_revenue",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份去年合并口径与母公司口径营收分别是多少，差额多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.5012658353418871,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.25,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.5012658353418871,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_cost_reconciliation",
+      "canonical_id": "yili_cost_reconciliation",
+      "regime": "canonical",
+      "query": "为什么伊利股份2024年主营业务成本与营业成本合计不同，差额是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_cost_reconciliation::yili_cost_reconciliation:v1",
+      "canonical_id": "yili_cost_reconciliation",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "为什么600887 2024年主营业务成本与营业成本合计不同，差额是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_cost_reconciliation::yili_cost_reconciliation:v2",
+      "canonical_id": "yili_cost_reconciliation",
+      "regime": "semantic_or_relative_time",
+      "query": "为什么伊利股份去年主营业务成本与营业成本合计不同，差额是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_disclosed_risks",
+      "canonical_id": "yili_disclosed_risks",
+      "regime": "canonical",
+      "query": "伊利股份2024年报披露了哪些主要风险？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9197207891481876,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.9197207891481876,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_disclosed_risks::yili_disclosed_risks:v1",
+      "canonical_id": "yili_disclosed_risks",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 2024年报披露了哪些主要风险？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_disclosed_risks::yili_disclosed_risks:v2",
+      "canonical_id": "yili_disclosed_risks",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利去年的年报里提到的主要风险有哪些？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_dividend_timing",
+      "canonical_id": "yili_dividend_timing",
+      "regime": "canonical",
+      "query": "区分伊利股份在2024年内实施的2023年度现金分红与年报提出的2024年度分红预案：每股和总额分别是多少，哪一项已实施？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.8772153153380493,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.8772153153380493,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_dividend_timing::yili_dividend_timing:v1",
+      "canonical_id": "yili_dividend_timing",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "区分600887在2024年内实施的2023年度现金分红与年报提出的2024年度分红预案：每股和总额分别是多少，哪一项已实施？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.8772153153380493,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.8772153153380493,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_dividend_timing::yili_dividend_timing:v2",
+      "canonical_id": "yili_dividend_timing",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利去年实施的2023年度现金分红，和年报提出的2024年度分红预案，各自每股及总额是多少？哪一个已经实施？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.6131471927654584,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.8503449055347546,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_inventory_policy",
+      "canonical_id": "yili_inventory_policy",
+      "regime": "canonical",
+      "query": "伊利股份存货发出采用什么计价方法，盘存制度和低值易耗品摊销方法是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_inventory_policy::yili_inventory_policy:v1",
+      "canonical_id": "yili_inventory_policy",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 存货发出采用什么计价方法，盘存制度和低值易耗品摊销方法是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_inventory_policy::yili_inventory_policy:v2",
+      "canonical_id": "yili_inventory_policy",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份存货发出采用什么计价方法，盘存制度和低值易耗品摊销方法是怎样的？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_liquid_milk_inventory",
+      "canonical_id": "yili_liquid_milk_inventory",
+      "regime": "canonical",
+      "query": "伊利股份2024年液体乳产量、销量、库存量及库存增加原因是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_liquid_milk_inventory::yili_liquid_milk_inventory:v1",
+      "canonical_id": "yili_liquid_milk_inventory",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 2024年液体乳产量、销量、库存量及库存增加原因是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_liquid_milk_inventory::yili_liquid_milk_inventory:v2",
+      "canonical_id": "yili_liquid_milk_inventory",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份去年液体乳产量、销量、库存量及库存增加原因是什么？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_note_cost_scope",
+      "canonical_id": "yili_note_cost_scope",
+      "regime": "canonical",
+      "query": "伊利股份财务报表附注中2024年主营业务、其他业务和营业成本合计分别是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_note_cost_scope::yili_note_cost_scope:v1",
+      "canonical_id": "yili_note_cost_scope",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887年报附注中2024年主营业务、其他业务和营业成本合计各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_note_cost_scope::yili_note_cost_scope:v2",
+      "canonical_id": "yili_note_cost_scope",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份财务报表附注中去年主营业务、其他业务和营业成本合计各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_product_margin",
+      "canonical_id": "yili_product_margin",
+      "regime": "canonical",
+      "query": "伊利股份2024年各产品毛利率分别是多少，哪类最高？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_product_margin::yili_product_margin:v1",
+      "canonical_id": "yili_product_margin",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 2024年各产品毛利率分别是多少，哪类最高？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_product_margin::yili_product_margin:v2",
+      "canonical_id": "yili_product_margin",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份去年各产品毛利水平分别是多少，哪类最高？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_quarterly_cashflow_reconcile",
+      "canonical_id": "yili_quarterly_cashflow_reconcile",
+      "regime": "canonical",
+      "query": "伊利股份2024年各季度经营活动现金流量净额是多少，合计是否与全年一致？",
+      "old": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 0,
+        "mrr_at_5": 0.0,
+        "recall_at_5": 0.0,
+        "ndcg_at_5": 0.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_quarterly_cashflow_reconcile::yili_quarterly_cashflow_reconcile:v1",
+      "canonical_id": "yili_quarterly_cashflow_reconcile",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 2024年各季度经营现金流净额是多少，合计是否与全年一致？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.6131471927654584,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.6131471927654584,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_quarterly_cashflow_reconcile::yili_quarterly_cashflow_reconcile:v2",
+      "canonical_id": "yili_quarterly_cashflow_reconcile",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份去年各季度经营现金流净额是多少，合计是否与全年一致？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.6131471927654584,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.6131471927654584,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_quarterly_net_profit",
+      "canonical_id": "yili_quarterly_net_profit",
+      "regime": "canonical",
+      "query": "伊利股份2024年各季度归母净利润分别是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_quarterly_net_profit::yili_quarterly_net_profit:v1",
+      "canonical_id": "yili_quarterly_net_profit",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 2024年各季度归母净利各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_quarterly_net_profit::yili_quarterly_net_profit:v2",
+      "canonical_id": "yili_quarterly_net_profit",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份去年各季度归属于母公司股东的净利润各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_quarterly_profit_reconcile",
+      "canonical_id": "yili_quarterly_profit_reconcile",
+      "regime": "canonical",
+      "query": "伊利股份2024年四个季度归母净利润分别是多少？加总后是否等于全年披露值？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.6131471927654584,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.6131471927654584,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_quarterly_profit_reconcile::yili_quarterly_profit_reconcile:v1",
+      "canonical_id": "yili_quarterly_profit_reconcile",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 2024年四个季度归母净利各是多少？加总后是否等于全年披露值？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.6131471927654584,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 0.5,
+        "ndcg_at_5": 0.6131471927654584,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_quarterly_profit_reconcile::yili_quarterly_profit_reconcile:v2",
+      "canonical_id": "yili_quarterly_profit_reconcile",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份去年四个季度归属于母公司股东的净利润分别是多少？加总后是否等于全年披露值？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.8772153153380493,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.8772153153380493,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_rd_staff",
+      "canonical_id": "yili_rd_staff",
+      "regime": "canonical",
+      "query": "伊利股份2024年研发投入、占营收比例及研发人员数量和占比分别是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_rd_staff::yili_rd_staff:v1",
+      "canonical_id": "yili_rd_staff",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 2024年研发投入、占营收比例及研发人员数量和占比各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_rd_staff::yili_rd_staff:v2",
+      "canonical_id": "yili_rd_staff",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份去年研发投入总额、占营收比例及研发人员数量和占比各是多少？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_sales_channels",
+      "canonical_id": "yili_sales_channels",
+      "regime": "canonical",
+      "query": "伊利股份采用什么销售模式，覆盖哪些渠道？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_sales_channels::yili_sales_channels:v1",
+      "canonical_id": "yili_sales_channels",
+      "regime": "ticker_or_finance_shorthand",
+      "query": "600887 采用什么销售模式，覆盖哪些渠道？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 1.0,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 1.0,
+        "candidate_recall": true
+      }
+    },
+    {
+      "query_id": "yili_sales_channels::yili_sales_channels:v2",
+      "canonical_id": "yili_sales_channels",
+      "regime": "semantic_or_relative_time",
+      "query": "伊利股份销售是怎么做的，主要覆盖哪些渠道？",
+      "old": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      },
+      "new": {
+        "hit_at_5": 1,
+        "mrr_at_5": 0.5,
+        "recall_at_5": 1.0,
+        "ndcg_at_5": 0.6309297535714575,
+        "candidate_recall": true
+      }
+    }
+  ],
+  "old_run": "historical-10fb-expanded-v2",
+  "new_run": "migration-9898-routed-v1"
+}

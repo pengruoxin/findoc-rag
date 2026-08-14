@@ -128,6 +128,71 @@ def score_scope(hit: SearchHit, scope: QueryScope) -> int:
     return 2 * positive - 2 * conflicting
 
 
+def score_structured_evidence(query: str, hit: SearchHit) -> int:
+    """Promote coordinate-verified table families required by the query."""
+    table_types = {table.table_type for table in hit.chunk.structured_tables}
+    score = 0
+    if "季度" in query:
+        if "quarterly" in table_types:
+            score += 20
+        if ("合计" in query or "全年" in query) and "annual_data" in table_types:
+            score += 16
+    if "毛利率" in query and "segment" in table_types:
+        score += 20
+    if (
+        "主营业务" in query
+        and any(cue in query for cue in ("分产品", "分行业", "毛利率"))
+        and "segment" in table_types
+    ):
+        score += 20
+    if (
+        "合并" in query
+        and "母公司" in query
+        and "营业收入" in query
+        and "note_cost" in table_types
+    ):
+        score += 20
+    if (
+        "成本" in query
+        and any(cue in query for cue in ("差额", "不同", "为什么", "附注"))
+        and "note_cost" in table_types
+    ):
+        score += 20
+    if (
+        "营业收入" in query
+        and "annual_data" in table_types
+        and not any(cue in query for cue in ("合并", "母公司", "主营业务"))
+    ):
+        score += 20
+    if (
+        ("归母净利润" in query or "扣非归母净利润" in query)
+        and "annual_data" in table_types
+    ):
+        score += 20
+    return score
+
+
+def route_structured_evidence(
+    query: str, hits: list[SearchHit], top_k: int
+) -> list[SearchHit]:
+    """Rerank a bounded candidate set using only verified table semantics."""
+    ranked = sorted(
+        hits,
+        key=lambda hit: (-score_structured_evidence(query, hit), hit.rank),
+    )[:top_k]
+    return [
+        hit.model_copy(
+            update={
+                "rank": rank,
+                "retrieval_rank": hit.rank,
+                "scope_score": score_structured_evidence(query, hit),
+                "scope_rank_delta": hit.rank - rank,
+            }
+        )
+        for rank, hit in enumerate(ranked, start=1)
+    ]
+
+
 def route_by_scope(query: str, hits: list[SearchHit], top_k: int) -> tuple[QueryScope, list[SearchHit]]:
     scope = infer_query_scope(query)
     scored = [(hit, score_scope(hit, scope)) for hit in hits]

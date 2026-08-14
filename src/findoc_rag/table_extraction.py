@@ -32,10 +32,28 @@ class AnnualRow:
     """One annual-data row with the yoy delta kept alongside the year values."""
 
     label: str
-    value_2024: str
-    value_2023: str
+    years: tuple[int, int, int]
+    values: tuple[str, str, str]
     yoy: str | None
-    value_2022: str
+
+    def value_for_year(self, year: int) -> str | None:
+        return next(
+            (value for column_year, value in zip(self.years, self.values, strict=True) if column_year == year),
+            None,
+        )
+
+    @property
+    def value_2024(self) -> str:
+        """Compatibility accessor for existing benchmark consumers."""
+        return self.value_for_year(2024) or self.values[0]
+
+    @property
+    def value_2023(self) -> str:
+        return self.value_for_year(2023) or self.values[1]
+
+    @property
+    def value_2022(self) -> str:
+        return self.value_for_year(2022) or self.values[2]
 
 
 def normalize_value(raw: str) -> str:
@@ -84,7 +102,6 @@ SEGMENT_HEADER_TERMS = (
 )
 SEGMENT_ROW_JUNK = ("营业收入", "营业成本", "毛利率", "百分点", "增减")
 
-ANNUAL_COLUMNS = ("2024年", "2023年", "2022年")
 ANNUAL_ROW_LABELS = frozenset(
     {
         "营业收入",
@@ -297,7 +314,7 @@ def extract_segment(text: str) -> list[ExtractedCell]:
     return cells
 
 
-def _parse_annual_block(block: str) -> list[AnnualRow]:
+def _parse_annual_block(block: str, years: tuple[int, int, int]) -> list[AnnualRow]:
     rows: list[AnnualRow] = []
     label_buf = ""
     group: list[str] = []
@@ -315,20 +332,22 @@ def _parse_annual_block(block: str) -> list[AnnualRow]:
                 rows.append(
                     AnnualRow(
                         label=label,
-                        value_2024=normalize_value(group[0]),
-                        value_2023=normalize_value(group[1]),
+                        years=years,
+                        values=(
+                            normalize_value(group[0]),
+                            normalize_value(group[1]),
+                            normalize_value(group[3]),
+                        ),
                         yoy=normalize_value(group[2]),
-                        value_2022=normalize_value(group[3]),
                     )
                 )
             else:
                 rows.append(
                     AnnualRow(
                         label=label,
-                        value_2024=normalize_value(group[0]),
-                        value_2023=normalize_value(group[1]),
+                        years=years,
+                        values=tuple(normalize_value(value) for value in group),
                         yoy=None,
-                        value_2022=normalize_value(group[2]),
                     )
                 )
         group = []
@@ -346,7 +365,7 @@ def _parse_annual_block(block: str) -> list[AnnualRow]:
 def extract_annual_rows(text: str) -> list[AnnualRow]:
     """Extract annual accounting-data rows including the yoy delta column."""
     normalized = _normalize(text)
-    balance_match = re.search(r"2024\s*年末", normalized)
+    balance_match = re.search(r"20\d{2}\s*年末", normalized)
     balance_position = balance_match.start() if balance_match else -1
     if balance_position >= 0:
         blocks = (normalized[:balance_position], normalized[balance_position:])
@@ -354,7 +373,15 @@ def extract_annual_rows(text: str) -> list[AnnualRow]:
         blocks = (normalized,)
     rows: list[AnnualRow] = []
     for block in blocks:
-        rows.extend(_parse_annual_block(block))
+        years = tuple(
+            dict.fromkeys(
+                int(value)
+                for value in re.findall(r"(20\d{2})\s*年(?:末)?", block)
+            )
+        )
+        if len(years) < 3:
+            continue
+        rows.extend(_parse_annual_block(block, years[:3]))
     return rows
 
 
@@ -362,8 +389,8 @@ def extract_annual_data(text: str) -> list[ExtractedCell]:
     """Extract the annual accounting-data table (both 年报 and 年末 blocks)."""
     cells: list[ExtractedCell] = []
     for row in extract_annual_rows(text):
-        values = (row.value_2024, row.value_2023, row.value_2022)
-        for column, value in zip(ANNUAL_COLUMNS, values, strict=True):
+        columns = tuple(f"{year}年" for year in row.years)
+        for column, value in zip(columns, row.values, strict=True):
             cells.append(ExtractedCell(row=row.label, column=column, value=value))
     return cells
 

@@ -72,3 +72,38 @@ def test_cache_ignores_corrupt_file(tmp_path: Path) -> None:
     cache_path.write_text("{not json", encoding="utf-8")
     rewriter = LLMQueryRewriter(api_key="", cache_path=cache_path)
     assert rewriter._cache == {}
+
+
+def test_deepseek_rewriter_never_falls_back_to_openai_key(monkeypatch) -> None:
+    monkeypatch.delenv("DEEPSEEK_API_KEY", raising=False)
+    monkeypatch.setenv("OPENAI_API_KEY", "must-not-leak-to-deepseek")
+
+    rewriter = LLMQueryRewriter(
+        endpoint="https://api.deepseek.com/chat/completions"
+    )
+
+    assert rewriter.api_key == ""
+
+
+def test_custom_rewriter_endpoint_uses_only_dedicated_key(monkeypatch) -> None:
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "must-not-leak-to-custom")
+    monkeypatch.setenv("OPENAI_API_KEY", "also-must-not-leak-to-custom")
+    monkeypatch.setenv("FINDOC_RAG_ANSWER_API_KEY", "custom-key")
+
+    rewriter = LLMQueryRewriter(
+        endpoint="https://llm.example.test/v1/chat/completions"
+    )
+
+    assert rewriter.api_key == "custom-key"
+
+
+def test_custom_rewriter_without_dedicated_key_gets_no_provider_key(monkeypatch) -> None:
+    monkeypatch.setenv("DEEPSEEK_API_KEY", "must-not-leak-to-custom")
+    monkeypatch.setenv("OPENAI_API_KEY", "also-must-not-leak-to-custom")
+    monkeypatch.delenv("FINDOC_RAG_ANSWER_API_KEY", raising=False)
+
+    rewriter = LLMQueryRewriter(
+        endpoint="https://llm.example.test/v1/chat/completions"
+    )
+
+    assert rewriter.api_key == ""

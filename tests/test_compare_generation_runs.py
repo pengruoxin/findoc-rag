@@ -28,6 +28,8 @@ def _write_run(
     *,
     code_revision: str | None = "abc123",
     remote: bool = True,
+    code_dirty: bool = False,
+    code_fingerprint: str | None = None,
 ) -> None:
     directory.mkdir(parents=True, exist_ok=True)
     (directory / "summary.json").write_text(
@@ -38,6 +40,8 @@ def _write_run(
                 "lane": "retrieved_context",
                 "remote_generation": remote,
                 "code_revision": code_revision,
+                "code_dirty": code_dirty,
+                "code_fingerprint": code_fingerprint,
                 "strict_success_rate": 0.5,
                 "expected_behavior_accuracy": 0.8,
                 "run_error_rate": 0.0,
@@ -90,6 +94,26 @@ def test_different_revision_requires_declared_change(tmp_path: Path) -> None:
     )
     assert report["code_revision_match"] is False
     assert report["controlled_change"] == "single variable: abstention detection"
+
+
+def test_dirty_runs_require_matching_fingerprint_or_declared_change(tmp_path: Path) -> None:
+    baseline = tmp_path / "base"
+    candidate = tmp_path / "cand"
+    _write_run(baseline, "base-run", code_dirty=True)
+    _write_run(candidate, "cand-run", code_dirty=True)
+
+    try:
+        compare.compare_runs(baseline, candidate)
+    except ValueError as exc:
+        assert "dirty" in str(exc)
+    else:
+        raise AssertionError("Expected dirty runs without fingerprints to fail closed")
+
+    _write_run(baseline, "base-run", code_dirty=True, code_fingerprint="same")
+    _write_run(candidate, "cand-run", code_dirty=True, code_fingerprint="same")
+    report = compare.compare_runs(baseline, candidate)
+    assert report["code_state_match"] is True
+    assert report["code_fingerprint_match"] is True
 
 
 def test_remote_flag_mismatch_is_rejected(tmp_path: Path) -> None:

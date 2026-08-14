@@ -1,6 +1,17 @@
-from findoc_rag.documents.models import BoundingBox, DocumentChunk, ElementReference
+from findoc_rag.documents.models import (
+    BoundingBox,
+    DocumentChunk,
+    ElementReference,
+    StructuredTable,
+    StructuredTableCell,
+)
 from findoc_rag.indexing import SearchHit
-from findoc_rag.scope_routing import infer_query_scope, plan_candidate_budget, route_by_scope
+from findoc_rag.scope_routing import (
+    infer_query_scope,
+    plan_candidate_budget,
+    route_by_scope,
+    route_structured_evidence,
+)
 
 
 def hit(rank: int, chunk_id: str, section: str) -> SearchHit:
@@ -69,3 +80,29 @@ def test_adaptive_candidate_budget_is_bounded_and_explainable() -> None:
     assert quarterly.effective_candidate_k == 40
     assert disabled.effective_candidate_k == 20
     assert disabled.expanded is False
+
+
+def test_structured_evidence_router_promotes_verified_table_without_gold_metadata() -> None:
+    plain = hit(1, "plain", "行业经营情况")
+    quarterly = hit(6, "quarterly", "分季度主要财务数据")
+    table = StructuredTable(
+        table_id="quarterly:table",
+        chunk_id="quarterly",
+        chunk_sha256="0" * 64,
+        table_type="quarterly",
+        page_start=1,
+        page_end=1,
+        source="coordinate",
+        cells=[StructuredTableCell(row="营业收入", column="第一季度", value="1")],
+    )
+    quarterly = quarterly.model_copy(
+        update={"chunk": quarterly.chunk.model_copy(update={"structured_tables": [table]})}
+    )
+
+    routed = route_structured_evidence(
+        "2024年各季度营业收入是多少", [plain, quarterly], top_k=1
+    )
+
+    assert routed[0].chunk.chunk_id == "quarterly"
+    assert routed[0].retrieval_rank == 6
+    assert routed[0].scope_score == 20

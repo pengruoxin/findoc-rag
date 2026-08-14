@@ -65,12 +65,36 @@ def select_chinese_annual_report(
 ) -> Announcement:
     expected_title = f"{company}{report_year}年年度报告"
     matches = [item for item in announcements if item.title == expected_title]
-    if not matches:
-        available = ", ".join(item.title for item in announcements[:10]) or "none"
-        raise LookupError(f"No exact Chinese annual report named {expected_title!r}; found: {available}")
     if len(matches) > 1:
         raise LookupError(f"Multiple exact annual reports found for {company} {report_year}")
-    return matches[0]
+    if matches:
+        return matches[0]
+
+    # CNInfo exposes the exchange security short name separately from the
+    # announcement title.  Some issuers use that short name in the title
+    # ("贵州茅台"), while others use their full legal name
+    # ("内蒙古伊利实业集团股份有限公司").  The search command is documented in
+    # terms of the short name, so accept the unique full Chinese annual report
+    # belonging to the matching security.  Keep the exact suffix deliberately:
+    # summaries, English editions and correction notices must not be selected.
+    annual_report_suffix = f"{report_year}年年度报告"
+    security_matches = [
+        item
+        for item in announcements
+        if item.security_name == company and item.title.endswith(annual_report_suffix)
+    ]
+    if len(security_matches) == 1:
+        return security_matches[0]
+    if len(security_matches) > 1:
+        raise LookupError(
+            f"Multiple Chinese annual reports found for security {company!r} {report_year}"
+        )
+
+    available = ", ".join(item.title for item in announcements[:10]) or "none"
+    raise LookupError(
+        f"No Chinese annual report for security {company!r} in {report_year}; "
+        f"expected {expected_title!r}; found: {available}"
+    )
 
 
 class CninfoClient:

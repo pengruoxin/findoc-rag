@@ -1,6 +1,15 @@
+from findoc_rag.documents.models import (
+    BoundingBox,
+    DocumentElement,
+    DocumentPage,
+    ParsedDocument,
+    PdfLine,
+    PdfSpan,
+)
 from findoc_rag.table_reconstruction import (
     Block,
     ExtractedCell,
+    blocks_from_document_ir,
     blocks_from_pymupdf_dict,
     detect_unit,
     extract_cells,
@@ -8,6 +17,7 @@ from findoc_rag.table_reconstruction import (
     normalize_label,
     normalize_value,
     reconstruct_cells,
+    select_table_cells,
 )
 
 
@@ -55,6 +65,58 @@ def test_pymupdf_builder_accepts_realistic_dict_and_bold_flag():
     assert len(blocks) == 1
     assert isinstance(blocks[0], Block)
     assert blocks[0].lines[0].spans[0].bold is True
+
+
+def test_persisted_document_ir_replays_existing_coordinate_pipeline():
+    document = ParsedDocument(
+        document_id="sha256:test",
+        source_path="test.pdf",
+        filename="test.pdf",
+        content_sha256="test",
+        page_count=1,
+        pages=[
+            DocumentPage(
+                page_number=1,
+                width=600,
+                height=800,
+                elements=[
+                    DocumentElement(
+                        element_id="e1",
+                        element_type="text",
+                        text="主营业务 100.00 20.00 90.00 18.00",
+                        bbox=BoundingBox(x0=40, y0=100, x1=560, y1=109),
+                        reading_order=0,
+                        lines=[
+                            PdfLine(
+                                bbox=BoundingBox(x0=40, y0=100, x1=560, y1=109),
+                                spans=[
+                                    PdfSpan(text="主营业务", bbox=BoundingBox(x0=40, y0=100, x1=120, y1=109)),
+                                    PdfSpan(text="100.00", bbox=BoundingBox(x0=180, y0=100, x1=240, y1=109)),
+                                    PdfSpan(text="20.00", bbox=BoundingBox(x0=280, y0=100, x1=340, y1=109)),
+                                    PdfSpan(text="90.00", bbox=BoundingBox(x0=380, y0=100, x1=440, y1=109)),
+                                    PdfSpan(text="18.00", bbox=BoundingBox(x0=480, y0=100, x1=540, y1=109)),
+                                ],
+                            )
+                        ],
+                    )
+                ],
+                extracted_character_count=34,
+                image_count=0,
+                needs_ocr=False,
+            )
+        ],
+        parser="pymupdf",
+        parser_version="test",
+    )
+
+    cells = reconstruct_cells(blocks_from_document_ir(document), "note_cost")
+
+    assert [(cell.column, cell.value) for cell in cells] == [
+        ("本期收入", "100.00"),
+        ("本期成本", "20.00"),
+        ("上期收入", "90.00"),
+        ("上期成本", "18.00"),
+    ]
 
 
 def test_fixture_a_quarterly_label_value_pairing():
@@ -121,6 +183,32 @@ def test_annual_headers_use_geometry_and_skip_yoy_column():
         ("2024年", "298944579918.70"),
         ("2023年", "272699660092.25"),
         ("2022年", "254500826096.02"),
+    ]
+
+
+def test_annual_headers_follow_later_reporting_years():
+    blocks = [
+        {"lines": [{"spans": [
+            {"text": "2026年", "bbox": (200, 50, 260, 59)},
+            {"text": "2025年", "bbox": (300, 50, 360, 59)},
+            {"text": "同比", "bbox": (400, 50, 450, 59)},
+            {"text": "2024年", "bbox": (500, 50, 560, 59)},
+        ]}]},
+        {"lines": [{"spans": [
+            {"text": "总资产", "bbox": (40, 100, 100, 109)},
+            {"text": "360.00", "bbox": (200, 100, 260, 109)},
+            {"text": "330.00", "bbox": (300, 100, 360, 109)},
+            {"text": "9.09", "bbox": (400, 100, 450, 109)},
+            {"text": "300.00", "bbox": (500, 100, 560, 109)},
+        ]}]},
+    ]
+
+    got = reconstruct_cells(blocks, "annual_data")
+
+    assert [(c.column, c.value) for c in got] == [
+        ("2026年", "360.00"),
+        ("2025年", "330.00"),
+        ("2024年", "300.00"),
     ]
 
 
@@ -226,3 +314,44 @@ def test_segment_rows_do_not_cross_pages():
     rows = {c.row for c in cells}
     assert rows == {"酒类"}
     assert not any("主要原因" in row for row in rows)
+
+
+def test_safe_selector_drops_adjacent_table_and_incomplete_heading_rows():
+    text = """九、2024 年分季度主要财务数据
+单位：元
+第一季度 第二季度 第三季度 第四季度
+营业收入 10.00 20.00 30.00 40.00"""
+    coordinates = [
+        ExtractedCell("九、", "第一季度", "2024"),
+        ExtractedCell("营业收入", "第一季度", "10.00"),
+        ExtractedCell("营业收入", "第二季度", "20.00"),
+        ExtractedCell("营业收入", "第三季度", "30.00"),
+        ExtractedCell("营业收入", "第四季度", "40.00"),
+        ExtractedCell("相邻表", "第一季度", "99.00"),
+        ExtractedCell("相邻表", "第二季度", "98.00"),
+        ExtractedCell("相邻表", "第三季度", "97.00"),
+        ExtractedCell("相邻表", "第四季度", "96.00"),
+    ]
+
+    selected = select_table_cells(coordinates, text, "quarterly")
+
+    assert selected.source == "coordinate"
+    assert {(cell.row, cell.value) for cell in selected.cells} == {
+        ("营业收入", "10.00"),
+        ("营业收入", "20.00"),
+        ("营业收入", "30.00"),
+        ("营业收入", "40.00"),
+    }
+    assert selected.dropped_coordinate_cells == 5
+
+
+def test_safe_selector_falls_back_when_unit_or_headers_are_missing():
+    selected = select_table_cells(
+        [ExtractedCell("营业收入", "第一季度", "10.00")],
+        "营业收入 10.00",
+        "quarterly",
+    )
+
+    assert selected.source == "text"
+    assert "missing_table_header" in selected.reasons
+    assert "missing_unit" in selected.reasons

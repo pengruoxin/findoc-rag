@@ -3,7 +3,7 @@
 Component rankings (lexical / dense) are computed once per query instance and
 filter state; every weight combination is then fused offline, so the sweep is
 fast and reproducible. Outputs per-weight summaries plus a per-regime best
-selection analysis (development-only: best is chosen on the eval set itself).
+selection analysis (development-only: best is chosen on one non-frozen split).
 """
 
 from __future__ import annotations
@@ -18,12 +18,17 @@ from run_retrieval_variant_eval import (
     FILTERS,
     build_filters,
     hit_at_k,
+    make_rewriter,
     ndcg_at_k,
     parse_for_filter,
     query_instances,
     reciprocal_rank,
 )
 
+from findoc_rag.benchmark_migration import (
+    resolve_evaluation_index_id,
+    validate_migration_manifest,
+)
 from findoc_rag.corpus import resolve_current_index
 from findoc_rag.indexing import reciprocal_rank_fusion
 
@@ -39,21 +44,60 @@ WEIGHTS: tuple[tuple[float, float], ...] = (
     (0.0, 1.0),   # dense only
 )
 REGIMES = ("canonical", "ticker_or_finance_shorthand", "semantic_or_relative_time")
+TUNING_SPLITS = ("calibration", "dev")
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--view", type=Path, default=DEFAULT_VIEW)
     parser.add_argument("--index-root", type=Path, default=DEFAULT_INDEX_ROOT)
+    parser.add_argument(
+        "--migration-manifest",
+        type=Path,
+        help="validated benchmark migration binding for a replacement index",
+    )
+    parser.add_argument(
+        "--source-evidence",
+        type=Path,
+        default=ROOT / "data/evaluation/benchmark-evidence-v1.jsonl",
+    )
     parser.add_argument("--top-k", type=int, default=5)
     parser.add_argument("--candidate-k", type=int, default=20)
     parser.add_argument("--rrf-k", type=int, default=60)
+    parser.add_argument(
+        "--rewrite",
+        choices=("none", "deterministic", "llm"),
+        default="none",
+        help="query rewrite mode applied before component retrieval",
+    )
+    parser.add_argument(
+        "--split",
+        choices=TUNING_SPLITS,
+        default="dev",
+        help="non-frozen benchmark split used to select fusion weights",
+    )
     parser.add_argument(
         "--output-dir",
         type=Path,
         default=ROOT / "reports/ranking/fusion-sweep-v1",
     )
     return parser.parse_args()
+
+
+def select_tuning_items(view: dict, split: str) -> list[dict]:
+    """Select positive examples while enforcing the frozen-test boundary."""
+    if split not in TUNING_SPLITS:
+        raise ValueError(
+            f"Fusion tuning is restricted to {TUNING_SPLITS}; got split={split!r}"
+        )
+    items = [
+        item
+        for item in view["items"]
+        if item["split"] == split and item["retrieval_judgment"] == "positive_gold"
+    ]
+    if not items:
+        raise ValueError(f"No positive retrieval items found for tuning split {split!r}")
+    return items
 
 
 def metrics_for_hits(all_hits, gold: set[str], negatives: set[str], top_k: int) -> dict:
@@ -98,7 +142,10 @@ def render_markdown(summary: dict, args: argparse.Namespace) -> str:
     lines = [
         "# RRF fusion-weight sweep v1",
         "",
-        f"- dataset: `{summary['dataset_id']}` | index: `{summary['index_id']}`",
+        (
+            f"- dataset: `{summary['dataset_id']}` | split: `{summary['split']}` | "
+            f"index: `{summary['index_id']}`"
+        ),
         (
             f"- top_k={args.top_k} | candidate_k={args.candidate_k} | "
             f"rrf_k={args.rrf_k} | positive instances: {summary['positive_instance_count']}"
@@ -156,9 +203,29 @@ def render_markdown(summary: dict, args: argparse.Namespace) -> str:
 
 def main() -> None:
     args = parse_args()
+    rewriter = make_rewriter(args.rewrite)
     view = json.loads(args.view.read_text(encoding="utf-8"))
     index = resolve_current_index(args.index_root)
-    positive = [item for item in view["items"] if item["retrieval_judgment"] == "positive_gold"]
+    migration = None
+    if args.migration_manifest is not None:
+        migration = json.loads(args.migration_manifest.read_text(encoding="utf-8"))
+        migration_result = validate_migration_manifest(
+            migration,
+            view_path=args.view,
+            source_evidence_path=args.source_evidence,
+            target_index_root=args.index_root,
+        )
+        if not migration_result.ok:
+            raise ValueError(
+                "Benchmark migration validation failed: "
+                + "; ".join(migration_result.errors)
+            )
+    resolve_evaluation_index_id(
+        view=view,
+        index_id=index.manifest.index_id,
+        migration_manifest=migration,
+    )
+    positive = select_tuning_items(view, args.split)
 
     # Compute component rankings once per instance / filter state.
     instances: list[dict] = []
@@ -167,6 +234,8 @@ def main() -> None:
             variant = instance["variant"]
             as_of_date = variant.get("as_of_date") if variant else None
             resolved, companies, years = parse_for_filter(instance["query"], as_of_date)
+            if rewriter is not None:
+                resolved = rewriter.rewrite(resolved)
             components: dict[str, dict] = {}
             for filter_name in FILTERS:
                 filters = build_filters(companies, years) if filter_name == "query_parser" else None
@@ -275,17 +344,21 @@ def main() -> None:
     summary = {
         "run_id": "fusion-sweep-v1",
         "dataset_id": view["dataset_id"],
+        "split": args.split,
         "index_id": index.manifest.index_id,
+        "source_index_id": view["corpus_index_id"],
+        "migration_id": migration.get("migration_id") if migration else None,
         "top_k": args.top_k,
         "candidate_k": args.candidate_k,
         "rrf_k": args.rrf_k,
+        "rewrite_mode": args.rewrite,
         "weights": [list(w) for w in WEIGHTS],
         "positive_instance_count": len(instances),
         "positive_group_count": len(positive),
         "by_regime_query": by_regime_query,
         "by_regime_group": by_regime_group,
         "per_regime_best": per_regime_best,
-        "note": "per_regime_best is development-only: selected on the eval set itself",
+        "note": "per_regime_best is development-only: selected on one non-frozen split",
     }
 
     output_dir = args.output_dir
@@ -296,10 +369,15 @@ def main() -> None:
         json.dumps(
             {
                 "view": str(args.view),
+                "split": args.split,
                 "index_root": str(args.index_root),
+                "migration_manifest": (
+                    str(args.migration_manifest) if args.migration_manifest else None
+                ),
                 "top_k": args.top_k,
                 "candidate_k": args.candidate_k,
                 "rrf_k": args.rrf_k,
+                "rewrite_mode": args.rewrite,
                 "weights": [list(w) for w in WEIGHTS],
                 "metadata_filter_source": {"none": "none", "query_parser": "query_parser"},
             },

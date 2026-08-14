@@ -1,0 +1,859 @@
+{
+  "schema_version": 1,
+  "migration_id": "benchmark-v2-to-e5-c3f157-v1",
+  "policy": {
+    "canonical_benchmark_immutable": true,
+    "questions_answers_metrics_changed": false,
+    "comparison_mode": "paired_by_query_id",
+    "promotion_requires_validation": true
+  },
+  "benchmark": {
+    "dataset_id": "benchmark-v2-retrieval-view",
+    "view_path": "data/evaluation/benchmark-v2-retrieval-view.json",
+    "view_sha256": "4602468945161219ff3c24b9547c2b91a03ce089848e2b2c476f6309321d3823",
+    "source_index_id": "10fb50419145d56720c9",
+    "chunk_schema_version": 3
+  },
+  "source_evidence": {
+    "path": "data/evaluation/benchmark-evidence-v1.jsonl",
+    "sha256": "72f644479be237d007d8612785cc08db9b6b5f6ce47c087001f5bf592ddb2837",
+    "chunk_count": 38
+  },
+  "target_index": {
+    "index_id": "9898c95e13d01c51c156",
+    "index_format_version": 3,
+    "source_snapshot_sha256": "c3f15772dcb8b44898e415e93eb27aec17d56a95190837366f41b500b2730bff",
+    "source_snapshot_size_bytes": 3291615,
+    "chunk_count": 958,
+    "dense_model": "intfloat/multilingual-e5-small",
+    "dense_model_revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+    "dense_model_artifact_sha256": "1a55775f53449dac10a2bcbc312469fac40b96d53198c407081a831f81c98477",
+    "embedding_dimension": 384,
+    "generation_artifacts": {
+      "manifest.json": {
+        "sha256": "504c839583abdde65283b005d52cfeba02e9102f4d43c7f88360d9ac99fe8bdf",
+        "size_bytes": 971
+      },
+      "dense_embeddings.npy": {
+        "sha256": "40ce73c0a36269f0b6cc6ab250dd2b9f870126f881d6dfd4e9af231d9a5563f8",
+        "size_bytes": 1471616
+      },
+      "dense_chunk_ids.json": {
+        "sha256": "29c631206e4d1f6149624c2f42630142da6d9fa56d93bb60cdd3bb0007af2a18",
+        "size_bytes": 36185
+      },
+      "lexical.sqlite3": {
+        "sha256": "61bf2abb191e153554b4f4ba1467d808f996e2d9a0c44344a16599c92d03e068",
+        "size_bytes": 23769088
+      },
+      "structured_tables.jsonl": {
+        "sha256": "872fd6d92085000b4e390f6bba929ab6fb7697b83af6286ad575e7b806644807",
+        "size_bytes": 24476
+      },
+      "structured_tables.manifest.json": {
+        "sha256": "e6b1ef2c2245dd18641dc7eba8421b16203d8e7a98b5ed12fc19ef357fe22ede",
+        "size_bytes": 323
+      }
+    },
+    "active_version_ids": [
+      "7ba72cacdd30eec11da4fd94",
+      "b288fd8c6467f1757516abb7"
+    ]
+  },
+  "evidence_contract": {
+    "semantic_core_fields": [
+      "chunk_id",
+      "document_id",
+      "chunk_index",
+      "text",
+      "section_path",
+      "page_start",
+      "page_end",
+      "character_count",
+      "estimated_token_count",
+      "is_continuation"
+    ],
+    "mapping_count": 38,
+    "gold_occurrence_count": 52,
+    "unique_gold_chunk_count": 35,
+    "hard_negative_occurrence_count": 53,
+    "unique_hard_negative_chunk_count": 26,
+    "all_semantic_cores_equal": true,
+    "mappings": [
+      {
+        "chunk_id": "5299f4940e2c:c11:4ee8dfe0e52fe716",
+        "gold_for": [
+          "moutai_quarterly_cashflow"
+        ],
+        "hard_negative_for": [
+          "moutai_annual_deducted_profit",
+          "moutai_cashflow_change",
+          "yili_quarterly_profit_reconcile"
+        ],
+        "source_payload_sha256": "f04ff2ef7cd3cc636f393660ca5eecd9954850ed743682a930c0bfd86375980d",
+        "target_payload_sha256": "2ee173f3e99cb7a1baab0b7c03716bc54e81a4d5a5f31ef3beae9b390191bf3c",
+        "semantic_core_sha256": "12374593fd6c2457e032967180186134a2ed65fa80f904f9c0b52c0476646162",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c12:e0540e67db8c53cf",
+        "gold_for": [
+          "moutai_annual_deducted_profit"
+        ],
+        "hard_negative_for": [],
+        "source_payload_sha256": "e536fc37c45e339ba195afa09ffcf39d8052ff9ad2383bffaaf489488aaf7e9f",
+        "target_payload_sha256": "8904daaaac7acf186b6aaab0cbe150ed2bf931ab66b8fc1006758f8bb365d852",
+        "semantic_core_sha256": "bdbdb3267433fc128d12e87e35e0891baf173e389559ce58fb54be62a1d004c6",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c131:f2471539423f408a",
+        "gold_for": [
+          "audit_opinion_comparison"
+        ],
+        "hard_negative_for": [
+          "key_audit_matters_comparison",
+          "u_compare_audit_quality"
+        ],
+        "source_payload_sha256": "d8e5ef7f61c45c407d3156542674ec022ef87e695d662e2e3fd0f6ccb0897bdb",
+        "target_payload_sha256": "30025119881b52ce9fe9fa62f8ad554b00e5ae87fab537757cc0b0e7cb01bc38",
+        "semantic_core_sha256": "4ba55de66bc5a7b825081392931aee5517703f8cbf76a4c77222f3332a914c6b",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c133:a7cd2a96c54bb5de",
+        "gold_for": [
+          "key_audit_matters_comparison"
+        ],
+        "hard_negative_for": [
+          "audit_opinion_comparison"
+        ],
+        "source_payload_sha256": "833e21a965b4903e3f7f84b3bf9947eb2655c482b84ca657523ae45fa1421f5a",
+        "target_payload_sha256": "3adfae1e9a519b50aa1ef068bf2d8e8447a397a24ff5a915572ce9e5bea063e8",
+        "semantic_core_sha256": "c0f5db08205347869e74bf2328d9f3df126ff4c2f275c91970ec9fb2748e19d3",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c136:671ffd5693972ca2",
+        "gold_for": [
+          "key_audit_matters_comparison"
+        ],
+        "hard_negative_for": [],
+        "source_payload_sha256": "b94b18189b042d1e27579090349df1bd752f83458f73e83913892f514f24ad00",
+        "target_payload_sha256": "22e908600afa06d4435d0ff7b0984725709029661f42823725be13a3b5dd52e6",
+        "semantic_core_sha256": "dbc298b5e046ed9f7bb19de9e35bda7aac3a849c230b7de1df4079322ddf6074",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c15:21ea8a01397a570e",
+        "gold_for": [
+          "moutai_business_chain"
+        ],
+        "hard_negative_for": [],
+        "source_payload_sha256": "ffa0bdc9e687c98baf33b53c5548924857ce18ae5a91af88bfc4266737b44360",
+        "target_payload_sha256": "62c20d2f065a86204327450539a7c814b8098d380fa92dc58522d90ee97cd84b",
+        "semantic_core_sha256": "222b1327873371c77762836226fc235ce14b4ba4d5d95b2d17aa2cce4e0fc3a7",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c18:9e2aedcf9ff898fa",
+        "gold_for": [
+          "moutai_cashflow_change"
+        ],
+        "hard_negative_for": [
+          "yili_cashflow_change"
+        ],
+        "source_payload_sha256": "2e6f6a94bb54e11e1b1e4b899078c6eadf814439e8ef7eab4d479bf8c026ce25",
+        "target_payload_sha256": "876d8da2906033ecd644519c063b84eddff2c73059d3787d63a29709fcd92f17",
+        "semantic_core_sha256": "256030e74f422051229936f7499af689c3dd13c33f6553c0dd05a44d649f613f",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c19:807840659a321252",
+        "gold_for": [
+          "moutai_channel_margin",
+          "moutai_product_margin"
+        ],
+        "hard_negative_for": [],
+        "source_payload_sha256": "b683738ad4e47f724cbc900dacaf9d221c7a4b0f909ef54515c7e2ce4c2c94e3",
+        "target_payload_sha256": "b036b9d2b3723633c58c74a01fbebbf67bf73e1fd77f285c6d3b2fc0abc480f1",
+        "semantic_core_sha256": "58089bfb3adb2da8db4db0537a9df3d752770a7fb2909bedb29eefd7b0179973",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c20:dd96a623b5d39ea0",
+        "gold_for": [
+          "moutai_cost_components",
+          "moutai_production_sales_inventory"
+        ],
+        "hard_negative_for": [
+          "u_yili_moutai_wine"
+        ],
+        "source_payload_sha256": "6be540e1d3a94a5f4b7577400c0ff3412bea750fc4aff8152d14b75e71cf83e1",
+        "target_payload_sha256": "e2e07733fe4f40a3984a43657bf6ccfdc1d26344f90ca0d19a705454d620c241",
+        "semantic_core_sha256": "0e947c9c87a8016045cd32eb362c69e461f1da508b2312a06e134d5e87302f7b",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c21:5f126f59fff9e0f8",
+        "gold_for": [
+          "customer_concentration_comparison",
+          "moutai_concentration",
+          "supplier_concentration_comparison"
+        ],
+        "hard_negative_for": [
+          "yili_concentration"
+        ],
+        "source_payload_sha256": "76c62edb1794c7ef67b724a73eb1a842133eab701f2651cf1f278413750f2624",
+        "target_payload_sha256": "353173cb4cc954162cc1c8a41329ebc20a417d7c98ee14bbdefb5b0ff16c35bd",
+        "semantic_core_sha256": "15b3f9ca0329800e8a46dcd25f7627fa49b65426dca1daba68030493123aa8fa",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c22:79c3acfcbf3676ef",
+        "gold_for": [
+          "moutai_rd_composition",
+          "rd_cross_company"
+        ],
+        "hard_negative_for": [
+          "customer_concentration_comparison",
+          "supplier_concentration_comparison"
+        ],
+        "source_payload_sha256": "c758191a43a03b9b23fd8615323e399ce6d2255512ee7af13a9c5de25b6ea2f2",
+        "target_payload_sha256": "a24493edd2290ed9d6ad75330ad8d4d007bfea9e0dff19cd9ef64bb70f8daddf",
+        "semantic_core_sha256": "b9b35180f63b07eb1f1330ece85d1f2a895dafa4fc73da72d20236c64d876f52",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c264:8c3ffd81c4fbcad1",
+        "gold_for": [
+          "moutai_cost_reconciliation"
+        ],
+        "hard_negative_for": [
+          "moutai_cost_components",
+          "moutai_revenue_yoy",
+          "yili_note_cost_scope"
+        ],
+        "source_payload_sha256": "7471a6674db4494f105fd2e05c42e6e4c4f052594c19de40af15fcc534e13e0e",
+        "target_payload_sha256": "c919bfc2b23a01add0b9132f23242b640fe8b38d00f8676c0cd509686bf906b3",
+        "semantic_core_sha256": "7d103329c32db9df4467df49870a32a3b42041f9519ea1c719bf4b9a5f3b6a26",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c343:27674032a4ae8f15",
+        "gold_for": [],
+        "hard_negative_for": [
+          "yili_consolidated_parent_revenue"
+        ],
+        "source_payload_sha256": "2200ec9a9d1f60920dca703fd5f1bce0f33e62a6a8eefd53a79ef83a9e823c7a",
+        "target_payload_sha256": "c77902936abb469325ce6842e5b292421a4f5dbe0f92b62b4f9dfd3e24f40b9d",
+        "semantic_core_sha256": "29e0ec90a8fd9ce86d3f8c68db07be5880cbcd041ef913523d423ce2296a4952",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c47:ec925bcc1be9f851",
+        "gold_for": [
+          "moutai_disclosed_risks"
+        ],
+        "hard_negative_for": [
+          "u_moutai_stock_cause"
+        ],
+        "source_payload_sha256": "7db58ea7078d6ba3833af9b0a6483635a6dd45c4aa1e7c92d43781c645976a4e",
+        "target_payload_sha256": "0ce24c30bdf1e9e22a3c8a5c5111f861c8078e8c54257bb1bb49ab9d4f05a158",
+        "semantic_core_sha256": "edb0b0e5eccad306c425222a34e3d8baa0ac156e3a0db5664da9e6e77cd6e28c",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c8:81a5543345db6ac2",
+        "gold_for": [
+          "moutai_annual_deducted_profit",
+          "moutai_revenue_yoy",
+          "revenue_cross_company"
+        ],
+        "hard_negative_for": [
+          "u_investment_advice",
+          "u_moutai_2025_actual_revenue",
+          "u_moutai_profit_ambiguous",
+          "u_moutai_stock_cause",
+          "yili_annual_deducted_profit"
+        ],
+        "source_payload_sha256": "58d5ab7c6a10202762c1351bc902675c41d0b5ae30dc1deb9c1eb9670d397dc8",
+        "target_payload_sha256": "fea10f4b7e87bab3f2dd1e228704137d3c0cb0372f548e44da013c3251fcad3d",
+        "semantic_core_sha256": "47d0f1ff57dbcb4376f4b18312c15574cc3ff7fc5f5e89f8b8e65d77bbaf7cac",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "5299f4940e2c:c9:b7e5f0d6a604b703",
+        "gold_for": [
+          "moutai_roe"
+        ],
+        "hard_negative_for": [],
+        "source_payload_sha256": "ebf13ef94364dfeff367d979a7b9e3121f7845bcbd1f4645187e536e59fb93fd",
+        "target_payload_sha256": "abd86ae95c51b3732757f794385423b22e11f11889fd4230842b65db826096d3",
+        "semantic_core_sha256": "cc6feaaf97cf1cd9bae028f94706632501df93b34ba06df57725e41185ca9119",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c106:637feb5ba3b1b6ff",
+        "gold_for": [
+          "yili_dividend_timing"
+        ],
+        "hard_negative_for": [],
+        "source_payload_sha256": "76b935562aa8cc1481abbdaee6d942fef3d52894de5dc672a89c03834a97f6be",
+        "target_payload_sha256": "9af2a6d7235e4138ac87ceac31f3653c4b717a97f6a007b326b1fd1a37e8e45c",
+        "semantic_core_sha256": "1d34541291579cd866f34b10ebf647e54890f8d821da0c910d1849e27ef5c78d",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c10:0e6aa9a18586e694",
+        "gold_for": [
+          "revenue_cross_company",
+          "yili_annual_deducted_profit",
+          "yili_quarterly_cashflow_reconcile",
+          "yili_quarterly_profit_reconcile"
+        ],
+        "hard_negative_for": [
+          "moutai_annual_deducted_profit",
+          "moutai_revenue_yoy",
+          "u_investment_advice",
+          "u_yili_profit_causality",
+          "yili_2025_plan_bounded",
+          "yili_cashflow_change"
+        ],
+        "source_payload_sha256": "32e91e0bd1dc83c52a2b177f46b27b1f8b0d0e33f7a45b91e030353a54bb00a5",
+        "target_payload_sha256": "a1f15068b52c25da645422d006979b83aebdab3e433861b9e051b8f609984158",
+        "semantic_core_sha256": "b225d59257a806523eab61701b707755329aaa0973e325a46d90c62cd2bcabad",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c13:1557c17c79b6bb19",
+        "gold_for": [
+          "yili_quarterly_cashflow_reconcile",
+          "yili_quarterly_net_profit",
+          "yili_quarterly_profit_reconcile"
+        ],
+        "hard_negative_for": [
+          "u_yili_q4_loss_cause",
+          "yili_annual_deducted_profit"
+        ],
+        "source_payload_sha256": "fb4fb28f23268555e211e547a2d41d49ba53425ff9b8ccffaea89c0274ad350f",
+        "target_payload_sha256": "72cb596df8f8a05f11b1e91f48bf7fcbe7e199102852e0cc7c5497d8407fc44e",
+        "semantic_core_sha256": "f0c6fb00e62434d9cd486e99727223d1f6d4cacddd6eb76b09ebdace6aa6ecb7",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c15:54215d8787ee02a9",
+        "gold_for": [
+          "yili_annual_deducted_profit"
+        ],
+        "hard_negative_for": [],
+        "source_payload_sha256": "fdc4dc504ee5329469af105333a98aa71eb678403f0e25ac24f61b38d6120a2d",
+        "target_payload_sha256": "bcbaf12766a6bff6ce15223700b9c2c8775ab18cd8b1f0c6f79f3aa890591295",
+        "semantic_core_sha256": "a5a4d26c3d443df1d4b5b6c974c443036d365e29498b11a00b363f9e4b16216d",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c1:793234fe6adf3a5b",
+        "gold_for": [
+          "yili_dividend_timing"
+        ],
+        "hard_negative_for": [],
+        "source_payload_sha256": "72b771e0595933ffd02f8c86333b2b7686c880fde7fe08df2bcbeed758df0698",
+        "target_payload_sha256": "2c9c90342c9d1acf3daf274afc81bf49c7d7e7eeab028e4852a19576346e6bf0",
+        "semantic_core_sha256": "07fefa96644efffbff3f26cb68526d2579ddeaca75afe087492320be1439cab6",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c200:27ccd1f1492fcf0d",
+        "gold_for": [
+          "audit_opinion_comparison"
+        ],
+        "hard_negative_for": [
+          "u_compare_audit_quality"
+        ],
+        "source_payload_sha256": "6c7a903f5407770bdd11b6a1b13e2a09ec2b28998c19a2e4239d3ffb4de175a9",
+        "target_payload_sha256": "b7a22d5d9121984b81d551b2ab9824523a6eda13a0bb7d1987867a2b4f7952ea",
+        "semantic_core_sha256": "2b364d6a7088c4f5b760a9f63510eac05bdee7b9200b6d9cd659216a7735f781",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c202:8330cda8e76d7f13",
+        "gold_for": [
+          "key_audit_matters_comparison"
+        ],
+        "hard_negative_for": [
+          "audit_opinion_comparison"
+        ],
+        "source_payload_sha256": "2b04cb3f0ce5eac0dba34fdcf813489f0ec82023615141795341feba62335b61",
+        "target_payload_sha256": "d77d796642609bc81421277aef0a208397f007eababa8e4689bc8b22f799218f",
+        "semantic_core_sha256": "64a683d4bef40de5ba132dbdc8ce9e66a9b057ba60dfb05fd033876cd63dfe3b",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c203:b6f4494584265fdc",
+        "gold_for": [
+          "key_audit_matters_comparison"
+        ],
+        "hard_negative_for": [],
+        "source_payload_sha256": "a7943be3d71537591dc0ab7db3b015e0416bff11c916a9b23b647ccbe7bab9aa",
+        "target_payload_sha256": "567f5836b190817362e1f37f4d2f58ef3a0a165da585112a5aab31ec126b5e79",
+        "semantic_core_sha256": "c70bc531393a398a1ef2450c0a8cc874053e266efd42c52db67c7e6dfc11c695",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c24:7d9be8ba1ed5416f",
+        "gold_for": [
+          "yili_sales_channels"
+        ],
+        "hard_negative_for": [],
+        "source_payload_sha256": "ada2de16b4cb3bfd7f28cc7264ac447b3e21c0bf1cc90595af377d10556e40d1",
+        "target_payload_sha256": "083e4d1c98b0b52e61dadb6dcaf0c2109e4c36a681ebd20fe0bec897150d04d4",
+        "semantic_core_sha256": "07d7d31d35ea34cb431690abd9349dcc5adc31f1ce8b263af262c52671aaf7ba",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c291:97e950a89bc304c9",
+        "gold_for": [
+          "yili_inventory_policy"
+        ],
+        "hard_negative_for": [],
+        "source_payload_sha256": "6143a6fec6bb98b9d8791de66bcd4cf85beea988bb3aafee201a113458a4cc37",
+        "target_payload_sha256": "d45aa6f2b50d1376392e3ea7fa208b28172b665bd85ebf4506a2465b1a9d663a",
+        "semantic_core_sha256": "2a466786675d20ddfb1b610299f241481f4182ea4fdac5cd6d118e2de0f560c5",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c46:88b28456d076f92c",
+        "gold_for": [
+          "yili_cashflow_change"
+        ],
+        "hard_negative_for": [
+          "moutai_cashflow_change",
+          "u_yili_profit_causality",
+          "u_yili_q4_loss_cause"
+        ],
+        "source_payload_sha256": "bfb2b7495902703f509c531ae7ad4a5f216681fe7a114b4525077b1e0019fe82",
+        "target_payload_sha256": "63ffb40cccf36072553f8ff443693302a20f60f992df8c7eabc0e08504fe34f1",
+        "semantic_core_sha256": "1bf01fbec6b5bcb3ada1607c01c5aac483c2f3eeca0d03e03227666f455d05c9",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c483:7456b44fce38cbcb",
+        "gold_for": [],
+        "hard_negative_for": [
+          "yili_dividend_timing",
+          "yili_quarterly_profit_reconcile"
+        ],
+        "source_payload_sha256": "390dbee31dbac09e2e96458cf70abb6e5a4d75f64fbc7aa01429c389dbbcbe5e",
+        "target_payload_sha256": "d1f70f500b5e4057561e6a09ab5483088e2b8ce7b7d05389016e50c25a30621a",
+        "semantic_core_sha256": "0fc8d1aad8314ff0876f0a58da6fc9adaaf83313cf7265b06750168488e0f133",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c484:9cf7b65b3b49fef2",
+        "gold_for": [
+          "yili_consolidated_parent_revenue",
+          "yili_cost_reconciliation",
+          "yili_note_cost_scope"
+        ],
+        "hard_negative_for": [
+          "u_yili_cost_scope_ambiguous"
+        ],
+        "source_payload_sha256": "9cfac0e637c5c82acc243dbe1814c45f263bc3f5c9ed4d6914076e08ac6735a3",
+        "target_payload_sha256": "f0112978709172e3538b4700a29789b4d0126ea729b742fe196024e9c4c99a8e",
+        "semantic_core_sha256": "0aff92b330e8c110653538db442c1cf08567821a49643cb46ec6981f41d48ff7",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c49:5b0070d92a364736",
+        "gold_for": [
+          "yili_product_margin"
+        ],
+        "hard_negative_for": [
+          "moutai_cost_components",
+          "u_yili_cost_scope_ambiguous",
+          "yili_consolidated_parent_revenue",
+          "yili_note_cost_scope"
+        ],
+        "source_payload_sha256": "7a1376e6b7f2bed8b8cf65bcd5fd9844f507e7ea7b757813cf199e901222f3de",
+        "target_payload_sha256": "d3be2048c2d17b258d8d0b82e3f020264c29e9a1dcbe9720078ea7d0f953425b",
+        "semantic_core_sha256": "cd5da078aac7258bf325fa50f0b5d6cb21fbd10bb0b06fe5e933fa3e174b2aad",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c51:1e8ec3f24e198935",
+        "gold_for": [
+          "yili_liquid_milk_inventory"
+        ],
+        "hard_negative_for": [
+          "u_moutai_liquid_milk",
+          "u_yili_profit_causality",
+          "u_yili_q4_loss_cause"
+        ],
+        "source_payload_sha256": "8436b85b5e4fde42c0307c2e27118b0786efdc23b4c9cebcd43feaed9d9d8a72",
+        "target_payload_sha256": "f7701b5ca32194196d5c2b344c7da94a097d279cfee7a9fd6c1b278b81b3c7d4",
+        "semantic_core_sha256": "b180f578faf63849268e2207de2f16b16171b2e56bd2cc381a3469d60576f65b",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c54:4fd21da6c3f59495",
+        "gold_for": [
+          "customer_concentration_comparison",
+          "supplier_concentration_comparison",
+          "yili_concentration"
+        ],
+        "hard_negative_for": [
+          "moutai_concentration",
+          "u_yili_top_customer_names"
+        ],
+        "source_payload_sha256": "8027c42835e505cd313214311be6180ed1656de34457704632be5e0d9bbba6a5",
+        "target_payload_sha256": "c84a15798fded2dbb789e9ecf910c571e36206897fef14c9daf86fa5c2e9f1a6",
+        "semantic_core_sha256": "f0ccc8bb36e8000b0fef7d1e270172beee3751f72da7ec36ad74e018105ec0fa",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c55:0f3bef67c37107bf",
+        "gold_for": [
+          "rd_cross_company",
+          "yili_rd_staff"
+        ],
+        "hard_negative_for": [
+          "customer_concentration_comparison",
+          "supplier_concentration_comparison"
+        ],
+        "source_payload_sha256": "ab5a32c9cf6111e37bf7c6a26f61a31c9a7b6cefc69ed51451c4d2c379d9a77c",
+        "target_payload_sha256": "65c1ccf2fca791d70bcae26927daa361d307ea74348302ff8ec30487609300d1",
+        "semantic_core_sha256": "6bfa34c0e8d17d6051e938fb14a16f259a314bcf3c3948cc77af0ff5f5807383",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c574:dccbe0c8c8f75b65",
+        "gold_for": [],
+        "hard_negative_for": [
+          "yili_dividend_timing"
+        ],
+        "source_payload_sha256": "571179a86446a09b2337462a2c4a8fa265a7dc41cc04938e02ddc58ff76b0cc0",
+        "target_payload_sha256": "1d80d8f2ddb23c44e5e9f8b8b03dd47b5fc27b8e23658b6fba56d0f7fa55a17d",
+        "semantic_core_sha256": "64df6eeac0166f787118b8800c915adc706c4840b0a8eef8371fbc429721f51c",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c603:73e1981521881f32",
+        "gold_for": [
+          "yili_consolidated_parent_revenue"
+        ],
+        "hard_negative_for": [
+          "u_yili_cost_scope_ambiguous",
+          "yili_note_cost_scope"
+        ],
+        "source_payload_sha256": "266a326524c87d9916456471407fc991f0d851a4bc12d6a89ed85e275abfa840",
+        "target_payload_sha256": "853f41ef251a14758524637053be79cce05cee72ab247efb7f6345edf9bd20ab",
+        "semantic_core_sha256": "16ccd21a965ec17d6a5d992cda03e9569c1fb838e532c188fd1c47a1d44257e1",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c77:ed0d447e9403ac62",
+        "gold_for": [
+          "yili_2025_plan_bounded"
+        ],
+        "hard_negative_for": [],
+        "source_payload_sha256": "a2f6b04622aa3c37eb644d3c396fc756adf3a07a475529ba78b6ddd1d849f802",
+        "target_payload_sha256": "3154b730ca5bf1f55e7ebb5f39feeda3e9dcad5f17b47c1081839fab4ca568be",
+        "semantic_core_sha256": "33913857ee1645389094715ec7664d07a6fd319395eca213fef6a72d695dd1c5",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c78:cd65cd69e58f27e2",
+        "gold_for": [
+          "yili_disclosed_risks"
+        ],
+        "hard_negative_for": [
+          "moutai_disclosed_risks"
+        ],
+        "source_payload_sha256": "0c87e374384ffc651166639cda7f8ea0197cd92d3d37bad6e9de87a312fbb773",
+        "target_payload_sha256": "b3b14e39e8ecf5b7ed78b5625a3f9f6800228185df053da7f6df0d4b85d1ead4",
+        "semantic_core_sha256": "3ed1e23e0aa6d35c4de19e556525b1fb58478d66a7ad88a5a392eda16a36c762",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      },
+      {
+        "chunk_id": "a82a81e52f52:c79:a71230b53902b53b",
+        "gold_for": [
+          "yili_disclosed_risks"
+        ],
+        "hard_negative_for": [
+          "moutai_disclosed_risks"
+        ],
+        "source_payload_sha256": "eabaac7e4dd1456f2415e98f2029cf409a2be5aeda2cfe9f266f37fe3628f10f",
+        "target_payload_sha256": "758914a89d213dc16cab98ced0a363355b3a5ccaa27e938f795b6ba09e96cc57",
+        "semantic_core_sha256": "f62629bbe9a6a93929c158fb77bd8fd9689a2bc4c0c27429dff14396c11c4bd5",
+        "semantic_core_equal": true,
+        "changed_fields": [
+          "company_name",
+          "document_key",
+          "document_type",
+          "element_references",
+          "report_year"
+        ]
+      }
+    ]
+  }
+}

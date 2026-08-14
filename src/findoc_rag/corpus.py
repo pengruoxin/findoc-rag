@@ -5,10 +5,15 @@ from uuid import uuid4
 
 from pydantic import BaseModel
 
-from findoc_rag.documents.models import DocumentChunk
+from findoc_rag.documents.models import DocumentChunk, ParsedDocument
 from findoc_rag.indexing import PersistentIndex
 from findoc_rag.io import read_jsonl
 from findoc_rag.registry import DocumentRegistry
+from findoc_rag.structured_tables import (
+    STRUCTURED_TABLE_GENERATOR,
+    STRUCTURED_TABLE_SCHEMA_VERSION,
+    build_structured_tables,
+)
 
 
 class CurrentIndexPointer(BaseModel):
@@ -60,6 +65,25 @@ def collect_active_chunks(registry: DocumentRegistry) -> tuple[list[DocumentChun
     return chunks, version_ids
 
 
+def collect_active_documents(
+    registry: DocumentRegistry,
+) -> dict[str, ParsedDocument]:
+    """Load active persisted IR for sidecar construction, keyed by document ID."""
+    documents: dict[str, ParsedDocument] = {}
+    for version in registry.active_versions():
+        if not version.document_ir_path:
+            raise ValueError(f"Active version has no document IR: {version.version_id}")
+        path = Path(version.document_ir_path)
+        if not path.is_file():
+            raise FileNotFoundError(f"Active document IR is missing: {path}")
+        document = ParsedDocument.model_validate_json(path.read_text(encoding="utf-8"))
+        existing = documents.get(document.document_id)
+        if existing is not None and existing.content_sha256 != document.content_sha256:
+            raise ValueError(f"Conflicting active document IR: {document.document_id}")
+        documents[document.document_id] = document
+    return documents
+
+
 def _write_snapshot(chunks: list[DocumentChunk], snapshots_directory: Path) -> Path:
     content = "".join(chunk.model_dump_json() + "\n" for chunk in chunks)
     digest = hashlib.sha256(content.encode()).hexdigest()
@@ -90,7 +114,16 @@ def resolve_current_index(index_root: Path) -> PersistentIndex:
     pointer = _load_pointer(root)
     if pointer is None:
         raise FileNotFoundError(f"No active index pointer exists under {root}")
-    return PersistentIndex(root / pointer.generation_path)
+    generation_path = (root / pointer.generation_path).resolve()
+    if not generation_path.is_relative_to(root):
+        raise ValueError("Active index pointer escapes the configured index root")
+    index = PersistentIndex(generation_path)
+    if pointer.index_id != index.manifest.index_id:
+        raise ValueError(
+            "Active index pointer ID does not match the referenced index manifest: "
+            f"{pointer.index_id!r} != {index.manifest.index_id!r}"
+        )
+    return index
 
 
 def build_active_corpus_index(
@@ -101,6 +134,8 @@ def build_active_corpus_index(
     root = index_root.resolve()
     root.mkdir(parents=True, exist_ok=True)
     chunks, version_ids = collect_active_chunks(registry)
+    documents = collect_active_documents(registry)
+    structured_tables = build_structured_tables(chunks, documents)
     snapshot_path = _write_snapshot(chunks, root / "snapshots")
     source_digest = _file_sha256(snapshot_path)
     current_pointer = _load_pointer(root)
@@ -114,6 +149,10 @@ def build_active_corpus_index(
             previous_index is not None
             and previous_index.manifest.source_chunk_sha256 == source_digest
             and previous_index.manifest.dense_model == dense_model
+            and previous_index.manifest.structured_table_schema_version
+            == STRUCTURED_TABLE_SCHEMA_VERSION
+            and previous_index.manifest.structured_table_generator
+            == STRUCTURED_TABLE_GENERATOR
         ):
             return CorpusIndexResult(
                 action="unchanged",
@@ -131,6 +170,7 @@ def build_active_corpus_index(
         source_chunk_path=snapshot_path,
         dense_model=dense_model,
         reuse_dense_from=previous_index,
+        structured_tables=structured_tables,
     )
     pointer = CurrentIndexPointer(
         index_id=index.manifest.index_id,

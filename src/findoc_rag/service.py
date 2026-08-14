@@ -5,7 +5,7 @@ from time import perf_counter
 from typing import Literal
 from uuid import uuid4
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from findoc_rag.config import (
     ObservabilitySettings,
@@ -28,12 +28,19 @@ from findoc_rag.observability import (
     TraceStore,
 )
 from findoc_rag.reranking import CrossEncoderReranker, Reranker
-from findoc_rag.scope_routing import QueryScope, plan_candidate_budget, route_by_scope
+from findoc_rag.scope_routing import (
+    QueryScope,
+    plan_candidate_budget,
+    route_by_scope,
+    route_structured_evidence,
+)
 
 logger = logging.getLogger(__name__)
 
 
 class SearchRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     query: str = Field(min_length=1, max_length=2000)
     mode: Literal["lexical", "dense", "hybrid"] | None = None
     top_k: int | None = Field(default=None, ge=1, le=100)
@@ -55,6 +62,10 @@ class SearchRequest(BaseModel):
         ):
             raise ValueError("candidate_k must be greater than or equal to top_k")
         return self
+
+
+class QueryRequest(SearchRequest):
+    """Agent-facing query contract, kept distinct from raw evidence search."""
 
 
 class SearchResponse(BaseModel):
@@ -159,7 +170,7 @@ class RetrievalService:
         hits: list[SearchHit] = []
 
         def run_stage(
-            stage: Literal["lexical", "dense", "rrf", "scope", "rerank"],
+            stage: Literal["lexical", "dense", "rrf", "scope", "structured", "rerank"],
             operation,
         ) -> list[SearchHit]:
             stage_started = perf_counter()
@@ -194,7 +205,9 @@ class RetrievalService:
         )
         candidate_k = budget_plan.effective_candidate_k
         inferred_scope: QueryScope | None = None
-        expand_candidates = rerank_requested or scope_requested
+        # The schema-aware router needs a bounded candidate pool even when no
+        # neural reranker or broad section router is enabled.
+        expand_candidates = True
         try:
             if candidate_k < top_k:
                 raise ValueError("candidate_k must be greater than or equal to top_k")
@@ -250,7 +263,7 @@ class RetrievalService:
 
                 def apply_scope() -> list[SearchHit]:
                     scope, scoped_hits = route_by_scope(
-                        request.query, hits, candidate_k if rerank_requested else top_k
+                        request.query, hits, candidate_k
                     )
                     scope_holder.append(scope)
                     return scoped_hits
@@ -262,6 +275,11 @@ class RetrievalService:
                     raise ValueError("Reranking was requested but no reranker is configured")
                 hits = run_stage(
                     "rerank", lambda: self.reranker.rerank(request.query, hits, top_k)
+                )
+            else:
+                hits = run_stage(
+                    "structured",
+                    lambda: route_structured_evidence(request.query, hits, top_k),
                 )
         # Trace unexpected backend/model failures before re-raising them with a trace ID.
         except Exception as exc:  # noqa: BLE001

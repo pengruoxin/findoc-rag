@@ -4,6 +4,35 @@
 
 最低验收要求与迭代流程见 [评测基线 §5](../evaluation/baseline-zh.md#5-迭代协议)；当前基线数字见同一文档；每次实验的完整分析见 [实验总结索引](../evaluation/experiment-summaries.md)。看不懂的词见 [术语表](../glossary-zh.md)。
 
+## 2026-08-14：目标完成性审计（报告来源与历史最佳口径）
+
+- 在线实证：用目标索引 `9898...` 直接启动 RetrievalService/FastAPI；季度题候选池 20→40，top hit 带 16 个 quarterly cells，生成器返回 grounded `deterministic-table`、1 个 citation 和 1 个 claim-citation；capabilities 声明 structured artifact，evidence resolve 返回 chunk SHA，错 index 为 409，ingestion 默认关闭为 503。
+- 报告缺口：IR 的 `summary.json` 正确写了 `persisted-ir-v2`，但旧 Markdown renderer 把输入说明硬编码为 pymupdf blocks。已修为按 `input_mode` 渲染，新增回归测试；IR 报告现在记录两个 version ID、processing fingerprint、document IR SHA 和 geometry element count，并在同一 root 出现重复 document ID 时拒绝非确定性选择。
+- 真实重放：从两份源 PDF 与版本 `7ba72...` / `b288...` 的持久化 IR v2 分别全量重跑 10 张表；官方 PDF/IR JSON 与 Markdown 均逐字匹配新鲜产物，都是 157 pred / 154 hit、P=R=0.9808917。
+- 配对口径：旧的 Robustness “historical-to-final”用了 table-remote-v1 0.8636，不是历史最佳。新增 concentration-v2 0.9545→final 1.0000 的真正历史最佳配对：1 strict fixed / 0 regressed、1 behavior fixed / 0 regressed；旧 3 / 0 报告保留但降级为阶段审计。
+- 代码身份：正式三轨仍绑定运行时 fingerprint `5f02074f...aff06`。本次只修改坐标评测报告 renderer 后，当前 executable fingerprint 为 `0518f74a...8148`；没有用新 fingerprint 冒充旧远程结果，也没有因无关报告改动重复消耗远程 API。生成主链路未在本审计中变更。
+
+## 2026-08-14：Index-bound DeepSeek 最终三轨与完整 RAGAS
+
+- 目标：在不改冻结问题、答案和主指标的前提下，让三轨都消费 migration 目标索引的 `statement_scope` 与 structured-table sidecar，并以同一代码状态完成正式远程评测。
+- 身份：三轨共享 migration `benchmark-v2-to-e5-c3f157-v1`、目标 index `9898c95e13d01c51c156`、snapshot `c3f15772...2730bff`、code fingerprint `5f02074f...aff06`；dirty worktree 不再只用 Git HEAD 冒充同代码。
+- 实现：新增 schema-aware `structured` 检索阶段和 20→最高 100 的 scope-adaptive candidate budget；API 与 generation runner 共用证据路由。Oracle、Retrieved、Robustness 均通过 migration 从目标索引解析 chunk，后两轨不再读取裸 evidence JSONL。修复预测目标年份误过滤、跨公司数值绑定、合并/母公司口径、扣非差额方向、承诺否定误拒答及远程 item error 未导致失败退出等问题。
+- 正式结果：Oracle / Retrieved / Robustness strict 均 **1.0000**（分母 35 / 35 / 22），行为准确率均 **1.0000**，p95 为 1.63s / 2.08s / 2.23s，三轨 `run_error_rate=0`。Retrieved 可答题 37/37 gold context 完整。
+- RAGAS：Oracle 0.7612 / 0.9077 / 1.0000 / 0.9865，Retrieved 0.8843 / 0.9066 / 1.0000 / 1.0000，Robustness 0.7963 / 0.8938 / 0.9444 / 1.0000（faithfulness / answer relevancy / context relevance / context recall）；逐指标与完整行 coverage 均 100%，behavior mismatch 为空。回答和 judge 都是 DeepSeek，`independent_judge=false`，不包装成独立裁判。
+- 历史最佳配对：Retrieved strict 0.8286→1.0000（6 fixed / 0 regressed），Robustness concentration-v2 0.9545→1.0000（1 / 0），Oracle 双 1.0000 持平。较早 table-remote Robustness 0.8636→1.0000（3 / 0）仍保留阶段审计，但不是历史最佳。该跨度包含 migration、路由、sidecar、候选预算、财务勾稽、scorer/runner 修复和 DeepSeek 随机性，**不是严格单变量实验**。
+- 无效 run：`runs-e5-migration-remote-v1` 的 Oracle `run_error_rate=0.4375` 来自沙箱网络权限失败；修复后的 runner 会保留逐题审计产物并非零退出。该 run 不进入能力结论。
+- 边界：strict 只覆盖有确定性评分资格的 35 / 35 / 22 题，不能声称 48 条都是数值 strict；仍只有两家公司、一个年度、assistant-reviewed provisional gold、同 provider 自评，faithfulness 未满分。
+
+## 2026-08-13：冻结 benchmark 的可审计 E5 迁移与生产路由统一
+
+- 目标问题：历史 `10fb...` 的 snapshot/manifest/embeddings 不存在时，如何继续复评而不伪造旧 index identity；同时验证新 E5 索引是否真的提升检索。
+- 迁移契约：新增 `benchmark-v2-e5-migration-v1.json`，绑定 canonical view SHA、旧/新 index ID、snapshot、E5 精确 revision 和模型/embedding/chunk IDs/BM25/structured-table artifacts SHA；38 个 judged chunks 逐条记录 source/target payload SHA、semantic-core SHA、用途与变更字段。
+- 门禁：variant、fusion、generation runner 只接受 canonical index，或接受通过完整重算校验的 migration；文件、证据文本、usage mapping 或 index 任一漂移都 fail closed。
+- 评测修复：retrieval runner 不再复制正则路由，改为复用生产 `route_finance_query`，因此 forecast target 不会被误作 report-year filter，且“伊利”等别名一致识别；融合扫描显式记录 rewrite mode。
+- 结果：历史 `10fb...` expanded-v2 与新 `9898...` routed-v1 的 111 个正向实例 lexical Hit/MRR 逐条一致，0 fixed / 0 regressed；semantic Recall@5 +0.027 来自路由统一。迁移内 raw→deterministic rewrite 为 12 fixed / 0 Hit 回归；dev 六组融合权重仍全部选择 lexical-only。
+- no-remote Retrieved：strict 0.6000、行为 0.5000、48/48 error-free；该数字只作确定性链路诊断，不与历史 DeepSeek 主分混报。
+- 结论：迁移可信，dense 存在但当前仍是负增益；默认 lexical-only 保持。随后已取得显式授权并完成 2026-08-14 最终远程三轨；独立 judge 仍待不同 provider key。
+
 ## 记录模板
 
 ```text
@@ -21,6 +50,37 @@
 已知退化/未覆盖：
 结论：
 ```
+
+## 2026-08-13：中文复杂 PDF、评测可信度与 Agent 契约收口
+
+- 约束：不改 `benchmark-v2`、三轨生成指标、检索矩阵或 157-cell 评分；所有改动沿既有评价体系配对验证。
+- PDF/IR：`DocumentElement` 增量保存 line/span 坐标、字体、字号、粗体；质量报告默认 warning、strict 可拒绝；处理指纹绑定 IR/PyMuPDF/chunk/OCR/quality 配置。两份官方年报文本覆盖率 1.0、无 unresolved OCR，重解析后 349/609 chunks 与全部有序 chunk ID 不变。
+- 表格：整页 raw 坐标仍为 165 pred / 154 hit（P=0.9333、R=0.9809）。新增无 gold 的安全选择规则（表头、单位、完整列束、重复与 chunk 原文一致性），PDF 与持久化 IR v2 均为 **157 pred / 154 hit（P=R=0.9809）**。过滤季度标题 2 格和跨表泄漏 6 格；3 格残差为页面/文字层“其他”，不硬编码修复为 gold 的“其他地区”。年度列已从真实表头动态推导，并用 2026/2025/2024 回归。
+- 评测可信度：新增 `benchmark-lock-v1.json` 外部 SHA 锁与 38 个最小源证据块；clean clone 可验证 48 items / 35 unique gold / 53 hard negatives。Retrieved、variant、fusion runner 强制 index ID 与数据集绑定；当前本地 `a66f...` 对冻结 `10fb...` 的正式运行被正确拒绝。RAGAS 报告新增逐指标 valid/failure/coverage 和完整行覆盖率；某指标列全失败时也输出 0 coverage，不再 KeyError。
+- 答案与 Agent：API 增加稳定 outcome/route/filter/index/trace、动态 capabilities、index-bound evidence resolve + SHA-256、claim-citation；citation excerpt 与实际模型上下文统一为 1800 字符。确定性回答按 company/year/scope/metric 绑定；合并/母公司 scope 由索引章节边界传播，不再 max/min 猜测；季度合计真实比较；年度列从表头动态读取年份。
+- 安全：provider key 按 endpoint host 绑定；请求/过滤/config 禁止未知字段；索引 pointer 防路径逃逸；引用越界拒绝；无模型时明确 `evidence_only` 且 `grounded=false`。
+- 验证：文本主表 **146/149**、集中度 **8/8**；坐标 PDF/IR **154/157**；当时全量 pytest **220 passed**，Ruff 与 `git diff --check` 通过；关键跨页/附注表完成 PDF 页面视觉抽查。本地 no-remote Oracle/Robustness strict 0.7429/0.8182，只作确定性能力诊断，不能与 DeepSeek 远程三轨混报；新远程结果见本文件顶部 2026-08-14 记录。
+- 分类：safe table selector、scope/year bundle、Agent evidence contract 是能力提升；PDF IR、quality、fingerprint、credential、fresh-clone evidence 是工程修复；错索引拒绝、timeout/error、citation validation、RAGAS coverage 是评测或安全口径收紧。
+- 边界：仅两家公司、单一年度；未修 3 个“其他地区”标注/源页面分歧；未证明扫描 PDF、多公司/多年度或跨域泛化；本小节记录的是远程复评前状态，最终结果见顶部。
+
+## 2026-08-13：结构化表格 sidecar 进入在线回答
+
+- 问题：坐标表格已在冻结 157-cell 尺子上验证，但在线回答仍从线性 chunk 文本临时抽取；直接把 cells 写回 chunk 会改变 snapshot hash 和冻结 index identity。
+- 改动：新增独立、可选的 structured-table artifact，绑定 schema、generator、index ID、source snapshot digest、artifact digest、表/单元格计数和逐表 source-chunk SHA；索引启动 fail-closed 校验，检索命中后 runtime 注入，旧索引继续兼容。
+- 在线策略：季度、附注成本、分部、年度、集中度均优先消费 sidecar，缺失时保留已有文本 fallback；年度同比仍由原年度行解析提供，不伪造 sidecar 字段。
+- 真实演练：两份 2024 年报、958 chunks，自动发现 15 表 / 195 cells；IR v2 下 12 表采用坐标结果，3 表触发安全回退；index ID 保持 `a66f0caef7dd29101861`。
+- 发现并修复：处理版本升级未重复传 metadata 时会清空公司/年份过滤字段；现在继承 active version metadata。另修复 segment 跨页坐标 cells 丢 section，使用同一 chunk 文本恢复 section identity，不读 gold。
+- 评测：冻结 157 cells 仍为 154 hit / 157 pred，P=R=0.9809；PDF 与 IR 完全一致。全仓 230 tests passed，Ruff 与 diff check 通过。
+- 结论边界：本轮不改 frozen benchmark、答案或指标；当时 active `a66f...` 与 frozen `10fb...` 不一致，正式 Retrieved 复跑按设计失败；随后通过显式 `9898...` migration 完成正式复评，没有把 `a66f...` 或 `9898...` 伪装为历史索引。
+
+## 2026-08-13：Agent 可控的 PDF ingestion job
+
+- 问题：旧 `/v1/uploads` 只把文件写到本地内存状态表，服务重启后任务丢失，也没有解析、版本化、索引或失败状态，容易让 UI/Agent 误判“上传即能问”。
+- 授权边界：写语料能力默认关闭；只有显式启用 ingestion 后，Agent 才能上传并用稳定 document key 启动处理，避免查询权限隐式扩大为语料写权限。
+- 状态机：任务与处理请求原子落盘，状态为 `uploaded → validating → ingesting → indexing → ready | failed`；ready 回写 document version 与 index ID，重复启动返回冲突，服务重启把在途任务明确标为 `process_restarted`。
+- 质量与原子性：空文件/伪 PDF 先拒绝，解析使用 strict PDF quality gate；入库沿用 transactional registry，索引沿用 immutable generation + atomic current pointer；成功后替换服务的 long-lived retrieval 实例。
+- 验证：新增任务持久化、单次 claim、路径逃逸、重启中断、默认关闭和真实 PDF 端到端测试；全仓 **235 passed**，Ruff 与 diff check 通过，生成数据集 48 items / 120 facts / 0 warnings。
+- 未覆盖：当前 BackgroundTasks 适合单进程演示和面试闭环，不是分布式任务队列；生产仍需认证授权、外部 worker、租约/心跳、取消/重试和多进程 index reload 协议。
 
 ## 2026-08-12：A 阶段软收尾——改写质量门控 + 路由错误率指标
 

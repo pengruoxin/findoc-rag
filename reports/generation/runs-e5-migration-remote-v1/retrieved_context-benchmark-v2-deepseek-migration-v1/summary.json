@@ -1,0 +1,28 @@
+{
+  "run_id": "retrieved_context-benchmark-v2-deepseek-migration-v1",
+  "dataset_id": "benchmark-v2",
+  "source_index_id": "10fb50419145d56720c9",
+  "migration_id": "benchmark-v2-to-e5-c3f157-v1",
+  "lane": "retrieved_context",
+  "model": "deepseek-migration-v1",
+  "api_model": "deepseek-chat",
+  "rewrite_mode": "deterministic",
+  "filter_source": "query_derived",
+  "filter_source_counts": {
+    "query_router": 47,
+    "none": 1
+  },
+  "code_revision": "30d108d604f22e4db9588613614848b996917618",
+  "code_dirty": true,
+  "variant_mode": "canonical",
+  "remote_generation": true,
+  "dataset_item_count": 48,
+  "item_count": 48,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 35,
+  "strict_success_rate": 0.7714285714285715,
+  "expected_behavior_accuracy": 0.9375,
+  "avg_context_tokens": 1506.2916666666667,
+  "p95_latency_ms": 2642.9820000194013,
+  "run_error_rate": 0.0
+}

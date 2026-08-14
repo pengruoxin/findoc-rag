@@ -7,6 +7,11 @@ import argparse
 import json
 from pathlib import Path
 
+from findoc_rag.benchmark_assets import (
+    benchmark_chunk_paths,
+    load_benchmark_lock,
+    validate_benchmark_lock,
+)
 from findoc_rag.benchmark_integrity import (
     EXPECTED_ITEM_COUNT,
     load_chunks,
@@ -28,13 +33,20 @@ def main() -> int:
         "--chunks",
         type=Path,
         nargs="*",
-        default=sorted(DEFAULT_CHUNK_DIR.glob("*/chunks.jsonl")),
-        help="chunks.jsonl paths; defaults to data/catalog/versions/*/chunks.jsonl",
+        default=benchmark_chunk_paths(ROOT),
+        help="chunks.jsonl paths; defaults to local catalog plus committed evidence catalog",
     )
     args = parser.parse_args()
 
     benchmark = json.loads(args.benchmark.read_text(encoding="utf-8"))
+    canonical = args.benchmark.resolve() == DEFAULT_BENCHMARK.resolve()
+    lock = load_benchmark_lock(ROOT) if canonical else None
+    if canonical:
+        validate_benchmark_lock(ROOT, lock)
     index_id, format_version = load_corpus_binding(args.index_root)
+    if canonical and index_id is None:
+        index_id = lock["corpus_index_id"]
+        format_version = lock["chunk_schema_version"]
     chunks = load_chunks(args.chunks)
     result = validate_benchmark(
         benchmark,

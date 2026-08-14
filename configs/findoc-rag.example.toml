@@ -18,7 +18,7 @@ batch_size = 16
 
 [scope_routing]
 enabled = false
-adaptive_candidate_budget = false
+adaptive_candidate_budget = true
 max_candidate_k = 100
 
 [observability]

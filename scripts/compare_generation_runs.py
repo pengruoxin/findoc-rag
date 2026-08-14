@@ -48,14 +48,25 @@ def compare_runs(baseline_dir: Path, candidate_dir: Path, change: str | None = N
 
     baseline_revision = baseline_summary.get("code_revision")
     candidate_revision = candidate_summary.get("code_revision")
+    baseline_dirty = bool(baseline_summary.get("code_dirty"))
+    candidate_dirty = bool(candidate_summary.get("code_dirty"))
+    baseline_fingerprint = baseline_summary.get("code_fingerprint")
+    candidate_fingerprint = candidate_summary.get("code_fingerprint")
     revision_match = (
         baseline_revision == candidate_revision
         and baseline_revision is not None
         and baseline_revision != "unknown"
     )
-    if not revision_match and not change:
+    fingerprint_match = bool(
+        baseline_fingerprint
+        and baseline_fingerprint == candidate_fingerprint
+    )
+    code_state_match = revision_match and (
+        (not baseline_dirty and not candidate_dirty) or fingerprint_match
+    )
+    if not code_state_match and not change:
         raise ValueError(
-            "Runs were produced by different (or unrecorded) code revisions; "
+            "Runs were produced by different, dirty, or unrecorded code states; "
             "this is not a controlled comparison. Pass --change "
             "'<single variable description>' to declare the controlled change, "
             "or compare two runs from the same revision."
@@ -104,7 +115,13 @@ def compare_runs(baseline_dir: Path, candidate_dir: Path, change: str | None = N
         "baseline_code_revision": baseline_revision,
         "candidate_code_revision": candidate_revision,
         "code_revision_match": revision_match,
-        "controlled_change": change if not revision_match else None,
+        "baseline_code_dirty": baseline_dirty,
+        "candidate_code_dirty": candidate_dirty,
+        "baseline_code_fingerprint": baseline_fingerprint,
+        "candidate_code_fingerprint": candidate_fingerprint,
+        "code_fingerprint_match": fingerprint_match,
+        "code_state_match": code_state_match,
+        "controlled_change": change if not code_state_match else None,
         "paired_item_count": len(baseline_scores),
         "metrics": metrics,
         "behavior_fixed": behavior_fixed,
@@ -125,6 +142,10 @@ def render_markdown(report: dict) -> str:
         f"- 代码版本：baseline `{report['baseline_code_revision']}` / "
         f"candidate `{report['candidate_code_revision']}`"
         + ("（一致）" if report["code_revision_match"] else "（不同）"),
+        (
+            f"- 代码状态：{'一致' if report['code_state_match'] else '不同或不可证明'}；"
+            f"fingerprint {'一致' if report['code_fingerprint_match'] else '不一致/缺失'}"
+        ),
         f"- 受控变量：{report['controlled_change'] or '无（同代码复现/稳定性对照）'}",
         f"- 配对样本：{report['paired_item_count']}",
         "",

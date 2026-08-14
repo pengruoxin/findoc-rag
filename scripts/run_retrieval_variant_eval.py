@@ -11,24 +11,25 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import re
 from datetime import date
 from pathlib import Path
 from statistics import mean
 
+from findoc_rag.benchmark_migration import (
+    resolve_evaluation_index_id,
+    validate_migration_manifest,
+)
 from findoc_rag.corpus import resolve_current_index
 from findoc_rag.indexing import SearchFilters, reciprocal_rank_fusion
 from findoc_rag.query_expansion import expand_query
 from findoc_rag.query_rewriting import LLMQueryRewriter
+from findoc_rag.query_routing import route_finance_query
 from findoc_rag.time_utils import resolve_relative_time
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_VIEW = ROOT / "data/evaluation/benchmark-v2-retrieval-view.json"
 DEFAULT_INDEX_ROOT = ROOT / "data/indexes/corpus"
 
-KNOWN_TICKERS = {"600519": "贵州茅台", "600887": "伊利股份"}
-KNOWN_COMPANIES = tuple(KNOWN_TICKERS.values())
-YEAR_PATTERN = re.compile(r"20\d{2}")
 MODES = ("lexical", "dense", "hybrid")
 FILTERS = ("none", "query_parser")
 AGGREGATE_METRICS = (
@@ -47,6 +48,16 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--view", type=Path, default=DEFAULT_VIEW)
     parser.add_argument("--index-root", type=Path, default=DEFAULT_INDEX_ROOT)
+    parser.add_argument(
+        "--migration-manifest",
+        type=Path,
+        help="validated benchmark migration binding for a replacement index",
+    )
+    parser.add_argument(
+        "--source-evidence",
+        type=Path,
+        default=ROOT / "data/evaluation/benchmark-evidence-v1.jsonl",
+    )
     parser.add_argument("--top-k", type=int, default=5)
     parser.add_argument("--candidate-k", type=int, default=20)
     parser.add_argument("--rrf-k", type=int, default=60)
@@ -108,11 +119,8 @@ def parse_for_filter(
     resolved = query
     if as_of_date:
         resolved, _ = resolve_relative_time(query, date.fromisoformat(as_of_date))
-    companies = [company for company in KNOWN_COMPANIES if company in resolved]
-    tickers = [ticker for ticker in KNOWN_TICKERS if ticker in resolved]
-    companies.extend(KNOWN_TICKERS[ticker] for ticker in tickers)
-    years = [int(year) for year in YEAR_PATTERN.findall(resolved)]
-    return resolved, list(dict.fromkeys(companies)), years
+    route = route_finance_query(resolved)
+    return resolved, route.company_names, route.report_years
 
 
 def build_filters(companies: list[str], years: list[int]) -> SearchFilters | None:
@@ -316,6 +324,25 @@ def main() -> None:
     args.rewriter = make_rewriter(args.rewrite)
     view = json.loads(args.view.read_text(encoding="utf-8"))
     index = resolve_current_index(args.index_root)
+    migration = None
+    if args.migration_manifest is not None:
+        migration = json.loads(args.migration_manifest.read_text(encoding="utf-8"))
+        migration_result = validate_migration_manifest(
+            migration,
+            view_path=args.view,
+            source_evidence_path=args.source_evidence,
+            target_index_root=args.index_root,
+        )
+        if not migration_result.ok:
+            raise ValueError(
+                "Benchmark migration validation failed: "
+                + "; ".join(migration_result.errors)
+            )
+    resolve_evaluation_index_id(
+        view=view,
+        index_id=index.manifest.index_id,
+        migration_manifest=migration,
+    )
     positive = [item for item in view["items"] if item["retrieval_judgment"] == "positive_gold"]
     behavior = [
         item for item in view["items"]
@@ -364,10 +391,13 @@ def main() -> None:
         "run_id": "variant-regime-v1",
         "dataset_id": view["dataset_id"],
         "index_id": index.manifest.index_id,
+        "source_index_id": view["corpus_index_id"],
+        "migration_id": migration.get("migration_id") if migration else None,
         "top_k": args.top_k,
         "candidate_k": args.candidate_k,
         "rrf_k": args.rrf_k,
         "rrf_weights": {"lexical": args.lexical_weight, "dense": args.dense_weight},
+        "rewrite_mode": args.rewrite,
         "metadata_filter_source": {"none": "none", "query_parser": "query_parser"},
         "positive_instance_count": len(rows),
         "positive_group_count": len(positive),
@@ -384,10 +414,14 @@ def main() -> None:
             {
                 "view": str(args.view),
                 "index_root": str(args.index_root),
+                "migration_manifest": (
+                    str(args.migration_manifest) if args.migration_manifest else None
+                ),
                 "top_k": args.top_k,
                 "candidate_k": args.candidate_k,
                 "rrf_k": args.rrf_k,
                 "rrf_weights": {"lexical": args.lexical_weight, "dense": args.dense_weight},
+                "rewrite_mode": args.rewrite,
                 "metadata_filter_source": {"none": "none", "query_parser": "query_parser"},
             },
             ensure_ascii=False,

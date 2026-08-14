@@ -1,0 +1,140 @@
+{
+  "run_id": "table-eval-v1",
+  "dataset_id": "table-eval-v1",
+  "table_count": 8,
+  "gold_cells_total": 149,
+  "by_table_type": {
+    "annual_data": {
+      "implemented": true,
+      "table_count": 2,
+      "gold_cells": 39,
+      "correct_cells": 39,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "note_cost": {
+      "implemented": true,
+      "table_count": 2,
+      "gold_cells": 24,
+      "correct_cells": 24,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "quarterly": {
+      "implemented": true,
+      "table_count": 2,
+      "gold_cells": 32,
+      "correct_cells": 32,
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    "segment": {
+      "implemented": true,
+      "table_count": 2,
+      "gold_cells": 54,
+      "correct_cells": 51,
+      "precision": 0.9444444444444444,
+      "recall": 0.9444444444444444
+    }
+  },
+  "tables": [
+    {
+      "table_id": "moutai_quarterly",
+      "table_type": "quarterly",
+      "gold_cells": 16,
+      "predicted_cells": 16,
+      "correct_cells": 16,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "wrong_rows": [],
+      "implemented": true
+    },
+    {
+      "table_id": "yili_quarterly",
+      "table_type": "quarterly",
+      "gold_cells": 16,
+      "predicted_cells": 16,
+      "correct_cells": 16,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "wrong_rows": [],
+      "implemented": true
+    },
+    {
+      "table_id": "moutai_note_cost",
+      "table_type": "note_cost",
+      "gold_cells": 12,
+      "predicted_cells": 12,
+      "correct_cells": 12,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "wrong_rows": [],
+      "implemented": true
+    },
+    {
+      "table_id": "yili_note_cost",
+      "table_type": "note_cost",
+      "gold_cells": 12,
+      "predicted_cells": 12,
+      "correct_cells": 12,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "wrong_rows": [],
+      "implemented": true
+    },
+    {
+      "table_id": "moutai_segment",
+      "table_type": "segment",
+      "gold_cells": 21,
+      "predicted_cells": 21,
+      "correct_cells": 21,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "wrong_rows": [],
+      "implemented": true
+    },
+    {
+      "table_id": "yili_segment",
+      "table_type": "segment",
+      "gold_cells": 33,
+      "predicted_cells": 33,
+      "correct_cells": 30,
+      "precision": 0.9090909090909091,
+      "recall": 0.9090909090909091,
+      "f1": 0.9090909090909091,
+      "wrong_rows": [
+        "其他"
+      ],
+      "implemented": true
+    },
+    {
+      "table_id": "moutai_annual_data",
+      "table_type": "annual_data",
+      "gold_cells": 21,
+      "predicted_cells": 21,
+      "correct_cells": 21,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "wrong_rows": [],
+      "implemented": true
+    },
+    {
+      "table_id": "yili_annual_data",
+      "table_type": "annual_data",
+      "gold_cells": 18,
+      "predicted_cells": 18,
+      "correct_cells": 18,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "wrong_rows": [],
+      "implemented": true
+    }
+  ]
+}

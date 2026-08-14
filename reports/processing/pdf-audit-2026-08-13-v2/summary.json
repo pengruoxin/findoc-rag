@@ -1,0 +1,80 @@
+{
+  "run_id": "pdf-audit-2026-08-13-v2",
+  "documents": {
+    "moutai": {
+      "page_count": 143,
+      "chars_per_page_p05": 411,
+      "chars_per_page_p50": 1041,
+      "chars_per_page_min": 114,
+      "blocks_per_page_p50": 22,
+      "spans_per_page_p50": 116,
+      "spans_per_line_p50": 1,
+      "chars_per_span_p50": 5,
+      "chars_per_span_max": 118,
+      "multi_span_line_ratio": 0.0659107446034441,
+      "mixed_cjk_number_block_ratio": 0.4249632892804699,
+      "overlapping_y_pages": 82,
+      "low_text_pages": [
+        1,
+        143
+      ],
+      "rotated_pages": [],
+      "replacement_char_pages": [],
+      "top_fonts": {
+        "ABCDEE+å®ä½": 286,
+        "ABCDEE+Calibri": 286,
+        "ABCDEE+Calibri,Bold": 286,
+        "Arial,Bold": 94,
+        "ABCDEE+é»ä½": 13,
+        "Times New Roman": 11
+      },
+      "non_embedded_fonts": {}
+    },
+    "yili": {
+      "page_count": 270,
+      "chars_per_page_p05": 331,
+      "chars_per_page_p50": 867,
+      "chars_per_page_min": 58,
+      "blocks_per_page_p50": 33,
+      "spans_per_page_p50": 68,
+      "spans_per_line_p50": 1,
+      "chars_per_span_p50": 7,
+      "chars_per_span_max": 84,
+      "multi_span_line_ratio": 0.022414345180915785,
+      "mixed_cjk_number_block_ratio": 0.419532479208811,
+      "overlapping_y_pages": 98,
+      "low_text_pages": [
+        1,
+        3,
+        5,
+        34,
+        66,
+        86,
+        169,
+        181,
+        197,
+        270
+      ],
+      "rotated_pages": [],
+      "replacement_char_pages": [],
+      "top_fonts": {
+        "MLJNAR+SimSun": 270,
+        "ZRCDFJ+Arial-BoldMT": 29,
+        "BJWSHU+ArialMT": 2
+      },
+      "non_embedded_fonts": {}
+    }
+  },
+  "chunks": {
+    "e96cf669106c99e4e283ca45": {
+      "chunks": 609,
+      "cross_page": 225,
+      "continuation": 1
+    },
+    "7961508deeffb5e66ae88808": {
+      "chunks": 349,
+      "cross_page": 95,
+      "continuation": 13
+    }
+  }
+}

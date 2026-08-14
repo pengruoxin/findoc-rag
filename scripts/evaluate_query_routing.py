@@ -12,7 +12,7 @@ import json
 from datetime import date
 from pathlib import Path
 
-from findoc_rag.api import infer_finance_filters, prepare_finance_query
+from findoc_rag.query_routing import infer_finance_filters, prepare_finance_query
 from findoc_rag.time_utils import resolve_relative_time
 
 ROOT = Path(__file__).resolve().parents[1]

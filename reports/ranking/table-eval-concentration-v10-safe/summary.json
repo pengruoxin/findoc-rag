@@ -1,0 +1,42 @@
+{
+  "run_id": "table-eval-v1",
+  "dataset_id": "table-eval-concentration-v1",
+  "table_count": 2,
+  "gold_cells_total": 8,
+  "by_table_type": {
+    "concentration": {
+      "implemented": true,
+      "table_count": 2,
+      "gold_cells": 8,
+      "correct_cells": 8,
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  },
+  "tables": [
+    {
+      "table_id": "moutai_concentration",
+      "table_type": "concentration",
+      "gold_cells": 4,
+      "predicted_cells": 4,
+      "correct_cells": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "wrong_rows": [],
+      "implemented": true
+    },
+    {
+      "table_id": "yili_concentration",
+      "table_type": "concentration",
+      "gold_cells": 4,
+      "predicted_cells": 4,
+      "correct_cells": 4,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "wrong_rows": [],
+      "implemented": true
+    }
+  ]
+}

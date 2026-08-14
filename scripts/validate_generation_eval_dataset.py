@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 
+from findoc_rag.benchmark_assets import benchmark_chunk_paths, validate_benchmark_lock
 from findoc_rag.generation_evaluation import (
     GenerationEvaluationDataset,
     to_ragas_oracle_rows,
@@ -11,12 +12,13 @@ from findoc_rag.generation_evaluation import (
 
 ROOT = Path(__file__).resolve().parents[1]
 DATASET = ROOT / "data/evaluation/generation-eval-v1.json"
-CHUNKS = list((ROOT / "data/catalog/versions").glob("*/chunks.jsonl"))
+CHUNKS = benchmark_chunk_paths(ROOT)
 REPORT = ROOT / "reports/generation/dataset-validation-v1.json"
 RAGAS_EXPORT = ROOT / "data/evaluation/generation-eval-v1-ragas-oracle.jsonl"
 
 
 def main() -> None:
+    validate_benchmark_lock(ROOT)
     report = validate_generation_dataset(DATASET, CHUNKS)
     dataset = GenerationEvaluationDataset.model_validate_json(DATASET.read_text(encoding="utf-8"))
     REPORT.parent.mkdir(parents=True, exist_ok=True)

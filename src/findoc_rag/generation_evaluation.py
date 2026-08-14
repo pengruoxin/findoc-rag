@@ -237,6 +237,8 @@ def select_ragas_run_items(
     dataset: GenerationEvaluationDataset,
     run_items: list[GenerationRunItem],
     lane: GenerationLane,
+    *,
+    allowed_index_ids: set[str] | None = None,
 ) -> tuple[list[GenerationEvaluationItem], RagasRunSelection]:
     """Validate a lane run and return its answerable, semantically judgeable cases.
 
@@ -273,13 +275,14 @@ def select_ragas_run_items(
             f"missing={missing_ids}, out_of_lane={out_of_lane_ids}"
         )
 
+    accepted_index_ids = allowed_index_ids or {dataset.corpus_index_id}
     wrong_index_ids = sorted(
-        item.query_id for item in run_items if item.index_id != dataset.corpus_index_id
+        item.query_id for item in run_items if item.index_id not in accepted_index_ids
     )
     if wrong_index_ids:
         raise ValueError(
-            "Run items use an index other than the dataset corpus index: "
-            f"{wrong_index_ids}"
+            "Run items use an index outside the validated evaluation binding "
+            f"{sorted(accepted_index_ids)}: {wrong_index_ids}"
         )
 
     run_errors = sorted(item.query_id for item in run_items if item.error is not None)
@@ -361,6 +364,7 @@ class DeterministicCaseScore(BaseModel):
 NUMBER_PATTERN = re.compile(r"(?<![\d])[-−]?\d[\d,]*(?:\.\d+)?")
 CITATION_PATTERN = re.compile(r"\[(\d+)]")
 NUMBER_TOKEN = r"(?<![\d])[-−]?\d[\d,]*(?:\.\d+)?"
+FACT_BINDING_WINDOW = 48
 
 
 def _numbers(text: str) -> set[Decimal]:
@@ -402,6 +406,74 @@ def _contains_value_with_unit(text: str, value: Decimal, unit: str) -> bool:
     )
 
 
+def _numeric_value_spans(text: str, value: Decimal) -> list[tuple[int, int]]:
+    """Return spans whose normalized numeric value exactly matches ``value``."""
+    return [
+        match.span()
+        for match in NUMBER_PATTERN.finditer(text)
+        if _decimal(match.group()) == value
+    ]
+
+
+def _subject_bound_numeric_match(
+    text: str,
+    *,
+    subject: str,
+    value: Decimal,
+    competing_subjects: set[str],
+) -> bool:
+    """Require explicit subject-to-value binding for multi-subject answers.
+
+    The deterministic scorer previously treated the answer as an unordered bag
+    of numbers. That lets two companies' values be swapped while retaining a
+    perfect score. For facts whose subjects compete within one case, accept a
+    value only when the fact subject is the nearest mentioned competing subject
+    in the same local clause/window.
+    """
+    if not subject or len(competing_subjects) < 2:
+        return True
+    for start, end in _numeric_value_spans(text, value):
+        # Prefer the local Chinese clause.  A symmetric character window can
+        # incorrectly bind the first company's value to the second company
+        # mentioned just after ``[1]，`` even when the answer is correct.
+        clause_left = max(
+            (text.rfind(separator, 0, start) for separator in ("，", "。", "；", ";", "\n")),
+            default=-1,
+        )
+        clause_right_candidates = [
+            position
+            for separator in ("，", "。", "；", ";", "\n")
+            if (position := text.find(separator, end)) >= 0
+        ]
+        left = max(clause_left + 1, start - FACT_BINDING_WINDOW)
+        right = min(
+            min(clause_right_candidates, default=len(text)),
+            end + FACT_BINDING_WINDOW,
+        )
+        window = text[left:right]
+        value_start = start - left
+        value_end = end - left
+        distances: dict[str, int] = {}
+        for candidate in competing_subjects:
+            positions = [match.start() for match in re.finditer(re.escape(candidate), window)]
+            if positions:
+                distances[candidate] = min(
+                    value_start - (position + len(candidate))
+                    if position + len(candidate) <= value_start
+                    else position - value_end
+                    if position >= value_end
+                    else 0
+                    for position in positions
+                )
+        if distances:
+            nearest = min(distances.values())
+            if distances.get(subject) == nearest and sum(
+                distance == nearest for distance in distances.values()
+            ) == 1:
+                return True
+    return False
+
+
 def score_generation_run_item(
     item: GenerationEvaluationItem,
     run: GenerationRunItem,
@@ -411,7 +483,8 @@ def score_generation_run_item(
     expected_behavior = item.answer_contract.expected_behavior
     observed_behavior = run.observed_behavior or ("answer" if run.grounded else "abstain")
     expects_answer = expected_behavior == "answer"
-    behavior_correct = observed_behavior == expected_behavior
+    run_succeeded = run.error is None
+    behavior_correct = run_succeeded and observed_behavior == expected_behavior
     if not expects_answer:
         return DeterministicCaseScore(
             query_id=item.query_id,
@@ -432,13 +505,25 @@ def score_generation_run_item(
     numeric_matches: list[bool] = []
     unit_matches: list[bool] = []
     context_matches: list[bool] = []
+    direct_numeric_subjects = {
+        expected.subject
+        for expected in item.expected_facts
+        if expected.required
+        and expected.value_type in {"number", "percentage", "percentage_point"}
+        and not expected.derivation
+    }
     for expected in item.expected_facts:
         if not expected.required:
             continue
         numeric_value: Decimal | None = None
         if expected.value_type in {"number", "percentage", "percentage_point"}:
             numeric_value = Decimal(expected.canonical_value)
-            numeric_match = numeric_value in response_numbers
+            numeric_match = numeric_value in response_numbers and _subject_bound_numeric_match(
+                run.response,
+                subject=expected.subject,
+                value=numeric_value,
+                competing_subjects=(direct_numeric_subjects if not expected.derivation else set()),
+            )
             numeric_matches.append(numeric_match)
             fact_matches.append(numeric_match)
         elif expected.value_type == "boolean":
@@ -469,9 +554,12 @@ def score_generation_run_item(
     )
     strict_success_eligible = not semantic_review_required
     strict_success = strict_success_eligible and (
-        run.grounded
+        run_succeeded
+        and behavior_correct
+        and run.grounded
         and fact_recall == 1.0
         and (unit_accuracy is None or unit_accuracy == 1)
+        and context_recall == 1.0
         and citation_valid
     )
     return DeterministicCaseScore(
@@ -485,7 +573,7 @@ def score_generation_run_item(
         unit_accuracy=unit_accuracy,
         context_recall=context_recall,
         citation_validity=float(citation_valid),
-        false_abstention=not run.grounded,
+        false_abstention=run_succeeded and not run.grounded,
     )
 
 

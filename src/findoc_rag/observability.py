@@ -23,7 +23,7 @@ class RankedHitSnapshot(BaseModel):
 
 
 class RetrievalStageTrace(BaseModel):
-    stage: Literal["lexical", "dense", "rrf", "scope", "rerank"]
+    stage: Literal["lexical", "dense", "rrf", "scope", "structured", "rerank"]
     duration_ms: float = Field(ge=0)
     candidate_count: int = Field(ge=0)
     hits: list[RankedHitSnapshot]

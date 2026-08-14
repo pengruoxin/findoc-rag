@@ -1,4 +1,4 @@
-# FinDocRAG 评测基线（2026-08-07）
+# FinDocRAG 评测基线（更新于 2026-08-14）
 
 > 本文档只写**数字**：当前规模、当前分数、当前薄弱点。每轮实验后更新此处，是所有优化对比的唯一权威来源。
 > 规则（指标定义、数据集构造、门禁、评分策略）见 [benchmark-and-metrics-zh.md](./benchmark-and-metrics-zh.md)；改进计划见 [improvement-list-zh.md](./improvement-list-zh.md)。
@@ -10,8 +10,13 @@
 |---|---|
 | 评测集 | `benchmark-v2`（派生自 `generation-eval-v1-b7f4d6113c96`） |
 | 检索回归集 | holdout v2，16 题 |
-| 索引 | `10fb50419145d56720c9`（958 个切片，语义模型 E5-small，384 维） |
+| 冻结源索引身份 | `10fb50419145d56720c9`（历史制品已不可恢复，不伪造） |
+| 当前正式目标索引 | `9898c95e13d01c51c156`（958 个切片，E5-small 384 维，经 migration 显式绑定） |
+| 目标 snapshot | `c3f15772dcb8b44898e415e93eb27aec17d56a95190837366f41b500b2730bff` |
+| 最终三轨代码指纹 | `5f02074f2fd4e08042a2c9a05123c83d199d325959e271178a7ff849f40aff06` |
 | 切片格式版本 | 3 |
+
+历史 `10fb...` 仍是冻结基线身份，不被覆盖。由于原 snapshot/manifest/embeddings 已不可恢复，已建立迁移候选 `9898c95e13d01c51c156`：snapshot `c3f157...`、同一 E5-small、384 维、958 chunks。迁移清单逐文件绑定 SHA，并证明 38/38 judged chunks 的文本、章节、页码、计数等语义核心完全一致；原问题、答案与指标未变。
 
 ## 1. 数据规模
 
@@ -29,6 +34,7 @@
 | 公司覆盖 | 茅台 18、伊利 22、跨公司对比 8 |
 | 题型 | 多事实表 11、对比 8、叙述 8、计算 7、单事实 2、政策 1、拒答 / 追问 11 |
 | 文档来源 | 2 份 2024 年报（143 页 / 270 页，切成 958 个切片） |
+| 随仓最小证据目录 | 38 个证据块（35 个 unique gold，覆盖全部 53 个 hard negatives） |
 
 67 条正确证据全部翻回 PDF 原页人工看过，其中 26 条跨页；复核告警为 0。
 
@@ -69,7 +75,17 @@
 
 43 个相对时间问句全部正确解析成 2024。唯一的例外 `yili_2025_plan_bounded` 暴露了一个真实 bug：这题的提问时点设在 2026-04-30，"去年"解析成 2025 是对的，但系统直接拿 2025 去过滤年报年份，把正确证据排除了——那份证据是**2024 年报里写的 2025 年经营计划**。教训是**问题问的年份 ≠ 文档的报告年份**，中间需要一层时间对齐判断。
 
-### 2.2 词表外改写（OOV）与中文 dense 对照（2026-08-11）
+### 2.2 索引迁移候选（2026-08-13，`9898...`）
+
+- 迁移门禁绑定：E5 revision `614241f...`、模型权重 SHA、dense embeddings、dense chunk IDs、BM25 SQLite、structured-table sidecar、snapshot 与 38 条逐块 payload/semantic-core SHA。
+- 与历史 `10fb...` 的 expanded-v2 做 111 条正向实例配对：lexical + query-derived filter 的三类问法 Hit@5/MRR@5 **完全相同**，0 fixed / 0 regressed；109/111 全指标逐项相同，另 2 条仅因生产路由统一而改善跨 chunk Recall/NDCG。
+- 新索引 raw → deterministic rewrite + 生产路由：Hit@5 分别 `0.838→0.892`、`0.811→0.892`、`0.730→0.919`；12 fixed / 0 Hit@5 regressions。MRR 有 14 提升 / 3 小幅降位，均未跌出 top-5。
+- dev split 上按生产 deterministic rewrite 重跑 6 组权重：三个 regime 的最优仍全部为 lexical-only；dense/hybrid 保持实验能力，但不提升为默认。
+- no-remote Retrieved 确定性诊断：strict `0.6000`、行为 `0.5000`、48/48 无运行错误；这是本地规则回归，不与 DeepSeek 历史主分混报。
+
+证据：[迁移清单](../../data/evaluation/benchmark-v2-e5-migration-v1.json)、[历史→迁移配对](../../reports/ranking/paired-10fb-to-9898-lexical-v1/summary.md)、[迁移内改进配对](../../reports/ranking/paired-9898-improvement-v1/summary.md)、[融合扫描](../../reports/ranking/fusion-sweep-e5-migration-rewrite-v1/summary.md)。
+
+### 2.3 词表外改写（OOV）与中文 dense 对照（2026-08-11）
 
 OOV 集 36 实例 / 12 题，全部是 deterministic 词表外的口语改写（如"扣非净利润与净利润的差额""风险因素有哪些"），top_k=5 / candidate_k=20 / query_parser 过滤：
 
@@ -81,7 +97,7 @@ OOV 集 36 实例 / 12 题，全部是 deterministic 词表外的口语改写（
 
 中文 dense 对照（bge-small-zh-v1.5，索引 `6a951f4e8b7bd913d918`）：OOV dense 0.083，LLM 改写后仍 0.083；变体三问法 0.162 / 0.568 / 0.162，全部低于 E5（0.216 / 0.703 / 0.189）。**结论：换中文小 dense 模型没有收益，问题在问句形态与上游表格线性化；LLM 查询改写是 OOV 的决定性杠杆，但改写需持久化缓存 + 确定性词表兜底**（剩余 miss 归因见 [oov-eval-llm-v1 分析](../../reports/ranking/oov-eval-llm-v1/analysis.md)）。
 
-## 3. 生成基线（48 题，不接大模型的确定性链路，clarify-v1 策略）
+## 3. 生成评测（DeepSeek 主结果 + no-LLM 确定性诊断）
 
 ### 3.1 DeepSeek 真实基线（2026-08-07，`deepseek-chat`，48 题）——主基线
 
@@ -199,23 +215,50 @@ Oracle 12 题全部命中预期：季度现金流 / 季度归母 / 两个季度-
 
 DeepSeek 与 RAGAS 语义评测见 §3.1（8/7 基线）与 §3.2.2（2026-08-11 表格路径重跑，均 `independent_judge=false` 自评）。旧 32 题的 0.9583 只作历史记录——那是另一个版本的数据集，不能搬过来用。
 
+### 3.3 Index-bound 最终三轨（2026-08-14，`deepseek-index-bound-final`）——当前主结果
+
+三轨共享同一个 migration `benchmark-v2-to-e5-c3f157-v1`、目标索引 `9898c95e13d01c51c156`、代码指纹 `5f02074f...aff06`、结构证据路由 `structured-table-v1` 和候选池策略 `scope-adaptive-20-to-100`。Oracle、Retrieved、Robustness 都通过 migration 从目标索引解析带 `statement_scope` / `structured_tables` 的 chunk；后两轨不再读取裸 evidence JSONL。所有远程调用均成功，`run_error_rate=0`。
+
+| Lane | items | strict（eligible） | 行为准确率 | 平均上下文 token | p95 | 远程错误率 |
+|---|---:|---:|---:|---:|---:|---:|
+| Oracle | 48 | **1.0000（35）** | **1.0000** | 303 | 1.63s | 0 |
+| Retrieved | 48 | **1.0000（35）** | **1.0000** | 1533 | 2.08s | 0 |
+| Robustness | 29 | **1.0000（22）** | **1.0000** | 784 | 2.23s | 0 |
+
+strict 只覆盖有确定性数值/单位评分资格的 35 / 35 / 22 题；语义叙述题不进入 strict 分母，禁止对外写成“48 条数值题全部 strict”。Retrieved 的独立确定性上下文检查为 **37/37 gold context 完整，Context Recall=1.0**。
+
+RAGAS 完整覆盖结果：
+
+| Lane | Faithfulness | Answer Relevancy | Context Relevance | Context Recall |
+|---|---:|---:|---:|---:|
+| Oracle | 0.7612 | 0.9077 | 1.0000 | 0.9865 |
+| Retrieved | 0.8843 | 0.9066 | 1.0000 | 1.0000 |
+| Robustness | 0.7963 | 0.8938 | 0.9444 | 1.0000 |
+
+每个 metric 的 coverage 与 complete-row coverage 均为 100%，behavior mismatch 为空；但回答模型和 judge 都是 DeepSeek，产物明确记录 `api_model_recorded=true`、`independent_judge=false`，因此这些分数只作自评语义诊断，不是独立裁判结论。
+
+相对各 lane 历史最佳配对：Retrieved strict 0.8286→1.0000（6 fixed / 0 regressed）、行为 0.9583→1.0000；Robustness strict 0.9545→1.0000（1 fixed / 0 regressed）、行为 0.9655→1.0000；Oracle 双 1.0000 持平。该对比同时包含 E5 migration、生产元数据/预测年份路由、index-bound sidecar、结构证据路由、自适应候选池、财务勾稽和 scorer/runner 修复，并受 DeepSeek 随机性影响，**不是严格单变量因果实验**。较早的 table-remote Robustness 0.8636→1.0000 配对保留作阶段审计，但不再称为“历史最佳”。
+
+`runs-e5-migration-remote-v1` 中曾出现 Oracle `run_error_rate=0.4375`；这是沙箱网络权限失败造成的无效运行，runner 修复后已保留审计产物并以失败状态退出，不纳入任何能力结论。
+
 ## 4. 当前薄弱点（优化起点）
 
 按杠杆排序，每条都指向已落盘的实验证据：
 
 | 层 | 观察 | 证据 |
 |---|---|---|
-| **表格抽取** | 四类表型确定性抽取器 + 生成链路接入（2026-08-11）：table-eval 146/149（98.0%）；no-LLM 三轨 strict 0.3143→0.6571 / 0.0857→0.2571 / 0.2273→0.3636，零回归；唯一残差是伊利 segment"其他地区"行的 PDF 文字层丢字，需坐标级重建 | table-eval-v2 + generation comparisons/*-table-v1 |
+| **表格抽取** | 五类表型确定性抽取已通过 index-bound sidecar 接入在线回答：主表 146/149、集中度 8/8；真实两份年报自动发现 15 表 / 195 cells，IR v2 下 12 表走坐标、3 表因安全门禁回退文本。sidecar 不进入 chunk serialization，启动时校验 schema/generator/index/source/content/chunk SHA；无 sidecar 的旧索引继续使用文本 fallback | table-eval-v10-safe + coordinate-safe-v10 + sidecar contract tests |
+| **复杂 PDF / 坐标表格** | 文本主表 146/149、集中度 8/8；safe coordinate 为 154/157、157 predictions，PDF 直读与持久化 IR v2 完全一致。3 格残差来自页面/文字层为“其他”而 gold 为“其他地区”，不做题目特判 | coordinate-safe-v10-pdf / coordinate-safe-v10-ir |
 | **同义词** | 词表内改写（7 组映射）把口语问法 Hit@5 提到 0.92；词表外改写原为 0.194，LLM 改写提到 0.694；剩余 miss 主要是简称未归一（扣非→扣除非经常性损益）、行内换行和文档措辞未知 | OOV 36 实例：none / deterministic 0.194 → LLM 0.694；剩余 11 个 miss 归因见 [oov-eval-llm-v1 分析](../../reports/ranking/oov-eval-llm-v1/analysis.md) |
-| **时间对齐** | 问题问的年份被直接拿去过滤文档年份，两者不一致时会把正确证据排除 | `yili_2025_plan_bounded`：问 2025，证据在 2024 年报里 |
+| **时间对齐** | 已把事实期间、报告年份和预测目标年份分离；2025 经营目标不再错误过滤到 2025 年报。剩余风险是当前路由评测仅 18 条、单一语料年度 | `yili_2025_plan_bounded` runner/API 回归；query-routing-v1 18/18 |
 | ~~融合~~ | 已定论：混合检索确实是负优化，默认已改成纯关键词检索 | fusion-sweep-v1，见 §2.1 |
 | 语义检索 | 只在"股票代码 / 简称"这类短问句上有用；**换中文专用小模型（bge-small-zh-v1.5）全面退化**，证明主因是问句形态 + **上游 PDF 表格线性化**（数字密集无结构文本放大表面误导）。决策：暂用关键词检索 + LLM 查询改写，表格结构化后与更强模型（如 bge-m3）一起重验 | E5 0.216 / 0.703 / 0.189 vs bge-zh 0.162 / 0.568 / 0.162；OOV dense 0.083 |
-| 查询路由 | `/v1/query` 只认两家公司的全名和 `20xx` 这个正则，不认别名、股票代码、相对时间；过滤条件的来源在运行时也没记录下来 | |
-| 生成 | DeepSeek 在新 48 题上从没跑过，目前无法归因 | |
+| 查询路由 | 已支持全名、别名、股票代码、相对时间、事实期间/预测目标年份分离，并在 `/v1/query` 返回 route 与 applied filters；当前路由小集 18/18，薄弱点是公司/年度覆盖太窄 | query-routing-v1；Agent contract tests |
+| 生成 | 最终三轨 strict / 行为均 1.0，错误率 0，Retrieved 37/37 gold context；RAGAS 完整覆盖但为 DeepSeek 自评。当前薄弱点已从冻结集正确性转为外部有效性、独立裁判和更难行为覆盖 | §3.3；`runs-e5-migration-remote-final`；`ragas-index-bound-final-*` |
 | 行为 | 拒答 / 追问只有 11 题，且偏"因果推断、投资建议"这类明显该拒的，缺"数字确实存在但口径或期间不对"的近失拒答 | |
 | 覆盖 | 37 道该答的题里只有 13 道需要拼多段证据，跨段推理的覆盖偏低 | |
 
-PDF 解析的源元素覆盖率 100%，958 个切片，切片长度中位数约 238 token，跨页比例可控——但表格结构未恢复（数字与标签分离）是语义检索的上游因素，见"语义检索"行。
+PDF 解析的源元素覆盖率 100%，958 个切片，切片长度中位数约 238 token。IR v2 已持久化 line/span 坐标、字体、字号、粗体与旋转信息，并有 OCR/低文本/乱码/图片页质量报告；表格结构已具备确定性文本与坐标双路径，但尚未覆盖扫描版年报、多公司和多年度盲测。
 
 ## 5. 迭代协议
 
@@ -243,7 +286,10 @@ PDF 解析的源元素覆盖率 100%，958 个切片，切片长度中位数约 
 - [x] 评测脚本支持注入提问时点和跑变体问句（`--variant`）
 - [x] 变体首轮检索评测 + 融合权重扫描（variant-regime-v1 / fusion-sweep-v1；结论：纯关键词检索全面优于融合，默认策略已改）
 - [ ] 96 个变体问句的语义保真人工审核（现在全是助手生成，没有逐条审核状态）
-- [ ] 跑新 48 题的 DeepSeek 三赛道 + 语义评测（需要 `DEEPSEEK_API_KEY`）
+- [x] 48 题 DeepSeek 三赛道 + 语义评测已有历史正式基线和表格改造配对结果
+- [x] `10fb...` 不可恢复后建立显式 `9898...` migration manifest；迁移检索矩阵与 paired review 已完成，旧 benchmark 身份未改写
+- [x] 在迁移索引上完成同 migration / index / code fingerprint 的 DeepSeek 三轨与 RAGAS，远程错误率 0、coverage 100%
+- [ ] 引入不同 provider 的独立 judge，并增加第二人 gold 复核、多公司多年度 document-blind 与置信区间
 
 ## 7. 面试怎么讲这套评测集
 
@@ -261,7 +307,7 @@ PDF 解析的源元素覆盖率 100%，958 个切片，切片长度中位数约 
 
 **2. 干扰项从真实年报里挑，不是编的。** 53 个干扰段落全部来自那两份年报：茅台的问题里混进伊利的营收、季度数字冒充年度数字、合并口径冒充母公司口径。干扰项和正确答案同版式、同数量级，唯一区别是用错了地方。专门测**近失拒答**——资料里确实有数字但答的不是你问的，系统敢不敢说"我不确定"。
 
-**3. 三条赛道把错误定位到层。** 直接给正确证据只有 0.31、走真实检索只有 0.09——差距说明检索是瓶颈；但直接给证据也不及格，说明生成和表格抽取还有大问题。比"我调了模型"有说服力。
+**3. 三条赛道把错误定位到层。** 早期 no-LLM 基线中，直接给正确证据只有 0.31、走真实检索只有 0.09；接入确定性表格后分别提升到 0.6571 / 0.2571，证明表格能力带来的是可配对的真实增益。远程 DeepSeek 主基线另账记录，不能和确定性诊断混报。
 
 **4. 答案拆到原子事实，逐项核对。** 37 道该答的题拆成 120 个原子事实，每个事实的数值、单位、期间、口径全对，而且要能在证据原文里找到（有页码、有引用）。13 条要算的事实带公式（四季度加总=全年、跨公司差额、扣非勾稽），不是"这个数字在文里出现过"就算对。单位错了（元 vs 万元 vs 亿元）直接判错。
 

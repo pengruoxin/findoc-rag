@@ -9,9 +9,47 @@ from findoc_rag.documents.models import (
     DocumentElement,
     DocumentPage,
     ParsedDocument,
+    PdfLine,
+    PdfSpan,
 )
 
 MIN_TEXT_CHARACTERS = 20
+
+
+def _bounding_box(value: object) -> BoundingBox:
+    return BoundingBox.model_validate(
+        dict(zip(("x0", "y0", "x1", "y1"), value, strict=True))  # type: ignore[arg-type]
+    )
+
+
+def _is_bold_span(span: dict) -> bool:
+    return bool(
+        int(span.get("flags", 0)) & 16
+        or any(
+            marker in str(span.get("font", "")).lower()
+            for marker in ("bold", "black", "heavy")
+        )
+    )
+
+
+def _pdf_line(line: dict) -> PdfLine:
+    spans = [
+        PdfSpan(
+            text=str(span.get("text", "")),
+            bbox=_bounding_box(span["bbox"]),
+            font=str(span.get("font", "")),
+            size=float(span.get("size", 0)),
+            flags=int(span.get("flags", 0)),
+            bold=_is_bold_span(span),
+        )
+        for span in line.get("spans", [])
+    ]
+    direction = line.get("dir", (1.0, 0.0))
+    return PdfLine(
+        bbox=_bounding_box(line["bbox"]),
+        direction=(float(direction[0]), float(direction[1])),
+        spans=spans,
+    )
 
 
 def _sha256(path: Path) -> str:
@@ -55,14 +93,14 @@ def parse_pdf(path: Path) -> ParsedDocument:
 
             for block in raw.get("blocks", []):
                 block_type = int(block.get("type", -1))
-                bbox = BoundingBox.model_validate(
-                    dict(zip(("x0", "y0", "x1", "y1"), block["bbox"], strict=True))
-                )
+                bbox = _bounding_box(block["bbox"])
+                pdf_lines: list[PdfLine] = []
                 if block_type == 0:
                     lines = []
                     spans = []
                     for line in block.get("lines", []):
                         line_spans = line.get("spans", [])
+                        pdf_lines.append(_pdf_line(line))
                         spans.extend(line_spans)
                         line_text = "".join(span.get("text", "") for span in line_spans)
                         if line_text.strip():
@@ -77,11 +115,7 @@ def parse_pdf(path: Path) -> ParsedDocument:
                         key=len,
                         default="",
                     )
-                    is_bold = any(
-                        int(span.get("flags", 0)) & 16
-                        or any(marker in str(span.get("font", "")).lower() for marker in ("bold", "black", "heavy"))
-                        for span in spans
-                    )
+                    is_bold = any(_is_bold_span(span) for span in spans)
                 elif block_type == 1:
                     image_count += 1
                     text = ""
@@ -103,6 +137,7 @@ def parse_pdf(path: Path) -> ParsedDocument:
                         font_size=font_size,
                         font_name=font_name,
                         is_bold=is_bold,
+                        lines=pdf_lines,
                     )
                 )
 
@@ -116,6 +151,10 @@ def parse_pdf(path: Path) -> ParsedDocument:
                     extracted_character_count=character_count,
                     image_count=image_count,
                     needs_ocr=character_count < MIN_TEXT_CHARACTERS,
+                    rotation=int(page.rotation),
+                    media_box=_bounding_box(page.mediabox),
+                    crop_box=_bounding_box(page.cropbox),
+                    coordinate_space="pymupdf_unrotated_page",
                 )
             )
 

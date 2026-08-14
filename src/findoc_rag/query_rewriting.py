@@ -16,6 +16,7 @@ from typing import Protocol
 
 import httpx
 
+from findoc_rag.provider_credentials import resolve_provider_api_key
 from findoc_rag.query_expansion import expand_query
 
 REWRITE_SYSTEM_PROMPT = (
@@ -47,9 +48,7 @@ class LLMQueryRewriter:
         self.endpoint = endpoint or os.getenv(
             "FINDOC_RAG_ANSWER_ENDPOINT", "https://api.deepseek.com/chat/completions"
         )
-        self.api_key = api_key or os.getenv("DEEPSEEK_API_KEY", "") or os.getenv(
-            "OPENAI_API_KEY", ""
-        )
+        self.api_key = resolve_provider_api_key(self.endpoint, api_key)
         self.cache_path = Path(cache_path) if cache_path else None
         self._cache: dict[str, str] = {}
         if self.cache_path is not None and self.cache_path.is_file():

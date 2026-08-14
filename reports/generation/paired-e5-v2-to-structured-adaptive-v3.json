@@ -1,0 +1,48 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "retrieved_context",
+  "baseline_run_id": "retrieved_context-benchmark-v2-deepseek-migration-v2",
+  "candidate_run_id": "retrieved_context-benchmark-v2-deepseek-structured-adaptive-v3",
+  "baseline_code_revision": "30d108d604f22e4db9588613614848b996917618",
+  "candidate_code_revision": "30d108d604f22e4db9588613614848b996917618",
+  "code_revision_match": true,
+  "baseline_code_dirty": true,
+  "candidate_code_dirty": true,
+  "baseline_code_fingerprint": null,
+  "candidate_code_fingerprint": "e92e3860b1e81cc42dbc09fdf105a269192d4ca5925320f1993978f4130ec109",
+  "code_fingerprint_match": false,
+  "code_state_match": false,
+  "controlled_change": "structured-table evidence routing + adaptive candidate budget + scorer/guard fixes; DeepSeek output is stochastic",
+  "paired_item_count": 48,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.7714285714285715,
+      "candidate": 0.9428571428571428,
+      "delta": 0.17142857142857137
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.9583333333333334,
+      "candidate": 1.0,
+      "delta": 0.04166666666666663
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [
+    "moutai_product_margin",
+    "yili_quarterly_cashflow_reconcile"
+  ],
+  "behavior_regressed": [],
+  "strict_fixed": [
+    "moutai_product_margin",
+    "revenue_cross_company",
+    "yili_annual_deducted_profit",
+    "yili_consolidated_parent_revenue",
+    "yili_quarterly_cashflow_reconcile",
+    "yili_quarterly_profit_reconcile"
+  ],
+  "strict_regressed": []
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "benchmark-v2",
+  "corpus_index_id": "10fb50419145d56720c9",
+  "chunk_schema_version": 3,
+  "evidence_chunk_count": 38,
+  "files": {
+    "data/evaluation/benchmark-v2.json": "64e2e25c17c95bfeb5293f5f8e1e07fe16bf8d0411af19cc922c653399cb5c6b",
+    "data/evaluation/benchmark-v2-retrieval-view.json": "4602468945161219ff3c24b9547c2b91a03ce089848e2b2c476f6309321d3823",
+    "data/evaluation/generation-eval-v1.json": "e5f80fbf2982b31934d0dc4bf0b450601511fa18764fc3885df0e440364855db",
+    "data/evaluation/benchmark-evidence-v1.jsonl": "72f644479be237d007d8612785cc08db9b6b5f6ce47c087001f5bf592ddb2837"
+  }
+}

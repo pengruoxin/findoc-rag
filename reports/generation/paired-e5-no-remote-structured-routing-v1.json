@@ -1,0 +1,41 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "retrieved_context",
+  "baseline_run_id": "retrieved_context-benchmark-v2-no-remote-e5-migration-v1",
+  "candidate_run_id": "retrieved_context-benchmark-v2-no-remote-structured-routing-v1",
+  "baseline_code_revision": "30d108d604f22e4db9588613614848b996917618",
+  "candidate_code_revision": "30d108d604f22e4db9588613614848b996917618",
+  "code_revision_match": true,
+  "controlled_change": null,
+  "paired_item_count": 48,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.6,
+      "candidate": 0.7142857142857143,
+      "delta": 0.11428571428571432
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.5,
+      "candidate": 0.5625,
+      "delta": 0.0625
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [
+    "moutai_product_margin",
+    "yili_quarterly_cashflow_reconcile",
+    "yili_quarterly_profit_reconcile"
+  ],
+  "behavior_regressed": [],
+  "strict_fixed": [
+    "moutai_product_margin",
+    "yili_consolidated_parent_revenue",
+    "yili_quarterly_cashflow_reconcile",
+    "yili_quarterly_profit_reconcile"
+  ],
+  "strict_regressed": []
+}

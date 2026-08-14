@@ -1,0 +1,16 @@
+{
+  "view": "/Users/pengruoxin/Documents/ChatGPT/finrag/findoc-rag/data/evaluation/benchmark-v2-retrieval-view.json",
+  "index_root": "tmp/benchmark-migration-e5-v1",
+  "migration_manifest": "data/evaluation/benchmark-v2-e5-migration-v1.json",
+  "top_k": 5,
+  "candidate_k": 20,
+  "rrf_k": 60,
+  "rrf_weights": {
+    "lexical": 2.0,
+    "dense": 1.0
+  },
+  "metadata_filter_source": {
+    "none": "none",
+    "query_parser": "query_parser"
+  }
+}

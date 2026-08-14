@@ -17,6 +17,25 @@ class BoundingBox(BaseModel):
         return self
 
 
+class PdfSpan(BaseModel):
+    """A positioned text span in PyMuPDF's unrotated page coordinates."""
+
+    text: str = ""
+    bbox: BoundingBox
+    font: str = ""
+    size: float = 0.0
+    flags: int = 0
+    bold: bool = False
+
+
+class PdfLine(BaseModel):
+    """A positioned PDF text line and its source spans."""
+
+    bbox: BoundingBox
+    direction: tuple[float, float] = (1.0, 0.0)
+    spans: list[PdfSpan] = Field(default_factory=list)
+
+
 class DocumentElement(BaseModel):
     element_id: str
     element_type: Literal["text", "image"]
@@ -26,6 +45,7 @@ class DocumentElement(BaseModel):
     font_size: float | None = None
     font_name: str = ""
     is_bold: bool = False
+    lines: list[PdfLine] = Field(default_factory=list)
 
 
 class ElementReference(BaseModel):
@@ -42,6 +62,10 @@ class DocumentPage(BaseModel):
     extracted_character_count: int = Field(ge=0)
     image_count: int = Field(ge=0)
     needs_ocr: bool
+    rotation: int = 0
+    media_box: BoundingBox | None = None
+    crop_box: BoundingBox | None = None
+    coordinate_space: str = "pymupdf_unrotated_page"
 
 
 class ParsedDocument(BaseModel):
@@ -64,6 +88,40 @@ class ParsedDocument(BaseModel):
         return self
 
 
+class StructuredTableCell(BaseModel):
+    """A normalized cell from a versioned table sidecar artifact."""
+
+    row: str
+    column: str
+    value: str
+    section: str = ""
+
+
+class StructuredTable(BaseModel):
+    """Chunk-bound structured table evidence kept outside chunk identity."""
+
+    table_id: str
+    chunk_id: str
+    chunk_sha256: str
+    table_type: Literal[
+        "quarterly", "note_cost", "segment", "annual_data", "concentration"
+    ]
+    page_start: int = Field(ge=1)
+    page_end: int = Field(ge=1)
+    unit: str = ""
+    source: Literal["coordinate", "text"]
+    selection_reasons: list[str] = Field(default_factory=list)
+    cells: list[StructuredTableCell]
+
+    @model_validator(mode="after")
+    def validate_table(self) -> "StructuredTable":
+        if self.page_end < self.page_start:
+            raise ValueError("page_end must not precede page_start")
+        if not self.cells:
+            raise ValueError("A structured table must contain at least one cell")
+        return self
+
+
 class DocumentChunk(BaseModel):
     chunk_id: str
     document_id: str
@@ -80,6 +138,12 @@ class DocumentChunk(BaseModel):
     company_name: str | None = None
     report_year: int | None = None
     document_type: str | None = None
+    # Runtime-only enrichment: excluded so chunk artifacts, hashes and the
+    # benchmark-bound index identity remain unchanged.
+    statement_scope: Literal["consolidated", "parent", "unspecified"] | None = Field(
+        default=None, exclude=True
+    )
+    structured_tables: list[StructuredTable] = Field(default_factory=list, exclude=True)
 
     @model_validator(mode="after")
     def validate_page_range(self) -> "DocumentChunk":

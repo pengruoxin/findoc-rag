@@ -1,0 +1,23 @@
+{
+  "run_id": "oracle_context-benchmark-v2-no-remote-final-v1",
+  "dataset_id": "benchmark-v2",
+  "lane": "oracle_context",
+  "model": "no-remote-final-v1",
+  "api_model": "deepseek-chat",
+  "rewrite_mode": "deterministic",
+  "filter_source": "not_applicable",
+  "filter_source_counts": {},
+  "code_revision": "30d108d604f22e4db9588613614848b996917618",
+  "code_dirty": true,
+  "variant_mode": "canonical",
+  "remote_generation": false,
+  "dataset_item_count": 48,
+  "item_count": 48,
+  "hard_negative_count": 53,
+  "strict_success_eligible_count": 35,
+  "strict_success_rate": 0.7428571428571429,
+  "expected_behavior_accuracy": 0.5625,
+  "avg_context_tokens": 303.1458333333333,
+  "p95_latency_ms": 0.18433301011100411,
+  "run_error_rate": 0.0
+}

@@ -3,6 +3,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
+from findoc_rag.benchmark_assets import benchmark_chunk_paths, validate_benchmark_lock
 from findoc_rag.generation_evaluation import (
     GenerationEvaluationDataset,
     GenerationJudgment,
@@ -47,9 +48,10 @@ def test_llm_judge_requires_model_provenance() -> None:
 
 def test_generation_dataset_is_source_verifiable() -> None:
     root = Path(__file__).resolve().parents[1]
+    validate_benchmark_lock(root)
     report = validate_generation_dataset(
         root / "data/evaluation/generation-eval-v1.json",
-        list((root / "data/catalog/versions").glob("*/chunks.jsonl")),
+        [root / "data/evaluation/benchmark-evidence-v1.jsonl"],
     )
     assert report.item_count == 48
     assert report.answerability_counts == {
@@ -69,6 +71,18 @@ def test_generation_dataset_is_source_verifiable() -> None:
     assert report.robustness_split_counts["frozen_test"] == 12
     assert report.hard_negative_count == 53
     assert report.warning_count == 0
+
+
+def test_clean_clone_benchmark_assets_are_self_contained() -> None:
+    root = Path(__file__).resolve().parents[1]
+    paths = benchmark_chunk_paths(root)
+    assert root / "data/evaluation/benchmark-evidence-v1.jsonl" in paths
+    evidence_only = [path for path in paths if path.name == "benchmark-evidence-v1.jsonl"]
+    report = validate_generation_dataset(
+        root / "data/evaluation/generation-eval-v1.json", evidence_only
+    )
+    assert report.unique_gold_chunk_count == 35
+    assert report.hard_negative_count == 53
 
 
 def test_ragas_export_excludes_abstention_cases() -> None:
@@ -124,6 +138,133 @@ def test_unanswerable_case_scores_correct_abstention() -> None:
         grounded=False,
     )
     assert score_generation_run_item(item, run).strict_success
+
+
+@pytest.mark.parametrize(
+    ("query_id", "observed_behavior"),
+    [
+        ("u_moutai_2025_actual_revenue", "abstain"),
+        ("u_moutai_profit_ambiguous", "clarify"),
+        ("moutai_revenue_yoy", "answer"),
+    ],
+)
+def test_run_error_never_receives_behavior_or_strict_success(
+    query_id: str,
+    observed_behavior: str,
+) -> None:
+    """Abstain, clarify, and answer contracts all fail on infrastructure errors."""
+    root = Path(__file__).resolve().parents[1]
+    dataset = GenerationEvaluationDataset.model_validate_json(
+        (root / "data/evaluation/benchmark-v2.json").read_text(encoding="utf-8")
+    )
+    item = next(case for case in dataset.items if case.query_id == query_id)
+    run = GenerationRunItem(
+        query_id=item.query_id,
+        response="",
+        retrieved_contexts=[],
+        retrieved_chunk_ids=[],
+        provider="error",
+        model="test",
+        index_id=dataset.corpus_index_id,
+        prompt_sha256="0" * 64,
+        latency_ms=1,
+        grounded=False,
+        observed_behavior=observed_behavior,
+        error="timeout",
+    )
+
+    score = score_generation_run_item(item, run)
+
+    assert not score.expected_behavior_correct
+    assert not score.strict_success
+
+
+def test_strict_success_requires_all_required_gold_evidence() -> None:
+    root = Path(__file__).resolve().parents[1]
+    dataset = GenerationEvaluationDataset.model_validate_json(
+        (root / "data/evaluation/benchmark-v2.json").read_text(encoding="utf-8")
+    )
+    item = next(case for case in dataset.items if case.query_id == "revenue_cross_company")
+    run = GenerationRunItem(
+        query_id=item.query_id,
+        response=item.reference_answer,
+        retrieved_contexts=["无关上下文一。", "无关上下文二。"],
+        retrieved_chunk_ids=["unrelated:chunk:1", "unrelated:chunk:2"],
+        provider="test",
+        model="test",
+        index_id=dataset.corpus_index_id,
+        prompt_sha256="0" * 64,
+        latency_ms=1,
+        grounded=True,
+        observed_behavior="answer",
+    )
+
+    score = score_generation_run_item(item, run)
+
+    assert score.gold_fact_recall == 1
+    assert score.context_recall == 0
+    assert not score.strict_success
+
+
+def test_numeric_facts_are_bound_to_their_companies() -> None:
+    root = Path(__file__).resolve().parents[1]
+    dataset = GenerationEvaluationDataset.model_validate_json(
+        (root / "data/evaluation/benchmark-v2.json").read_text(encoding="utf-8")
+    )
+    item = next(case for case in dataset.items if case.query_id == "revenue_cross_company")
+    run = GenerationRunItem(
+        query_id=item.query_id,
+        response=(
+            "贵州茅台为115,393,310,976.69元[1]，"
+            "伊利股份为170,899,152,276.34元[2]；"
+            "伊利股份高55,505,841,299.65元。"
+        ),
+        retrieved_contexts=[evidence.verbatim_quote for evidence in item.gold_evidence],
+        retrieved_chunk_ids=item.gold_chunk_ids,
+        provider="test",
+        model="test",
+        index_id=dataset.corpus_index_id,
+        prompt_sha256="0" * 64,
+        latency_ms=1,
+        grounded=True,
+        observed_behavior="answer",
+    )
+
+    score = score_generation_run_item(item, run)
+
+    assert score.context_recall == 1
+    assert score.numeric_accuracy < 1
+    assert not score.strict_success
+
+
+def test_numeric_binding_does_not_cross_chinese_clause_boundary() -> None:
+    root = Path(__file__).resolve().parents[1]
+    dataset = GenerationEvaluationDataset.model_validate_json(
+        (root / "data/evaluation/benchmark-v2.json").read_text(encoding="utf-8")
+    )
+    item = next(case for case in dataset.items if case.query_id == "rd_cross_company")
+    run = GenerationRunItem(
+        query_id=item.query_id,
+        response=(
+            "贵州茅台2024年研发投入合计为695,376,735.81元[1]，"
+            "伊利股份2024年研发投入合计为869,976,531.80元[2]。"
+            "伊利股份更高，差额为174,599,795.99元。"
+        ),
+        retrieved_contexts=[evidence.verbatim_quote for evidence in item.gold_evidence],
+        retrieved_chunk_ids=item.gold_chunk_ids,
+        provider="test",
+        model="test",
+        index_id=dataset.corpus_index_id,
+        prompt_sha256="0" * 64,
+        latency_ms=1,
+        grounded=True,
+        observed_behavior="answer",
+    )
+
+    score = score_generation_run_item(item, run)
+
+    assert score.numeric_accuracy == 1
+    assert score.strict_success
 
 
 def test_citation_contract_uses_unique_gold_contexts() -> None:

@@ -1,0 +1,154 @@
+{
+  "run_id": "coordinate-smoke-v1-pdf",
+  "input_mode": "source-pdf-whole-pages-no-cropping",
+  "candidate_policy": "safe",
+  "source_document_ids": [
+    "sha256:5299f4940e2ce4e91084b73dc457d558b9d335fa76fbfee6227e4254eb7f4a30",
+    "sha256:a82a81e52f52da3cd1b7f38ded08625dc18e3d4522b15d3ef76bf921e54c1f43"
+  ],
+  "document_ir_provenance": [],
+  "table_count": 10,
+  "gold_cells_total": 157,
+  "correct_cells_total": 154,
+  "predicted_cells_total": 157,
+  "precision_total": 0.9808917197452229,
+  "recall_total": 0.9808917197452229,
+  "tables": [
+    {
+      "table_id": "moutai_quarterly",
+      "table_type": "quarterly",
+      "pages": "6-6",
+      "gold_cells": 16,
+      "predicted_cells": 16,
+      "correct_cells": 16,
+      "selected_source": "coordinate",
+      "dropped_coordinate_cells": 1,
+      "selection_reasons": [
+        "incomplete_row_bundle:1"
+      ],
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "table_id": "yili_quarterly",
+      "table_type": "quarterly",
+      "pages": "8-8",
+      "gold_cells": 16,
+      "predicted_cells": 16,
+      "correct_cells": 16,
+      "selected_source": "coordinate",
+      "dropped_coordinate_cells": 1,
+      "selection_reasons": [
+        "incomplete_row_bundle:1"
+      ],
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "table_id": "moutai_note_cost",
+      "table_type": "note_cost",
+      "pages": "108-108",
+      "gold_cells": 12,
+      "predicted_cells": 12,
+      "correct_cells": 12,
+      "selected_source": "coordinate",
+      "dropped_coordinate_cells": 0,
+      "selection_reasons": [],
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "table_id": "yili_note_cost",
+      "table_type": "note_cost",
+      "pages": "206-206",
+      "gold_cells": 12,
+      "predicted_cells": 12,
+      "correct_cells": 12,
+      "selected_source": "coordinate",
+      "dropped_coordinate_cells": 0,
+      "selection_reasons": [],
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "table_id": "moutai_segment",
+      "table_type": "segment",
+      "pages": "9-9",
+      "gold_cells": 21,
+      "predicted_cells": 21,
+      "correct_cells": 21,
+      "selected_source": "coordinate",
+      "dropped_coordinate_cells": 0,
+      "selection_reasons": [],
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "table_id": "yili_segment",
+      "table_type": "segment",
+      "pages": "19-20",
+      "gold_cells": 33,
+      "predicted_cells": 33,
+      "correct_cells": 30,
+      "selected_source": "coordinate",
+      "dropped_coordinate_cells": 6,
+      "selection_reasons": [
+        "text_inconsistent:6"
+      ],
+      "precision": 0.9090909090909091,
+      "recall": 0.9090909090909091
+    },
+    {
+      "table_id": "moutai_annual_data",
+      "table_type": "annual_data",
+      "pages": "5-5",
+      "gold_cells": 21,
+      "predicted_cells": 21,
+      "correct_cells": 21,
+      "selected_source": "coordinate",
+      "dropped_coordinate_cells": 0,
+      "selection_reasons": [],
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "table_id": "yili_annual_data",
+      "table_type": "annual_data",
+      "pages": "7-7",
+      "gold_cells": 18,
+      "predicted_cells": 18,
+      "correct_cells": 18,
+      "selected_source": "coordinate",
+      "dropped_coordinate_cells": 0,
+      "selection_reasons": [],
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "table_id": "moutai_concentration",
+      "table_type": "concentration",
+      "pages": "10-11",
+      "gold_cells": 4,
+      "predicted_cells": 4,
+      "correct_cells": 4,
+      "selected_source": "coordinate",
+      "dropped_coordinate_cells": 0,
+      "selection_reasons": [],
+      "precision": 1.0,
+      "recall": 1.0
+    },
+    {
+      "table_id": "yili_concentration",
+      "table_type": "concentration",
+      "pages": "22-22",
+      "gold_cells": 4,
+      "predicted_cells": 4,
+      "correct_cells": 4,
+      "selected_source": "coordinate",
+      "dropped_coordinate_cells": 0,
+      "selection_reasons": [],
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  ]
+}

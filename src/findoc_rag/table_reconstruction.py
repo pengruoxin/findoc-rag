@@ -16,6 +16,8 @@ from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from typing import Literal
 
+from findoc_rag.documents.models import ParsedDocument
+
 TableType = Literal["quarterly", "note_cost", "segment", "annual_data", "concentration"]
 WHITESPACE = re.compile(r"\s+")
 
@@ -26,6 +28,16 @@ class ExtractedCell:
     column: str
     value: str
     section: str = ""
+
+
+@dataclass(frozen=True)
+class TableCandidateSelection:
+    """Auditable result of choosing coordinate cells or the text fallback."""
+
+    cells: list[ExtractedCell]
+    source: Literal["coordinate", "text"]
+    dropped_coordinate_cells: int = 0
+    reasons: tuple[str, ...] = ()
 
 
 def normalize_value(raw: str) -> str:
@@ -125,7 +137,10 @@ _EXPECTED_COLUMNS: dict[TableType, tuple[str, ...]] = {
     "quarterly": ("第一季度", "第二季度", "第三季度", "第四季度"),
     "note_cost": ("本期收入", "本期成本", "上期收入", "上期成本"),
     "segment": ("营业收入", "营业成本", "毛利率"),
-    "annual_data": ("2024年", "2023年", "2022年"),
+    # Annual columns are document data, not part of the table-family schema.
+    # They are derived from the actual header so later reporting years do not
+    # inherit the frozen benchmark's 2024/2023/2022 labels.
+    "annual_data": (),
     "concentration": (),
 }
 
@@ -258,6 +273,50 @@ def blocks_from_pymupdf_dict(
         if lines:
             out.append(Block(lines, page=page))
     return out
+
+
+def blocks_from_document_ir(
+    document: ParsedDocument,
+    *,
+    page_start: int = 1,
+    page_end: int | None = None,
+) -> list[Block]:
+    """Replay coordinate table inputs from the persisted PDF IR v2.
+
+    This is intentionally an adapter to the existing reconstruction pipeline,
+    not a second table implementation.  Legacy IR without line/span geometry
+    yields no blocks and can continue to use the text fallback.
+    """
+    last_page = document.page_count if page_end is None else page_end
+    if page_start < 1 or last_page < page_start or last_page > document.page_count:
+        raise ValueError(
+            f"Invalid IR page range {page_start}-{last_page} for {document.page_count} pages"
+        )
+    blocks: list[Block] = []
+    for page in document.pages[page_start - 1 : last_page]:
+        for element in page.elements:
+            if element.element_type != "text" or not element.lines:
+                continue
+            lines = [
+                Line(
+                    [
+                        Span(
+                            text=span.text,
+                            bbox=(span.bbox.x0, span.bbox.y0, span.bbox.x1, span.bbox.y1),
+                            font=span.font,
+                            size=span.size,
+                            bold=span.bold,
+                        )
+                        for span in line.spans
+                        if span.text.strip()
+                    ]
+                )
+                for line in element.lines
+            ]
+            lines = [line for line in lines if line.spans]
+            if lines:
+                blocks.append(Block(lines=lines, page=page.page_number))
+    return blocks
 
 
 def _coerce_blocks(blocks: Sequence[dict | Block]) -> list[Block]:
@@ -465,6 +524,16 @@ def _header_positions(tokens: Sequence[_Token], table_type: TableType) -> dict[s
             for name, tok in zip(_EXPECTED_COLUMNS["note_cost"], ordered[:4]):
                 out.setdefault(name, []).append(tok.xc)
     return {k: sum(v) / len(v) for k, v in out.items()}
+
+
+def _annual_columns_from_text(text: str) -> tuple[str, ...]:
+    """Return the first three distinct annual headers in document order."""
+    return tuple(
+        dict.fromkeys(
+            f"{year}年"
+            for year in re.findall(r"(20\d{2})\s*年(?:末)?", text)
+        )
+    )[:3]
 
 
 def _section_at_y(tokens: Sequence[_Token], page: int, y: float) -> str:
@@ -699,7 +768,13 @@ def _assign_columns(
     global_cols: Sequence[float],
 ) -> list[tuple[str, _Token]]:
     ordered = sorted(nums, key=lambda t: t.xc)
-    expected = list(_EXPECTED_COLUMNS[table_type])
+    expected = (
+        [name for name, _ in sorted(header_pos.items(), key=lambda item: item[1])][
+            :3
+        ]
+        if table_type == "annual_data"
+        else list(_EXPECTED_COLUMNS[table_type])
+    )
     if not expected:
         return []
 
@@ -832,6 +907,117 @@ def reconstruct_cells(
     if table_type == "quarterly":
         return _repair_quarterly_labels(deduped)
     return deduped
+
+
+def _cell_supported_by_text(cell: ExtractedCell, text: str) -> bool:
+    compact = normalize_label(text).replace(",", "").replace("+", "").replace("−", "-")
+    row = normalize_label(cell.row)
+    value = normalize_value(cell.value)
+    return bool(row and value and row in compact and value in compact)
+
+
+def _has_table_header(text: str, table_type: TableType) -> bool:
+    compact = normalize_label(text)
+    if table_type == "quarterly":
+        signals = _EXPECTED_COLUMNS[table_type]
+    elif table_type == "note_cost":
+        signals = ("本期发生额", "上期发生额", "收入", "成本")
+    elif table_type == "segment":
+        signals = _EXPECTED_COLUMNS[table_type]
+    elif table_type == "annual_data":
+        signals = tuple(re.findall(r"20\d{2}年", compact))
+    else:
+        signals = ("前五名客户", "前五名供应商")
+    return len({signal for signal in signals if signal in compact}) >= min(2, len(signals))
+
+
+def select_table_cells(
+    coordinate_cells: Sequence[ExtractedCell],
+    text: str,
+    table_type: TableType,
+) -> TableCandidateSelection:
+    """Select a safe production candidate without consulting evaluation gold.
+
+    Coordinate rows are admitted only when the source chunk supports both the
+    row label and value, and when the row has the complete regulatory column
+    bundle.  This prevents whole-page geometry from leaking adjacent tables or
+    headings into a chunk-scoped answer while preserving coordinate fixes that
+    are fully grounded in that chunk.  If document-level signals are missing,
+    the established text extractor remains the conservative fallback.
+    """
+    text_cells = extract_cells(text, table_type)
+    if not coordinate_cells:
+        return TableCandidateSelection(text_cells, "text", reasons=("no_coordinate_cells",))
+
+    reasons: list[str] = []
+    expected_columns = (
+        set(_annual_columns_from_text(text))
+        if table_type == "annual_data"
+        else set(_EXPECTED_COLUMNS[table_type])
+    )
+    supported = [cell for cell in coordinate_cells if _cell_supported_by_text(cell, text)]
+    unsupported_count = len(coordinate_cells) - len(supported)
+    if unsupported_count:
+        reasons.append(f"text_inconsistent:{unsupported_count}")
+
+    if expected_columns:
+        columns_by_row: dict[tuple[str, str], set[str]] = {}
+        for cell in supported:
+            key = (cell.section, normalize_label(cell.row))
+            columns_by_row.setdefault(key, set()).add(cell.column)
+        complete_rows = {
+            key for key, columns in columns_by_row.items() if expected_columns <= columns
+        }
+        filtered = [
+            cell
+            for cell in supported
+            if (cell.section, normalize_label(cell.row)) in complete_rows
+        ]
+        incomplete_count = len(supported) - len(filtered)
+        if incomplete_count:
+            reasons.append(f"incomplete_row_bundle:{incomplete_count}")
+    else:
+        filtered = supported
+
+    seen: set[tuple[str, str, str, str]] = set()
+    safe: list[ExtractedCell] = []
+    for cell in filtered:
+        key = (
+            cell.section,
+            normalize_label(cell.row),
+            cell.column,
+            normalize_value(cell.value),
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        safe.append(cell)
+    duplicate_count = len(filtered) - len(safe)
+    if duplicate_count:
+        reasons.append(f"duplicate_cells:{duplicate_count}")
+
+    structural_reasons: list[str] = []
+    if not _has_table_header(text, table_type):
+        structural_reasons.append("missing_table_header")
+    if table_type not in {"concentration"} and not detect_unit(text):
+        structural_reasons.append("missing_unit")
+    if not safe:
+        structural_reasons.append("no_safe_coordinate_rows")
+    if len(safe) < len(text_cells):
+        structural_reasons.append("coordinate_coverage_below_text")
+    if structural_reasons:
+        return TableCandidateSelection(
+            text_cells,
+            "text",
+            dropped_coordinate_cells=len(coordinate_cells),
+            reasons=tuple(reasons + structural_reasons),
+        )
+    return TableCandidateSelection(
+        safe,
+        "coordinate",
+        dropped_coordinate_cells=len(coordinate_cells) - len(safe),
+        reasons=tuple(reasons),
+    )
 
 
 def merge_pages(tables: Sequence[Sequence[ExtractedCell]]) -> list[ExtractedCell]:
@@ -1023,6 +1209,9 @@ def _fallback_segment(text: str) -> list[ExtractedCell]:
 
 
 def _fallback_annual(text: str) -> list[ExtractedCell]:
+    columns = _annual_columns_from_text(text)
+    if len(columns) < 3:
+        return []
     positions = _find_label_segments(text, _STANDARD_FINANCE_LABELS)
     out: list[ExtractedCell] = []
     for i, (start, end, label) in enumerate(positions):
@@ -1038,7 +1227,7 @@ def _fallback_annual(text: str) -> list[ExtractedCell]:
             chosen = decimals[:3]
         else:
             continue
-        for col, val in zip(_EXPECTED_COLUMNS["annual_data"], chosen):
+        for col, val in zip(columns, chosen):
             out.append(ExtractedCell(label, col, val))
     return out
 

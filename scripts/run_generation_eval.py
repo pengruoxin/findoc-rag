@@ -5,12 +5,20 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 import subprocess
 from pathlib import Path
 from time import perf_counter
 
-from findoc_rag.answer_generation import MAX_GENERATION_CONTEXTS, GroundedAnswerGenerator
+from findoc_rag.answer_generation import (
+    MAX_GENERATION_CONTEXT_CHARS,
+    MAX_GENERATION_CONTEXTS,
+    GroundedAnswerGenerator,
+)
+from findoc_rag.benchmark_assets import benchmark_chunk_paths, validate_benchmark_lock
+from findoc_rag.benchmark_migration import (
+    resolve_evaluation_index_id,
+    validate_migration_manifest,
+)
 from findoc_rag.chunking import estimate_tokens
 from findoc_rag.corpus import resolve_current_index
 from findoc_rag.documents.models import DocumentChunk
@@ -20,8 +28,11 @@ from findoc_rag.generation_evaluation import (
     score_generation_run_item,
 )
 from findoc_rag.indexing import SearchFilters, SearchHit
+from findoc_rag.provider_credentials import resolve_provider_api_key
 from findoc_rag.query_expansion import expand_query
 from findoc_rag.query_rewriting import LLMQueryRewriter
+from findoc_rag.query_routing import route_finance_query
+from findoc_rag.scope_routing import plan_candidate_budget, route_structured_evidence
 from findoc_rag.time_utils import parse_as_of_date, resolve_relative_time
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -37,6 +48,21 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--dataset", type=Path, default=Path("data/evaluation/benchmark-v2.json"))
     parser.add_argument("--index-root", type=Path, default=Path("data/indexes/corpus"))
+    parser.add_argument(
+        "--migration-manifest",
+        type=Path,
+        help="validated benchmark migration binding for a replacement index",
+    )
+    parser.add_argument(
+        "--migration-view",
+        type=Path,
+        default=Path("data/evaluation/benchmark-v2-retrieval-view.json"),
+    )
+    parser.add_argument(
+        "--source-evidence",
+        type=Path,
+        default=Path("data/evaluation/benchmark-evidence-v1.jsonl"),
+    )
     parser.add_argument("--output-dir", type=Path, default=Path("reports/generation/runs"))
     parser.add_argument("--model", default="deepseek-chat")
     parser.add_argument(
@@ -58,7 +84,18 @@ def parse_args() -> argparse.Namespace:
         default="deterministic",
         help="retrieved-lane query rewrite mode (deterministic preserves the baseline)",
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--oracle-metadata",
+        action="store_true",
+        help=(
+            "diagnostic only: filter retrieved context with benchmark company/year metadata; "
+            "the default derives filters only from the query"
+        ),
+    )
+    args = parser.parse_args()
+    if args.oracle_metadata and args.lane != "retrieved_context":
+        parser.error("--oracle-metadata is only valid for --lane retrieved_context")
+    return args
 
 
 def code_revision() -> tuple[str, bool]:
@@ -87,9 +124,47 @@ def code_revision() -> tuple[str, bool]:
         return "unknown", False
 
 
-def load_chunks() -> dict[str, DocumentChunk]:
+def code_fingerprint() -> str:
+    """Hash executable project inputs so dirty runs remain distinguishable."""
+    paths = [
+        *sorted((ROOT / "src").rglob("*.py")),
+        *sorted((ROOT / "scripts").glob("*.py")),
+        *sorted((ROOT / "configs").glob("*.toml")),
+        ROOT / "pyproject.toml",
+        ROOT / "uv.lock",
+    ]
+    digest = hashlib.sha256()
+    for path in paths:
+        if not path.is_file():
+            continue
+        digest.update(str(path.relative_to(ROOT)).encode("utf-8"))
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
+def load_chunks(index=None, chunk_ids: set[str] | None = None) -> dict[str, DocumentChunk]:
+    if index is not None:
+        requested = sorted(chunk_ids or set())
+        resolved = index.resolve_chunks(requested)
+        missing = [
+            chunk_id
+            for chunk_id, chunk in zip(requested, resolved, strict=True)
+            if chunk is None
+        ]
+        if missing:
+            raise ValueError(
+                "Validated evaluation index is missing benchmark chunks: "
+                + ", ".join(missing)
+            )
+        return {
+            chunk.chunk_id: chunk
+            for chunk in resolved
+            if chunk is not None
+        }
     chunks: dict[str, DocumentChunk] = {}
-    for path in (ROOT / "data/catalog/versions").glob("*/chunks.jsonl"):
+    for path in benchmark_chunk_paths(ROOT):
         for line in path.read_text(encoding="utf-8").splitlines():
             chunk = DocumentChunk.model_validate_json(line)
             chunks[chunk.chunk_id] = chunk
@@ -147,19 +222,48 @@ def robustness_hits(
     return hits, [label for _, label in ordered]
 
 
-def retrieved_hits(item, query, index) -> list[SearchHit]:
-    filters = SearchFilters(
-        company_names=item.company_names,
-        report_years=item.report_years,
+def retrieved_hits(
+    item,
+    search_query: str,
+    index,
+    *,
+    routing_query: str | None = None,
+    oracle_metadata: bool = False,
+) -> tuple[list[SearchHit], str]:
+    if oracle_metadata:
+        filters = SearchFilters(
+            company_names=item.company_names,
+            report_years=item.report_years,
+        )
+        filter_source = "oracle_metadata"
+    else:
+        route = route_finance_query(routing_query or search_query)
+        filters = SearchFilters(
+            company_names=route.company_names,
+            report_years=route.report_years,
+        )
+        filter_source = "query_router" if filters.active else "none"
+    route_query = routing_query or search_query
+    _, budget = plan_candidate_budget(
+        route_query,
+        20,
+        maximum_candidate_k=100,
+        enabled=True,
     )
-    return index.search(
-        query,
-        top_k=MAX_GENERATION_CONTEXTS,
+    candidates = index.search(
+        search_query,
+        top_k=budget.effective_candidate_k,
         mode="lexical",
-        candidate_k=20,
+        candidate_k=budget.effective_candidate_k,
         rrf_k=60,
         filters=filters if filters.active else None,
     )
+    hits = route_structured_evidence(
+        route_query,
+        candidates,
+        MAX_GENERATION_CONTEXTS,
+    )
+    return hits, filter_source
 
 
 def query_instances(item, variant_mode: str) -> list[dict]:
@@ -181,19 +285,56 @@ def query_instances(item, variant_mode: str) -> list[dict]:
 
 def main() -> None:
     args = parse_args()
+    if args.dataset.resolve() == (ROOT / "data/evaluation/benchmark-v2.json").resolve():
+        validate_benchmark_lock(ROOT)
     dataset = GenerationEvaluationDataset.model_validate_json(
         args.dataset.read_text(encoding="utf-8")
     )
-    api_key_set = bool(os.getenv("DEEPSEEK_API_KEY") or os.getenv("OPENAI_API_KEY"))
+    api_key_set = bool(resolve_provider_api_key(args.endpoint))
     if args.require_remote and not api_key_set:
-        raise SystemExit("Remote generation requested, but DEEPSEEK_API_KEY is not set")
+        raise SystemExit("Remote generation requested, but no key is configured for the endpoint host")
     generator = GroundedAnswerGenerator(
         model=args.api_model,
         endpoint=args.endpoint,
         enabled=api_key_set,
     )
-    chunks = load_chunks()
-    index = resolve_current_index(args.index_root) if args.lane == "retrieved_context" else None
+    index = (
+        resolve_current_index(args.index_root)
+        if args.lane == "retrieved_context" or args.migration_manifest is not None
+        else None
+    )
+    migration = None
+    if index is not None and args.migration_manifest is not None:
+        migration = json.loads(args.migration_manifest.read_text(encoding="utf-8"))
+        migration_result = validate_migration_manifest(
+            migration,
+            view_path=args.migration_view,
+            source_evidence_path=args.source_evidence,
+            target_index_root=args.index_root,
+        )
+        if not migration_result.ok:
+            raise ValueError(
+                "Benchmark migration validation failed: "
+                + "; ".join(migration_result.errors)
+            )
+    if index is not None:
+        resolve_evaluation_index_id(
+            view={"corpus_index_id": dataset.corpus_index_id},
+            index_id=index.manifest.index_id,
+            migration_manifest=migration,
+        )
+    judged_chunk_ids = {
+        chunk_id
+        for item in dataset.items
+        for chunk_id in (
+            *item.gold_chunk_ids,
+            *(negative.chunk_id for negative in item.hard_negatives),
+        )
+    }
+    chunks = load_chunks(
+        index if migration is not None else None,
+        judged_chunk_ids,
+    )
     prompt_sha256 = hashlib.sha256(PROMPT_REVISION.encode()).hexdigest()
     run_suffix = "" if args.variant == "canonical" else f"-{args.variant}"
     run_id = f"{args.lane}-{dataset.dataset_id}-{args.model}{run_suffix}"
@@ -217,6 +358,7 @@ def main() -> None:
 
     run_items: list[GenerationRunItem] = []
     scores = []
+    filter_source_counts: dict[str, int] = {}
     for item in evaluation_items:
         for instance in query_instances(item, args.variant):
             started = perf_counter()
@@ -242,7 +384,16 @@ def main() -> None:
                         search_query = expand_query(resolved_query)
                     elif args.rewrite == "llm" and rewriter is not None:
                         search_query = rewriter.rewrite(resolved_query)
-                    hits = retrieved_hits(item, search_query, index)
+                    hits, filter_source = retrieved_hits(
+                        item,
+                        search_query,
+                        index,
+                        routing_query=resolved_query,
+                        oracle_metadata=args.oracle_metadata,
+                    )
+                    filter_source_counts[filter_source] = (
+                        filter_source_counts.get(filter_source, 0) + 1
+                    )
                     context_labels = ["retrieved"] * len(hits)
                 answer = generator.generate(resolved_query, hits)
                 is_remote = answer.provider in {"openai-compatible", "remote-abstention"}
@@ -250,7 +401,8 @@ def main() -> None:
                     query_id=instance["query_id"],
                     response=answer.answer,
                     retrieved_contexts=[
-                        hit.chunk.text[:1800] for hit in hits[:MAX_GENERATION_CONTEXTS]
+                        hit.chunk.text[:MAX_GENERATION_CONTEXT_CHARS]
+                        for hit in hits[:MAX_GENERATION_CONTEXTS]
                     ],
                     retrieved_chunk_ids=[
                         hit.chunk.chunk_id for hit in hits[:MAX_GENERATION_CONTEXTS]
@@ -272,7 +424,7 @@ def main() -> None:
                     context_tokens=sum(
                         estimate_tokens(text)
                         for text in (
-                            hit.chunk.text[:1800]
+                            hit.chunk.text[:MAX_GENERATION_CONTEXT_CHARS]
                             for hit in hits[:MAX_GENERATION_CONTEXTS]
                         )
                     ),
@@ -302,7 +454,7 @@ def main() -> None:
                     resolved_query=resolved_query,
                     search_query=search_query,
                     time_cues=time_cues,
-                    observed_behavior="abstain",
+                    observed_behavior=None,
                     error=str(exc),
                 )
             run_items.append(run_item)
@@ -328,17 +480,39 @@ def main() -> None:
         else None
     )
     revision, dirty = code_revision()
+    remote_providers = {"openai-compatible", "remote-abstention"}
+    remote_success_count = sum(
+        item.provider in remote_providers and item.error is None for item in run_items
+    )
+    run_error_count = sum(item.error is not None for item in run_items)
     summary = {
         "run_id": run_id,
         "dataset_id": dataset.dataset_id,
+        "source_index_id": dataset.corpus_index_id,
+        "migration_id": migration.get("migration_id") if migration else None,
         "lane": args.lane,
         "model": args.model,
         "api_model": args.api_model,
         "rewrite_mode": args.rewrite,
+        "filter_source": (
+            "not_applicable"
+            if args.lane != "retrieved_context"
+            else "oracle_metadata"
+            if args.oracle_metadata
+            else "query_derived"
+        ),
+        "filter_source_counts": filter_source_counts,
+        "evidence_routing": "structured-table-v1",
+        "candidate_budget_policy": "scope-adaptive-20-to-100",
         "code_revision": revision,
         "code_dirty": dirty,
+        "code_fingerprint": code_fingerprint(),
         "variant_mode": args.variant,
-        "remote_generation": api_key_set,
+        # Keep capability configuration separate from observed execution.  A
+        # configured key does not prove that a remote request succeeded.
+        "remote_configured": api_key_set,
+        "remote_generation": remote_success_count > 0,
+        "remote_success_count": remote_success_count,
         "dataset_item_count": dataset.item_count,
         "item_count": len(run_items),
         "hard_negative_count": sum(
@@ -359,12 +533,18 @@ def main() -> None:
             sum(context_tokens) / len(context_tokens) if context_tokens else None
         ),
         "p95_latency_ms": p95_latency_ms,
-        "run_error_rate": sum(item.error is not None for item in run_items) / len(run_items),
+        "run_error_count": run_error_count,
+        "run_error_rate": run_error_count / len(run_items),
     }
     (run_dir / "summary.json").write_text(
         json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"
     )
     print(json.dumps(summary, ensure_ascii=False, indent=2))
+    if args.require_remote and run_error_count:
+        raise SystemExit(
+            "Remote generation run is incomplete: "
+            f"{run_error_count}/{len(run_items)} items failed; artifacts were retained for audit"
+        )
 
 
 if __name__ == "__main__":

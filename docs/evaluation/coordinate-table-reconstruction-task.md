@@ -78,4 +78,4 @@
 git -C D:\202607\raglab commit -m "..."
 ```
 
-生成三轨（如需验证端到端，需要 `DEEPSEEK_API_KEY`）与配对对比的用法见 `docs/DEVELOPMENT-HANDOFF-zh.md`；注意 key 只从 `data/raw/deepseek_key.txt` 读取且绝不提交。
+生成三轨（如需验证端到端，需要 `DEEPSEEK_API_KEY`）与配对对比的用法见 `docs/DEVELOPMENT-HANDOFF-zh.md`；key 通过已被忽略的仓库根目录 `local-keys.env` 加载到环境变量，绝不读取、打印或提交。

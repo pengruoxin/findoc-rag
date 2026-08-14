@@ -29,12 +29,12 @@
 | 层 | 亮点 |
 |---|---|
 | **检索** | 口语/相对时间问法 Hit@5 **0.73 → 0.92**；词表外口语改写 **0.19 → 0.69**；融合权重与中文 dense 对照均为负收益 → 默认纯关键词是数据定的，不是拍脑袋 |
-| **表格** | 五类表型 **157 个单元格**尺子，抽取准确率 **98.1%**；坐标级重建召回 **92/157 → 154/157**，追平文本基线 |
-| **生成** | DeepSeek 三轨 strict **1.00 / 0.83 / 0.96**（Oracle / Retrieved / Robustness），行为准确率 **1.00 / 0.94 / 0.97** |
+| **表格** | 五类表型 **157 个单元格**尺子；坐标级重建 **92/157 → 154/157**，安全选择后预测 165 → 157、Precision/Recall 均 **98.1%** |
+| **生成** | 同一迁移索引、同一代码指纹的 DeepSeek 最终三轨 strict / 行为均 **1.00 / 1.00 / 1.00**（Oracle / Retrieved / Robustness），远程错误率 0 |
 | **成本** | 每问平均上下文 **1.5k token**，相对整份语料压缩 **99.4%（约 168 倍）**；Oracle 只需 **303 token**；p95 延迟约 2s |
-| **工程** | 全部受控实验：单变量声明、逐题配对、`code_revision` 追溯；**测量修正与能力提升分开记账** |
+| **工程** | migration + index + artifact SHA + dirty-worktree `code_fingerprint` 四重绑定；**测量修正与能力提升分开记账** |
 
-一句话：**证据给对时模型能答对 97%——问题从来不在生成，而在"找到并读懂证据"这两层，这两层恰好都能被精确评测。**
+一句话：**历史基线证明瓶颈在“找到并读懂证据”；把 PDF IR、索引绑定表格 sidecar、结构路由和财务勾稽接成闭环后，最终三轨在同一代码指纹下全部达到 strict / 行为 1.00。**
 
 ---
 
@@ -72,12 +72,14 @@
 
 ## 技术亮点
 
-1. **坐标级表格重建（从 58.6% 到 98.1%）**——真实中文年报的表格同时踩中阅读顺序反转、跨行标签、跨页表格、文本层丢字四类问题；用"区域定位 → 行带聚类 → 列对齐 → 标签修复 → 跨页隔离"的几何管线把整页输入召回从 92/157 提到 154/157，并诚实标注唯一不可修复项（PDF 文字层丢失"地区"）。
+1. **坐标级表格重建（从 58.6% 到 98.1%）**——真实中文年报的表格同时踩中阅读顺序反转、跨行标签、跨页表格、文本层丢字四类问题；用"区域定位 → 行带聚类 → 列对齐 → 标签修复 → 跨页隔离"的几何管线把整页输入召回从 92/157 提到 154/157，再用表头、完整行束、单位与原文一致性门禁把预测从 165 降到 157；PDF 与持久化 IR v2 结果完全一致。唯一残差是文字层丢失"地区"，没有硬编码掩盖。
 2. **五类表型确定性答案**——季度 / 附注 / 分部 / 年度 / 集中度 157 个单元格三元组尺子；远程模式下表格题优先走确定性抽取（受控开关），Oracle strict 0.94 → 1.00、Retrieved 行为 0.90 → 0.96、Robustness strict 0.86 → 0.96，零回归。
 3. **查询归一化 + 改写质量门控**——相对时间、公司别名/股票代码路由（18/18 精确匹配）；LLM 改写带持久化缓存，检索劣化自动回退 deterministic；并留下一个反直觉的负向结论：LLM 改写进 canonical 检索链路会伤 3 题，因此只用于生产自由文本。
 4. **检索策略由数据决定**——fusion sweep 证明纯关键词优于任何融合权重；bge-small-zh-v1.5 对照证明问题不在"中文模型能力"；OOV 评测证明 LLM 改写是词表外问法的杠杆。三个结论互相独立、都可复现。
 5. **受控实验文化**——每个 run 记录 `code_revision`；跨版本对比必须声明单变量；配对报告输出 fixed/regressed；把"打分口径修正"（拒答检测）与"模型能力提升"分开记账，避免伪提升进简历。
 6. **版本化索引与全链路可观测**——不可变 corpus generation + 原子切换；trace 覆盖检索每一阶段；PDF 处理有可复现审计（文本层/几何/字体/跨页）。
+7. **Agent-ready 证据契约**——`/v1/query` 返回稳定 outcome、路由、过滤与 claim→citation；`/v1/capabilities` 动态声明真实能力；`/v1/evidence:resolve` 按 index ID 解析完整证据并校验 SHA-256。五类表型已落为 index-bound sidecar：不改 benchmark chunk/index identity，启动时逐层验摘要，命中后才注入在线回答。
+8. **显式授权的摄取状态机**——上传默认不改语料；Agent 明确启动后才经历 `validating → ingesting → indexing → ready/failed`，任务跨重启持久化并回写 document version / index ID，重复启动、伪 PDF、OCR 未解决均 fail-closed。
 
 ---
 
@@ -87,9 +89,11 @@
 |---|---|---|
 | 检索 | 同义词改写（7 组，来自失败案例） | 口语问法 Hit@5 0.73 → **0.92**，零回归 |
 | 检索 | LLM 改写 + 持久化缓存 + 质量门控 | OOV Hit@5 0.194 → **0.694**；劣化自动回退 |
-| 表格 | 五类表型抽取器 | 28/149 → **146/149（98.0%）**，集中度 8/8 |
-| 表格 | 坐标级重建（6 项几何修复） | 92/157 → **154/157（R=0.981）** |
-| 生成 | 远程确定性表格优先（受控开关） | Oracle strict **1.000**、Retrieved **0.829**（行为 0.958）、Robustness **0.955**（行为 0.966），零回归 |
+| 表格 | 五类表型抽取器 + index-bound sidecar | 28/149 → **146/149（98.0%）**，集中度 8/8；真实两份年报自动发现 15 表 / 195 cells，12 表坐标路径、3 表安全回退文本 |
+| 表格 | 坐标级重建 + chunk-grounded 安全选择 | 92/157 → **154/157**；raw P 0.933 → **safe P 0.981**，Recall 不降 |
+| 评测 | 外部 SHA 锁 + 38 个最小源证据块 | 干净 clone 可验证 48 题 / 35 gold / 53 hard negative；错索引一票否决 |
+| Agent | query / capabilities / evidence resolve | 索引绑定、证据哈希、结构化 outcome 与 claim-citation 可机读 |
+| 生成 | index-bound 结构证据路由 + 自适应候选池 + 确定性财务勾稽 | 最终 Oracle / Retrieved / Robustness strict 与行为均 **1.000**；Retrieved gold context **37/37**，远程错误率 0 |
 | 评测 | 拒答检测（打分口径修正） | 应拒答被如实计分、伪拒答不再刷分（⚠️ 这是测量修正，不是能力提升） |
 | 生产 | `/v1/query` 查询归一化 | 相对时间 / 别名 / 代码路由 + 改写门控，路由 **18/18** |
 
@@ -97,7 +101,7 @@
 
 ## 当前真实基线（完整数字）
 
-> 冻结基线为 `concentration-v2`（clean revision，2026-08-11）；"提升"节的增量来自对应受控实验，口径见 [baseline-zh.md](docs/evaluation/baseline-zh.md)。
+> 当前主结果为 2026-08-14 的 `deepseek-index-bound-final`。三轨共享 migration `benchmark-v2-to-e5-c3f157-v1`、目标索引 `9898c95e13d01c51c156` 与代码指纹 `5f02074f...aff06`。历史受控实验仍保留用于解释增量；历史→最终包含多项工程变化和 DeepSeek 随机性，**不是严格单变量实验**。
 
 ### 检索：按问法（Hit@5，公司 + 年份过滤）
 
@@ -117,9 +121,11 @@
 
 | 赛道 | strict | 行为准确率 | 平均上下文 | p95 延迟 | Faithfulness | Answer Relevancy | Context Relevancy | Context Recall |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Oracle（生成上限） | **1.0000** | 1.0000 | 303 token | 1.63s | 0.7727 | 0.9427 | 1.0000 | 0.9865 |
-| Retrieved（端到端） | **0.8286** | 0.9375 | 1542 token | 1.96s | 0.8039 | 0.8391 | 0.9730 | 0.9009 |
-| Robustness（抗干扰） | **0.9545** | 0.9655 | 784 token | 1.81s | 0.7312 | 0.9088 | 0.9444 | 1.0000 |
+| Oracle（生成上限） | **1.0000**（35） | **1.0000** | 303 token | 1.63s | 0.7612 | 0.9077 | 1.0000 | 0.9865 |
+| Retrieved（端到端） | **1.0000**（35） | **1.0000** | 1533 token | 2.08s | 0.8843 | 0.9066 | 1.0000 | **1.0000** |
+| Robustness（抗干扰） | **1.0000**（22） | **1.0000** | 784 token | 2.23s | 0.7963 | 0.8938 | 0.9444 | **1.0000** |
+
+strict 括号内是符合确定性数值评分条件的题数；叙述类题不进入 strict 分母，因此不能表述为“48 题全部数值 strict”。RAGAS 四项均为 DeepSeek 自评（`independent_judge=false`），每项 coverage 与完整行 coverage 均为 100%，只作语义诊断。Retrieved 的确定性 gold-context 检查为 37/37。
 
 ### 效率：证据预算三路对比（`avg_evidence_tokens_top5`）
 
@@ -137,17 +143,17 @@
 
 ```text
 官方 PDF
-  → 保留坐标的 Document IR（页码 / 阅读顺序 / bbox）
+  → 保留坐标的 Document IR v2（页 / block / line / span / 字体 / 旋转）+ 质量门禁
   → 结构感知切片（标题层级 / 页眉页脚去除 / section path）
   → 事务化文档注册表（版本不可变）→ 不可变语料索引（原子切换 current.json）
   → 元数据过滤（公司 / 年份 / 文档类型）
   → 纯关键词检索（默认，数据定论）→ 可选 dense / RRF / 重排
   → 可解释的口径路由 + 改写质量门控
-  → 坐标级表格重建 / 五类表型确定性抽取
+  → 五类表型 index-bound sidecar（坐标优先 / 安全回退文本 / 不改变 chunk identity）
   → 证据门禁回答（引用强制 / 不一致拒答 / 拒答检测）
 ```
 
-服务端点：`/health/live`、`/health/ready`、`/v1/index`、`/v1/search`、`/v1/query`、`/v1/traces/{trace_id}`、`/v1/metrics`。
+服务端点：`/health/live`、`/health/ready`、`/v1/index`、`/v1/search`、`/v1/query`、`/v1/capabilities`、`/v1/evidence:resolve`、`/v1/uploads`、`/v1/uploads/{job_id}:process`、`/v1/traces/{trace_id}`、`/v1/metrics`。
 
 ---
 
@@ -169,7 +175,9 @@ uv run findoc-rag fetch-annual-report --company 伊利股份 --year 2024
 uv run findoc-rag ingest-document data/artifacts/cninfo/<茅台pdf>.pdf --document-key cninfo:600519:annual:2024
 uv run findoc-rag ingest-document data/artifacts/cninfo/<伊利pdf>.pdf --document-key cninfo:600887:annual:2024
 uv run findoc-rag build-corpus-index --dense
-uv run python scripts/validate_benchmark_dataset.py   # VALID 才说明 gold 与语料对齐
+uv run python scripts/validate_benchmark_migration.py \
+  --manifest data/evaluation/benchmark-v2-e5-migration-v1.json \
+  --target-index-root data/indexes/corpus   # VALID 才能在迁移索引上正式评测
 ```
 
 启动服务并问答：
@@ -198,8 +206,13 @@ uv run python scripts/audit_pdf_pipeline.py --output-dir reports/processing/pdf-
 DeepSeek 端到端（需要 key，仅当前终端）：
 
 ```bash
-export DEEPSEEK_API_KEY="your-token"   # 不进仓库
-uv run python scripts/run_generation_eval.py --lane retrieved_context --model deepseek-chat --require-remote
+set -a && source local-keys.env && set +a   # 文件已被 .gitignore 忽略；不要打印或提交
+uv run python scripts/run_generation_eval.py \
+  --lane retrieved_context \
+  --model deepseek-index-bound-next \
+  --index-root data/indexes/corpus \
+  --migration-manifest data/evaluation/benchmark-v2-e5-migration-v1.json \
+  --require-remote
 uv run python scripts/run_ragas_generation_eval.py reports/generation/runs/<run>/items.jsonl --output reports/generation/ragas-<lane>.json
 ```
 
@@ -221,10 +234,10 @@ uv run python scripts/run_ragas_generation_eval.py reports/generation/runs/<run>
 
 下一步：
 
-1. **PDF 侧改进（当前重点）**：审计已定位 P0 问题——IR 只有 block 级 bbox、表格行阅读顺序反转、42% block 表格线性化、文本层丢字；按 P0→P2 计划推进 span 级 IR、文本层质量门禁与 OCR 兜底
-2. 坐标几何层接入生产生成链路（先全量三轨回归）
-3. 行为拒答策略 + 时间对齐实时模式
-4. 公信力：多公司多年度 document-blind、第二人独立复核、独立 judge、置信区间
+1. **独立裁判与统计公信力**：当前回答和 RAGAS judge 都使用 DeepSeek，下一轮需引入不同 provider 的独立 judge、第二人盲审和题目层/文档层置信区间
+2. **OCR / 扫描件**：为真实无文字层、低文本和缺字页补 OCR，并增加独立盲测；当前两份年报不能证明扫描 PDF 能力
+3. **行为与新鲜度**：扩充近失拒答、多轮澄清和语料时效策略
+4. **覆盖外推**：新增多公司、多年度 document-blind 测试；最终三轨 1.00 只代表当前冻结集，不宣称通用 SOTA
 
 ---
 

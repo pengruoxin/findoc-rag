@@ -1,0 +1,49 @@
+{
+  "dataset_id": "benchmark-v2",
+  "lane": "retrieved_context",
+  "baseline_run_id": "retrieved_context-benchmark-v2-no-remote-e5-migration-v1",
+  "candidate_run_id": "retrieved_context-benchmark-v2-no-remote-structured-adaptive-v1",
+  "baseline_code_revision": "30d108d604f22e4db9588613614848b996917618",
+  "candidate_code_revision": "30d108d604f22e4db9588613614848b996917618",
+  "code_revision_match": true,
+  "baseline_code_dirty": true,
+  "candidate_code_dirty": true,
+  "baseline_code_fingerprint": null,
+  "candidate_code_fingerprint": null,
+  "code_fingerprint_match": false,
+  "code_state_match": false,
+  "controlled_change": "structured-table evidence routing + scope-adaptive candidate budget + forecast-year/scorer fixes",
+  "paired_item_count": 48,
+  "metrics": {
+    "strict_success_rate": {
+      "baseline": 0.6,
+      "candidate": 0.7428571428571429,
+      "delta": 0.1428571428571429
+    },
+    "expected_behavior_accuracy": {
+      "baseline": 0.5,
+      "candidate": 0.5833333333333334,
+      "delta": 0.08333333333333337
+    },
+    "run_error_rate": {
+      "baseline": 0.0,
+      "candidate": 0.0,
+      "delta": 0.0
+    }
+  },
+  "behavior_fixed": [
+    "moutai_product_margin",
+    "revenue_cross_company",
+    "yili_quarterly_cashflow_reconcile",
+    "yili_quarterly_profit_reconcile"
+  ],
+  "behavior_regressed": [],
+  "strict_fixed": [
+    "moutai_product_margin",
+    "revenue_cross_company",
+    "yili_consolidated_parent_revenue",
+    "yili_quarterly_cashflow_reconcile",
+    "yili_quarterly_profit_reconcile"
+  ],
+  "strict_regressed": []
+}

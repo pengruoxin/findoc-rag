@@ -4,16 +4,22 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
-class ServerSettings(BaseModel):
+class StrictSettings(BaseModel):
+    """Reject misspelled or unsupported configuration keys at startup."""
+
+    model_config = ConfigDict(extra="forbid")
+
+
+class ServerSettings(StrictSettings):
     host: str = "127.0.0.1"
     port: int = Field(default=8000, ge=1, le=65535)
     log_level: Literal["critical", "error", "warning", "info", "debug", "trace"] = "info"
 
 
-class RetrievalSettings(BaseModel):
+class RetrievalSettings(StrictSettings):
     index_dir: Path = Path("data/indexes/default")
     default_mode: Literal["lexical", "dense", "hybrid"] = "lexical"
     top_k: int = Field(default=5, ge=1, le=100)
@@ -29,38 +35,48 @@ class RetrievalSettings(BaseModel):
         return self
 
 
-class ObservabilitySettings(BaseModel):
+class ObservabilitySettings(StrictSettings):
     enabled: bool = True
     trace_db: Path = Path("data/traces/retrieval.sqlite3")
     capture_query_text: bool = False
     max_recorded_hits: int = Field(default=20, ge=1, le=100)
 
 
-class RerankerSettings(BaseModel):
+class RerankerSettings(StrictSettings):
     enabled: bool = False
     model: str = "BAAI/bge-reranker-v2-m3"
     batch_size: int = Field(default=16, ge=1, le=256)
 
 
-class ScopeRoutingSettings(BaseModel):
+class ScopeRoutingSettings(StrictSettings):
     enabled: bool = False
-    adaptive_candidate_budget: bool = False
+    adaptive_candidate_budget: bool = True
     max_candidate_k: int = Field(default=100, ge=1, le=1000)
 
 
-class AnswerGenerationSettings(BaseModel):
+class AnswerGenerationSettings(StrictSettings):
     enabled: bool = False
     model: str = "deepseek-chat"
     endpoint: str = "https://api.deepseek.com/chat/completions"
 
 
-class AppSettings(BaseModel):
+class IngestionSettings(StrictSettings):
+    enabled: bool = False
+    upload_root: Path = Path("data/uploads")
+    registry_path: Path = Path("data/catalog/registry.sqlite3")
+    storage_dir: Path = Path("data/catalog/versions")
+    index_root: Path = Path("data/indexes/corpus")
+    rebuild_index: bool = True
+
+
+class AppSettings(StrictSettings):
     server: ServerSettings = Field(default_factory=ServerSettings)
     retrieval: RetrievalSettings = Field(default_factory=RetrievalSettings)
     observability: ObservabilitySettings = Field(default_factory=ObservabilitySettings)
     reranker: RerankerSettings = Field(default_factory=RerankerSettings)
     scope_routing: ScopeRoutingSettings = Field(default_factory=ScopeRoutingSettings)
     answer_generation: AnswerGenerationSettings = Field(default_factory=AnswerGenerationSettings)
+    ingestion: IngestionSettings = Field(default_factory=IngestionSettings)
 
 
 ENVIRONMENT_PATHS: dict[str, tuple[str, str]] = {
@@ -88,6 +104,12 @@ ENVIRONMENT_PATHS: dict[str, tuple[str, str]] = {
     "FINDOC_RAG_ANSWER_ENABLED": ("answer_generation", "enabled"),
     "FINDOC_RAG_ANSWER_MODEL": ("answer_generation", "model"),
     "FINDOC_RAG_ANSWER_ENDPOINT": ("answer_generation", "endpoint"),
+    "FINDOC_RAG_INGESTION_ENABLED": ("ingestion", "enabled"),
+    "FINDOC_RAG_UPLOAD_ROOT": ("ingestion", "upload_root"),
+    "FINDOC_RAG_REGISTRY_PATH": ("ingestion", "registry_path"),
+    "FINDOC_RAG_STORAGE_DIR": ("ingestion", "storage_dir"),
+    "FINDOC_RAG_CORPUS_INDEX_ROOT": ("ingestion", "index_root"),
+    "FINDOC_RAG_REBUILD_INDEX": ("ingestion", "rebuild_index"),
 }
 
 
@@ -113,7 +135,14 @@ def load_settings(
     index_dir = settings.retrieval.index_dir
     if not index_dir.is_absolute():
         settings.retrieval.index_dir = (base_directory / index_dir).resolve()
-    trace_db = settings.observability.trace_db
-    if not trace_db.is_absolute():
-        settings.observability.trace_db = (base_directory / trace_db).resolve()
+    for section, field in (
+        (settings.observability, "trace_db"),
+        (settings.ingestion, "upload_root"),
+        (settings.ingestion, "registry_path"),
+        (settings.ingestion, "storage_dir"),
+        (settings.ingestion, "index_root"),
+    ):
+        path = getattr(section, field)
+        if not path.is_absolute():
+            setattr(section, field, (base_directory / path).resolve())
     return settings

@@ -23,6 +23,7 @@ VERSION_DIRS = {
     "7961508deeffb5e66ae88808": ROOT / "data/catalog/versions/7961508deeffb5e66ae88808/chunks.jsonl",
     "e96cf669106c99e4e283ca45": ROOT / "data/catalog/versions/e96cf669106c99e4e283ca45/chunks.jsonl",
 }
+EVIDENCE_CATALOG = ROOT / "data/evaluation/benchmark-evidence-v1.jsonl"
 COMPANIES = {
     "moutai": ("600519", ["贵州茅台"], ["贵州茅台", "茅台", "Kweichow Moutai"]),
     "yili": ("600887", ["伊利股份"], ["伊利股份", "伊利", "Inner Mongolia Yili"]),
@@ -39,7 +40,20 @@ VISUALLY_REVIEWED = {
 
 def load_chunks() -> dict[str, tuple[dict, str]]:
     chunks: dict[str, tuple[dict, str]] = {}
-    for version_id, path in VERSION_DIRS.items():
+    available = [(version_id, path) for version_id, path in VERSION_DIRS.items() if path.is_file()]
+    if not available and EVIDENCE_CATALOG.is_file():
+        document_versions = {
+            "sha256:5299f4940e2ce4e91084b73dc457d558b9d335fa76fbfee6227e4254eb7f4a30": "7961508deeffb5e66ae88808",
+            "sha256:a82a81e52f52da3cd1b7f38ded08625dc18e3d4522b15d3ef76bf921e54c1f43": "e96cf669106c99e4e283ca45",
+        }
+        for line in EVIDENCE_CATALOG.read_text(encoding="utf-8").splitlines():
+            chunk = json.loads(line)
+            chunks[chunk["chunk_id"]] = (
+                chunk,
+                document_versions[chunk["document_id"]],
+            )
+        return chunks
+    for version_id, path in available:
         for line in path.read_text(encoding="utf-8").splitlines():
             chunk = json.loads(line)
             chunks[chunk["chunk_id"]] = (chunk, version_id)
