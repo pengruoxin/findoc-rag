@@ -1,0 +1,17 @@
+services:
+  findoc-rag:
+    build: .
+    image: findoc-rag:demo
+    ports:
+      # Bound to loopback: the API has no authentication, so it must not be
+      # reachable from the network without a proxy in front of it.
+      - "127.0.0.1:8000:8000"
+    environment:
+      FINDOC_RAG_DEFAULT_MODE: lexical
+      FINDOC_RAG_TOP_K: "5"
+      # Scope routing is pure logic with no model dependency, so the workspace
+      # can demonstrate statement-scope filtering out of the box.
+      FINDOC_RAG_SCOPE_ROUTING_ENABLED: "true"
+      # Remote answer generation stays off; the demo runs fully offline.
+      # To enable it, set DEEPSEEK_API_KEY and FINDOC_RAG_ANSWER_ENABLED=true.
+    restart: unless-stopped

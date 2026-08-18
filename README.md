@@ -1,14 +1,38 @@
 # FinDocRAG
 
+[![CI](https://github.com/pengruoxin/findoc-rag/actions/workflows/ci.yml/badge.svg)](https://github.com/pengruoxin/findoc-rag/actions/workflows/ci.yml)
 [![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat&logo=python&logoColor=white)](https://www.python.org/)
-[![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=flat&logo=langchain&logoColor=white)](https://github.com/langchain-ai/langchain)
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 把 **26 万 token 的中文上市公司年报**，变成每次提问只送 **1.5k token**、答案带页码与坐标证据的可追溯 RAG——检索、表格、生成三层都能量化，每个数字背后都是一次受控实验。
 
+## 三十秒看懂
+
+```bash
+docker compose up --build     # → http://127.0.0.1:8000
+```
+
+镜像自带一个可查询的 demo 索引（38 个已提交并 SHA 锁定的证据块），不需要 API key、不下载模型、不用准备 PDF。
+
+![证据优先工作台：回答、逐条引用、阶段级 trace](docs/assets/workspace-answer-light.png)
+
+一次真实回答里同时可见的东西：`ANSWER` 判定与 `grounded` 标记、走了确定性表格抽取而非自由生成、四个季度数字各自绑定引用 `[1]`、右栏证据卡带页码 / 章节路径 / `chunk_id` 与**校验通过的 SHA-256**、下方 `lexical → scope → structured` 三阶段 trace 附每阶段耗时与候选池变化。
+
+<details>
+<summary>暗色模式与候选池自适应扩张（点开）</summary>
+
+![暗色模式下的伊利年报查询](docs/assets/workspace-answer-dark.png)
+
+同一个工作台的暗色模式。注意 trace 行里的 `候选池 50→100 (expanded for annual_summary scope)`：年度汇总类口径会自动放大候选预算，`candidate_budget_reason` 把原因写进 trace 而不是藏在代码里。
+
+</details>
+
+> 边界：demo 索引只有 38 个证据块、纯关键词模式，**不能复现下文任何指标**。完整基线需要按[快速开始](#快速开始)重建全量语料索引。
+
 ## 目录
 
+- [三十秒看懂](#三十秒看懂)
 - [亮点速览](#亮点速览)
 - [为什么不是普通 RAG](#为什么不是普通-rag)
 - [三层评测体系](#三层评测体系)
@@ -176,12 +200,26 @@ strict 括号内是符合确定性数值评分条件的题数；叙述类题不�
 
 ## 快速开始
 
+### 只想看效果（容器，一条命令）
+
 ```bash
 git clone https://github.com/pengruoxin/findoc-rag.git
 cd findoc-rag
+docker compose up --build     # → http://127.0.0.1:8000
+```
+
+镜像在构建时先校验证据文件的外部 SHA 锁，再用 38 个已提交证据块建出 demo 索引，因此容器启动即 ready。端口只绑定 127.0.0.1：**API 没有鉴权**，属于对公开年报的只读演示，不要在没有反向代理的情况下暴露到网络。
+
+### 本地开发
+
+```bash
 uv sync --extra dev --extra api --extra dense
 uv run findoc-rag doctor
 uv run pytest -q
+
+# 不用 Docker 也能起 demo 服务
+uv run python scripts/build_demo_index.py
+FINDOC_RAG_INDEX_DIR=data/indexes/demo uv run findoc-rag serve
 ```
 
 官方年报全链路：

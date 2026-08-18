@@ -1387,7 +1387,16 @@ document.addEventListener("keydown", (e) => {
 });
 
 selectTab("search");
-refreshStatus();
+
+// A ?q= deep link makes a result state shareable and lets the README screenshot
+// be regenerated deterministically. Capabilities must load first so the payload
+// respects the service's declared modes and limits.
+refreshStatus().then(() => {
+  const query = new URLSearchParams(location.search).get("q");
+  if (!query) return;
+  $("queryInput").value = query;
+  runQuery(query);
+});
 </script>
 </body>
 </html>

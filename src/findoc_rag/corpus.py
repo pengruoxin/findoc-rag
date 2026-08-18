@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 from findoc_rag.documents.models import DocumentChunk, ParsedDocument
 from findoc_rag.indexing import PersistentIndex
-from findoc_rag.io import read_jsonl
+from findoc_rag.io import read_jsonl, write_text_lf
 from findoc_rag.registry import DocumentRegistry
 from findoc_rag.structured_tables import (
     STRUCTURED_TABLE_GENERATOR,
@@ -91,7 +91,7 @@ def _write_snapshot(chunks: list[DocumentChunk], snapshots_directory: Path) -> P
     if not path.exists():
         path.parent.mkdir(parents=True, exist_ok=True)
         temporary = path.with_suffix(".jsonl.part")
-        temporary.write_text(content, encoding="utf-8")
+        write_text_lf(temporary, content)
         temporary.replace(path)
     return path
 
@@ -180,7 +180,7 @@ def build_active_corpus_index(
     )
     pointer_path = root / "current.json"
     temporary_pointer = root / "current.json.part"
-    temporary_pointer.write_text(pointer.model_dump_json(indent=2) + "\n", encoding="utf-8")
+    write_text_lf(temporary_pointer, pointer.model_dump_json(indent=2) + "\n")
     temporary_pointer.replace(pointer_path)
     return CorpusIndexResult(
         action="built",

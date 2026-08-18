@@ -8,6 +8,7 @@ from pydantic import BaseModel
 from findoc_rag.chunking import ChunkingConfig, build_chunking_report, chunk_document
 from findoc_rag.documents.pdf import parse_pdf
 from findoc_rag.documents.quality import PdfQualityConfig, evaluate_pdf_quality
+from findoc_rag.io import write_text_lf
 from findoc_rag.registry import DocumentRegistry, DocumentVersion
 
 DOCUMENT_IR_SCHEMA_VERSION = "2"
@@ -56,9 +57,8 @@ def build_processing_fingerprint(
 
 
 def _atomic_write_text(path: Path, content: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(path.suffix + ".part")
-    temporary.write_text(content, encoding="utf-8")
+    write_text_lf(temporary, content)
     temporary.replace(path)
 
 

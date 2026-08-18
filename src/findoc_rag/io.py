@@ -18,13 +18,24 @@ def read_jsonl[ModelT: BaseModel](path: Path, model: type[ModelT]) -> list[Model
     return records
 
 
+def write_text_lf(path: Path, content: str) -> None:
+    """Write text without platform newline translation.
+
+    Several integrity checks hash a string in memory and later re-hash the file
+    from disk. On Windows the default ``newline=None`` rewrites every ``\\n`` as
+    ``\\r\\n``, so those two digests can never agree. Every hashed payload must
+    go through here.
+    """
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content, encoding="utf-8", newline="")
+
+
 def write_dict_jsonl(records: Iterable[dict], path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as target:
+    with path.open("w", encoding="utf-8", newline="") as target:
         for record in records:
             target.write(json.dumps(record, ensure_ascii=False) + "\n")
 
 
 def write_json(data: dict, path: Path) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_text_lf(path, json.dumps(data, ensure_ascii=False, indent=2) + "\n")

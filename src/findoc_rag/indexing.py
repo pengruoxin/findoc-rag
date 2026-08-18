@@ -15,6 +15,7 @@ import numpy as np
 from pydantic import BaseModel, ConfigDict, Field, computed_field
 
 from findoc_rag.documents.models import DocumentChunk, StructuredTable
+from findoc_rag.io import write_text_lf
 from findoc_rag.structured_tables import (
     STRUCTURED_TABLE_GENERATOR,
     STRUCTURED_TABLE_SCHEMA_VERSION,
@@ -327,9 +328,9 @@ class PersistentIndex:
                     new_embedding_index += 1
                     encoded_embedding_count += 1
             np.save(directory / "dense_embeddings.npy", embeddings)
-            (directory / "dense_chunk_ids.json").write_text(
+            write_text_lf(
+                directory / "dense_chunk_ids.json",
                 json.dumps([chunk.chunk_id for chunk in chunks]) + "\n",
-                encoding="utf-8",
             )
 
         source_digest = _sha256_file(source_chunk_path)
@@ -374,7 +375,7 @@ class PersistentIndex:
             structured_tables_sha256=tables_digest,
         )
         tables_path = directory / "structured_tables.jsonl"
-        tables_path.write_text(tables_content, encoding="utf-8")
+        write_text_lf(tables_path, tables_content)
         table_manifest = StructuredTableArtifactManifest(
             index_id=manifest.index_id,
             source_chunk_sha256=source_digest,
@@ -382,11 +383,12 @@ class PersistentIndex:
             table_count=len(table_records),
             cell_count=sum(len(table.cells) for table in table_records),
         )
-        (directory / "structured_tables.manifest.json").write_text(
-            table_manifest.model_dump_json(indent=2) + "\n", encoding="utf-8"
+        write_text_lf(
+            directory / "structured_tables.manifest.json",
+            table_manifest.model_dump_json(indent=2) + "\n",
         )
-        (directory / "manifest.json").write_text(
-            manifest.model_dump_json(indent=2) + "\n", encoding="utf-8"
+        write_text_lf(
+            directory / "manifest.json", manifest.model_dump_json(indent=2) + "\n"
         )
         directory.replace(target_directory)
         return cls(target_directory)

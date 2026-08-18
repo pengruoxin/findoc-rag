@@ -10,6 +10,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from findoc_rag.io import write_text_lf
+
 UploadStatus = Literal[
     "uploaded", "validating", "ingesting", "indexing", "ready", "failed"
 ]
@@ -116,7 +118,7 @@ class UploadJobStore:
         target = directory / "job.json"
         temporary = directory / "job.json.part"
         with self._lock:
-            temporary.write_text(job.model_dump_json(indent=2) + "\n", encoding="utf-8")
+            write_text_lf(temporary, job.model_dump_json(indent=2) + "\n")
             temporary.replace(target)
 
     def update(self, job: UploadJob, **changes: object) -> UploadJob:
@@ -137,9 +139,9 @@ class UploadJobStore:
     ) -> None:
         path = self.job_directory(job.job_id) / "processing-request.json"
         temporary = path.with_suffix(".json.part")
-        temporary.write_text(
+        write_text_lf(
+            temporary,
             json.dumps(request.model_dump(mode="json"), ensure_ascii=False, indent=2)
             + "\n",
-            encoding="utf-8",
         )
         temporary.replace(path)

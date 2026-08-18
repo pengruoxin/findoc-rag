@@ -16,6 +16,7 @@ from typing import Protocol
 
 import httpx
 
+from findoc_rag.io import write_text_lf
 from findoc_rag.provider_credentials import resolve_provider_api_key
 from findoc_rag.query_expansion import expand_query
 
@@ -75,12 +76,8 @@ class LLMQueryRewriter:
         """Persist the rewrite cache so reruns are reproducible."""
         if self.cache_path is None:
             return
-        self.cache_path.parent.mkdir(parents=True, exist_ok=True)
         temporary = self.cache_path.with_suffix(".json.part")
-        temporary.write_text(
-            json.dumps(self._cache, ensure_ascii=False, indent=2),
-            encoding="utf-8",
-        )
+        write_text_lf(temporary, json.dumps(self._cache, ensure_ascii=False, indent=2))
         temporary.replace(self.cache_path)
 
     def _rewrite_remote(self, query: str) -> str | None:
