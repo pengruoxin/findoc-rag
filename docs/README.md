@@ -68,10 +68,17 @@
 
 | 页面 | 用途 |
 |---|---|
-| [workspace-v3.html](./ui/workspace-v3.html) | 当前查询工作台（`/` 默认跳转到此） |
+| [workspace-v4.html](./ui/workspace-v4.html) | 当前证据工作台（`/` 默认跳转到此） |
 | [holdout-review.html](./ui/holdout-review.html) | 候选证据审核 |
 | [holdout-eval.html](./ui/holdout-eval.html) | provisional holdout manifest |
 | [holdout-failures.html](./ui/holdout-failures.html) | 检索失败分类与样例 |
 | [experiment-dashboard.html](./ui/experiment-dashboard.html) | 实验注册表与结论边界 |
 
-`workspace-v2.html` 与 `workspace-wireframe.html` 是被 v3 取代的草稿，未纳入版本控制。
+`workspace-v4.html` 是证据优先双栏布局：左栏答案按 claim 拆分并绑定引用，右栏列出对应
+chunk 原文、页码与按 `index_id` 校验的 SHA-256，鼠标悬停 claim 会淡化它没有引用的证据。
+检索模式、`top_k`/`candidate_k` 上下限与口径路由/重排开关全部来自 `/v1/capabilities`，
+运行时未启用的能力显示为不可用而不是发出必然失败的请求。「检索设置」抽屉里可开启
+`/v1/search` 调试视图，查看融合分、lexical/dense 分量、rerank 前后位次与首元素 bbox。
+快捷键：`/` 聚焦输入、`R` 刷新状态、`T` 切换深浅色、`S` 打开设置、`Esc` 关闭。
+
+`workspace-v2.html`、`workspace-v3.html` 与 `workspace-wireframe.html` 是被 v4 取代的草稿，已删除。

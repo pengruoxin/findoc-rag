@@ -202,7 +202,7 @@ def create_app(settings: AppSettings | None = None) -> FastAPI:
 
     @app.get("/", include_in_schema=False)
     def ui_home() -> RedirectResponse:
-        return RedirectResponse("/ui/workspace-v3.html")
+        return RedirectResponse("/ui/workspace-v4.html")
 
     @app.get("/favicon.ico", include_in_schema=False)
     def favicon() -> RedirectResponse:
