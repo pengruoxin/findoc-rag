@@ -19,6 +19,7 @@ from findoc_rag.io import write_text_lf
 from findoc_rag.structured_tables import (
     STRUCTURED_TABLE_GENERATOR,
     STRUCTURED_TABLE_SCHEMA_VERSION,
+    SUPPORTED_STRUCTURED_TABLE_ARTIFACTS,
     StructuredTableArtifactManifest,
     chunk_payload_sha256,
     load_structured_tables,
@@ -449,10 +450,10 @@ class PersistentIndex:
             artifact = StructuredTableArtifactManifest.model_validate_json(
                 tables_manifest_path.read_text(encoding="utf-8")
             )
-            if artifact.schema_version != STRUCTURED_TABLE_SCHEMA_VERSION:
-                raise ValueError("Unsupported structured-table artifact schema")
-            if artifact.generator != STRUCTURED_TABLE_GENERATOR:
-                raise ValueError("Unsupported structured-table artifact generator")
+            if (artifact.schema_version, artifact.generator) not in (
+                SUPPORTED_STRUCTURED_TABLE_ARTIFACTS
+            ):
+                raise ValueError("Unsupported structured-table artifact schema/generator")
             if self.manifest.structured_table_schema_version != artifact.schema_version:
                 raise ValueError("Index manifest structured-table schema mismatch")
             if self.manifest.structured_table_generator != artifact.generator:
@@ -591,6 +592,93 @@ class PersistentIndex:
         """Resolve exact evidence IDs while preserving caller order and duplicates."""
         chunks = self._load_chunks(chunk_ids)
         return [chunks.get(chunk_id) for chunk_id in chunk_ids]
+
+    def page_window(
+        self,
+        anchor_chunk_id: str,
+        *,
+        before_pages: int = 1,
+        after_pages: int = 1,
+        max_chunks: int = 12,
+    ) -> list[DocumentChunk]:
+        """Return bounded neighboring chunks from the anchor's document only."""
+
+        if not 0 <= before_pages <= 5 or not 0 <= after_pages <= 5:
+            raise ValueError("before_pages and after_pages must be between 0 and 5")
+        if not 1 <= max_chunks <= 30:
+            raise ValueError("max_chunks must be between 1 and 30")
+        [anchor] = self.resolve_chunks([anchor_chunk_id])
+        if anchor is None:
+            raise KeyError(f"Unknown anchor chunk: {anchor_chunk_id}")
+
+        with closing(sqlite3.connect(self.database_path)) as connection:
+            rows = connection.execute(
+                "SELECT chunk_id, chunk_index, payload_json FROM chunks "
+                "WHERE document_id = ? ORDER BY chunk_index",
+                (anchor.document_id,),
+            ).fetchall()
+        page_start = max(1, anchor.page_start - before_pages)
+        page_end = anchor.page_end + after_pages
+        candidates = [
+            (str(chunk_id), int(chunk_index))
+            for chunk_id, chunk_index, payload in rows
+            if (
+                (chunk := DocumentChunk.model_validate_json(payload)).page_end >= page_start
+                and chunk.page_start <= page_end
+            )
+        ]
+        if len(candidates) > max_chunks:
+            candidates = sorted(
+                candidates,
+                key=lambda item: (abs(item[1] - anchor.chunk_index), item[1]),
+            )[:max_chunks]
+            candidates.sort(key=lambda item: item[1])
+        chunk_ids = [chunk_id for chunk_id, _ in candidates]
+        chunks = self._load_chunks(chunk_ids)
+        return [chunks[chunk_id] for chunk_id in chunk_ids]
+
+    def list_company_names(self) -> list[str]:
+        """Return data-driven company targets available in this immutable index."""
+        with closing(sqlite3.connect(self.database_path)) as connection:
+            rows = connection.execute(
+                """
+                SELECT DISTINCT company_name
+                FROM chunks
+                WHERE company_name IS NOT NULL AND company_name != ''
+                ORDER BY company_name
+                """
+            ).fetchall()
+        return [str(row[0]) for row in rows]
+
+    def list_report_years(self) -> list[int]:
+        """Return report years available for task planning and validation."""
+        with closing(sqlite3.connect(self.database_path)) as connection:
+            rows = connection.execute(
+                """
+                SELECT DISTINCT report_year
+                FROM chunks
+                WHERE report_year IS NOT NULL
+                ORDER BY report_year
+                """
+            ).fetchall()
+        return [int(row[0]) for row in rows]
+
+    def list_company_report_years(self) -> dict[str, list[int]]:
+        """Return immutable index document vintages grouped by company."""
+        with closing(sqlite3.connect(self.database_path)) as connection:
+            rows = connection.execute(
+                """
+                SELECT DISTINCT company_name, report_year
+                FROM chunks
+                WHERE company_name IS NOT NULL AND company_name != ''
+                  AND report_year IS NOT NULL
+                ORDER BY company_name, report_year
+                """
+            ).fetchall()
+        output: dict[str, list[int]] = {}
+        for company_name, report_year in rows:
+            output.setdefault(str(company_name), []).append(int(report_year))
+        return output
 
     def _matching_chunk_ids(self, filters: SearchFilters | None) -> set[str] | None:
         if filters is None or not filters.active:

@@ -1,0 +1,343 @@
+{
+  "schema_version": "1",
+  "dataset_id": "pdf-hard-v2",
+  "status": "seed_inventory",
+  "targets": [
+    {
+      "stratum": "native_control",
+      "calibration_tables": 3,
+      "development_tables": 3,
+      "frozen_tables": 4
+    },
+    {
+      "stratum": "genuine_scan",
+      "calibration_tables": 3,
+      "development_tables": 3,
+      "frozen_tables": 4
+    },
+    {
+      "stratum": "degraded_text_layer",
+      "calibration_tables": 3,
+      "development_tables": 3,
+      "frozen_tables": 4
+    },
+    {
+      "stratum": "borderless_table",
+      "calibration_tables": 3,
+      "development_tables": 3,
+      "frozen_tables": 4
+    },
+    {
+      "stratum": "merged_hierarchical_header",
+      "calibration_tables": 3,
+      "development_tables": 3,
+      "frozen_tables": 4
+    },
+    {
+      "stratum": "cross_page_continuation",
+      "calibration_tables": 3,
+      "development_tables": 3,
+      "frozen_tables": 4
+    },
+    {
+      "stratum": "rotated_or_mixed_layout",
+      "calibration_tables": 3,
+      "development_tables": 3,
+      "frozen_tables": 4
+    }
+  ],
+  "sources": [
+    {
+      "source_id": "pdf-extraction-v1",
+      "source_format": "legacy_extraction_benchmark",
+      "benchmark_path": "data/evaluation/pdf-extraction-v1/benchmark.json",
+      "benchmark_sha256": "9a16f9ee9e191e8c41643cb7435af43070310dd15ffc9630bad0247cc2c7b581",
+      "pdf_path": "data/evaluation/pdf-extraction-v1/challenge-pages.pdf",
+      "pdf_sha256": "74ee92d7e6e3607adcf06ecf9baeb19241f37849106e614126c74dcd3ec578cc",
+      "description": "单页原生、受控栅格和混合文本层回归材料。"
+    },
+    {
+      "source_id": "pdf-cross-page-v1",
+      "source_format": "legacy_extraction_benchmark",
+      "benchmark_path": "data/evaluation/pdf-cross-page-v1/benchmark.json",
+      "benchmark_sha256": "1c21e059d12bdcd10c25432d2d8f70dec1d8e64ed96ffb297e15da5b14101fc5",
+      "pdf_path": "data/evaluation/pdf-cross-page-v1/challenge-pages.pdf",
+      "pdf_sha256": "20b67ea787abd83a93988edcfda711d153a1d30619bbe4c0a127946a8144cc72",
+      "description": "人工确认的真实跨页表，以及同页受控栅格回归组。"
+    },
+    {
+      "source_id": "pdf-hard-v2-development-candidates",
+      "source_format": "development_candidate_manifest",
+      "benchmark_path": "data/evaluation/pdf-hard-v2/development-candidates.json",
+      "benchmark_sha256": "42cf8545316557090434bb6b5cacf4874a8b7fff94493d78bdeb625807bf19bd",
+      "pdf_path": "data/evaluation/pdf-hard-v2/development-candidates.pdf",
+      "pdf_sha256": "2cb87c428f1c6b7d428d53913f438e49e4461682c0f85843188f6a2aedfee36e",
+      "description": "从非冻结官方 PDF 复制的 4 页复杂表格开发候选；尚未标注，不计正式配额。"
+    },
+    {
+      "source_id": "pdf-hard-v2-genuine-scan-development-candidates",
+      "source_format": "development_candidate_manifest",
+      "benchmark_path": "data/evaluation/pdf-hard-v2/genuine-scan-development-candidates.json",
+      "benchmark_sha256": "319e2206e15645a6702dfb9b4f94abe9342d0909ead240d8c06b7c599ed2a3d1",
+      "pdf_path": "data/evaluation/pdf-hard-v2/genuine-scan-development-candidates.pdf",
+      "pdf_sha256": "068cf99e5502ef5da8c1fce2da8f22e03e3314be6a3fc97a6e106aa16862c29f",
+      "description": "来自两份巨潮资讯官方零文本层扫描 PDF 的 4 页财务表；另保留一份可用隐藏文本层反例，均绑定来源 SHA-256。"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "legacy-native-control",
+      "source_id": "pdf-extraction-v1",
+      "source_case_id": "native-text-control",
+      "source_group_id": null,
+      "page_numbers": [1],
+      "split": "legacy_regression",
+      "primary_stratum": "native_control",
+      "additional_strata": [],
+      "source_kind": "official_native_pdf",
+      "table_count": 1,
+      "question_count": 6,
+      "annotation_status": "assistant_curated_provisional",
+      "counts_toward_target": false,
+      "notes": [
+        "保留为 native 路径不退化控制，不进入 pdf-hard-v2 正式配额。"
+      ]
+    },
+    {
+      "case_id": "legacy-rasterized-single-page",
+      "source_id": "pdf-extraction-v1",
+      "source_case_id": "rasterized-scan",
+      "source_group_id": null,
+      "page_numbers": [2],
+      "split": "legacy_regression",
+      "primary_stratum": "degraded_text_layer",
+      "additional_strata": [],
+      "source_kind": "controlled_rasterization",
+      "table_count": 1,
+      "question_count": 6,
+      "annotation_status": "assistant_curated_provisional",
+      "counts_toward_target": false,
+      "notes": [
+        "这是受控栅格化，不得描述为真实扫描件。"
+      ]
+    },
+    {
+      "case_id": "legacy-mixed-single-page",
+      "source_id": "pdf-extraction-v1",
+      "source_case_id": "mixed-native-and-scan",
+      "source_group_id": null,
+      "page_numbers": [3],
+      "split": "legacy_regression",
+      "primary_stratum": "degraded_text_layer",
+      "additional_strata": ["rotated_or_mixed_layout"],
+      "source_kind": "controlled_mixed_overlay",
+      "table_count": 1,
+      "question_count": 6,
+      "annotation_status": "assistant_curated_provisional",
+      "counts_toward_target": false,
+      "notes": [
+        "用于验证 partial_ocr 路由，不替代真实混合版面样本。"
+      ]
+    },
+    {
+      "case_id": "legacy-native-cross-page",
+      "source_id": "pdf-cross-page-v1",
+      "source_case_id": null,
+      "source_group_id": "native-cross-page",
+      "page_numbers": [1, 2, 3],
+      "split": "legacy_regression",
+      "primary_stratum": "cross_page_continuation",
+      "additional_strata": ["native_control", "merged_hierarchical_header"],
+      "source_kind": "official_native_pdf",
+      "table_count": 1,
+      "question_count": 7,
+      "annotation_status": "human_verified",
+      "counts_toward_target": false,
+      "notes": [
+        "真实官方 PDF 跨页表，候选标注已经用户复核；保留为旧回归材料。"
+      ]
+    },
+    {
+      "case_id": "legacy-rasterized-cross-page",
+      "source_id": "pdf-cross-page-v1",
+      "source_case_id": null,
+      "source_group_id": "rasterized-cross-page",
+      "page_numbers": [4, 5, 6],
+      "split": "legacy_regression",
+      "primary_stratum": "cross_page_continuation",
+      "additional_strata": ["degraded_text_layer", "merged_hierarchical_header"],
+      "source_kind": "controlled_rasterization",
+      "table_count": 1,
+      "question_count": 7,
+      "annotation_status": "human_verified",
+      "counts_toward_target": false,
+      "notes": [
+        "受控栅格跨页回归，不计入真实扫描配额。"
+      ]
+    },
+    {
+      "case_id": "candidate-moutai-2024-p108-merged-header",
+      "source_id": "pdf-hard-v2-development-candidates",
+      "source_case_id": "moutai-2024-p108-merged-header",
+      "source_group_id": null,
+      "page_numbers": [1],
+      "split": "calibration",
+      "primary_stratum": "merged_hierarchical_header",
+      "additional_strata": ["native_control"],
+      "source_kind": "official_native_pdf",
+      "table_count": 1,
+      "question_count": 0,
+      "annotation_status": "unannotated",
+      "counts_toward_target": false,
+      "notes": [
+        "已完成视觉候选确认；等待 cell graph 标注和第二人复核。"
+      ]
+    },
+    {
+      "case_id": "candidate-shenhua-2023-p203-borderless",
+      "source_id": "pdf-hard-v2-development-candidates",
+      "source_case_id": "shenhua-2023-p203-borderless",
+      "source_group_id": null,
+      "page_numbers": [2],
+      "split": "development",
+      "primary_stratum": "borderless_table",
+      "additional_strata": ["native_control"],
+      "source_kind": "official_native_pdf",
+      "table_count": 1,
+      "question_count": 0,
+      "annotation_status": "unannotated",
+      "counts_toward_target": false,
+      "notes": [
+        "已完成视觉候选确认；等待 cell graph 标注和第二人复核。"
+      ]
+    },
+    {
+      "case_id": "candidate-shenhua-2023-p302-dense-layout",
+      "source_id": "pdf-hard-v2-development-candidates",
+      "source_case_id": "shenhua-2023-p302-dense-layout",
+      "source_group_id": null,
+      "page_numbers": [3],
+      "split": "development",
+      "primary_stratum": "native_control",
+      "additional_strata": ["merged_hierarchical_header", "rotated_or_mixed_layout"],
+      "source_kind": "official_native_pdf",
+      "table_count": 1,
+      "question_count": 0,
+      "annotation_status": "unannotated",
+      "counts_toward_target": false,
+      "notes": [
+        "同页多表，正式标注时必须指定一个主表区域，避免以页面代替表格计数。"
+      ]
+    },
+    {
+      "case_id": "candidate-shenhua-2024-p260-landscape",
+      "source_id": "pdf-hard-v2-development-candidates",
+      "source_case_id": "shenhua-2024-p260-landscape",
+      "source_group_id": null,
+      "page_numbers": [4],
+      "split": "development",
+      "primary_stratum": "rotated_or_mixed_layout",
+      "additional_strata": ["merged_hierarchical_header", "native_control"],
+      "source_kind": "official_native_pdf",
+      "table_count": 1,
+      "question_count": 0,
+      "annotation_status": "unannotated",
+      "counts_toward_target": false,
+      "notes": [
+        "横向宽表候选；等待 cell graph 标注和第二人复核。"
+      ]
+    },
+    {
+      "case_id": "candidate-haining-leather-2025-p1-related-funds-scan",
+      "source_id": "pdf-hard-v2-genuine-scan-development-candidates",
+      "source_case_id": "haining-leather-2025-p1-related-funds-scan",
+      "source_group_id": null,
+      "page_numbers": [1],
+      "split": "calibration",
+      "primary_stratum": "genuine_scan",
+      "additional_strata": ["merged_hierarchical_header", "rotated_or_mixed_layout"],
+      "source_kind": "genuine_scanned_pdf",
+      "table_count": 1,
+      "question_count": 0,
+      "annotation_status": "unannotated",
+      "counts_toward_target": false,
+      "notes": [
+        "零原生文本、整页图像的十列关联资金表；已有临时探针，等待完整 cell graph 和第二人复核。"
+      ]
+    },
+    {
+      "case_id": "candidate-xinong-2020-p7-balance-sheet-scan",
+      "source_id": "pdf-hard-v2-genuine-scan-development-candidates",
+      "source_case_id": "xinong-2020-p7-balance-sheet-scan",
+      "source_group_id": null,
+      "page_numbers": [2],
+      "split": "calibration",
+      "primary_stratum": "genuine_scan",
+      "additional_strata": ["rotated_or_mixed_layout"],
+      "source_kind": "genuine_scanned_pdf",
+      "table_count": 1,
+      "question_count": 0,
+      "annotation_status": "unannotated",
+      "counts_toward_target": false,
+      "notes": [
+        "零原生文本的合并资产负债表；用于常规扫描财务表控制。"
+      ]
+    },
+    {
+      "case_id": "candidate-xinong-2020-p11-income-statement-scan",
+      "source_id": "pdf-hard-v2-genuine-scan-development-candidates",
+      "source_case_id": "xinong-2020-p11-income-statement-scan",
+      "source_group_id": null,
+      "page_numbers": [3],
+      "split": "calibration",
+      "primary_stratum": "genuine_scan",
+      "additional_strata": ["rotated_or_mixed_layout"],
+      "source_kind": "genuine_scanned_pdf",
+      "table_count": 1,
+      "question_count": 0,
+      "annotation_status": "unannotated",
+      "counts_toward_target": false,
+      "notes": [
+        "零原生文本的密集合并利润表；包含负数、长行名和分层利润项目。"
+      ]
+    },
+    {
+      "case_id": "candidate-xinong-2020-p15-equity-change-scan",
+      "source_id": "pdf-hard-v2-genuine-scan-development-candidates",
+      "source_case_id": "xinong-2020-p15-equity-change-scan",
+      "source_group_id": null,
+      "page_numbers": [4],
+      "split": "development",
+      "primary_stratum": "genuine_scan",
+      "additional_strata": ["merged_hierarchical_header", "rotated_or_mixed_layout"],
+      "source_kind": "genuine_scanned_pdf",
+      "table_count": 1,
+      "question_count": 0,
+      "annotation_status": "unannotated",
+      "counts_toward_target": false,
+      "notes": [
+        "零原生文本的超宽股东权益变动表；作为局部高风险升级样本。"
+      ]
+    }
+  ],
+  "gold_policy": {
+    "evaluation_unit": "table",
+    "gold_fields": [
+      "table_region",
+      "cell_raw_text",
+      "normalized_value",
+      "row_index",
+      "column_index",
+      "row_span",
+      "column_span",
+      "row_header_path",
+      "column_header_path",
+      "page_number",
+      "cell_bbox",
+      "continuation_edges"
+    ],
+    "independent_frozen_reviewer_required": true,
+    "candidate_verification_is_blind_annotation": false,
+    "frozen_gold_must_be_separate": true
+  }
+}

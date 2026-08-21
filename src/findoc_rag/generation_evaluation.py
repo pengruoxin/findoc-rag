@@ -58,12 +58,24 @@ class AnswerContract(BaseModel):
     forbid_external_knowledge: bool = True
 
 
+class HumanReview(BaseModel):
+    reviewer_id: str = Field(min_length=1)
+    reviewed_at: str
+    verdict: Literal["approve", "revise", "reject"]
+    query_semantics_verified: bool = False
+    evidence_verified: bool = False
+    reference_answer_verified: bool = False
+    variants_verified: bool = False
+    notes: str = ""
+
+
 class AnnotationProvenance(BaseModel):
     created_by: Literal["assistant_curated", "human"]
     review_status: Literal["assistant_verified", "human_verified"]
     confidence: Literal["high", "medium", "low"]
     source_pdf_sha256: list[str]
     notes: str = ""
+    human_reviews: list[HumanReview] = Field(default_factory=list)
 
 
 class QueryVariant(BaseModel):
@@ -138,8 +150,10 @@ class GenerationEvaluationItem(BaseModel):
 
 class GenerationEvaluationDataset(BaseModel):
     schema_version: int = 1
+    chunk_schema_version: int = 3
     dataset_id: str
     corpus_index_id: str
+    corpus_indexes: dict[str, str] = Field(default_factory=dict)
     independent_gold: bool = False
     reviewer: str
     status: Literal["assistant_curated_provisional", "human_frozen"]
@@ -191,6 +205,7 @@ class GenerationRunItem(BaseModel):
     index_id: str
     prompt_sha256: str
     search_query: str | None = None
+    filter_source: str | None = None
     latency_ms: float = Field(ge=0)
     grounded: bool
     as_of_date: str | None = None

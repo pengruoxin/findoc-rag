@@ -1,0 +1,790 @@
+{
+  "schema_version": "1",
+  "security_code": "300750",
+  "annotation_status": "assistant_source_verified_provisional",
+  "independent_double_review_complete": false,
+  "cases": [
+    {
+      "case_id": "v3_300750_y23_core",
+      "task_type": "extract",
+      "query": "宁德时代2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "40091704.49",
+            "4009.170449",
+            "4009.17"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "4412124.83",
+            "441.212483",
+            "441.21"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "4009167.37",
+            "400.916737",
+            "400.92"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "9282612.44",
+            "928.261244",
+            "928.26"
+          ],
+          "unit": "万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            7
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主要会计数据表单位为万元。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y23_products",
+      "task_type": "extract",
+      "query": "宁德时代2023年动力电池系统、储能电池系统和电池材料及回收三类业务的收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "power_revenue",
+          "description": "动力电池系统收入",
+          "acceptable_values": [
+            "28525291.73",
+            "2852.529173",
+            "2852.53"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "power_margin",
+          "description": "动力电池系统毛利率",
+          "acceptable_values": [
+            "22.27%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_revenue",
+          "description": "储能电池系统收入",
+          "acceptable_values": [
+            "5990052.19",
+            "599.005219",
+            "599.01"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "storage_margin",
+          "description": "储能电池系统毛利率",
+          "acceptable_values": [
+            "23.79%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "material_revenue",
+          "description": "电池材料及回收收入",
+          "acceptable_values": [
+            "3360228.41",
+            "336.022841",
+            "336.02"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "material_margin",
+          "description": "电池材料及回收毛利率",
+          "acceptable_values": [
+            "11.38%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报分产品表跨页列示收入和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y23_rd",
+      "task_type": "extract",
+      "query": "宁德时代2023年研发费用、研发投入占营业收入比例和研发人员数量分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd_expense",
+          "description": "研发费用",
+          "acceptable_values": [
+            "1835610.84",
+            "183.561084",
+            "183.56"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "rd_intensity",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "4.58%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "rd_people",
+          "description": "研发人员数量",
+          "acceptable_values": [
+            "20604"
+          ],
+          "unit": "人"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "研发费用与研发投入金额相同，研发表列示投入强度和人员数量。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y24_core",
+      "task_type": "extract",
+      "query": "宁德时代2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "362012554",
+            "3620.12554",
+            "3620.13"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "50744682",
+            "507.44682",
+            "507.45"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2024年扣非归母净利润",
+          "acceptable_values": [
+            "44992919",
+            "449.92919",
+            "449.93"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2024年经营活动现金流量净额",
+          "acceptable_values": [
+            "96990345",
+            "969.90345",
+            "969.90"
+          ],
+          "unit": "千元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9,
+            10
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主要会计数据表单位为千元。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y24_products",
+      "task_type": "extract",
+      "query": "宁德时代2024年动力电池系统、储能电池系统和电池材料及回收业务的收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "power_revenue",
+          "description": "动力电池系统收入",
+          "acceptable_values": [
+            "253041337",
+            "2530.41337",
+            "2530.41"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "power_yoy",
+          "description": "动力电池系统收入同比",
+          "acceptable_values": [
+            "-11.29%",
+            "下降11.29%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "power_margin",
+          "description": "动力电池系统毛利率",
+          "acceptable_values": [
+            "23.94%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_revenue",
+          "description": "储能电池系统收入",
+          "acceptable_values": [
+            "57290460",
+            "572.9046",
+            "572.90"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "storage_yoy",
+          "description": "储能电池系统收入同比",
+          "acceptable_values": [
+            "-4.36%",
+            "下降4.36%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_margin",
+          "description": "储能电池系统毛利率",
+          "acceptable_values": [
+            "26.84%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "material_revenue",
+          "description": "电池材料及回收收入",
+          "acceptable_values": [
+            "28699935",
+            "286.99935",
+            "287.00"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "material_yoy",
+          "description": "电池材料及回收收入同比",
+          "acceptable_values": [
+            "-14.59%",
+            "下降14.59%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "material_margin",
+          "description": "电池材料及回收毛利率",
+          "acceptable_values": [
+            "10.51%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报分产品表列示收入、同比和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_trend_core",
+      "task_type": "compare",
+      "query": "比较宁德时代2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:宁德时代:year:2023",
+        "company:宁德时代:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "4009.17",
+            "40091704.49"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "3620.13",
+            "362012554"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "441.21",
+            "4412124.83"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "507.45",
+            "50744682"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "928.26",
+            "9282612.44"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "969.90",
+            "96990345"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "收入下降而净利润和经营现金流上升",
+          "acceptable_values": [
+            "营业收入下降",
+            "营收下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入下降9.70%，归母净利润上升15.01%，经营现金流上升4.49%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_trend_products",
+      "task_type": "compare",
+      "query": "比较宁德时代2023年和2024年动力电池系统与储能电池系统的收入和毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:宁德时代:year:2023",
+        "company:宁德时代:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "power_revenue_2023",
+          "description": "2023年动力电池收入",
+          "acceptable_values": [
+            "2852.53",
+            "28525291.73"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "power_revenue_2024",
+          "description": "2024年动力电池收入",
+          "acceptable_values": [
+            "2530.41",
+            "253041337"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "power_margin_2023",
+          "description": "2023年动力电池毛利率",
+          "acceptable_values": [
+            "22.27%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "power_margin_2024",
+          "description": "2024年动力电池毛利率",
+          "acceptable_values": [
+            "23.94%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_revenue_2023",
+          "description": "2023年储能电池收入",
+          "acceptable_values": [
+            "599.01",
+            "5990052.19"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "storage_revenue_2024",
+          "description": "2024年储能电池收入",
+          "acceptable_values": [
+            "572.90",
+            "57290460"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "storage_margin_2023",
+          "description": "2023年储能电池毛利率",
+          "acceptable_values": [
+            "23.79%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_margin_2024",
+          "description": "2024年储能电池毛利率",
+          "acceptable_values": [
+            "26.84%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        },
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        }
+      ],
+      "gold_rationale": "两类业务收入均下降，毛利率均上升。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_calc_storage_share",
+      "task_type": "calculate",
+      "query": "计算宁德时代2024年储能电池系统收入占公司营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "storage_revenue",
+          "description": "储能电池收入",
+          "acceptable_values": [
+            "57290460"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "total_revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "362012554"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "share",
+          "description": "储能电池收入占比",
+          "acceptable_values": [
+            "15.83%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9,
+            19
+          ]
+        }
+      ],
+      "gold_rationale": "57290460/362012554=15.8255%，保留两位小数为15.83%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_calc_net_margin",
+      "task_type": "calculate",
+      "query": "计算宁德时代2023年和2024年的归母净利率，并给出变化百分点。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "margin_2023",
+          "description": "2023年归母净利率",
+          "acceptable_values": [
+            "11.01%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "margin_2024",
+          "description": "2024年归母净利率",
+          "acceptable_values": [
+            "14.02%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "change",
+          "description": "归母净利率变化",
+          "acceptable_values": [
+            "3.01个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "gold_rationale": "归母净利率由11.01%升至14.02%，提高3.01个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_verify_divergence",
+      "task_type": "compare",
+      "query": "核验说法：宁德时代2024年营业收入较2023年下降，但归母净利润上升。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:宁德时代:year:2023",
+        "company:宁德时代:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_change",
+          "description": "营业收入同比下降",
+          "acceptable_values": [
+            "-9.70%",
+            "下降9.70%",
+            "下降9.7%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_change",
+          "description": "归母净利润同比上升",
+          "acceptable_values": [
+            "15.01%",
+            "上升15.01%",
+            "增长15.01%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "说法成立",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "核验通过"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "gold_rationale": "2024年营业收入下降9.70%，归母净利润增长15.01%，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出宁德时代2025年动力电池系统收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家电池公司的业务结构变化，但先确认公司、年度和所指电池业务口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

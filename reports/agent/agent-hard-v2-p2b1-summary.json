@@ -1,0 +1,258 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v2-document-blind-candidate",
+  "generated_at": "2026-08-20T05:08:42.893489+00:00",
+  "valid": true,
+  "ready_for_external_claims": false,
+  "audit_boundary": "machine metrics are immutable; source-audited metrics apply the frozen P2-A assistant review and are not independent human scores",
+  "dataset": "data/evaluation/agent-hard-v2.json",
+  "dataset_sha256": "561d1d0b7c233ae6bc7189ca0b18ab18a5704a7f310ddcc5de0902fa241345c7",
+  "runs": [
+    {
+      "run_id": "p2a_baseline",
+      "report": "reports/agent/agent-hard-v2-deepseek-p2a-baseline.json",
+      "report_sha256": "565b226fcc15529947718a9cae84c89111c3c84d614c2b50d95a5db1cac2e240",
+      "controlled_change": "冻结P1代码的五文档盲测基线",
+      "verdict": "baseline",
+      "planner_revisions": [
+        "deterministic-document-tasks-p1a-page-window"
+      ],
+      "machine_metrics": {
+        "case_count": 34,
+        "executed_case_count": 30,
+        "unsupported_case_count": 4,
+        "task_coverage_rate": 0.8823529411764706,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.8666666666666667,
+        "supported_fact_accuracy": 0.8625,
+        "end_to_end_fact_accuracy": 0.7840909090909091,
+        "supported_case_pass_rate": 0.5666666666666667,
+        "end_to_end_case_pass_rate": 0.5,
+        "safe_abstention_accuracy": 0.4
+      },
+      "assistant_source_audited_metrics": {
+        "case_pass_count": 24,
+        "case_count": 34,
+        "case_pass_rate": 0.7058823529411765,
+        "executed_case_pass_count": 24,
+        "executed_case_count": 30,
+        "executed_case_pass_rate": 0.8,
+        "supported_fact_match_count": 75,
+        "supported_fact_count": 80,
+        "supported_fact_accuracy": 0.9375,
+        "end_to_end_fact_match_count": 75,
+        "end_to_end_fact_count": 88,
+        "end_to_end_fact_accuracy": 0.8522727272727273,
+        "genuine_failure_case_ids": [
+          "blind_yili_inventory_policy",
+          "blind_yili_annual_deducted_profit",
+          "blind_midea_2023_inventory_increase",
+          "blind_midea_2023_future_actual",
+          "blind_midea_2024_inventory_increase",
+          "blind_midea_2024_future_actual",
+          "blind_shenhua_2024_coal_sales_production_gap",
+          "blind_shenhua_2024_future_actual",
+          "blind_midea_2023_2024_revenue_compare",
+          "blind_moutai_yili_cashflow_compare"
+        ],
+        "evaluator_false_negative_case_ids": [
+          "blind_moutai_cashflow_change",
+          "blind_yili_cashflow_change",
+          "blind_midea_2023_revenue_yoy",
+          "blind_midea_2023_key_audit_matter",
+          "blind_midea_2024_revenue_yoy",
+          "blind_midea_2024_key_audit_matter",
+          "blind_shenhua_2024_coal_revenue_recognition"
+        ]
+      },
+      "runtime": {
+        "model_requests": 73,
+        "model_input_tokens": 153252,
+        "model_output_tokens": 14448,
+        "model_total_tokens": 167700,
+        "tool_calls": 71,
+        "tool_counts": {
+          "get_page_window": 21,
+          "search_evidence": 50
+        }
+      }
+    },
+    {
+      "run_id": "p2b1a_document_fact_period",
+      "report": "reports/agent/agent-hard-v2-deepseek-p2b1-document-fact-period.json",
+      "report_sha256": "5357905c587149539fb85305b106b0e2e56469bdc9afb3c297b42d3e0b8d16b1",
+      "controlled_change": "分离报告年份/事实期间并增加唯一文档范围推断；尚未识别“2023年年报”",
+      "verdict": "improved_partial",
+      "planner_revisions": [
+        "deterministic-document-tasks-p2b1-document-fact-period"
+      ],
+      "machine_metrics": {
+        "case_count": 34,
+        "executed_case_count": 30,
+        "unsupported_case_count": 4,
+        "task_coverage_rate": 0.8823529411764706,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.9666666666666667,
+        "supported_fact_accuracy": 0.9,
+        "end_to_end_fact_accuracy": 0.8181818181818182,
+        "supported_case_pass_rate": 0.6666666666666666,
+        "end_to_end_case_pass_rate": 0.5882352941176471,
+        "safe_abstention_accuracy": 0.8
+      },
+      "assistant_source_audited_metrics": {
+        "case_pass_count": 27,
+        "case_count": 34,
+        "case_pass_rate": 0.7941176470588235,
+        "executed_case_pass_count": 27,
+        "executed_case_count": 30,
+        "executed_case_pass_rate": 0.9,
+        "supported_fact_match_count": 78,
+        "supported_fact_count": 80,
+        "supported_fact_accuracy": 0.975,
+        "end_to_end_fact_match_count": 78,
+        "end_to_end_fact_count": 88,
+        "end_to_end_fact_accuracy": 0.8863636363636364,
+        "genuine_failure_case_ids": [
+          "blind_yili_annual_deducted_profit",
+          "blind_midea_2023_inventory_increase",
+          "blind_midea_2023_future_actual",
+          "blind_midea_2024_inventory_increase",
+          "blind_shenhua_2024_coal_sales_production_gap",
+          "blind_midea_2023_2024_revenue_compare",
+          "blind_moutai_yili_cashflow_compare"
+        ],
+        "evaluator_false_negative_case_ids": [
+          "blind_moutai_cashflow_change",
+          "blind_yili_cashflow_change",
+          "blind_midea_2023_revenue_yoy",
+          "blind_midea_2023_key_audit_matter",
+          "blind_midea_2024_revenue_yoy",
+          "blind_midea_2024_key_audit_matter",
+          "blind_shenhua_2024_coal_revenue_recognition"
+        ]
+      },
+      "runtime": {
+        "model_requests": 84,
+        "model_input_tokens": 182234,
+        "model_output_tokens": 16577,
+        "model_total_tokens": 198811,
+        "tool_calls": 81,
+        "tool_counts": {
+          "get_page_window": 25,
+          "search_evidence": 56
+        }
+      }
+    },
+    {
+      "run_id": "p2b1b_document_year_syntax",
+      "report": "reports/agent/agent-hard-v2-deepseek-p2b1b-document-year-pattern.json",
+      "report_sha256": "af9601ac7389dc7a2c9730d7585d4083611b16250082fc7ae7c8bb562ba5cf06",
+      "controlled_change": "同一规划变量内补齐“YYYY年年报”文档年份语法",
+      "verdict": "improved",
+      "planner_revisions": [
+        "deterministic-document-tasks-p2b1-document-fact-period"
+      ],
+      "machine_metrics": {
+        "case_count": 34,
+        "executed_case_count": 30,
+        "unsupported_case_count": 4,
+        "task_coverage_rate": 0.8823529411764706,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9,
+        "end_to_end_fact_accuracy": 0.8181818181818182,
+        "supported_case_pass_rate": 0.7,
+        "end_to_end_case_pass_rate": 0.6176470588235294,
+        "safe_abstention_accuracy": 1.0
+      },
+      "assistant_source_audited_metrics": {
+        "case_pass_count": 28,
+        "case_count": 34,
+        "case_pass_rate": 0.8235294117647058,
+        "executed_case_pass_count": 28,
+        "executed_case_count": 30,
+        "executed_case_pass_rate": 0.9333333333333333,
+        "supported_fact_match_count": 78,
+        "supported_fact_count": 80,
+        "supported_fact_accuracy": 0.975,
+        "end_to_end_fact_match_count": 78,
+        "end_to_end_fact_count": 88,
+        "end_to_end_fact_accuracy": 0.8863636363636364,
+        "genuine_failure_case_ids": [
+          "blind_yili_annual_deducted_profit",
+          "blind_midea_2023_inventory_increase",
+          "blind_midea_2024_inventory_increase",
+          "blind_shenhua_2024_coal_sales_production_gap",
+          "blind_midea_2023_2024_revenue_compare",
+          "blind_moutai_yili_cashflow_compare"
+        ],
+        "evaluator_false_negative_case_ids": [
+          "blind_moutai_cashflow_change",
+          "blind_yili_cashflow_change",
+          "blind_midea_2023_revenue_yoy",
+          "blind_midea_2023_key_audit_matter",
+          "blind_midea_2024_revenue_yoy",
+          "blind_midea_2024_key_audit_matter",
+          "blind_shenhua_2024_coal_revenue_recognition"
+        ]
+      },
+      "runtime": {
+        "model_requests": 87,
+        "model_input_tokens": 187114,
+        "model_output_tokens": 16853,
+        "model_total_tokens": 203967,
+        "tool_calls": 83,
+        "tool_counts": {
+          "get_page_window": 26,
+          "search_evidence": 57
+        }
+      }
+    }
+  ],
+  "paired_comparisons": [
+    {
+      "before_run_id": "p2a_baseline",
+      "after_run_id": "p2b1a_document_fact_period",
+      "fixed_case_ids": [
+        "blind_yili_inventory_policy",
+        "blind_midea_2024_future_actual",
+        "blind_shenhua_2024_future_actual"
+      ],
+      "regressed_case_ids": [],
+      "net_case_delta": 3
+    },
+    {
+      "before_run_id": "p2b1a_document_fact_period",
+      "after_run_id": "p2b1b_document_year_syntax",
+      "fixed_case_ids": [
+        "blind_midea_2023_future_actual"
+      ],
+      "regressed_case_ids": [],
+      "net_case_delta": 1
+    },
+    {
+      "before_run_id": "p2a_baseline",
+      "after_run_id": "p2b1b_document_year_syntax",
+      "fixed_case_ids": [
+        "blind_yili_inventory_policy",
+        "blind_midea_2023_future_actual",
+        "blind_midea_2024_future_actual",
+        "blind_shenhua_2024_future_actual"
+      ],
+      "regressed_case_ids": [],
+      "net_case_delta": 4
+    }
+  ],
+  "conclusion": {
+    "p2b1_direct_targets": [
+      "blind_yili_inventory_policy",
+      "blind_midea_2023_future_actual",
+      "blind_midea_2024_future_actual",
+      "blind_shenhua_2024_future_actual"
+    ],
+    "final_machine_delta": "+4 cases, 0 regressions",
+    "final_remaining_genuine_failures": "4 unsupported general calculations and 2 multi-fact omissions",
+    "next_single_variable": "P2-B2: add an explicit required-fact checklist to extraction/comparison submission; do not add general calculation in the same run"
+  },
+  "errors": []
+}

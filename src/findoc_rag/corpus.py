@@ -29,11 +29,21 @@ class CorpusIndexResult(BaseModel):
     manifest: dict
 
 
-def collect_active_chunks(registry: DocumentRegistry) -> tuple[list[DocumentChunk], list[str]]:
+def collect_active_chunks(
+    registry: DocumentRegistry,
+    benchmark_splits: set[str] | None = None,
+) -> tuple[list[DocumentChunk], list[str]]:
     chunks: list[DocumentChunk] = []
     version_ids: list[str] = []
     seen_chunk_ids: set[str] = set()
-    for version in registry.active_versions():
+    versions = registry.active_versions()
+    if benchmark_splits is not None:
+        versions = [
+            version
+            for version in versions
+            if version.metadata.get("benchmark_split") in benchmark_splits
+        ]
+    for version in versions:
         if not version.chunks_path:
             raise ValueError(f"Active version has no chunk artifact: {version.version_id}")
         path = Path(version.chunks_path)
@@ -67,10 +77,18 @@ def collect_active_chunks(registry: DocumentRegistry) -> tuple[list[DocumentChun
 
 def collect_active_documents(
     registry: DocumentRegistry,
+    benchmark_splits: set[str] | None = None,
 ) -> dict[str, ParsedDocument]:
     """Load active persisted IR for sidecar construction, keyed by document ID."""
     documents: dict[str, ParsedDocument] = {}
-    for version in registry.active_versions():
+    versions = registry.active_versions()
+    if benchmark_splits is not None:
+        versions = [
+            version
+            for version in versions
+            if version.metadata.get("benchmark_split") in benchmark_splits
+        ]
+    for version in versions:
         if not version.document_ir_path:
             raise ValueError(f"Active version has no document IR: {version.version_id}")
         path = Path(version.document_ir_path)
@@ -130,11 +148,12 @@ def build_active_corpus_index(
     registry: DocumentRegistry,
     index_root: Path,
     dense_model: str | None = None,
+    benchmark_splits: set[str] | None = None,
 ) -> CorpusIndexResult:
     root = index_root.resolve()
     root.mkdir(parents=True, exist_ok=True)
-    chunks, version_ids = collect_active_chunks(registry)
-    documents = collect_active_documents(registry)
+    chunks, version_ids = collect_active_chunks(registry, benchmark_splits)
+    documents = collect_active_documents(registry, benchmark_splits)
     structured_tables = build_structured_tables(chunks, documents)
     snapshot_path = _write_snapshot(chunks, root / "snapshots")
     source_digest = _file_sha256(snapshot_path)

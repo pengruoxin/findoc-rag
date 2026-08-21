@@ -1,0 +1,6512 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-provisional-gold",
+  "description": "Ninety-six company- and document-blind Agent tasks over sixteen official CNINFO annual reports. Facts and pages are source-verified provisional gold; independent double review remains pending.",
+  "index_scope": "agent-hard-v3 immutable index; eight companies, 2023 and 2024",
+  "source_manifest": "data/evaluation/agent-hard-v3-source-manifest.json",
+  "gold_policy": "Gold was transcribed before the first Agent run. No evaluated Agent, DeepSeek answer, or LLM judge was used to create it. Exact values, deterministic behavior checks, and page-bound citations are scored locally.",
+  "cases": [
+    {
+      "case_id": "v3_601398_y23_core",
+      "task_type": "extract",
+      "query": "工商银行2023年净利润、资产总额、客户贷款及垫款总额和客户存款分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "net_profit",
+          "description": "2023年净利润",
+          "acceptable_values": [
+            "365116",
+            "3651.16"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "assets",
+          "description": "2023年资产总额",
+          "acceptable_values": [
+            "44697079",
+            "446970.79"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "loans",
+          "description": "2023年客户贷款及垫款总额",
+          "acceptable_values": [
+            "26086482",
+            "260864.82"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deposits",
+          "description": "2023年客户存款",
+          "acceptable_values": [
+            "33521174",
+            "335211.74"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报财务摘要列示四项集团口径金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_y23_asset_quality",
+      "task_type": "extract",
+      "query": "工商银行2023年不良贷款率、拨备覆盖率、资本充足率和成本收入比分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "npl",
+          "description": "不良贷款率",
+          "acceptable_values": [
+            "1.36%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "coverage",
+          "description": "拨备覆盖率",
+          "acceptable_values": [
+            "213.97%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital",
+          "description": "资本充足率",
+          "acceptable_values": [
+            "19.10%",
+            "19.1%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cost_income",
+          "description": "成本收入比",
+          "acceptable_values": [
+            "26.96%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            16
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报经营摘要列示资产质量、资本和效率指标。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_y23_ecl_audit",
+      "task_type": "extract",
+      "query": "工商银行2023年关于客户贷款及垫款预期信用损失的关键审计事项，风险点和审计应对分别是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "risk_significant_increase",
+          "description": "风险包括信用风险是否显著增加的阶段判断",
+          "acceptable_values": [
+            "信用风险是否显著增加"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_credit_impaired",
+          "description": "风险包括是否已发生信用减值的阶段判断",
+          "acceptable_values": [
+            "已发生信用减值",
+            "信用减值贷款"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_pd",
+          "description": "模型参数包括违约概率",
+          "acceptable_values": [
+            "违约概率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_lgd",
+          "description": "模型参数包括违约损失率",
+          "acceptable_values": [
+            "违约损失率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_ead",
+          "description": "模型参数包括违约风险暴露",
+          "acceptable_values": [
+            "违约风险暴露"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_forward_looking",
+          "description": "风险包括前瞻性信息",
+          "acceptable_values": [
+            "前瞻性信息"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_scenarios",
+          "description": "风险包括经济情景及其权重",
+          "acceptable_values": [
+            "经济情景",
+            "情景权重"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_controls",
+          "description": "审计应对包括测试预期信用损失相关控制",
+          "acceptable_values": [
+            "测试相关控制",
+            "测试内部控制"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_models",
+          "description": "审计应对包括评价或测试模型和输入参数",
+          "acceptable_values": [
+            "模型和参数",
+            "模型及参数"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_it",
+          "description": "审计应对包括测试相关信息系统",
+          "acceptable_values": [
+            "信息系统"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_credit_samples",
+          "description": "审计应对包括风险导向信贷审阅",
+          "acceptable_values": [
+            "风险为导向",
+            "风险导向"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_collateral",
+          "description": "第三阶段样本检查包括抵押物评估",
+          "acceptable_values": [
+            "抵押物的评估价值",
+            "抵押物"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_cashflow",
+          "description": "第三阶段样本检查包括预计可收回现金流",
+          "acceptable_values": [
+            "预计可收回的现金流",
+            "现金流"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            196,
+            198,
+            199
+          ]
+        }
+      ],
+      "gold_rationale": "关键审计事项跨页说明阶段划分、模型参数和前瞻性判断，并列示控制、模型及信贷样本测试程序。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_y24_core",
+      "task_type": "extract",
+      "query": "工商银行2024年净利润、资产总额、客户贷款及垫款总额和客户存款分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "net_profit",
+          "description": "2024年净利润",
+          "acceptable_values": [
+            "366946",
+            "3669.46"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "assets",
+          "description": "2024年资产总额",
+          "acceptable_values": [
+            "48821746",
+            "488217.46"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "loans",
+          "description": "2024年客户贷款及垫款总额",
+          "acceptable_values": [
+            "28372229",
+            "283722.29"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deposits",
+          "description": "2024年客户存款",
+          "acceptable_values": [
+            "34836973",
+            "348369.73"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报财务摘要列示四项集团口径金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_y24_interest",
+      "task_type": "extract",
+      "query": "工商银行2024年净利息收入和净利息收益率如何变化，年报解释的主要原因是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "net_interest_income",
+          "description": "净利息收入",
+          "acceptable_values": [
+            "637405",
+            "6374.05"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "income_change",
+          "description": "净利息收入同比下降",
+          "acceptable_values": [
+            "2.7%",
+            "17608"
+          ],
+          "unit": "%/百万元"
+        },
+        {
+          "fact_id": "nim",
+          "description": "净利息收益率",
+          "acceptable_values": [
+            "1.42%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "nim_change",
+          "description": "净利息收益率同比下降",
+          "acceptable_values": [
+            "19个基点",
+            "0.19个百分点"
+          ],
+          "unit": "基点"
+        },
+        {
+          "fact_id": "reason_lpr",
+          "description": "主要原因包括贷款市场报价利率下调",
+          "acceptable_values": [
+            "贷款市场报价利率下调",
+            "LPR下调"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "reason_mortgage",
+          "description": "主要原因包括存量房贷利率调整",
+          "acceptable_values": [
+            "存量房贷利率调整"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "reason_deposit",
+          "description": "主要原因包括存款期限结构变化",
+          "acceptable_values": [
+            "存款期限结构变化",
+            "存款定期化"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            26,
+            27
+          ]
+        }
+      ],
+      "gold_rationale": "净利息收入下降2.7%，净利息收益率下降19个基点；年报解释涉及资产端利率下行和负债端存款结构。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_trend_core",
+      "task_type": "compare",
+      "query": "比较工商银行2023年和2024年的净利润、资产总额、客户贷款及垫款总额和客户存款，分别判断增减。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:工商银行:year:2023",
+        "company:工商银行:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年净利润",
+          "acceptable_values": [
+            "365116",
+            "3651.16"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年净利润",
+          "acceptable_values": [
+            "366946",
+            "3669.46"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "assets_2023",
+          "description": "2023年资产总额",
+          "acceptable_values": [
+            "44697079",
+            "446970.79"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "assets_2024",
+          "description": "2024年资产总额",
+          "acceptable_values": [
+            "48821746",
+            "488217.46"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "loans_2023",
+          "description": "2023年贷款总额",
+          "acceptable_values": [
+            "26086482",
+            "260864.82"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "loans_2024",
+          "description": "2024年贷款总额",
+          "acceptable_values": [
+            "28372229",
+            "283722.29"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deposits_2023",
+          "description": "2023年存款",
+          "acceptable_values": [
+            "33521174",
+            "335211.74"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deposits_2024",
+          "description": "2024年存款",
+          "acceptable_values": [
+            "34836973",
+            "348369.73"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "trend",
+          "description": "四项指标均增加",
+          "acceptable_values": [
+            "均增加",
+            "均增长",
+            "全部上升"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "两份年报同口径数值显示净利润、资产、贷款和存款均增加。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_trend_asset_quality",
+      "task_type": "compare",
+      "query": "比较工商银行2023年和2024年的不良贷款率、拨备覆盖率、资本充足率和成本收入比。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:工商银行:year:2023",
+        "company:工商银行:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "npl_2023",
+          "description": "2023年不良贷款率",
+          "acceptable_values": [
+            "1.36%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "npl_2024",
+          "description": "2024年不良贷款率",
+          "acceptable_values": [
+            "1.34%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "coverage_2023",
+          "description": "2023年拨备覆盖率",
+          "acceptable_values": [
+            "213.97%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "coverage_2024",
+          "description": "2024年拨备覆盖率",
+          "acceptable_values": [
+            "214.91%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital_2023",
+          "description": "2023年资本充足率",
+          "acceptable_values": [
+            "19.10%",
+            "19.1%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital_2024",
+          "description": "2024年资本充足率",
+          "acceptable_values": [
+            "19.39%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cost_2023",
+          "description": "2023年成本收入比",
+          "acceptable_values": [
+            "26.96%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cost_2024",
+          "description": "2024年成本收入比",
+          "acceptable_values": [
+            "28.04%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            16
+          ]
+        }
+      ],
+      "gold_rationale": "不良率下降0.02个百分点；拨备覆盖率、资本充足率和成本收入比上升。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_calc_profit_growth",
+      "task_type": "calculate",
+      "query": "用年报披露的净利润计算工商银行2024年相对2023年的增长率，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年净利润",
+          "acceptable_values": [
+            "365116"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年净利润",
+          "acceptable_values": [
+            "366946"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "growth",
+          "description": "(366946-365116)/365116",
+          "acceptable_values": [
+            "0.50%",
+            "0.5%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            14
+          ]
+        }
+      ],
+      "gold_rationale": "按披露净利润计算：(366946-365116)/365116=0.5012%，保留两位小数为0.50%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_calc_loan_deposit_gap",
+      "task_type": "calculate",
+      "query": "分别计算工商银行2023年和2024年客户存款减客户贷款及垫款的差额，并判断差额是否扩大。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "gap_2023",
+          "description": "2023年存款减贷款差额",
+          "acceptable_values": [
+            "7434692",
+            "74346.92"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "gap_2024",
+          "description": "2024年存款减贷款差额",
+          "acceptable_values": [
+            "6464744",
+            "64647.44"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "gap_change",
+          "description": "差额缩小",
+          "acceptable_values": [
+            "缩小",
+            "收窄",
+            "969948",
+            "9699.48"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "2023年差额7,434,692百万元，2024年6,464,744百万元，缩小969,948百万元。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_verify_quality",
+      "task_type": "compare",
+      "query": "核验说法：工商银行2024年较2023年不良贷款率下降，同时资本充足率上升。请给出证据和结论。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:工商银行:year:2023",
+        "company:工商银行:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "npl_2023",
+          "description": "2023年不良贷款率",
+          "acceptable_values": [
+            "1.36%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "npl_2024",
+          "description": "2024年不良贷款率",
+          "acceptable_values": [
+            "1.34%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital_2023",
+          "description": "2023年资本充足率",
+          "acceptable_values": [
+            "19.10%",
+            "19.1%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital_2024",
+          "description": "2024年资本充足率",
+          "acceptable_values": [
+            "19.39%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "说法成立",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "核验通过"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            16
+          ]
+        }
+      ],
+      "gold_rationale": "不良贷款率由1.36%降至1.34%，资本充足率由19.10%升至19.39%，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出工商银行2025年实际不良贷款率、拨备覆盖率和资本充足率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家银行两年的资产质量指标并解释变化，但先不要假定我指的是哪家银行或哪两个年度。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_y23_core",
+      "task_type": "extract",
+      "query": "比亚迪2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "602315354000",
+            "6023.15354",
+            "6023.15"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "30040811000",
+            "300.40811",
+            "300.41"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "28462432000",
+            "284.62432",
+            "284.62"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "169725025000",
+            "1697.25025",
+            "1697.25"
+          ],
+          "unit": "元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主要会计数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_y23_products",
+      "task_type": "extract",
+      "query": "比亚迪2023年汽车、汽车相关产品及其他产品与手机部件、组装及其他产品的营业收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "cross_page_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "auto_revenue",
+          "description": "汽车等产品收入",
+          "acceptable_values": [
+            "483453318000",
+            "4834.53318",
+            "4834.53"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "auto_margin",
+          "description": "汽车等产品毛利率",
+          "acceptable_values": [
+            "23.02%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "phone_revenue",
+          "description": "手机部件等产品收入",
+          "acceptable_values": [
+            "118576910000",
+            "1185.7691",
+            "1185.77"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "phone_margin",
+          "description": "手机部件等产品毛利率",
+          "acceptable_values": [
+            "8.78%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报分产品表列示两类产品收入和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_y23_rd",
+      "task_type": "extract",
+      "query": "比亚迪2023年研发投入金额、占营业收入比例、研发人员数量及占比分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd",
+          "description": "研发投入金额",
+          "acceptable_values": [
+            "39917743000",
+            "399.17743",
+            "399.18"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "rd_intensity",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "6.63%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "rd_people",
+          "description": "研发人员数量",
+          "acceptable_values": [
+            "102844"
+          ],
+          "unit": "人"
+        },
+        {
+          "fact_id": "rd_people_share",
+          "description": "研发人员占比",
+          "acceptable_values": [
+            "14.62%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            27,
+            28
+          ]
+        }
+      ],
+      "gold_rationale": "研发投入表和研发人员表位于相邻页。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_y24_core",
+      "task_type": "extract",
+      "query": "比亚迪2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "777102455000",
+            "7771.02455",
+            "7771.02"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "40254346000",
+            "402.54346",
+            "402.54"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2024年扣非归母净利润",
+          "acceptable_values": [
+            "36982887000",
+            "369.82887",
+            "369.83"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2024年经营活动现金流量净额",
+          "acceptable_values": [
+            "133453873000",
+            "1334.53873",
+            "1334.54"
+          ],
+          "unit": "元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主要会计数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_y24_products",
+      "task_type": "extract",
+      "query": "比亚迪2024年两大产品类别的营业收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "cross_page_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "auto_revenue",
+          "description": "汽车等产品收入",
+          "acceptable_values": [
+            "617381935000",
+            "6173.81935",
+            "6173.82"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "auto_yoy",
+          "description": "汽车等产品收入同比",
+          "acceptable_values": [
+            "27.70%",
+            "27.7%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "auto_margin",
+          "description": "汽车等产品毛利率",
+          "acceptable_values": [
+            "22.31%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "phone_revenue",
+          "description": "手机部件等产品收入",
+          "acceptable_values": [
+            "159608576000",
+            "1596.08576",
+            "1596.09"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "phone_yoy",
+          "description": "手机部件等产品收入同比",
+          "acceptable_values": [
+            "34.60%",
+            "34.6%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "phone_margin",
+          "description": "手机部件等产品毛利率",
+          "acceptable_values": [
+            "8.34%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            24,
+            25
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报分产品表列示两类产品收入、同比和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_trend_core",
+      "task_type": "compare",
+      "query": "比较比亚迪2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:比亚迪:year:2023",
+        "company:比亚迪:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "602315354000",
+            "6023.15"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "777102455000",
+            "7771.02"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "30040811000",
+            "300.41"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "40254346000",
+            "402.54"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "169725025000",
+            "1697.25"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "133453873000",
+            "1334.54"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "收入和净利润上升、经营现金流下降",
+          "acceptable_values": [
+            "经营活动现金流量净额下降",
+            "经营现金流下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "收入和归母净利润上升，经营活动现金流量净额下降。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_trend_rd",
+      "task_type": "compare",
+      "query": "比较比亚迪2023年和2024年的研发投入金额、研发投入强度及研发人员数量。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:比亚迪:year:2023",
+        "company:比亚迪:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "rd_2023",
+          "description": "2023年研发投入",
+          "acceptable_values": [
+            "39917743000",
+            "399.18"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "rd_2024",
+          "description": "2024年研发投入",
+          "acceptable_values": [
+            "54160964000",
+            "541.61"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "intensity_2023",
+          "description": "2023年研发投入强度",
+          "acceptable_values": [
+            "6.63%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "intensity_2024",
+          "description": "2024年研发投入强度",
+          "acceptable_values": [
+            "6.97%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "people_2023",
+          "description": "2023年研发人员",
+          "acceptable_values": [
+            "102844"
+          ],
+          "unit": "人"
+        },
+        {
+          "fact_id": "people_2024",
+          "description": "2024年研发人员",
+          "acceptable_values": [
+            "121598"
+          ],
+          "unit": "人"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            27,
+            28
+          ]
+        },
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            33,
+            34
+          ]
+        }
+      ],
+      "gold_rationale": "研发金额、强度和人员数量均增加。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_calc_profit_margin",
+      "task_type": "calculate",
+      "query": "用营业收入和归母净利润计算比亚迪2023年、2024年的归母净利率，并计算变化百分点。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "margin_2023",
+          "description": "2023年归母净利率",
+          "acceptable_values": [
+            "4.99%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "margin_2024",
+          "description": "2024年归母净利率",
+          "acceptable_values": [
+            "5.18%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "margin_change",
+          "description": "归母净利率变化",
+          "acceptable_values": [
+            "0.19个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "30040811000/602315354000=4.99%；40254346000/777102455000=5.18%，提高0.19个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_calc_product_share",
+      "task_type": "calculate",
+      "query": "计算比亚迪2024年汽车、汽车相关产品及其他产品收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "dense_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "auto_revenue",
+          "description": "汽车等产品收入",
+          "acceptable_values": [
+            "617381935000"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "total_revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "777102455000"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "share",
+          "description": "汽车等产品收入占比",
+          "acceptable_values": [
+            "79.45%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            25
+          ]
+        }
+      ],
+      "gold_rationale": "617381935000/777102455000=79.4467%，保留两位小数为79.45%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_verify_growth",
+      "task_type": "compare",
+      "query": "核验说法：比亚迪2024年营业收入和归母净利润均高于2023年，且净利润增速更快。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:比亚迪:year:2023",
+        "company:比亚迪:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_growth",
+          "description": "营业收入同比增长",
+          "acceptable_values": [
+            "29.02%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_growth",
+          "description": "归母净利润同比增长",
+          "acceptable_values": [
+            "34.00%",
+            "34%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "两项均增长且净利润增速更快",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "净利润增速更快"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "2024年营业收入增长29.02%，归母净利润增长34.00%，后者更快，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出比亚迪2025年全年汽车业务收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家新能源汽车公司的盈利能力变化，但先确认公司名称、比较年度和所指利润口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y23_core",
+      "task_type": "extract",
+      "query": "中国平安2023年归母营运利润、归母净利润，以及按2023年末最新投资回报率和风险贴现率等假设计算的寿险及健康险新业务价值和内含价值分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "operating_profit",
+          "description": "2023年归母营运利润",
+          "acceptable_values": [
+            "117989",
+            "1179.89"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "net_profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "85665",
+            "856.65"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv",
+          "description": "按2023年末最新假设的新业务价值",
+          "acceptable_values": [
+            "31080",
+            "310.80",
+            "310.8"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "ev",
+          "description": "按2023年末最新假设的寿险及健康险内含价值",
+          "acceptable_values": [
+            "830974",
+            "8309.74"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2023_1219376072.pdf",
+          "pages": [
+            12,
+            55
+          ]
+        }
+      ],
+      "gold_rationale": "归母营运利润和净利润取财务摘要；新业务价值和内含价值取2023年末最新假设的基准值。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y23_segments",
+      "task_type": "extract",
+      "query": "中国平安2023年寿险及健康险、财产保险、银行三项业务归属于母公司股东的营运利润分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "life",
+          "description": "寿险及健康险归母营运利润",
+          "acceptable_values": [
+            "105070",
+            "1050.70",
+            "1050.7"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "property",
+          "description": "财产保险归母营运利润",
+          "acceptable_values": [
+            "8918",
+            "89.18"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "bank",
+          "description": "银行归母营运利润",
+          "acceptable_values": [
+            "26925",
+            "269.25"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2023_1219376072.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "三项均取归属于母公司股东的营运利润，而非含少数股东的业务营运利润。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y23_audit",
+      "task_type": "extract",
+      "query": "中国平安2023年保险合同负债计量相关关键审计事项的主要风险和审计应对是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "risk_method",
+          "description": "风险包括计量方法的适用性",
+          "acceptable_values": [
+            "计量方法的适用性",
+            "计量方法"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_unit",
+          "description": "风险包括计量单元的确定",
+          "acceptable_values": [
+            "计量单元"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_cashflow",
+          "description": "风险包括未来不确定现金流估计",
+          "acceptable_values": [
+            "未来不确定的现金流",
+            "未来现金流"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_mortality",
+          "description": "精算假设包括死亡率",
+          "acceptable_values": [
+            "死亡率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_morbidity",
+          "description": "精算假设包括发病率",
+          "acceptable_values": [
+            "发病率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_lapse",
+          "description": "精算假设包括退保率",
+          "acceptable_values": [
+            "退保率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_discount",
+          "description": "精算假设包括折现率",
+          "acceptable_values": [
+            "折现率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_expense",
+          "description": "精算假设包括费用假设",
+          "acceptable_values": [
+            "费用假设",
+            "费用率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_claim",
+          "description": "精算假设包括赔付率",
+          "acceptable_values": [
+            "赔付率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_dividend",
+          "description": "精算假设包括保单红利",
+          "acceptable_values": [
+            "保单红利"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_adjustment",
+          "description": "精算假设包括非金融风险调整",
+          "acceptable_values": [
+            "非金融风险调整"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_controls",
+          "description": "审计应对包括测试关键控制",
+          "acceptable_values": [
+            "关键控制"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_it",
+          "description": "审计应对包括测试相关信息系统",
+          "acceptable_values": [
+            "信息系统"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_transfer",
+          "description": "审计应对包括测试系统间数据传输",
+          "acceptable_values": [
+            "系统间数据传输",
+            "数据传输"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_assumptions",
+          "description": "审计应对包括评价关键精算假设",
+          "acceptable_values": [
+            "评价关键精算假设",
+            "评估关键精算假设"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_recalculation",
+          "description": "审计应对包括独立重算代表性产品或合同组",
+          "acceptable_values": [
+            "独立重新计算",
+            "代表性产品"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_data",
+          "description": "审计应对包括测试基础数据的完整性和准确性",
+          "acceptable_values": [
+            "完整性和准确性"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2023_1219376072.pdf",
+          "pages": [
+            141,
+            142
+          ]
+        }
+      ],
+      "gold_rationale": "关键审计事项说明复杂模型和重大精算假设，并列示控制、IT、假设评价、重算及数据测试。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y24_core",
+      "task_type": "extract",
+      "query": "中国平安2024年归母营运利润、归母净利润，以及按2024年末最新假设计算的寿险及健康险新业务价值和内含价值分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "operating_profit",
+          "description": "2024年归母营运利润",
+          "acceptable_values": [
+            "121862",
+            "1218.62"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "net_profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "126607",
+            "1266.07"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv",
+          "description": "按2024年末最新假设的新业务价值",
+          "acceptable_values": [
+            "28534",
+            "285.34"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "ev",
+          "description": "按2024年末最新假设的寿险及健康险内含价值",
+          "acceptable_values": [
+            "835093",
+            "8350.93"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            64,
+            71
+          ]
+        }
+      ],
+      "gold_rationale": "营运利润和净利润取集团数据；新业务价值和内含价值取2024年末最新假设的原始披露值。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y24_customer",
+      "task_type": "extract",
+      "query": "中国平安2024年个人客户数、客均合同数以及持有四个及以上合同的客户留存率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "customers",
+          "description": "个人客户数",
+          "acceptable_values": [
+            "2.42亿",
+            "24200",
+            "24235"
+          ],
+          "unit": "亿人/万人"
+        },
+        {
+          "fact_id": "contracts",
+          "description": "客均合同数",
+          "acceptable_values": [
+            "2.92"
+          ],
+          "unit": "个"
+        },
+        {
+          "fact_id": "retention",
+          "description": "持有四个及以上合同客户留存率",
+          "acceptable_values": [
+            "98.0%",
+            "98%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            13,
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报经营亮点和客户分析页列示个人客户数、客均合同和四个以上合同客户留存率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_trend_core",
+      "task_type": "compare",
+      "query": "按中国平安2024年年报的可比口径（其中2023年归母营运利润为追溯调整后），比较2023年和2024年的归母营运利润、归母净利润及寿险新业务价值。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中国平安:year:2023",
+        "company:中国平安:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "op_2023",
+          "description": "追溯调整后2023年归母营运利润",
+          "acceptable_values": [
+            "111728",
+            "1117.28"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "op_2024",
+          "description": "2024年归母营运利润",
+          "acceptable_values": [
+            "121862",
+            "1218.62"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "net_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "85665",
+            "856.65"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "net_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "126607",
+            "1266.07"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv_2023",
+          "description": "可比口径2023年新业务价值",
+          "acceptable_values": [
+            "31080",
+            "310.80",
+            "310.8"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv_2024",
+          "description": "可比口径2024年新业务价值",
+          "acceptable_values": [
+            "40024",
+            "400.24"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            39,
+            71
+          ]
+        }
+      ],
+      "gold_rationale": "按2024年报可比口径，归母营运利润增长9.1%、归母净利润增长47.8%、新业务价值增长28.8%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_trend_customer",
+      "task_type": "compare",
+      "query": "比较中国平安2023年和2024年的个人客户数、客均合同数以及持有集团内4个及以上合同客户的留存率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中国平安:year:2023",
+        "company:中国平安:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "customers_2023",
+          "description": "2023年个人客户数",
+          "acceptable_values": [
+            "2.32亿",
+            "23157"
+          ],
+          "unit": "亿人/万人"
+        },
+        {
+          "fact_id": "customers_2024",
+          "description": "2024年个人客户数",
+          "acceptable_values": [
+            "2.42亿",
+            "24200",
+            "24235"
+          ],
+          "unit": "亿人/万人"
+        },
+        {
+          "fact_id": "contracts_2023",
+          "description": "2023年客均合同数",
+          "acceptable_values": [
+            "2.95"
+          ],
+          "unit": "个"
+        },
+        {
+          "fact_id": "contracts_2024",
+          "description": "2024年客均合同数",
+          "acceptable_values": [
+            "2.92"
+          ],
+          "unit": "个"
+        },
+        {
+          "fact_id": "retention_2023",
+          "description": "2023年四个及以上合同客户留存率",
+          "acceptable_values": [
+            "97.7%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "retention_2024",
+          "description": "2024年四个及以上合同客户留存率",
+          "acceptable_values": [
+            "98.0%",
+            "98%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "direction",
+          "description": "客户数和留存率上升但客均合同数下降",
+          "acceptable_values": [
+            "客均合同数下降",
+            "客均合同数减少"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2023_1219376072.pdf",
+          "pages": [
+            7,
+            41
+          ]
+        },
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            13,
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "个人客户数增加约0.10亿，客均合同数下降0.03，四个及以上合同客户留存率提高0.3个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_calc_nbv_growth",
+      "task_type": "calculate",
+      "query": "按中国平安2024年年报的可比口径，用披露值计算2024年寿险及健康险新业务价值相对2023年的增长率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "nbv_2023",
+          "description": "可比口径2023年新业务价值",
+          "acceptable_values": [
+            "31080",
+            "310.80"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv_2024",
+          "description": "可比口径2024年新业务价值",
+          "acceptable_values": [
+            "40024",
+            "400.24"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "growth",
+          "description": "可比口径新业务价值增长率",
+          "acceptable_values": [
+            "28.78%",
+            "28.8%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            39
+          ]
+        }
+      ],
+      "gold_rationale": "(40024-31080)/31080=28.7773%，计算值为28.78%，年报披露四舍五入为28.8%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_calc_segment_share",
+      "task_type": "calculate",
+      "query": "计算中国平安2024年寿险及健康险业务归母营运利润占寿险及健康险、财产保险、银行三项核心业务归母营运利润合计的比例。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "life",
+          "description": "寿险及健康险归母营运利润",
+          "acceptable_values": [
+            "96975"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "property",
+          "description": "财产保险归母营运利润",
+          "acceptable_values": [
+            "14952"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "bank",
+          "description": "银行归母营运利润",
+          "acceptable_values": [
+            "25796"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "share",
+          "description": "寿险及健康险占三项合计比例",
+          "acceptable_values": [
+            "70.41%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            71
+          ]
+        }
+      ],
+      "gold_rationale": "96975/(96975+14952+25796)=70.4131%，保留两位小数为70.41%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_verify_nbv",
+      "task_type": "compare",
+      "query": "按中国平安2024年年报的可比（调整后）口径核验说法：2024年寿险及健康险新业务价值较2023年增长，但内含价值没有增长。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中国平安:year:2023",
+        "company:中国平安:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "nbv_growth",
+          "description": "可比口径新业务价值增长",
+          "acceptable_values": [
+            "28.8%",
+            "28.78%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ev_2023",
+          "description": "可比口径2023年寿险及健康险内含价值",
+          "acceptable_values": [
+            "830974",
+            "8309.74"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "ev_2024",
+          "description": "可比口径2024年寿险及健康险内含价值",
+          "acceptable_values": [
+            "960608",
+            "9606.08"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "ev_growth",
+          "description": "可比口径内含价值增长",
+          "acceptable_values": [
+            "15.6%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "因内含价值也增长，原说法不成立",
+          "acceptable_values": [
+            "说法不成立",
+            "结论为假",
+            "内含价值也增长"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            39
+          ]
+        }
+      ],
+      "gold_rationale": "可比口径新业务价值增长28.8%，内含价值也增长15.6%，所以“内含价值没有增长”不成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出中国平安2025年寿险及健康险新业务价值和归母营运利润，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请分析这家保险公司两年的新业务价值变化，但先确认公司、年度以及新业务价值口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y23_core",
+      "task_type": "extract",
+      "query": "宁德时代2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "40091704.49",
+            "4009.170449",
+            "4009.17"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "4412124.83",
+            "441.212483",
+            "441.21"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "4009167.37",
+            "400.916737",
+            "400.92"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "9282612.44",
+            "928.261244",
+            "928.26"
+          ],
+          "unit": "万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            7
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主要会计数据表单位为万元。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y23_products",
+      "task_type": "extract",
+      "query": "宁德时代2023年动力电池系统、储能电池系统和电池材料及回收三类业务的收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "power_revenue",
+          "description": "动力电池系统收入",
+          "acceptable_values": [
+            "28525291.73",
+            "2852.529173",
+            "2852.53"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "power_margin",
+          "description": "动力电池系统毛利率",
+          "acceptable_values": [
+            "22.27%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_revenue",
+          "description": "储能电池系统收入",
+          "acceptable_values": [
+            "5990052.19",
+            "599.005219",
+            "599.01"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "storage_margin",
+          "description": "储能电池系统毛利率",
+          "acceptable_values": [
+            "23.79%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "material_revenue",
+          "description": "电池材料及回收收入",
+          "acceptable_values": [
+            "3360228.41",
+            "336.022841",
+            "336.02"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "material_margin",
+          "description": "电池材料及回收毛利率",
+          "acceptable_values": [
+            "11.38%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报分产品表跨页列示收入和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y23_rd",
+      "task_type": "extract",
+      "query": "宁德时代2023年研发费用、研发投入占营业收入比例和研发人员数量分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd_expense",
+          "description": "研发费用",
+          "acceptable_values": [
+            "1835610.84",
+            "183.561084",
+            "183.56"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "rd_intensity",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "4.58%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "rd_people",
+          "description": "研发人员数量",
+          "acceptable_values": [
+            "20604"
+          ],
+          "unit": "人"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "研发费用与研发投入金额相同，研发表列示投入强度和人员数量。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y24_core",
+      "task_type": "extract",
+      "query": "宁德时代2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "362012554",
+            "3620.12554",
+            "3620.13"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "50744682",
+            "507.44682",
+            "507.45"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2024年扣非归母净利润",
+          "acceptable_values": [
+            "44992919",
+            "449.92919",
+            "449.93"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2024年经营活动现金流量净额",
+          "acceptable_values": [
+            "96990345",
+            "969.90345",
+            "969.90"
+          ],
+          "unit": "千元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9,
+            10
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主要会计数据表单位为千元。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y24_products",
+      "task_type": "extract",
+      "query": "宁德时代2024年动力电池系统、储能电池系统和电池材料及回收业务的收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "power_revenue",
+          "description": "动力电池系统收入",
+          "acceptable_values": [
+            "253041337",
+            "2530.41337",
+            "2530.41"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "power_yoy",
+          "description": "动力电池系统收入同比",
+          "acceptable_values": [
+            "-11.29%",
+            "下降11.29%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "power_margin",
+          "description": "动力电池系统毛利率",
+          "acceptable_values": [
+            "23.94%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_revenue",
+          "description": "储能电池系统收入",
+          "acceptable_values": [
+            "57290460",
+            "572.9046",
+            "572.90"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "storage_yoy",
+          "description": "储能电池系统收入同比",
+          "acceptable_values": [
+            "-4.36%",
+            "下降4.36%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_margin",
+          "description": "储能电池系统毛利率",
+          "acceptable_values": [
+            "26.84%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "material_revenue",
+          "description": "电池材料及回收收入",
+          "acceptable_values": [
+            "28699935",
+            "286.99935",
+            "287.00"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "material_yoy",
+          "description": "电池材料及回收收入同比",
+          "acceptable_values": [
+            "-14.59%",
+            "下降14.59%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "material_margin",
+          "description": "电池材料及回收毛利率",
+          "acceptable_values": [
+            "10.51%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报分产品表列示收入、同比和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_trend_core",
+      "task_type": "compare",
+      "query": "比较宁德时代2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:宁德时代:year:2023",
+        "company:宁德时代:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "4009.17",
+            "40091704.49"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "3620.13",
+            "362012554"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "441.21",
+            "4412124.83"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "507.45",
+            "50744682"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "928.26",
+            "9282612.44"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "969.90",
+            "96990345"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "收入下降而净利润和经营现金流上升",
+          "acceptable_values": [
+            "营业收入下降",
+            "营收下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入下降9.70%，归母净利润上升15.01%，经营现金流上升4.49%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_trend_products",
+      "task_type": "compare",
+      "query": "比较宁德时代2023年和2024年动力电池系统与储能电池系统的收入和毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:宁德时代:year:2023",
+        "company:宁德时代:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "power_revenue_2023",
+          "description": "2023年动力电池收入",
+          "acceptable_values": [
+            "2852.53",
+            "28525291.73"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "power_revenue_2024",
+          "description": "2024年动力电池收入",
+          "acceptable_values": [
+            "2530.41",
+            "253041337"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "power_margin_2023",
+          "description": "2023年动力电池毛利率",
+          "acceptable_values": [
+            "22.27%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "power_margin_2024",
+          "description": "2024年动力电池毛利率",
+          "acceptable_values": [
+            "23.94%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_revenue_2023",
+          "description": "2023年储能电池收入",
+          "acceptable_values": [
+            "599.01",
+            "5990052.19"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "storage_revenue_2024",
+          "description": "2024年储能电池收入",
+          "acceptable_values": [
+            "572.90",
+            "57290460"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "storage_margin_2023",
+          "description": "2023年储能电池毛利率",
+          "acceptable_values": [
+            "23.79%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_margin_2024",
+          "description": "2024年储能电池毛利率",
+          "acceptable_values": [
+            "26.84%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        },
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        }
+      ],
+      "gold_rationale": "两类业务收入均下降，毛利率均上升。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_calc_storage_share",
+      "task_type": "calculate",
+      "query": "计算宁德时代2024年储能电池系统收入占公司营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "storage_revenue",
+          "description": "储能电池收入",
+          "acceptable_values": [
+            "57290460"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "total_revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "362012554"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "share",
+          "description": "储能电池收入占比",
+          "acceptable_values": [
+            "15.83%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9,
+            19
+          ]
+        }
+      ],
+      "gold_rationale": "57290460/362012554=15.8255%，保留两位小数为15.83%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_calc_net_margin",
+      "task_type": "calculate",
+      "query": "计算宁德时代2023年和2024年的归母净利率，并给出变化百分点。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "margin_2023",
+          "description": "2023年归母净利率",
+          "acceptable_values": [
+            "11.01%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "margin_2024",
+          "description": "2024年归母净利率",
+          "acceptable_values": [
+            "14.02%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "change",
+          "description": "归母净利率变化",
+          "acceptable_values": [
+            "3.01个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "gold_rationale": "归母净利率由11.01%升至14.02%，提高3.01个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_verify_divergence",
+      "task_type": "compare",
+      "query": "核验说法：宁德时代2024年营业收入较2023年下降，但归母净利润上升。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:宁德时代:year:2023",
+        "company:宁德时代:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_change",
+          "description": "营业收入同比下降",
+          "acceptable_values": [
+            "-9.70%",
+            "下降9.70%",
+            "下降9.7%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_change",
+          "description": "归母净利润同比上升",
+          "acceptable_values": [
+            "15.01%",
+            "上升15.01%",
+            "增长15.01%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "说法成立",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "核验通过"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "gold_rationale": "2024年营业收入下降9.70%，归母净利润增长15.01%，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出宁德时代2025年动力电池系统收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家电池公司的业务结构变化，但先确认公司、年度和所指电池业务口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_y23_core",
+      "task_type": "extract",
+      "query": "万华化学2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "175360935668.36",
+            "1753.6093566836",
+            "1753.61"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "16815755534.31",
+            "168.1575553431",
+            "168.16"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "16438841961.03",
+            "164.3884196103",
+            "164.39"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "26796752552.51",
+            "267.9675255251",
+            "267.97"
+          ],
+          "unit": "元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2023_1219331064.pdf",
+          "pages": [
+            7,
+            8
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主要会计数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_y23_segments",
+      "task_type": "extract",
+      "query": "万华化学2023年聚氨酯、石化和精细化学品及新材料三类业务的收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "poly_revenue",
+          "description": "聚氨酯系列收入",
+          "acceptable_values": [
+            "67386160276.12",
+            "673.8616027612",
+            "673.86"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "poly_margin",
+          "description": "聚氨酯系列毛利率",
+          "acceptable_values": [
+            "27.69%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "petro_revenue",
+          "description": "石化系列收入",
+          "acceptable_values": [
+            "69327924114.13",
+            "693.2792411413",
+            "693.28"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "petro_margin",
+          "description": "石化系列毛利率",
+          "acceptable_values": [
+            "3.51%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "fine_revenue",
+          "description": "精细化学品及新材料收入",
+          "acceptable_values": [
+            "23836062497.47",
+            "238.3606249747",
+            "238.36"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "fine_margin",
+          "description": "精细化学品及新材料毛利率",
+          "acceptable_values": [
+            "21.42%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2023_1219331064.pdf",
+          "pages": [
+            16,
+            17
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主营业务分产品表列示三类业务收入和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_y23_rd",
+      "task_type": "extract",
+      "query": "万华化学2023年研发投入合计、费用化金额、资本化金额及占营业收入比例分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd_total",
+          "description": "研发投入合计",
+          "acceptable_values": [
+            "4080709256.26",
+            "40.8070925626",
+            "40.81"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "rd_expensed",
+          "description": "费用化研发投入",
+          "acceptable_values": [
+            "4080709256.26",
+            "40.8070925626",
+            "40.81"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "rd_capitalized",
+          "description": "资本化研发投入",
+          "acceptable_values": [
+            "无资本化研发投入",
+            "未发生资本化",
+            "资本化金额为0"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "rd_intensity",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "2.33%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2023_1219331064.pdf",
+          "pages": [
+            19
+          ]
+        }
+      ],
+      "gold_rationale": "资本化栏为空且研发投入合计等于费用化金额，因此资本化金额为零。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_y24_core",
+      "task_type": "extract",
+      "query": "万华化学2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "182069119160.94",
+            "1820.6911916094",
+            "1820.69"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "13033066612.84",
+            "130.3306661284",
+            "130.33"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2024年扣非归母净利润",
+          "acceptable_values": [
+            "13358861995.56",
+            "133.5886199556",
+            "133.59"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2024年经营活动现金流量净额",
+          "acceptable_values": [
+            "30053435178.33",
+            "300.5343517833",
+            "300.53"
+          ],
+          "unit": "元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            7,
+            8
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主要会计数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_y24_segments",
+      "task_type": "extract",
+      "query": "万华化学2024年三类主要业务的收入、成本和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "poly_revenue",
+          "description": "聚氨酯系列收入",
+          "acceptable_values": [
+            "75844150078.36",
+            "758.4415007836",
+            "758.44"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "poly_cost",
+          "description": "聚氨酯系列成本",
+          "acceptable_values": [
+            "56009191727.71",
+            "560.0919172771",
+            "560.09"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "poly_margin",
+          "description": "聚氨酯系列毛利率",
+          "acceptable_values": [
+            "26.15%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "petro_revenue",
+          "description": "石化系列收入",
+          "acceptable_values": [
+            "72518271926.10",
+            "725.182719261",
+            "725.18"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "petro_cost",
+          "description": "石化系列成本",
+          "acceptable_values": [
+            "69965500296.23",
+            "699.6550029623",
+            "699.66"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "petro_margin",
+          "description": "石化系列毛利率",
+          "acceptable_values": [
+            "3.52%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "fine_revenue",
+          "description": "精细化学品及新材料收入",
+          "acceptable_values": [
+            "28273080500.47",
+            "282.7308050047",
+            "282.73"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "fine_cost",
+          "description": "精细化学品及新材料成本",
+          "acceptable_values": [
+            "24661116345.41",
+            "246.6111634541",
+            "246.61"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "fine_margin",
+          "description": "精细化学品及新材料毛利率",
+          "acceptable_values": [
+            "12.78%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主营业务分产品表列示三类业务收入、成本和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_trend_core",
+      "task_type": "compare",
+      "query": "比较万华化学2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:万华化学:year:2023",
+        "company:万华化学:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "1753.61",
+            "175360935668.36"
+          ],
+          "unit": "亿元/元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "1820.69",
+            "182069119160.94"
+          ],
+          "unit": "亿元/元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "168.16",
+            "16815755534.31"
+          ],
+          "unit": "亿元/元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "130.33",
+            "13033066612.84"
+          ],
+          "unit": "亿元/元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "267.97",
+            "26796752552.51"
+          ],
+          "unit": "亿元/元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "300.53",
+            "30053435178.33"
+          ],
+          "unit": "亿元/元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "收入和经营现金流增长、归母净利润下降",
+          "acceptable_values": [
+            "归母净利润下降",
+            "净利润下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2023_1219331064.pdf",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            7
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入增长3.83%，归母净利润下降22.49%，经营现金流增长12.15%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_trend_segments",
+      "task_type": "compare",
+      "query": "比较万华化学2023年和2024年聚氨酯、石化、精细化学品及新材料业务的毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:万华化学:year:2023",
+        "company:万华化学:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "poly_2023",
+          "description": "2023年聚氨酯毛利率",
+          "acceptable_values": [
+            "27.69%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "poly_2024",
+          "description": "2024年聚氨酯毛利率",
+          "acceptable_values": [
+            "26.15%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "petro_2023",
+          "description": "2023年石化毛利率",
+          "acceptable_values": [
+            "3.51%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "petro_2024",
+          "description": "2024年石化毛利率",
+          "acceptable_values": [
+            "3.52%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "fine_2023",
+          "description": "2023年精细化学品及新材料毛利率",
+          "acceptable_values": [
+            "21.42%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "fine_2024",
+          "description": "2024年精细化学品及新材料毛利率",
+          "acceptable_values": [
+            "12.78%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2023_1219331064.pdf",
+          "pages": [
+            16,
+            17
+          ]
+        },
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        }
+      ],
+      "gold_rationale": "聚氨酯和精细化学品及新材料毛利率下降，石化毛利率微升0.01个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_calc_polyurethane_share",
+      "task_type": "calculate",
+      "query": "计算万华化学2024年聚氨酯业务收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "poly_revenue",
+          "description": "聚氨酯收入",
+          "acceptable_values": [
+            "75844150078.36"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "total_revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "182069119160.94"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "share",
+          "description": "聚氨酯收入占比",
+          "acceptable_values": [
+            "41.66%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            7,
+            17
+          ]
+        }
+      ],
+      "gold_rationale": "75844150078.36/182069119160.94=41.6568%，保留两位小数为41.66%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_calc_margin_spread",
+      "task_type": "calculate",
+      "query": "计算万华化学2024年聚氨酯业务与石化业务毛利率的差值，并与2023年的差值比较。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "spread_2023",
+          "description": "2023年聚氨酯与石化毛利率差",
+          "acceptable_values": [
+            "24.18个百分点"
+          ],
+          "unit": "百分点"
+        },
+        {
+          "fact_id": "spread_2024",
+          "description": "2024年聚氨酯与石化毛利率差",
+          "acceptable_values": [
+            "22.63个百分点"
+          ],
+          "unit": "百分点"
+        },
+        {
+          "fact_id": "change",
+          "description": "差值收窄",
+          "acceptable_values": [
+            "收窄1.55个百分点",
+            "缩小1.55个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2023_1219331064.pdf",
+          "pages": [
+            16,
+            17
+          ]
+        },
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        }
+      ],
+      "gold_rationale": "2023年差值27.69%-3.51%=24.18个百分点；2024年为22.63个百分点，收窄1.55个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_verify_divergence",
+      "task_type": "compare",
+      "query": "核验说法：万华化学2024年营业收入较2023年增长，但归母净利润下降。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:万华化学:year:2023",
+        "company:万华化学:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_change",
+          "description": "营业收入增长",
+          "acceptable_values": [
+            "3.83%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_change",
+          "description": "归母净利润下降",
+          "acceptable_values": [
+            "-22.49%",
+            "下降22.49%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "说法成立",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "核验通过"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            7
+          ]
+        }
+      ],
+      "gold_rationale": "2024年营业收入增长3.83%，归母净利润下降22.49%，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出万华化学2025年聚氨酯业务收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家化工公司的分部毛利率变化，但先确认公司、比较年度和分部口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_y23_core",
+      "task_type": "extract",
+      "query": "顺丰控股2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "258409403",
+            "2584.09403",
+            "2584.09"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "8234493",
+            "82.34493",
+            "82.34"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "7133730",
+            "71.3373",
+            "71.34"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "26569819",
+            "265.69819",
+            "265.70"
+          ],
+          "unit": "千元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2023_1219410699.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报财务摘要列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_y23_businesses",
+      "task_type": "extract",
+      "query": "顺丰控股2023年各主要物流分部的营业收入及同比变化分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table",
+        "cross_page_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "timely_revenue",
+          "description": "时效快递收入",
+          "acceptable_values": [
+            "1154.6"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "timely_yoy",
+          "description": "时效快递收入同比",
+          "acceptable_values": [
+            "9.2%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "economy_revenue",
+          "description": "经济快递收入",
+          "acceptable_values": [
+            "250.5"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "economy_yoy",
+          "description": "经济快递收入同比",
+          "acceptable_values": [
+            "-2.0%",
+            "下降2.0%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "freight_revenue",
+          "description": "快运收入",
+          "acceptable_values": [
+            "330.8"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "freight_yoy",
+          "description": "快运收入同比",
+          "acceptable_values": [
+            "18.5%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cold_revenue",
+          "description": "冷运及医药收入",
+          "acceptable_values": [
+            "103.1"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "cold_yoy",
+          "description": "冷运及医药收入同比",
+          "acceptable_values": [
+            "19.7%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "city_revenue",
+          "description": "同城即时配送收入",
+          "acceptable_values": [
+            "72.5"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "city_yoy",
+          "description": "同城即时配送收入同比",
+          "acceptable_values": [
+            "12.6%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "supply_revenue",
+          "description": "供应链及国际收入",
+          "acceptable_values": [
+            "599.8"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "supply_yoy",
+          "description": "供应链及国际收入同比",
+          "acceptable_values": [
+            "-31.7%",
+            "下降31.7%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "other_revenue",
+          "description": "其他非物流业务收入",
+          "acceptable_values": [
+            "72.8"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "other_yoy",
+          "description": "其他非物流业务收入同比",
+          "acceptable_values": [
+            "34.6%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2023_1219410699.pdf",
+          "pages": [
+            11,
+            12
+          ]
+        }
+      ],
+      "gold_rationale": "2023年业绩信息图列示七个业务板块收入及同比。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_y23_audit",
+      "task_type": "extract",
+      "query": "顺丰控股2023年收入确认相关关键审计事项的主要风险和审计应对是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "materiality",
+          "description": "物流及货运代理收入约占主营业务收入97.34%",
+          "acceptable_values": [
+            "97.34%"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "transaction_volume",
+          "description": "相关交易数量庞大",
+          "acceptable_values": [
+            "交易数量庞大"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "system_risk",
+          "description": "收入确认高度依赖复杂信息系统和相关内部控制",
+          "acceptable_values": [
+            "依赖于与信息系统相关的内部控制",
+            "涉及复杂的信息系统"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "business_response",
+          "description": "审计了解业务模式和流程",
+          "acceptable_values": [
+            "业务模式和流程"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "contract_response",
+          "description": "审计获取并评估收入合同条款",
+          "acceptable_values": [
+            "合同条款"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "policy_response",
+          "description": "审计评估收入确认政策",
+          "acceptable_values": [
+            "收入确认政策"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "control_response",
+          "description": "审计测试收入确认相关内部控制",
+          "acceptable_values": [
+            "收入确认相关的内部控制"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "it_response",
+          "description": "审计测试信息系统一般控制和应用控制",
+          "acceptable_values": [
+            "信息系统一般控制和应用控制"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "sample_response",
+          "description": "抽样检查合同、客户确认单据或路由记录",
+          "acceptable_values": [
+            "路由信息记录",
+            "经客户确认的相关单据"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "billing_response",
+          "description": "抽样检查发票及收款或对账记录",
+          "acceptable_values": [
+            "发票及收款记录",
+            "对账记录"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "cutoff_response",
+          "description": "对资产负债表日前后收入执行截止抽样测试",
+          "acceptable_values": [
+            "资产负债表日前后",
+            "恰当的期间确认"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2023_1219410699.pdf",
+          "pages": [
+            124,
+            125
+          ]
+        }
+      ],
+      "gold_rationale": "关键审计事项说明海量交易和复杂系统风险，并列示政策、控制、凭证和截止性测试。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_y24_core",
+      "task_type": "extract",
+      "query": "顺丰控股2024年营业收入、归母净利润、息税折旧摊销前利润和净资产收益率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "284420059",
+            "2844.20059",
+            "2844.20"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "10170427",
+            "101.70427",
+            "101.70"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "ebitda",
+          "description": "2024年息税折旧摊销前利润",
+          "acceptable_values": [
+            "32695124",
+            "326.95124",
+            "326.95"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "roe",
+          "description": "2024年加权平均净资产收益率",
+          "acceptable_values": [
+            "11.16%",
+            "11.2%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            11,
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "2024年财务摘要给出精确金额和加权平均净资产收益率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_y24_network",
+      "task_type": "extract",
+      "query": "顺丰控股2024年国际快递、货代及供应链业务覆盖国家及地区数、全球运营管理干支线货车数、运营全货机数、全球累计运营航空线路数、铁路普列线路数和海运线路数分别是多少？请保留信息图中的大于号下限口径。",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "country_coverage",
+          "description": "国际快递、货代及供应链业务覆盖国家及地区",
+          "acceptable_values": [
+            "100"
+          ],
+          "unit": "个"
+        },
+        {
+          "fact_id": "trucks",
+          "description": "全球运营管理干支线货车",
+          "acceptable_values": [
+            "超过100000",
+            ">100000",
+            "大于100000"
+          ],
+          "unit": "辆"
+        },
+        {
+          "fact_id": "cargo_aircraft",
+          "description": "运营全货机",
+          "acceptable_values": [
+            "110"
+          ],
+          "unit": "架"
+        },
+        {
+          "fact_id": "air_routes",
+          "description": "全球累计运营航空线路",
+          "acceptable_values": [
+            "173"
+          ],
+          "unit": "条"
+        },
+        {
+          "fact_id": "rail_routes",
+          "description": "铁路普列线路",
+          "acceptable_values": [
+            "240"
+          ],
+          "unit": "条"
+        },
+        {
+          "fact_id": "sea_routes",
+          "description": "海运线路",
+          "acceptable_values": [
+            "超过18000",
+            ">18000",
+            "大于18000"
+          ],
+          "unit": "条"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            31,
+            32,
+            33
+          ]
+        }
+      ],
+      "gold_rationale": "跨三页运力信息图分别列示全球覆盖、陆运、航空、铁路和海运指标。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_trend_core",
+      "task_type": "compare",
+      "query": "比较顺丰控股2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:顺丰控股:year:2023",
+        "company:顺丰控股:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "258409403",
+            "2584.09"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "284420059",
+            "2844.20"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "8234493",
+            "82.34"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "10170427",
+            "101.70"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "26569819",
+            "265.70"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "32186373",
+            "321.86373",
+            "321.86"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "三项指标均上升",
+          "acceptable_values": [
+            "均上升",
+            "均增长",
+            "全部增长"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2023_1219410699.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        },
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入、归母净利润和经营现金流量净额均上升。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_trend_businesses",
+      "task_type": "compare",
+      "query": "比较顺丰控股2023年和2024年时效快递、经济快递、快运及冷运医药业务的收入变化。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:顺丰控股:year:2023",
+        "company:顺丰控股:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "timely_2023",
+          "description": "2023年时效快递收入",
+          "acceptable_values": [
+            "1154.6"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "timely_2024",
+          "description": "2024年时效快递收入",
+          "acceptable_values": [
+            "1222.1"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "economy_2023",
+          "description": "2023年经济快递收入",
+          "acceptable_values": [
+            "250.5"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "economy_2024",
+          "description": "2024年经济快递收入",
+          "acceptable_values": [
+            "272.5"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "freight_2023",
+          "description": "2023年快运收入",
+          "acceptable_values": [
+            "330.8"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "freight_2024",
+          "description": "2024年快运收入",
+          "acceptable_values": [
+            "376.4"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "cold_2023",
+          "description": "2023年冷运及医药收入",
+          "acceptable_values": [
+            "103.1"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "cold_2024",
+          "description": "2024年冷运及医药收入",
+          "acceptable_values": [
+            "98.1"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "前三项增长而冷运及医药下降",
+          "acceptable_values": [
+            "冷运及医药下降",
+            "冷运医药下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2023_1219410699.pdf",
+          "pages": [
+            11,
+            12
+          ]
+        },
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gold_rationale": "时效、经济和快运收入增加，冷运及医药收入减少4.9%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_calc_profit_margin",
+      "task_type": "calculate",
+      "query": "计算顺丰控股2023年和2024年的归母净利率，并给出变化百分点。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "margin_2023",
+          "description": "2023年归母净利率",
+          "acceptable_values": [
+            "3.19%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "margin_2024",
+          "description": "2024年归母净利率",
+          "acceptable_values": [
+            "3.58%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "change",
+          "description": "归母净利率变化",
+          "acceptable_values": [
+            "0.39个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2023_1219410699.pdf",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "8234493/258409403=3.19%；10170427/284420059=3.58%，提高0.39个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_calc_vehicle_rail_ratio",
+      "task_type": "calculate",
+      "query": "根据顺丰控股2024年运力信息图披露的下限，计算全球运营管理干支线货车数量与铁路普列线路数量之比的下限，保留两位小数并保留大于号。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "trucks",
+          "description": "全球运营管理干支线货车",
+          "acceptable_values": [
+            "超过100000",
+            ">100000",
+            "大于100000"
+          ],
+          "unit": "辆"
+        },
+        {
+          "fact_id": "rail",
+          "description": "铁路普列线路",
+          "acceptable_values": [
+            "240"
+          ],
+          "unit": "条"
+        },
+        {
+          "fact_id": "ratio",
+          "description": "货车数量与铁路普列线路数之比的下限",
+          "acceptable_values": [
+            ">416.67",
+            "大于416.67",
+            "超过416.67"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            33
+          ]
+        }
+      ],
+      "gold_rationale": "信息图披露货车数>100000辆，因此比值>100000/240=416.6667，保留两位小数仍应写作>416.67辆/条。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_verify_summary",
+      "task_type": "compare",
+      "query": "核验说法：顺丰控股2024年营业收入上升、归母净利润上升，但总资产下降。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:顺丰控股:year:2023",
+        "company:顺丰控股:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_change",
+          "description": "营业收入上升",
+          "acceptable_values": [
+            "10.07%",
+            "增长10.07%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_change",
+          "description": "归母净利润上升",
+          "acceptable_values": [
+            "23.51%",
+            "增长23.51%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "assets_change",
+          "description": "总资产下降",
+          "acceptable_values": [
+            "-3.46%",
+            "下降3.46%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "说法成立",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "核验通过"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            14
+          ]
+        }
+      ],
+      "gold_rationale": "2024年营业收入和归母净利润上升，总资产下降3.46%，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出顺丰控股2025年全球运营全货机数量和全年营业收入，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家物流公司的网络能力变化，但先确认公司、年度和要比较的运输方式。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_y23_core",
+      "task_type": "extract",
+      "query": "迈瑞医疗2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "34931900884",
+            "349.31900884",
+            "349.32"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "11582226085",
+            "115.82226085",
+            "115.82"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "11433734957",
+            "114.33734957",
+            "114.34"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "11062025295",
+            "110.62025295",
+            "110.62"
+          ],
+          "unit": "元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2023_1219856065.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主要会计数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_y23_products",
+      "task_type": "extract",
+      "query": "迈瑞医疗2023年生命信息与支持、体外诊断和医学影像三类产品的收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "life_revenue",
+          "description": "生命信息与支持收入",
+          "acceptable_values": [
+            "15251830753",
+            "152.51830753",
+            "152.52"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "life_margin",
+          "description": "生命信息与支持毛利率",
+          "acceptable_values": [
+            "66.78%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ivd_revenue",
+          "description": "体外诊断收入",
+          "acceptable_values": [
+            "12421453664",
+            "124.21453664",
+            "124.21"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "ivd_margin",
+          "description": "体外诊断毛利率",
+          "acceptable_values": [
+            "64.30%",
+            "64.3%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "image_revenue",
+          "description": "医学影像收入",
+          "acceptable_values": [
+            "7033541380",
+            "70.3354138",
+            "70.34"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "image_margin",
+          "description": "医学影像毛利率",
+          "acceptable_values": [
+            "69.10%",
+            "69.1%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2023_1219856065.pdf",
+          "pages": [
+            76,
+            77
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报分产品表列示三大产品线收入和当年报告口径毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_y23_rd",
+      "task_type": "extract",
+      "query": "迈瑞医疗2023年研发投入金额、占营业收入比例和研发人员数量分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd",
+          "description": "研发投入金额",
+          "acceptable_values": [
+            "3779010749",
+            "37.79010749",
+            "37.79"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "intensity",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "10.82%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "people",
+          "description": "研发人员数量",
+          "acceptable_values": [
+            "4425"
+          ],
+          "unit": "人"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2023_1219856065.pdf",
+          "pages": [
+            84,
+            85
+          ]
+        }
+      ],
+      "gold_rationale": "研发人员表与近三年研发投入表位于相邻页。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_y24_core",
+      "task_type": "extract",
+      "query": "迈瑞医疗2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "36725749548",
+            "367.25749548",
+            "367.26"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "11668487164",
+            "116.68487164",
+            "116.68"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2024年扣非归母净利润",
+          "acceptable_values": [
+            "11442036083",
+            "114.42036083",
+            "114.42"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2024年经营活动现金流量净额",
+          "acceptable_values": [
+            "12432041281",
+            "124.32041281",
+            "124.32"
+          ],
+          "unit": "元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            21,
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主要会计数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_y24_products",
+      "task_type": "extract",
+      "query": "迈瑞医疗2024年三大产品线的收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "life_revenue",
+          "description": "生命信息与支持收入",
+          "acceptable_values": [
+            "13557440254",
+            "135.57440254",
+            "135.57"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "life_yoy",
+          "description": "生命信息与支持收入同比",
+          "acceptable_values": [
+            "-11.11%",
+            "下降11.11%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "life_margin",
+          "description": "生命信息与支持毛利率",
+          "acceptable_values": [
+            "62.55%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ivd_revenue",
+          "description": "体外诊断收入",
+          "acceptable_values": [
+            "13764979775",
+            "137.64979775",
+            "137.65"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "ivd_yoy",
+          "description": "体外诊断收入同比",
+          "acceptable_values": [
+            "10.82%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ivd_margin",
+          "description": "体外诊断毛利率",
+          "acceptable_values": [
+            "62.01%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "image_revenue",
+          "description": "医学影像收入",
+          "acceptable_values": [
+            "7497547094",
+            "74.97547094",
+            "74.98"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "image_yoy",
+          "description": "医学影像收入同比",
+          "acceptable_values": [
+            "6.60%",
+            "6.6%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "image_margin",
+          "description": "医学影像毛利率",
+          "acceptable_values": [
+            "66.85%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            80,
+            81
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报分产品表列示三大产品线收入、同比和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_trend_core",
+      "task_type": "compare",
+      "query": "比较迈瑞医疗2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:迈瑞医疗:year:2023",
+        "company:迈瑞医疗:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "34931900884",
+            "349.32"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "36725749548",
+            "367.26"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "11582226085",
+            "115.82"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "11668487164",
+            "116.68"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "11062025295",
+            "110.62"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "12432041281",
+            "124.32"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "三项指标均上升",
+          "acceptable_values": [
+            "均上升",
+            "均增长",
+            "全部增长"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2023_1219856065.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        },
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            21,
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入增长5.14%，归母净利润增长0.74%，经营现金流增长12.38%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_trend_products",
+      "task_type": "compare",
+      "query": "按迈瑞医疗2024年年报追溯调整后的可比口径，比较2023年和2024年生命信息与支持、体外诊断、医学影像三大产品线的收入与毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:迈瑞医疗:year:2023",
+        "company:迈瑞医疗:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "life_revenue_2023",
+          "description": "2023年生命信息与支持收入",
+          "acceptable_values": [
+            "15251830753",
+            "152.52"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "life_revenue_2024",
+          "description": "2024年生命信息与支持收入",
+          "acceptable_values": [
+            "13557440254",
+            "135.57"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "life_margin_2023",
+          "description": "可比口径2023年生命信息与支持毛利率",
+          "acceptable_values": [
+            "64.15%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "life_margin_2024",
+          "description": "2024年生命信息与支持毛利率",
+          "acceptable_values": [
+            "62.55%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ivd_revenue_2023",
+          "description": "2023年体外诊断收入",
+          "acceptable_values": [
+            "12421453664",
+            "124.21"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "ivd_revenue_2024",
+          "description": "2024年体外诊断收入",
+          "acceptable_values": [
+            "13764979775",
+            "137.65"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "ivd_margin_2023",
+          "description": "可比口径2023年体外诊断毛利率",
+          "acceptable_values": [
+            "63.22%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ivd_margin_2024",
+          "description": "2024年体外诊断毛利率",
+          "acceptable_values": [
+            "62.01%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "image_revenue_2023",
+          "description": "2023年医学影像收入",
+          "acceptable_values": [
+            "7033541380",
+            "70.34"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "image_revenue_2024",
+          "description": "2024年医学影像收入",
+          "acceptable_values": [
+            "7497547094",
+            "74.98"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "image_margin_2023",
+          "description": "可比口径2023年医学影像毛利率",
+          "acceptable_values": [
+            "66.86%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "image_margin_2024",
+          "description": "2024年医学影像毛利率",
+          "acceptable_values": [
+            "66.85%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            80,
+            81
+          ]
+        }
+      ],
+      "gold_rationale": "按2024年报追溯口径，生命信息与支持收入下降且毛利率降1.60个百分点；体外诊断和医学影像收入增长但毛利率分别降1.21和0.01个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_calc_ivd_share",
+      "task_type": "calculate",
+      "query": "计算迈瑞医疗2024年体外诊断产品收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "ivd_revenue",
+          "description": "体外诊断收入",
+          "acceptable_values": [
+            "13764979775"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "total_revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "36725749548"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "share",
+          "description": "体外诊断收入占比",
+          "acceptable_values": [
+            "37.48%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            21,
+            80
+          ]
+        }
+      ],
+      "gold_rationale": "13764979775/36725749548=37.4805%，保留两位小数为37.48%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_calc_margin_spread",
+      "task_type": "calculate",
+      "query": "按迈瑞医疗2024年年报追溯调整后的可比口径，计算2024年三大产品线最高与最低毛利率之差，并与2023年的差值比较。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "spread_2023",
+          "description": "可比口径2023年三大产品线最高最低毛利率差",
+          "acceptable_values": [
+            "3.64个百分点"
+          ],
+          "unit": "百分点"
+        },
+        {
+          "fact_id": "spread_2024",
+          "description": "2024年三大产品线最高最低毛利率差",
+          "acceptable_values": [
+            "4.84个百分点"
+          ],
+          "unit": "百分点"
+        },
+        {
+          "fact_id": "change",
+          "description": "毛利率差扩大",
+          "acceptable_values": [
+            "扩大1.20个百分点",
+            "扩大1.2个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            81
+          ]
+        }
+      ],
+      "gold_rationale": "可比2023年最高66.86%、最低63.22%，差3.64个百分点；2024年差4.84个百分点，扩大1.20个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_verify_growth",
+      "task_type": "compare",
+      "query": "核验说法：迈瑞医疗2024年营业收入和归母净利润均高于2023年。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:迈瑞医疗:year:2023",
+        "company:迈瑞医疗:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_change",
+          "description": "营业收入增长",
+          "acceptable_values": [
+            "5.14%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_change",
+          "description": "归母净利润增长",
+          "acceptable_values": [
+            "0.74%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "说法成立",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "核验通过"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            21,
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入和归母净利润均高于2023年，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出迈瑞医疗2025年体外诊断产品收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家医疗器械公司的产品结构变化，但先确认公司、年度和产品分类口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_y23_core",
+      "task_type": "extract",
+      "query": "中兴通讯2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "124250.9",
+            "1242.509"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "9325.8",
+            "93.258"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "7399.6",
+            "73.996"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "17405.7",
+            "174.057"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2023_1219266488.pdf",
+          "pages": [
+            11,
+            12
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主要财务数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_y23_markets",
+      "task_type": "extract",
+      "query": "中兴通讯2023年运营商网络、政企业务和消费者业务的营业收入及毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "carrier_revenue",
+          "description": "运营商网络收入",
+          "acceptable_values": [
+            "82758.9",
+            "827.589"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "carrier_margin",
+          "description": "运营商网络毛利率",
+          "acceptable_values": [
+            "49.11%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "enterprise_revenue",
+          "description": "政企业务收入",
+          "acceptable_values": [
+            "13583.5",
+            "135.835"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "enterprise_margin",
+          "description": "政企业务毛利率",
+          "acceptable_values": [
+            "34.94%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "consumer_revenue",
+          "description": "消费者业务收入",
+          "acceptable_values": [
+            "27908.5",
+            "279.085"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "consumer_margin",
+          "description": "消费者业务毛利率",
+          "acceptable_values": [
+            "22.26%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2023_1219266488.pdf",
+          "pages": [
+            26,
+            27
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报按业务划分表列示三大市场收入和当年报告口径毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_y23_rd",
+      "task_type": "extract",
+      "query": "中兴通讯2023年研发投入金额、占营业收入比例和研发人员占比分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd",
+          "description": "研发投入金额",
+          "acceptable_values": [
+            "26783.3",
+            "267.833"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "intensity",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "21.56%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "people_share",
+          "description": "研发人员占集团员工人数比例",
+          "acceptable_values": [
+            "49.09%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2023_1219266488.pdf",
+          "pages": [
+            30
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报研发投入表列示投入金额、强度和研发人员占比。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_y24_core",
+      "task_type": "extract",
+      "query": "中兴通讯2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "121298.8",
+            "1212.988"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "8424.8",
+            "84.248"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2024年扣非归母净利润",
+          "acceptable_values": [
+            "6179.1",
+            "61.791"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2024年经营活动现金流量净额",
+          "acceptable_values": [
+            "11479.8",
+            "114.798"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            11,
+            12
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主要财务数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_y24_markets",
+      "task_type": "extract",
+      "query": "中兴通讯2024年三大业务市场的营业收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "carrier_revenue",
+          "description": "运营商网络收入",
+          "acceptable_values": [
+            "70326.7",
+            "703.267"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "carrier_yoy",
+          "description": "运营商网络收入同比",
+          "acceptable_values": [
+            "-15.02%",
+            "下降15.02%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "carrier_margin",
+          "description": "运营商网络毛利率",
+          "acceptable_values": [
+            "50.90%",
+            "50.9%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "enterprise_revenue",
+          "description": "政企业务收入",
+          "acceptable_values": [
+            "18566.0",
+            "18566",
+            "185.66"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "enterprise_yoy",
+          "description": "政企业务收入同比",
+          "acceptable_values": [
+            "36.68%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "enterprise_margin",
+          "description": "政企业务毛利率",
+          "acceptable_values": [
+            "15.33%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "consumer_revenue",
+          "description": "消费者业务收入",
+          "acceptable_values": [
+            "32406.1",
+            "324.061"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "consumer_yoy",
+          "description": "消费者业务收入同比",
+          "acceptable_values": [
+            "16.12%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "consumer_margin",
+          "description": "消费者业务毛利率",
+          "acceptable_values": [
+            "22.66%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            26,
+            27,
+            28
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报按业务划分表列示三大市场收入、同比和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_trend_core",
+      "task_type": "compare",
+      "query": "比较中兴通讯2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中兴通讯:year:2023",
+        "company:中兴通讯:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "124250.9",
+            "1242.509"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "121298.8",
+            "1212.988"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "9325.8",
+            "93.258"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "8424.8",
+            "84.248"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "17405.7",
+            "174.057"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "11479.8",
+            "114.798"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "三项指标均下降",
+          "acceptable_values": [
+            "均下降",
+            "全部下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2023_1219266488.pdf",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入下降2.38%，归母净利润下降9.66%，经营现金流下降34.05%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_trend_markets",
+      "task_type": "compare",
+      "query": "按中兴通讯2024年年报追溯调整后的可比口径，比较2023年和2024年运营商网络、政企业务和消费者业务的收入与毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中兴通讯:year:2023",
+        "company:中兴通讯:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "carrier_revenue_2023",
+          "description": "2023年运营商网络收入",
+          "acceptable_values": [
+            "82758.9",
+            "827.589"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "carrier_revenue_2024",
+          "description": "2024年运营商网络收入",
+          "acceptable_values": [
+            "70326.7",
+            "703.267"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "carrier_margin_2023",
+          "description": "可比口径2023年运营商网络毛利率",
+          "acceptable_values": [
+            "49.11%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "carrier_margin_2024",
+          "description": "2024年运营商网络毛利率",
+          "acceptable_values": [
+            "50.90%",
+            "50.9%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "enterprise_revenue_2023",
+          "description": "2023年政企业务收入",
+          "acceptable_values": [
+            "13583.5",
+            "135.835"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "enterprise_revenue_2024",
+          "description": "2024年政企业务收入",
+          "acceptable_values": [
+            "18566.0",
+            "18566",
+            "185.66"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "enterprise_margin_2023",
+          "description": "可比口径2023年政企业务毛利率",
+          "acceptable_values": [
+            "34.91%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "enterprise_margin_2024",
+          "description": "2024年政企业务毛利率",
+          "acceptable_values": [
+            "15.33%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "consumer_revenue_2023",
+          "description": "2023年消费者业务收入",
+          "acceptable_values": [
+            "27908.5",
+            "279.085"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "consumer_revenue_2024",
+          "description": "2024年消费者业务收入",
+          "acceptable_values": [
+            "32406.1",
+            "324.061"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "consumer_margin_2023",
+          "description": "可比口径2023年消费者业务毛利率",
+          "acceptable_values": [
+            "22.09%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "consumer_margin_2024",
+          "description": "2024年消费者业务毛利率",
+          "acceptable_values": [
+            "22.66%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            26,
+            27,
+            28
+          ]
+        }
+      ],
+      "gold_rationale": "按2024年报追溯口径，运营商收入下降但毛利率升1.79个百分点；政企收入增长但毛利率降19.58个百分点；消费者收入和毛利率均增长。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_calc_enterprise_share",
+      "task_type": "calculate",
+      "query": "计算中兴通讯2024年政企业务收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "enterprise_revenue",
+          "description": "政企业务收入",
+          "acceptable_values": [
+            "18566.0",
+            "18566"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "total_revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "121298.8"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "share",
+          "description": "政企业务收入占比",
+          "acceptable_values": [
+            "15.31%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            26
+          ]
+        }
+      ],
+      "gold_rationale": "18566.0/121298.8=15.3060%，保留两位小数为15.31%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_calc_rd_change",
+      "task_type": "calculate",
+      "query": "计算中兴通讯2024年研发投入相对2023年的增长率，并比较研发投入强度变化。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd_2023",
+          "description": "2023年研发投入",
+          "acceptable_values": [
+            "26783.3"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "rd_2024",
+          "description": "2024年研发投入",
+          "acceptable_values": [
+            "25508.9"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "rd_change",
+          "description": "研发投入变化率",
+          "acceptable_values": [
+            "-4.76%",
+            "下降4.76%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "intensity_2023",
+          "description": "2023年研发投入强度",
+          "acceptable_values": [
+            "21.56%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "intensity_2024",
+          "description": "2024年研发投入强度",
+          "acceptable_values": [
+            "21.03%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "intensity_change",
+          "description": "研发投入强度下降",
+          "acceptable_values": [
+            "下降0.53个百分点",
+            "减少0.53个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2023_1219266488.pdf",
+          "pages": [
+            30
+          ]
+        },
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            31
+          ]
+        }
+      ],
+      "gold_rationale": "(25508.9-26783.3)/26783.3=-4.7582%，研发投入强度由21.56%降至21.03%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_verify_divergence",
+      "task_type": "compare",
+      "query": "核验说法：中兴通讯2024年营业收入较2023年增长，但归母净利润下降。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中兴通讯:year:2023",
+        "company:中兴通讯:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_change",
+          "description": "营业收入实际下降",
+          "acceptable_values": [
+            "-2.38%",
+            "下降2.38%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_change",
+          "description": "归母净利润下降",
+          "acceptable_values": [
+            "-9.66%",
+            "下降9.66%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "因营业收入并未增长，原说法不成立",
+          "acceptable_values": [
+            "说法不成立",
+            "结论为假",
+            "营业收入下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入下降2.38%，归母净利润下降9.66%；原说法的前半句错误，因此不成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出中兴通讯2025年政企业务收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家通信设备公司的三大市场表现，但先确认公司、年度和市场分类口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

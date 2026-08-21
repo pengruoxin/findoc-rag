@@ -1,0 +1,2202 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-provisional-gold-dev-calculate",
+  "dataset_path": "D:/202607/raglab/data/evaluation/agent-hard-v3-dev-calculate.json",
+  "dataset_sha256": "0aed05020977fa4c77a5e12c10a2a019d4ff1d0ce22cc990b0301da97311d884",
+  "index_scope": "dev-calculate",
+  "index_path": "D:/202607/raglab/data/indexes/agent-hard-v3/development",
+  "evaluated_at": "2026-08-20T07:26:09.878114+00:00",
+  "runtime": "deepseek",
+  "scoring": "local_exact_gold_and_citation_overlap",
+  "source_validation": {
+    "valid": true,
+    "referenced_document_count": 3,
+    "verified_document_count": 3,
+    "errors": []
+  },
+  "status": "complete",
+  "reason": null,
+  "provider": {
+    "name": "deepseek",
+    "model": "deepseek-v4-flash",
+    "endpoint": "https://api.deepseek.com/chat/completions"
+  },
+  "index_id": "a4b314a9ff7e595a86bf",
+  "metrics": {
+    "case_count": 4,
+    "executed_case_count": 4,
+    "unsupported_case_count": 0,
+    "task_coverage_rate": 1.0,
+    "plan_target_exact_rate": 1.0,
+    "behavior_accuracy": 1.0,
+    "supported_fact_accuracy": 1.0,
+    "end_to_end_fact_accuracy": 1.0,
+    "supported_case_pass_rate": 1.0,
+    "end_to_end_case_pass_rate": 1.0,
+    "safe_abstention_accuracy": 0.0,
+    "clarification_accuracy": 0.0
+  },
+  "items": [
+    {
+      "case_id": "v3_601318_calc_nbv_growth",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "status": "executed",
+      "expected_fact_count": 3,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "nbv_2023",
+            "matched": true,
+            "matched_value": "31080"
+          },
+          {
+            "fact_id": "nbv_2024",
+            "matched": true,
+            "matched_value": "40024"
+          },
+          {
+            "fact_id": "growth",
+            "matched": true,
+            "matched_value": "28.8%"
+          }
+        ],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "ab60c3b3c80f402da24c717c4546e4c0",
+        "task_type": "calculate",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "sufficient_evidence",
+        "query": "按中国平安2024年年报的可比口径，用披露值计算2024年寿险及健康险新业务价值相对2023年的增长率。",
+        "index_id": "a4b314a9ff7e595a86bf",
+        "created_at": "2026-08-20T07:26:11.920417Z",
+        "completed_at": "2026-08-20T07:26:15.038330Z",
+        "rounds_completed": 1,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p2b1-document-fact-period",
+          "task_type": "calculate",
+          "targets": [],
+          "document_scope": {
+            "document_keys": [],
+            "company_names": [
+              "中国平安"
+            ],
+            "report_years": [
+              2024,
+              2023
+            ],
+            "document_types": []
+          },
+          "document_year": null,
+          "fact_periods": [
+            2024,
+            2023
+          ],
+          "document_scope_resolution": null,
+          "retrieval_hint": "按中国平安2024年年报的可比口径，用披露值计算2024年寿险及健康险新业务价值相对2023年的增长率。",
+          "clarification": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "search-1",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:中国平安:year:2024",
+            "query": "中国平安 2024年 可比口径 寿险及健康险 新业务价值 2024年 2023年 变动",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "中国平安"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 464.1800000099465,
+            "retrieval_trace_id": "45b1642b9bff41619984b3ba91091919",
+            "evidence_chunk_ids": [
+              "6ffff1cade59:c78:e11368769010f955",
+              "6ffff1cade59:c87:0a73b61203ef6ae8",
+              "6ffff1cade59:c147:bdd40478f4247813"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "window-1",
+            "round_number": 2,
+            "tool": "get_page_window",
+            "target_id": "company:中国平安:year:2024",
+            "query": "6ffff1cade59:c78:e11368769010f955",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "中国平安"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 66.76319998223335,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "6ffff1cade59:c76:244bda1e269209e9",
+              "6ffff1cade59:c77:c56bddf61f96a101",
+              "6ffff1cade59:c78:e11368769010f955",
+              "6ffff1cade59:c79:33d94fe69b9c7da5",
+              "6ffff1cade59:c80:574ae4ca4c3cc5a1",
+              "6ffff1cade59:c81:05841d70ddad92c1",
+              "6ffff1cade59:c82:50eb87147809dd87",
+              "6ffff1cade59:c83:011c39022433b69f",
+              "6ffff1cade59:c84:30615682f54bc41a"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "search-2",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:中国平安:year:2023",
+            "query": "中国平安 2023年 可比口径 寿险及健康险 新业务价值 2024年 2023年 变动",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "中国平安"
+              ],
+              "report_years": [
+                2023
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 76.41829992644489,
+            "retrieval_trace_id": "4b7e61e60bcd43e297a3277dc2cda09f",
+            "evidence_chunk_ids": [
+              "f55538814200:c38:de70d9e45b8f98ef",
+              "f55538814200:c40:ff76d6820f4ae01f",
+              "f55538814200:c37:13d230e8de1764e9"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "window-2",
+            "round_number": 2,
+            "tool": "get_page_window",
+            "target_id": "company:中国平安:year:2023",
+            "query": "f55538814200:c38:de70d9e45b8f98ef",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "中国平安"
+              ],
+              "report_years": [
+                2023
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 68.50629998371005,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "f55538814200:c36:fa0f393dff5fa1d8",
+              "f55538814200:c37:13d230e8de1764e9",
+              "f55538814200:c38:de70d9e45b8f98ef",
+              "f55538814200:c39:7e847e6843558816",
+              "f55538814200:c40:ff76d6820f4ae01f",
+              "f55538814200:c41:791b259aa771efd1",
+              "f55538814200:c42:8a07b73ae61b8cc2",
+              "f55538814200:c43:ef5e0764e3c591a0"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_00_K7CcCaiW6OLKEEdigvUG4331",
+            "round_number": 3,
+            "tool": "calculate",
+            "target_id": "task:calculate",
+            "query": "按中国平安2024年年报的可比口径，用披露值计算2024年寿险及健康险新业务价值相对2023年的增长率。",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "中国平安"
+              ],
+              "report_years": [
+                2024,
+                2023
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 0.0,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "6ffff1cade59:c87:0a73b61203ef6ae8"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "a4b314a9ff7e595a86bf",
+          "items": [
+            {
+              "chunk_id": "6ffff1cade59:c78:e11368769010f955",
+              "content_sha256": "d067eacf97138d88791ea2cd45ca0f246dfd6b43a18625ed951a41884998aaa9",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 35,
+              "page_end": 35,
+              "section_path": [
+                "二零二四年年报",
+                "业绩综述 寿险及健康险业务",
+                "285.34亿元 新业务价值"
+              ],
+              "excerpt": "业绩综述\n寿险及健康险业务\n\n寿险及健康险业务概览\n\n本公司通过平安寿险、平安养老险和平安健康险经营寿险及健康险业务。\n\n寿险及健康险业务持续增长。2024年，寿险及健康险业务新业务价值达成285.34亿\n\n元，可比口径下同比增长28.8%。\n\n285.34亿元\n新业务价值\n\n寿险多渠道高质量发展。2024年，可比口径下代理人渠道新业务价值同比增长\n\n26.5%，人均新业务价值同比增长43.3%；银保渠道新业务价值同比增长62.7%。银保渠\n\n道、社区金融服务及其他等渠道，贡献了平安寿险新业务价值的18.7%。截至2024年12\n\n经营情况讨论及分析"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c87:0a73b61203ef6ae8",
+              "content_sha256": "93995b11fcdb16221be2f5304beec28ebc7d1c3bfdc5c6084fb56e3534c12c01",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 38,
+              "page_end": 39,
+              "section_path": [
+                "二零二四年年报",
+                "业绩综述 寿险及健康险业务"
+              ],
+              "excerpt": "截至2 0 2 4 年1 2 月末，平安居\n\n来全生命周期守护。\n\n体验，以满足中国高品质养老领\n\n家养老服务已覆盖全国75 个城\n\n域日益增长的需求。\n\n2024年，平安寿险健康管理已\n\n市，累计超16 万名客户获得居\n\n家养老服务资格。\n\n服务超2,100万客户，获得客户\n\n截至2024年12月末，平安高品\n\n广泛欢迎。\n\n质康养社区项目已布局5 个城\n\n市，共计6个项目，均陆续进入\n\n建设阶段，上海及深圳项目拟于\n\n2025年下半年正式开业。\n\n注： (1) 七维健康指身体、认知、情绪、精神、经济、职业、社交七个健康维度。\n\n2024年，平安寿险保单继续率显著改善，13个月保单继续率同比上升3.6个百分点，25个月保单继续率同比上升3.9个百分点，\n\n业务品质稳步改善。\n\n(%)\n2024年\n2023年\n2022年\n\n平安寿险\n\n13个月保单继续率\n96.4\n92.8\n90.3\n\n25个月保单继续率\n89.7\n85.8\n79.0\n\n寿险及健康险业务关键指标\n\n（人民币百万元）\n\n2024年╱\n2024年12月31日\n2023年╱\n2023年12月31日\n变动(%)\n\n新业务价值—可比口径(1)\n40,024\n31,080\n28.8\n\n新业务价值率（按标准保费，%） —可比口径(1)\n31.8\n26.2\n上升5.6个百分点\n\n新业务价值(2)\n28,534\n22,710\n25.6\n\n新业务价值率(2)（按标准保费，%）\n22.7\n19.2\n上升3.5个百分点\n\n用来计算新业务价值的首年保费\n154,026\n165,784\n(7.1)\n\n内含价值—可比口径(1)\n960,608\n830,974\n15.6"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c147:bdd40478f4247813",
+              "content_sha256": "75fdaaff33d6e84287e88cb414f980bf0b7a08d1e6c80545075bdffcda81a463",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 65,
+              "page_end": 65,
+              "section_path": [
+                "二零二四年年报",
+                "内含价值分析"
+              ],
+              "excerpt": "我们的审阅报告仅限于贵公司董事会使用，使用目的仅限于业务约定书中的约定，不得用于其他目的。除经我们事先书面同意\n\n之外，对于业务约定书中约定以外的其他第三方使用本报告或作为其他目的使用本报告，我们将不承担任何责任。\n\n经营情况讨论及分析\n\n梁永华，精算师\n\n安永（中国）企业咨询有限公司\n2025年3月19日\n\n关键指标\n\n（人民币百万元）\n\n2024年╱\n2024年12月31日\n2023年╱\n2023年12月31日\n变动(%)\n\n寿险及健康险业务内含价值— 可比口径(1)\n960,608\n830,974\n15.6\n\n寿险及健康险业务一年新业务价值— 可比口径(1)\n40,024\n31,080\n28.8\n\n寿险及健康险业务内含价值(2)\n835,093\n不适用\n不适用\n\n寿险及健康险业务一年新业务价值(2)\n28,534\n22,710\n25.6\n\n寿险及健康险业务内含价值营运回报率(3)(%)\n11.0\n10.6\n上升0.4个百分点\n\n长期投资回报率假设(%)\n4.0\n4.5\n下降0.5个百分点\n\n风险贴现率(%)\n8.5/7.5\n9.5\n下降1.0/2.0个百分点\n\n注： (1) 当期及去年同期的新业务价值、当期期末及去年末内含价值均基于2023年末的长期投资回报率假设(4.5%)和风险贴现率假设(9.5%)计算。\n\n(2) 基于对宏观环境和长期利率趋势的综合考量，公司于2024年审慎下调寿险及健康险业务内含价值长期投资回报率假设至4.0%、风险贴现率至\n\n8.5%/7.5%，并按调整后的经济假设对2023年新业务价值进行了追溯调整。"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c76:244bda1e269209e9",
+              "content_sha256": "656688fa065bb162a12252cfe19cd483235131b6a04eac793358d1f81445d61a",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 34,
+              "page_end": 34,
+              "section_path": [
+                "二零二四年年报",
+                "业绩综述 集团经营业绩"
+              ],
+              "excerpt": "业绩综述\n集团经营业绩\n\n财务报表主要项目变动分析\n\n（人民币百万元）\n\n2024年╱\n2024年12月31日\n2023年╱\n2023年12月31日\n变动(%)\n主要变动原因\n\n结算备付金\n33,982\n19,387\n75.3\n主要受结算时间及客户交易行为的影响\n\n买入返售金融资产\n91,840\n167,660\n(45.2)\n主要是买入返售债券规模减少\n\n衍生金融资产\n68,698\n44,978\n52.7\n主要是平安银行业务规模增加及市场波动\n\n影响\n\n以公允价值计量且其变动计入\n\n2,377,074\n1,803,047\n31.8\n主要是投资业务规模增加及市场波动影响\n\n当期损益的金融资产\n\n其他权益工具投资\n356,493\n264,877\n34.6\n主要是投资业务规模增加及市场波动影响\n\n向中央银行借款\n86,110\n208,783\n(58.8)\n主要是平安银行基于年末人民币头寸情\n\n况，向中央银行融入资金减少\n\n拆入资金\n115,926\n76,602\n51.3\n主要受合并陆金所控股影响\n\n以公允价值计量且其变动计入\n\n172,768\n48,619\n255.4\n主要是平安银行债券借贷业务规模增加\n\n当期损益的金融负债\n\n衍生金融负债\n74,937\n44,531\n68.3\n主要是平安银行业务规模增加及市场波动\n\n影响\n\n卖出回购金融资产款\n462,292\n241,803\n91.2\n主要是卖出回购业务规模增加\n\n代理买卖证券款\n168,719\n116,384\n45.0\n主要是证券经纪业务规模增长\n\n应交税费\n23,770\n15,688\n51.5\n主要是应交企业所得税增长"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c77:c56bddf61f96a101",
+              "content_sha256": "992e0de36dc10df2fb5ae8a6abbb70dfe8bec5dfe5f15d19422e1369ec0379a7",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 34,
+              "page_end": 34,
+              "section_path": [
+                "二零二四年年报",
+                "业绩综述 集团经营业绩"
+              ],
+              "excerpt": "代理买卖证券款\n168,719\n116,384\n45.0\n主要是证券经纪业务规模增长\n\n应交税费\n23,770\n15,688\n51.5\n主要是应交企业所得税增长\n\n其他综合收益\n(55,761)\n(13,044)\n327.5\n主要受保险合同金融变动额、以公允价值\n\n计量且其变动计入其他综合收益的金融\n\n资产公允价值变动等综合影响\n\n投资收益\n83,613\n36,891\n126.6\n主要受资本市场波动，金融资产投资收益\n\n上升的影响\n\n公允价值变动损益\n66,504\n(9,039)\n不适用\n主要受资本市场波动，以公允价值计量且\n\n其变动计入当期损益的金融资产公允价\n\n值变动的影响\n\n承保财务损益\n(172,662)\n(123,959)\n39.3\n主要是公司采用浮动收费法模型计量的业\n\n务对应投资资产收益增加，以及公司保\n\n险业务规模增长\n\n其他资产减值损失\n(7,177)\n(1,327)\n440.8\n主要受资产减值计提的影响\n\n所得税费用\n(23,762)\n(10,843)\n119.1\n主要受应纳税所得额与递延所得税的综合\n\n影响"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c79:33d94fe69b9c7da5",
+              "content_sha256": "84eab4b9efab60b76f1f7832f8c017f94ecc2fbff769575a76e942a392fc7ca5",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 35,
+              "page_end": 35,
+              "section_path": [
+                "二零二四年年报",
+                "业绩综述 寿险及健康险业务",
+                "285.34亿元 新业务价值",
+                "26.5% 代理人渠道新业务 价值同比增长"
+              ],
+              "excerpt": "26.5%\n代理人渠道新业务\n价值同比增长\n\n月31日，平安寿险个人寿险销售代理人数量36.3万，人力规模连续三个季度企稳回升。\n\n“保险+服务” 布局深化。2024年，平安寿险健康管理已服务超2,100万客户。截至\n\n2024年12月末，居家养老服务覆盖全国75个城市，累计超16万名客户获得居家养老\n\n服务资格。平安高品质康养社区项目已布局5个城市，均陆续进入建设阶段，上海及"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c80:574ae4ca4c3cc5a1",
+              "content_sha256": "017a7d55d11a3533a28181d298fef1a7b4a5deae58405be9167c3f72f4dbd059",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 35,
+              "page_end": 35,
+              "section_path": [
+                "二零二四年年报",
+                "超 2,100万 健康管理服务客户数"
+              ],
+              "excerpt": "超 2,100万\n健康管理服务客户数\n\n深圳项目拟于2025年下半年正式开业。\n\n业务品质稳步改善。2024年，平安寿险保单继续率显著改善，13个月保单继续率同\n\n比上升3.6个百分点，25个月保单继续率同比上升3.9个百分点。\n\n3.6个百分点\n13个月保单继续率同比上升\n\n寿险渠道经营\n\n平安寿险坚持以高质量发展为价值引领，持续深化转型，全面打造多渠道专业化销售能力，发展质量显著提升。\n\n代理人渠道\n\n平安寿险以队伍高质量发展为主线，持续深化转型。2024年，代理人渠道新业务\n\n价值同比增长26.5%。\n\n平安寿险通过构建客户服务场景、拓宽“产品+服务” 权益、提升训练实战性等核"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c81:05841d70ddad92c1",
+              "content_sha256": "23f9d8e3b9ef4ab2809171c835afab459a8d5aa012db50c3198b1f734007100c",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 35,
+              "page_end": 35,
+              "section_path": [
+                "二零二四年年报",
+                "代理人人均新业务价值同比增长 43.3%"
+              ],
+              "excerpt": "代理人人均新业务价值同比增长\n43.3%\n\n心举措，驱动队伍产能增长。2024年，代理人人均新业务价值同比增长43.3%。\n\n围绕代理人“做优－晋优－增优－留优” 发展周期，提升优质新人留存，改善队\n\n伍质态。2024年，新增人力中的大专及以上学历销售人员占比同比提升0.5个百分\n\n点。"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c82:50eb87147809dd87",
+              "content_sha256": "c39b1631e5813e42f3877c6bdac6f1b6b580b37ddb07caecfecab440974d8016",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 36,
+              "page_end": 36,
+              "section_path": [
+                "二零二四年年报",
+                "业绩综述 寿险及健康险业务"
+              ],
+              "excerpt": "业绩综述\n寿险及健康险业务\n\n（人民币百万元）\n2024年\n2023年\n变动(%)\n\n代理人产能及收入\n\n代理人渠道新业务价值(1)\n31,870\n25,187\n26.5\n\n代理人人均新业务价值(1)（元╱人均每年）\n101,271\n70,689\n43.3\n\n代理人活动率(2)(%)\n52.8\n53.3\n下降0.5个百分点\n\n代理人收入（元╱人均每月）\n10,395\n9,813\n5.9\n\n其中：寿险收入（元╱人均每月）\n8,227\n7,402\n11.1\n\n注：(1) 当期及去年同期的新业务价值基于2023年末的长期投资回报率假设(4.5%)和风险贴现率假设(9.5%)计算。\n\n(2) 代理人活动率=当年各月出单代理人数量之和╱当年各月在职代理人数量之和。\n\n银保渠道\n\n聚焦价值经营，高质量发展成效显著。2024年，银保渠道新业务价值同比增长\n\n62.7%。\n\n深化“5+5+N” 策略，与5大国有行深化合作，全面拓展5家全国性股份行合作，"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c83:011c39022433b69f",
+              "content_sha256": "4664721fa7a8352abb048cf1a0c29bdff5d851b0681924945da886263586394c",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 36,
+              "page_end": 36,
+              "section_path": [
+                "二零二四年年报",
+                "银保渠道新业务价值同比增长 62.7%"
+              ],
+              "excerpt": "银保渠道新业务价值同比增长\n62.7%\n\n并挖掘N家潜力城商行寻求增量；扩充优质合作网点，落实标准化网点经营动\n\n作，提升经营效能。\n\n强化队伍绩优建设，提升队伍专业能力和产能。\n\n社区金融服务及其他渠道\n\n社区金融服务渠道方面，平安寿险持续推广社区金融服务经营模式，网点和队伍\n\n保持高质量发展，客户经营价值持续突破。\n\n价值方面，2024年，存续客户(1)13个月保单继续率同比提升5.7个百分点，新业务\n\n已在93个城市铺设网点数\n131个\n\n价值同比提升近300%。\n\n网点方面，截至2024年末，已在93个城市铺设131个网点，较年初增加42城66个\n\n网点。"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c84:30615682f54bc41a",
+              "content_sha256": "0542c19bc4e44495b066d4d570b0466ceacac0e985d7e49ee4e91af9825f7937",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 36,
+              "page_end": 37,
+              "section_path": [
+                "二零二四年年报",
+                "近2.4万"
+              ],
+              "excerpt": "近2.4万\n\n队伍方面，截至2024年末，已组建近2.4万人的高素质、高绩效、高品质的“三\n\n已组建“三高” 精英队伍人数\n\n高” 精英队伍。\n\n注： (1) 存续客户指与平安寿险终止代理关系的代理人在代理关系终止之前，其所代理销售的有效保单\n\n客户。\n\n下沉渠道方面，2024年平安寿险持续在7个省份推进销售，创新并迭代业务模式，逐步探索形成稳定的产能路径。\n\n个人寿险销售代理人数量\n\n平安寿险\n2024年12月31日\n2023年12月31日\n变动(%)\n\n个人寿险销售代理人数量（万人）\n36.3\n34.7\n4.6\n\n注：个人寿险销售代理人数量指与平安寿险公司签订代理保险业务合同的人员数量，含代理人渠道、银保渠道、社区金融服务及其他渠道。\n\n寿险产品经营\n\n平安寿险坚持以客户为中心，不断丰富升级保险产品体系，为客户提供更全面的产品；同时，依托集团医疗养老生态圈，逐步\n\n推出“保险+服务” 产品，为客户提供暖心服务。\n\n保险产品方面\n\n2024年，平安寿险积极响应保险新“国十条” 的号召，根据监管政策的指导和指引，持续升级和优化产品体系，满足客户多元\n\n化的保险产品需求，深耕保障、养老、财富三大市场，积极布局普惠保险。\n\n经营情况讨论及分析\n\n拓展保障市场\n\n扩大养老市场\n\n平安寿险积极参与第三支柱养老体系建设，在产品开\n\n重疾方面，为满足客户多层次的重疾保障需求，平安"
+            },
+            {
+              "chunk_id": "f55538814200:c38:de70d9e45b8f98ef",
+              "content_sha256": "f25f7bf70afebe17f1c7a22cddcf5065fd6b8b78749e2df9b4e3c76faa27edea",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:f55538814200d77a61492ba216e45508f487064207bca6a4d90c7b55add43823",
+              "document_key": "cninfo:601318:annual:2023",
+              "company_name": "中国平安",
+              "report_year": 2023,
+              "page_start": 17,
+              "page_end": 17,
+              "section_path": [
+                "二零二三年年报",
+                "主要业务经营分析 寿险及健康险业务"
+              ],
+              "excerpt": "2023年，平安寿险持续深化“4渠道+3产品” 战略，全面加强渠道建设，提升业务质量；推出“保险+服务” 产品，不断深化健\n\n康养老领域布局，为客户提供更专业、更暖心的服务，赋能公司高质量发展。2023年，可比口径下寿险及健康险业务新业务价\n\n值增长36.2%，主要得益于代理人人均新业务价值增长89.5%，代理人渠道新业务价值增长40.3% ；以及改革后银保渠道势头强\n\n劲，新业务价值增长77.7%。基于最新的投资回报率和风险贴现率等假设，寿险及健康险业务新业务价值达成310.80亿元。\n\n注： (1) 2023年新业务价值和内含价值基于2022年末假设和模型计算。\n\n寿险及健康险业务关键指标\n\n(2) 基于对宏观环境和长期利率趋势的综合考量，公司于2023年审慎下调\n\n（人民币百万元）\n\n2023年╱\n2023年12月31日\n2022年╱\n2022年12月31日\n变动(%)\n\n寿险及健康险业务内含价值长期投资回报率假设至4.5%、风险贴现率\n\n至9.5%。\n\n新业务价值—可比口径(1)\n39,262\n28,820\n36.2\n\n(3) 期初内含价值的预计回报基于长期投资回报率假设5%、风险贴现率\n\n新业务价值率(%)\n\n下降0.5个\n\n11%计算。若使用最新的投资回报率和风险贴现率等假设，2023年寿\n\n百分点\n\n—可比口径(1)\n23.7\n24.1\n\n险及健康险业务内含价值营运回报率为10.6%。\n\n(4) 公司于2023年下调投资回报率假设至4.5%，并按调整后的投资回报假"
+            },
+            {
+              "chunk_id": "f55538814200:c40:ff76d6820f4ae01f",
+              "content_sha256": "e6c8142c32c82bd0aa6e375e0bd42becdea24b8fc665071be89bb0181c525964",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:f55538814200d77a61492ba216e45508f487064207bca6a4d90c7b55add43823",
+              "document_key": "cninfo:601318:annual:2023",
+              "company_name": "中国平安",
+              "report_year": 2023,
+              "page_start": 18,
+              "page_end": 18,
+              "section_path": [
+                "二零二三年年报",
+                "主要业务经营分析 寿险及健康险业务"
+              ],
+              "excerpt": "主要业务经营分析\n寿险及健康险业务\n\n个人寿险销售代理人数量\n\n寿险渠道经营\n\n平安寿险坚持以高质量发展为价值引领，持续深化转型，全\n\n平安寿险\n\n2023年\n12月31日\n2022年\n12月31日\n变动(%)\n\n面打造多渠道专业化销售能力，发展质量提升显著。2023年，\n\n个人寿险销售代理人\n\n银保渠道、社区网格及其他等渠道贡献了平安寿险新业务价\n\n数量（万人）\n34.7\n44.5\n(22.0)\n\n值的16.5%。\n\n•\n银保渠道。平安寿险积极应对全年多变的经营环境，贯\n\n•\n代理人渠道。平安寿险坚定高质量转型，推动队伍结构\n\n彻价值转型战略，聚焦提质增效。可比口径下，2023年\n\n优化，打造“三高” 队伍。可比口径下，2023年代理人渠\n\n银保渠道新业务价值增长77.7%，实现高质量、跨越式\n\n道新业务价值增长40.3%，代理人人均收入增长39.2%。\n\n增长，渠道贡献显著提升。一方面，平安寿险与平安银\n\n扩大绩优规模方面，提供专业赋能，涵盖技能提升、实\n\n行持续深化独家代理模式，协助银行提升保险销售能力\n\n战训练、荣誉激励、资源支持等，有效提升队伍产能，\n\n及客户服务水平，价值贡献再创新高。另一方面，平安\n\n以此扩大绩优人群。可比口径下，2023年代理人人均新\n\n寿险择优拓展外部银行合作渠道及网点数，强化网点标\n\n业务价值增长89.5%。强化组织方面，升级“三好五星”\n\n准化经营、提升队伍专业能力，银保队伍人均产能攀"
+            },
+            {
+              "chunk_id": "f55538814200:c37:13d230e8de1764e9",
+              "content_sha256": "800b2b5688993fe668acfc4b7b522a310e7fc69e453e41a385508b03b3a6e821",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:f55538814200d77a61492ba216e45508f487064207bca6a4d90c7b55add43823",
+              "document_key": "cninfo:601318:annual:2023",
+              "company_name": "中国平安",
+              "report_year": 2023,
+              "page_start": 16,
+              "page_end": 17,
+              "section_path": [
+                "二零二三年年报",
+                "主要业务经营分析 寿险及健康险业务"
+              ],
+              "excerpt": "入当期损益的金融资产公允价值变动的影响\n\n汇兑损益\n120\n3,144\n(96.2)\n汇率波动影响汇兑损益变动\n\n其他业务成本\n38,086\n27,101\n40.5\n主要受合并新方正集团影响\n\n所得税\n10,843\n7,518\n44.2\n主要受应纳税所得额与递延所得税的综合影响\n\n主要业务经营分析\n寿险及健康险业务\n\n寿险及健康险业务改革成果显现。2023年，可比口径下寿险及健康险业务新业务价值增\n长36.2%，主要得益于代理人人均新业务价值增长89.5%，代理人渠道新业务价值增长\n40.3% ；以及改革后银保渠道势头强劲，新业务价值增长77.7%。基于最新的投资回报率\n和风险贴现率等假设，寿险及健康险业务新业务价值达成310.80亿元。\n\n“保险+服务” 布局深化。平安寿险健康管理已服务超2,000万客户；居家养老覆盖全国54\n个城市，累计超8万名客户获得居家养老服务资格；平安高端养老项目已在4个城市启\n动，其中，平安臻颐年三亚体验中心于2023年7月开业运营。\n\n业务品质稳步改善。2023年，平安寿险保单继续率显著改善，13个月保单继续率同比上\n升2.5个百分点，25个月保单继续率同比上升6.8个百分点。\n\n经营情况讨论及分析\n\n寿险及健康险业务概览\n\n本公司通过平安寿险、平安养老险和平安健康险经营寿险及健康险业务。\n\n2023年，平安寿险持续深化“4渠道+3产品” 战略，全面加强渠道建设，提升业务质量；推出“保险+服务” 产品，不断深化健"
+            },
+            {
+              "chunk_id": "f55538814200:c36:fa0f393dff5fa1d8",
+              "content_sha256": "68b82edb86618a97bc2c754db47c34b9a9c569bfd6a079c145cc2ea2a01c0b47",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:f55538814200d77a61492ba216e45508f487064207bca6a4d90c7b55add43823",
+              "document_key": "cninfo:601318:annual:2023",
+              "company_name": "中国平安",
+              "report_year": 2023,
+              "page_start": 16,
+              "page_end": 16,
+              "section_path": [
+                "二零二三年年报",
+                "主要业务经营分析 业绩综述"
+              ],
+              "excerpt": "主要业务经营分析\n业绩综述\n\n财务报表项目变动分析\n\n主要财务指标增减变动幅度及原因\n\n（人民币百万元）\n\n2022年\n12月31日╱\n2022年\n变动(%)\n主要变动原因\n\n2023年\n12月31日╱\n2023年\n\n总资产\n11,583,417\n11,009,940\n5.2\n业务增长\n\n总负债\n10,354,453\n9,823,944\n5.4\n业务增长\n\n归属于母公司股东权益\n899,011\n869,191\n3.4\n经营业绩贡献\n\n归属于母公司股东的净利润\n85,665\n111,008\n(22.8)\n受宏观经济环境变化及资本市场波动影响\n\n财务报表主要项目变动分析\n\n（人民币百万元）\n\n2022年\n12月31日╱\n2022年\n变动(%)\n主要变动原因\n\n2023年\n12月31日╱\n2023年\n\n拆出资金\n220,707\n133,921\n64.8\n主要是平安银行拆出境内金融机构款项增加\n\n买入返售金融资产\n167,660\n91,514\n83.2\n主要是平安银行买入返售债券规模增加\n\n衍生金融资产\n44,978\n29,278\n53.6\n主要是平安银行做市业务规模增加及市场波动影响\n\n以公允价值计量且其变动计\n\n48,619\n84,659\n(42.6)\n主要是平安银行债券借贷业务规模减少\n\n入当期损益的金融负债\n\n预收保费\n16,854\n29,785\n(43.4)\n预收转实收\n\n应交税费\n15,688\n25,962\n(39.6)\n应交所得税减少\n\n公允价值变动损益\n(9,039)\n(36,936)\n(75.5)\n主要受资本市场波动，以公允价值计量且其变动计\n\n入当期损益的金融资产公允价值变动的影响\n\n汇兑损益\n120\n3,144\n(96.2)\n汇率波动影响汇兑损益变动"
+            },
+            {
+              "chunk_id": "f55538814200:c39:7e847e6843558816",
+              "content_sha256": "b7b6e13d5abc43f89b17367928bf67894d14cc197a71a3bef9ed6a5524011c63",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:f55538814200d77a61492ba216e45508f487064207bca6a4d90c7b55add43823",
+              "document_key": "cninfo:601318:annual:2023",
+              "company_name": "中国平安",
+              "report_year": 2023,
+              "page_start": 17,
+              "page_end": 17,
+              "section_path": [
+                "二零二三年年报",
+                "主要业务经营分析 寿险及健康险业务"
+              ],
+              "excerpt": "百分点\n\n—可比口径(1)\n23.7\n24.1\n\n险及健康险业务内含价值营运回报率为10.6%。\n\n(4) 公司于2023年下调投资回报率假设至4.5%，并按调整后的投资回报假\n\n新业务价值(2)\n31,080\n不适用\n不适用\n\n设对比较期间数据进行了追溯调整。\n\n新业务价值率(2)(%)\n18.7\n不适用\n不适用\n\n(5) 因四舍五入，直接计算未必相等。\n\n用来计算新业务价值的\n\n首年保费\n165,784\n119,336\n38.9\n\n内含价值—可比口径(1)\n930,160\n874,786\n6.3\n\n内含价值(2)\n830,974\n不适用\n不适用\n\n内含价值营运回报率(3)\n\n上升0.2个\n\n百分点\n\n(%)\n11.2\n11.0\n\n新业务合同服务边际\n38,951\n35,122\n10.9\n\n下降1.0个\n\n百分点\n\n新业务利润率(%)\n10.1\n11.1\n\n新业务保费现值\n384,254\n315,274\n21.9\n\n营运利润(4)\n106,083\n109,810\n(3.4)\n\n下降5.2个\n\n百分点\n\n营运ROE(4)(%)\n32.1\n37.3\n\n净利润\n73,391\n75,505\n(2.8)"
+            },
+            {
+              "chunk_id": "f55538814200:c41:791b259aa771efd1",
+              "content_sha256": "13cae8624658c1117d00ab926cd847be623c6b99af50bcb0383eb03942d0bce1",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:f55538814200d77a61492ba216e45508f487064207bca6a4d90c7b55add43823",
+              "document_key": "cninfo:601318:annual:2023",
+              "company_name": "中国平安",
+              "report_year": 2023,
+              "page_start": 18,
+              "page_end": 18,
+              "section_path": [
+                "二零二三年年报",
+                "主要业务经营分析 寿险及健康险业务"
+              ],
+              "excerpt": "业务价值增长89.5%。强化组织方面，升级“三好五星”\n\n准化经营、提升队伍专业能力，银保队伍人均产能攀\n\n经营体系，引导部课以经营结果为导向，科学管理营业\n\n升。\n\n部动作，提升部课经营能力，打造高绩效团队。稳定队\n\n伍方面，聚焦以“优” 增“优”，提升增优规模，并开展\n\n•\n社区网格及其他渠道。平安寿险持续推广社区网格化\n\n标准化运作，提升队伍整体专业能力，激发长期从业意\n\n经营模式，聚焦存续客户(1)经营，致力于为其提供高质\n\n愿，稳定队伍规模。2023年，新增人力中“优+” 占比同\n\n量、可持续、有温度的服务。该模式当前已在51个城市\n\n比提升25.2个百分点。\n\n铺设65个网点，较2022年末增加26个城市30个网点，实\n\n现在全国机构的推广。截至2023年末，平安寿险已组建\n\n（人民币百万元）\n2023年\n2022年\n变动(%)\n\n超1.5万人的高素质专员队伍，并通过“4-sell” 模式的深\n\n代理人产能及收入\n\n耕及迭代，服务经营成效显著，网格推广城市的存续客\n\n代理人渠道新业务价值(1)\n32,169\n22,932\n40.3\n\n户13个月保单继续率同比提升5.4个百分点，高于13个\n\n月均代理人数量（万人）\n35.6\n48.1\n(26.0)\n\n月保单继续率整体增幅（整体增幅为2.5个百分点）。下\n\n代理人人均新业务价值(1)\n\n沉渠道方面，2023年，平安寿险持续在七个省份推进销\n\n（元╱人均每年）\n90,285\n47,639\n89.5"
+            },
+            {
+              "chunk_id": "f55538814200:c42:8a07b73ae61b8cc2",
+              "content_sha256": "e02f2574c17be85bf63c3d713f5a7a7dd61d599cde7a2d910d3c05ae28636d03",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:f55538814200d77a61492ba216e45508f487064207bca6a4d90c7b55add43823",
+              "document_key": "cninfo:601318:annual:2023",
+              "company_name": "中国平安",
+              "report_year": 2023,
+              "page_start": 18,
+              "page_end": 18,
+              "section_path": [
+                "二零二三年年报",
+                "主要业务经营分析 寿险及健康险业务"
+              ],
+              "excerpt": "代理人人均新业务价值(1)\n\n沉渠道方面，2023年，平安寿险持续在七个省份推进销\n\n（元╱人均每年）\n90,285\n47,639\n89.5\n\n售，深入探索创新发展模式。\n\n上升2.5个\n\n百分点\n\n代理人活动率(2)(%)\n53.3\n50.8\n\n注： (1) 存续客户指与平安寿险终止代理关系的代理人在代理关系终止之前，\n\n其所代理销售的有效保单客户。\n\n代理人收入（元╱人均每月）\n9,813\n7,051\n39.2\n\n其中：寿险收入（元╱人均\n\n每月）\n7,402\n5,390\n37.3\n\n注： (1) 2023年新业务价值基于2022年末假设和模型计算。"
+            },
+            {
+              "chunk_id": "f55538814200:c43:ef5e0764e3c591a0",
+              "content_sha256": "1778d5dc2f3d53678ddcab78b39feff51655899e139e5cfb98b2c4fc193fca77",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:f55538814200d77a61492ba216e45508f487064207bca6a4d90c7b55add43823",
+              "document_key": "cninfo:601318:annual:2023",
+              "company_name": "中国平安",
+              "report_year": 2023,
+              "page_start": 18,
+              "page_end": 19,
+              "section_path": [
+                "二零二三年年报",
+                "主要业务经营分析 寿险及健康险业务",
+                "(2) 代理人活动率=当年各月出单代理人数量之和／当年各月在职代理人"
+              ],
+              "excerpt": "(2) 代理人活动率=当年各月出单代理人数量之和／当年各月在职代理人\n\n数量之和。\n\n(3) 因四舍五入，直接计算未必相等。\n\n•\n“保险+居家养老” 方面。平安整合内外部服务商为客户\n\n提供“老人舒心、子女放心、管家专心” 一站式居家养老\n\n寿险产品经营\n公司积极贯彻落实国家战略部署，发挥保险业的经济减震器\n\n服务。通过智能管家、生活管家、医生管家“三位一体”\n\n和社会稳定器功能。公司坚持以客户为中心，不断丰富升级\n\n实现7×24小时在线协助客户，整合医、住、护、食、\n\n保险产品体系，为客户提供更全面的产品；同时，依托集团\n\n乐等十大场景服务，持续扩大优质“到线、到店、到家”\n\n医疗养老生态圈，逐步推出“保险+服务” 产品，为客户提供\n\n服务网络，构建一站式的居家养老建议解决方案，配合\n\n暖心服务。\n\n一套服务监督体系，优化客户服务体验。平安联合相关\n\n方，发布居家康复护理联盟体，共建行业标准与生态，\n\n•\n保险产品方面。2023年，平安寿险持续聚焦财富、养\n\n帮助长者实现有尊严的居家晚年生活，致力于打造中国\n\n老和保障三大市场，不断优化产品体系，进一步均衡产\n\n居家养老第一品牌。截至2023年12月31日，平安居家养\n\n品结构，满足客户多元保险产品需求。做大财富保险市\n\n老服务已先后覆盖全国54个城市，累计超8万名客户获"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "sufficient",
+          "evidence_count_by_target": {
+            "task:calculate": 19
+          },
+          "gaps": []
+        },
+        "result": {
+          "outcome": "answer",
+          "answer": {
+            "answer": "2024年新业务价值-可比口径(百万元)=40024[1]\n2023年新业务价值-可比口径(百万元)=31080[1]\n2024年新业务价值相对2023年增长率=28.8%[1]",
+            "citations": [
+              {
+                "ordinal": 1,
+                "chunk_id": "6ffff1cade59:c87:0a73b61203ef6ae8",
+                "page_start": 38,
+                "page_end": 39,
+                "section_path": [
+                  "二零二四年年报",
+                  "业绩综述 寿险及健康险业务"
+                ],
+                "excerpt": "截至2 0 2 4 年1 2 月末，平安居\n\n来全生命周期守护。\n\n体验，以满足中国高品质养老领\n\n家养老服务已覆盖全国75 个城\n\n域日益增长的需求。\n\n2024年，平安寿险健康管理已\n\n市，累计超16 万名客户获得居\n\n家养老服务资格。\n\n服务超2,100万客户，获得客户\n\n截至2024年12月末，平安高品\n\n广泛欢迎。\n\n质康养社区项目已布局5 个城\n\n市，共计6个项目，均陆续进入\n\n建设阶段，上海及深圳项目拟于\n\n2025年下半年正式开业。\n\n注： (1) 七维健康指身体、认知、情绪、精神、经济、职业、社交七个健康维度。\n\n2024年，平安寿险保单继续率显著改善，13个月保单继续率同比上升3.6个百分点，25个月保单继续率同比上升3.9个百分点，\n\n业务品质稳步改善。\n\n(%)\n2024年\n2023年\n2022年\n\n平安寿险\n\n13个月保单继续率\n96.4\n92.8\n90.3\n\n25个月保单继续率\n89.7\n85.8\n79.0\n\n寿险及健康险业务关键指标\n\n（人民币百万元）\n\n2024年╱\n2024年12月31日\n2023年╱\n2023年12月31日\n变动(%)\n\n新业务价值—可比口径(1)\n40,024\n31,080\n28.8\n\n新业务价值率（按标准保费，%） —可比口径(1)\n31.8\n26.2\n上升5.6个百分点\n\n新业务价值(2)\n28,534\n22,710\n25.6\n\n新业务价值率(2)（按标准保费，%）\n22.7\n19.2\n上升3.5个百分点\n\n用来计算新业务价值的首年保费\n154,026\n165,784\n(7.1)\n\n内含价值—可比口径(1)\n960,608\n830,974\n15.6"
+              }
+            ],
+            "provider": "deepseek-grounded-decimal-calculator",
+            "grounded": true,
+            "claim_citations": [
+              {
+                "claim": "2024年新业务价值-可比口径(百万元)=40024",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "2023年新业务价值-可比口径(百万元)=31080",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "2024年新业务价值相对2023年增长率=28.8%",
+                "citation_ordinals": [
+                  1
+                ]
+              }
+            ]
+          },
+          "target_evidence": {},
+          "target_answers": {}
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-calculate-p3-general-grounded-decimal-dag",
+          "prompt_sha256": "380799a06e8e462fd19d8028512d60a870a546c3745ba9057e2cde546a6bdc9d",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "execute_grounded_calculation"
+              ],
+              "input_tokens": 9059,
+              "output_tokens": 326,
+              "elapsed_ms": 2439.8044999688864,
+              "validation_errors": []
+            }
+          ],
+          "request_count": 1,
+          "input_tokens": 9059,
+          "output_tokens": 326
+        }
+      }
+    },
+    {
+      "case_id": "v3_601318_calc_segment_share",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "status": "executed",
+      "expected_fact_count": 4,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "life",
+            "matched": true,
+            "matched_value": "96975"
+          },
+          {
+            "fact_id": "property",
+            "matched": true,
+            "matched_value": "14952"
+          },
+          {
+            "fact_id": "bank",
+            "matched": true,
+            "matched_value": "25796"
+          },
+          {
+            "fact_id": "share",
+            "matched": true,
+            "matched_value": "70.41%"
+          }
+        ],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "bcaafeaf632e43dfa31731499d4bee30",
+        "task_type": "calculate",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "sufficient_evidence",
+        "query": "计算中国平安2024年寿险及健康险业务归母营运利润占寿险及健康险、财产保险、银行三项核心业务归母营运利润合计的比例。",
+        "index_id": "a4b314a9ff7e595a86bf",
+        "created_at": "2026-08-20T07:26:15.038853Z",
+        "completed_at": "2026-08-20T07:26:17.952534Z",
+        "rounds_completed": 1,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p2b1-document-fact-period",
+          "task_type": "calculate",
+          "targets": [],
+          "document_scope": {
+            "document_keys": [],
+            "company_names": [
+              "中国平安"
+            ],
+            "report_years": [
+              2024
+            ],
+            "document_types": []
+          },
+          "document_year": 2024,
+          "fact_periods": [
+            2024
+          ],
+          "document_scope_resolution": "mentioned_available_year",
+          "retrieval_hint": "计算中国平安2024年寿险及健康险业务归母营运利润占寿险及健康险、财产保险、银行三项核心业务归母营运利润合计的比例。",
+          "clarification": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "search-1",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "task:calculate",
+            "query": "中国平安 2024年 归属于母公司股东的营运利润 寿险及健康险 财产保险 银行 三项核心业务",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "中国平安"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 103.4964999416843,
+            "retrieval_trace_id": "322ac916bc524a9c90fba87801ab340e",
+            "evidence_chunk_ids": [
+              "6ffff1cade59:c162:8307303e27a7f33f",
+              "6ffff1cade59:c73:6271aa60b1510ae3",
+              "6ffff1cade59:c164:98bd6c7afa9fbe95"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "window-1",
+            "round_number": 2,
+            "tool": "get_page_window",
+            "target_id": "task:calculate",
+            "query": "6ffff1cade59:c162:8307303e27a7f33f",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "中国平安"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 64.70590003300458,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "6ffff1cade59:c159:c7ad9fb29ee76c8a",
+              "6ffff1cade59:c160:a1c32147798d7773",
+              "6ffff1cade59:c161:39eaedad694fb786",
+              "6ffff1cade59:c162:8307303e27a7f33f",
+              "6ffff1cade59:c163:946e2833ef7994c8",
+              "6ffff1cade59:c164:98bd6c7afa9fbe95",
+              "6ffff1cade59:c165:693cfe0cef4565ee"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_00_lgpHGqIIgxqH18rwWY5T2897",
+            "round_number": 3,
+            "tool": "calculate",
+            "target_id": "task:calculate",
+            "query": "计算中国平安2024年寿险及健康险业务归母营运利润占寿险及健康险、财产保险、银行三项核心业务归母营运利润合计的比例。",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "中国平安"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 0.0,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "6ffff1cade59:c162:8307303e27a7f33f"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "a4b314a9ff7e595a86bf",
+          "items": [
+            {
+              "chunk_id": "6ffff1cade59:c162:8307303e27a7f33f",
+              "content_sha256": "584f4215b5d64831050f34c23eb2d79579106d3f477ee4731bc515aea706bb21",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 71,
+              "page_end": 71,
+              "section_path": [
+                "二零二四年年报",
+                "内含价值分析"
+              ],
+              "excerpt": "归属于母公司股东的营运利润\n\n营运利润与财务报表净利润的勾稽关系如下：\n\n集团合并\n寿险及健康险业务\n\n（人民币百万元）\n2024年\n2023年\n2024年\n2023年\n\n归属于母公司股东的营运利润\n121,862\n111,728\n96,975\n98,809\n\n少数股东营运利润(1)\n20,101\n23,782\n(953)\n966\n\n营运利润\n[1]\n141,964\n135,509\n96,022\n99,775\n\n加：\n\n寿险及健康险业务短期投资波动(2)\n[2]\n(3,925)\n(26,383)\n(3,925)\n(26,383)\n\n经营情况讨论及分析\n\n管理层认为不属于日常营运收支的一次性重大\n\n项目及其他(2)\n[3]\n8,694\n149\n–\n–\n\n净利润\n[4]=[1]+[2]+[3]\n146,733\n109,274\n92,097\n73,391\n\n归属于母公司股东的净利润\n126,607\n85,665\n93,025\n72,598\n\n少数股东损益\n20,126\n23,609\n(928)\n793\n\n注： (1) 少数股东营运利润=合并财务报表少数股东损益－（1－集团持股比例）* 前述剔除项目。\n\n(2) 上述短期投资波动基于长期投资回报率假设(4.0%)计算，并按调整后的投资回报假设对比较期间数据进行了追溯调整。短期投资波动、管理层认为不属\n\n于日常营运收支的一次性重大项目及其他均已包含所得税调整的影响。\n\n(3) 因四舍五入，直接计算未必相等。\n\n（人民币百万元）\n2024年\n2023年\n变动(%)\n\n寿险及健康险业务\n96,975\n98,809\n(1.9)\n\n财产保险业务\n14,952\n8,918\n67.7\n\n银行业务\n25,796\n26,925\n(4.2)\n\n资产管理业务\n(11,899)\n(20,747)\n亏损减少42.6%"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c73:6271aa60b1510ae3",
+              "content_sha256": "4975307590acc5546d5c5a4290108442afcdb5b4b380721c63f5c307efec70e4",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 32,
+              "page_end": 32,
+              "section_path": [
+                "二零二四年年报",
+                "业绩综述 集团经营业绩"
+              ],
+              "excerpt": "业绩综述\n集团经营业绩\n\n2023年（已重述）\n\n（人民币百万元）\n\n寿险及\n健康险业务\n\n财产\n保险业务\n银行业务\n\n资产\n管理业务\n\n金融\n赋能业务\n\n其他业务\n及合并抵销\n集团合并\n\n归属于母公司股东的营运利润\n98,809\n8,918\n26,925\n(20,747)\n1,905\n(4,083)\n111,728\n\n少数股东营运利润\n966\n40\n19,530\n1,225\n1,075\n946\n23,782\n\n营运利润(A)\n99,775\n8,958\n46,455\n(19,522)\n2,980\n(3,137)\n135,509\n\n加：\n\n短期投资波动(B)\n(26,383)\n–\n–\n–\n–\n–\n(26,383)\n\n管理层认为不属于日常营运收支的\n\n一次性重大项目及其他(C)\n–\n–\n–\n–\n149\n–\n149\n\n净利润(D=A+B+C)\n73,391\n8,958\n46,455\n(19,522)\n3,129\n(3,137)\n109,274\n\n归属于母公司股东的净利润\n72,598\n8,918\n26,925\n(20,747)\n2,054\n(4,083)\n85,665\n\n少数股东损益\n793\n40\n19,530\n1,225\n1,075\n946\n23,609\n\n注：(1) 寿险及健康险业务包含平安寿险、平安养老险及平安健康险三家子公司经营成果的汇总。财产保险业务为平安产险的经营成果。银行业务为平安银行的\n\n经营成果。资产管理业务为平安证券、平安信托、平安资产管理、平安融资租赁、平安海外控股等经营资产管理业务的子公司经营成果的汇总。金融赋\n\n能业务反映陆金所控股、金融壹账通、平安健康、汽车之家等相关成员公司经营成果。合并抵销主要为对各业务之间持股的抵销。\n\n(2) 当期及去年同期的营运利润基于2024年末的长期投资回报率假设(4.0%)计算。"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c164:98bd6c7afa9fbe95",
+              "content_sha256": "a7380ccbf075e8ce75c9fc137534224b0a54600d13c91deb7e0642938e31d801",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 72,
+              "page_end": 72,
+              "section_path": [
+                "二零二四年年报",
+                "内含价值分析"
+              ],
+              "excerpt": "内含价值分析\n\n归属于母公司股东营运权益\n\n（人民币百万元）\n\n2024年\n12月31日\n2023年\n12月31日\n变动(%)\n\n寿险及健康险业务(1)\n408,757\n344,892\n18.5\n\n财产保险业务\n135,854\n124,647\n9.0\n\n银行业务\n257,826\n244,777\n5.3\n\n资产管理业务\n79,452\n92,836\n(14.4)\n\n金融赋能业务\n86,841\n97,250\n(10.7)\n\n其他业务及合并抵销\n34,159\n13,090\n161.0\n\n集团合并(1)\n1,002,889\n917,492\n9.3\n\n注： (1) 剔除支持寿险及健康险业务的以公允价值计量且其变动计入其他综合收益的债权投资的公允价值变动额，以及保险合同负债计入其他综合收益后续可重\n\n分类进损益的金融变动额，适用浮动收费法业务的相关部分除外。\n\n基于调整后的内含价值长期投资回报率假设(4.0%)，每季度营运利润数据如下：\n\n归属于母公司股东的营运利润\n\n（人民币百万元）\n集团合并\n寿险及健康险业务\n\n2024年第一季度\n37,008\n25,588\n\n2024年第二季度\n37,978\n25,573\n\n2024年第三季度\n33,459\n26,167\n\n2024年第四季度\n13,417\n19,647\n\n注： 因四舍五入，直接计算未必相等。\n\n寿险及健康险业务利源与合同服务边际分析\n\n按照来源划分，寿险及健康险业务的营运利润分析如下：\n\n（人民币百万元）\n2024年\n2023年\n\n保险服务业绩及其他\n[1]=[2]+[5]+[8]\n86,031\n88,587\n\n合同服务边际摊销\n[2]\n71,140\n74,787\n\n合同服务边际摊销基础\n[3]\n802,452\n843,227"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c159:c7ad9fb29ee76c8a",
+              "content_sha256": "540437369a61542c88814fae8179ba296b7461f2c20c1c5dc18a78312468fbfd",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 69,
+              "page_end": 70,
+              "section_path": [
+                "二零二四年年报",
+                "内含价值分析"
+              ],
+              "excerpt": "•\n风险贴现率增加或减少50个基点\n\n•\n死亡、疾病和意外等发生率上升10%\n\n•\n保单失效率上升10%\n\n•\n维持费用上升10%\n\n•\n客户分红比例增加5%\n\n•\n权益资产公允价值下跌10%\n\n内含价值分析\n\n主要假设敏感性\n\n（人民币百万元）\n集团内含价值\n寿险及健康险业务内含价值\n一年新业务价值\n\n基准假设\n1,422,602\n835,093\n28,534\n\n2023年评估所用假设及模型\n1,548,117\n960,608\n40,024\n\n投资收益率每年增加50个基点\n1,556,126\n968,617\n37,535\n\n风险贴现率每年增加50个基点\n1,398,722\n811,213\n27,020\n\n投资收益率每年减少50个基点\n1,289,237\n701,728\n19,517\n\n风险贴现率每年减少50个基点\n1,448,842\n861,333\n30,179\n\n死亡、疾病和意外等发生率上升10%\n1,394,666\n807,157\n25,891\n\n保单失效率上升10%\n1,425,295\n837,786\n28,501\n\n维持费用上升10%\n1,418,309\n830,800\n28,149\n\n客户分红比例增加5%\n1,414,766\n827,257\n28,379\n\n权益资产公允价值下跌10%\n1,386,995\n809,247\n不适用\n\n营运利润分析\n\n本节包含集团营运利润及营运ROE、寿险及健康险业务利源与合同服务边际分析两部分。本公司聘请安永（中国）企业咨询有\n\n限公司对本公司2024年营运利润分析的计算方法和计算结果的合理性进行审阅。\n\n寿险及健康险业务的保险合同负债计量使用的折现率基于反映保险合同特征的可观察当前市场利率确定，为了资产与负债之间"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c160:a1c32147798d7773",
+              "content_sha256": "7026743f8bb872c81e847bca58c3a483b65c508e73995980a32cadef283ca9b4",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 70,
+              "page_end": 70,
+              "section_path": [
+                "二零二四年年报",
+                "内含价值分析"
+              ],
+              "excerpt": "寿险及健康险业务的保险合同负债计量使用的折现率基于反映保险合同特征的可观察当前市场利率确定，为了资产与负债之间\n\n的计量匹配，本公司选择将支持这些业务的部分债权投资分类为以公允价值计量且其变动计入其他综合收益的债权投资。在度\n\n量营运相关指标时，剔除支持寿险及健康险业务的以公允价值计量且其变动计入其他综合收益的债权投资的公允价值变动额，\n\n以及保险合同负债计入其他综合收益后续可重分类进损益的金融变动额，以体现公司资产负债管理的实质，适用浮动收费法业\n\n务的相关部分除外。适用浮动收费法的保险合同负债金融变动额与支持该类业务的基础项目资产的公允价值变动额相匹配，因\n\n此在度量营运相关指标时不进行调整。\n\n集团营运利润\n\n由于寿险及健康险业务的大部分业务为长期业务，为更好地评估及比较经营业绩表现及趋势，本公司使用营运利润指标予以衡\n\n量。该指标以财务报表净利润为基础，剔除短期波动性较大的损益表项目和管理层认为不属于日常营运收支的一次性重大项目\n\n及其他：\n\n•\n短期投资波动，适用于除浮动收费法(1)以外的寿险及健康险业务；该短期波动为前述业务实际投资回报与内含价值长期\n\n投资回报假设的差异，剔除短期投资波动后，前述寿险及健康险业务的投资回报率锁定为4.0%(2)，支持这类业务的以公"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c161:39eaedad694fb786",
+              "content_sha256": "2ca82b80f5a61c77c0e3859bf579c7ef159ce1512566c20660a2ca0aaabcf7fe",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 70,
+              "page_end": 71,
+              "section_path": [
+                "二零二四年年报",
+                "内含价值分析"
+              ],
+              "excerpt": "投资回报假设的差异，剔除短期投资波动后，前述寿险及健康险业务的投资回报率锁定为4.0%(2)，支持这类业务的以公\n\n允价值计量且其变动计入其他综合收益的债权投资以成本计算；\n\n•\n管理层认为不属于日常营运收支的一次性重大项目及其他。2024年该类事项包括陆金所控股纳入本集团合并报表时带来\n\n的一次性损益、本公司持有的以陆金所控股为标的的可转换本票的价值重估损益、本公司发行的美元可转换债券的转股\n\n权价值重估损益等。去年同期该类事项为本公司持有的以陆金所控股为标的的可转换本票的价值重估损益。\n\n注： (1) 适用浮动收费法的保险合同负债金融变动额与支持该类业务的基础项目资产的公允价值变动额相匹配，因此在度量营运相关指标时不进行调整。\n\n(2) 公司于2024年下调长期投资回报率假设至4.0%，并按调整后的投资回报假设对比较期间数据进行了追溯调整。\n\n2024年，集团实现归属于母公司股东的营运利润1,218.62亿元，同比增长9.1%，营运ROE达12.7% ；寿险及健康险业务归属于\n\n母公司股东的营运利润969.75亿元，同比下降1.9%，营运ROE达25.7%。\n\n归属于母公司股东的营运利润\n\n营运利润与财务报表净利润的勾稽关系如下：\n\n集团合并\n寿险及健康险业务\n\n（人民币百万元）\n2024年\n2023年\n2024年\n2023年"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c163:946e2833ef7994c8",
+              "content_sha256": "430ff8808cee9a3a5b1ab3a00ab4272234378b2a74df440d39cf0e462e73c950",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 71,
+              "page_end": 71,
+              "section_path": [
+                "二零二四年年报",
+                "内含价值分析"
+              ],
+              "excerpt": "寿险及健康险业务\n96,975\n98,809\n(1.9)\n\n财产保险业务\n14,952\n8,918\n67.7\n\n银行业务\n25,796\n26,925\n(4.2)\n\n资产管理业务\n(11,899)\n(20,747)\n亏损减少42.6%\n\n金融赋能业务\n(29)\n1,905\n不适用\n\n其他业务及合并抵销\n(3,932)\n(4,083)\n亏损减少3.7%\n\n集团合并\n121,862\n111,728\n9.1\n\n注： 因四舍五入，直接计算未必相等。\n\n营运ROE\n\n(%)\n2024年\n2023年\n变动\n（百分点）\n\n寿险及健康险业务\n25.7\n30.2\n(4.5)\n\n财产保险业务\n11.5\n7.4\n4.1\n\n银行业务\n10.1\n11.4\n(1.3)\n\n资产管理业务\n(13.8)\n(19.8)\n6.0\n\n金融赋能业务\n0.0\n2.0\n(2.0)\n\n其他业务及合并抵销\n不适用\n不适用\n不适用\n\n集团合并\n12.7\n12.5\n0.2"
+            },
+            {
+              "chunk_id": "6ffff1cade59:c165:693cfe0cef4565ee",
+              "content_sha256": "12782cd1fa051e106780462f81d82d41207c0c7a77179a6ed6d78c7e9051a450",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+              "document_key": "cninfo:601318:annual:2024",
+              "company_name": "中国平安",
+              "report_year": 2024,
+              "page_start": 72,
+              "page_end": 73,
+              "section_path": [
+                "二零二四年年报",
+                "内含价值分析"
+              ],
+              "excerpt": "保险服务业绩及其他\n[1]=[2]+[5]+[8]\n86,031\n88,587\n\n合同服务边际摊销\n[2]\n71,140\n74,787\n\n合同服务边际摊销基础\n[3]\n802,452\n843,227\n\n合同服务边际摊销比例(%)\n[4]=[2]/[3]\n8.9\n8.9\n\n非金融风险调整变动\n[5]\n6,859\n6,029\n\n期初风险调整余额\n[6]\n157,162\n142,249\n\n风险调整释放比例(%)\n[7]=[5]/[6]\n4.4\n4.2\n\n营运偏差和其他\n[8]\n8,032\n7,771\n\n投资服务业绩(1)\n[9]\n17,552\n17,177\n\n税前营运利润\n[10]=[1]+[9]\n103,583\n105,764\n\n所得税\n[11]\n(7,561)\n(5,989)\n\n营运利润\n[12]=[10]+[11]\n96,022\n99,775\n\n注： (1) 投资服务业绩，即营运投资收益高于准备金要求回报的部分。\n\n(2) 因四舍五入，直接计算未必相等。\n\n截至2024年12月31日，寿险及健康险业务合同服务边际余额7,313.12亿元。下表列示2024年的寿险及健康险业务合同服务边际\n\n变动分析：\n\n（人民币百万元）\n2024年\n2023年\n说明\n\n期初合同服务边际\n[1]\n768,440\n818,683\n\n新业务贡献\n[2]\n35,405\n38,951\n\n新业务保费现值\n[3]\n395,481\n384,254\n\n新业务利润率(%)\n[4]=[2]/[3]\n9.0\n10.1\n主要受业务结构变化及市场利率下行\n\n影响\n\n预期利息增长\n[5]\n24,051\n25,332\n\n经营情况讨论及分析\n\n调整合同服务边际的\n\n[6]\n(20,640)\n(46,374)\n主要因保单脱退改善及非经济假设调\n\n整差异\n\n估计变更(1)\n\n适用浮动收费法业务的\n\n[7]\n(4,804)\n6,6"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "sufficient",
+          "evidence_count_by_target": {
+            "task:calculate": 8
+          },
+          "gaps": []
+        },
+        "result": {
+          "outcome": "answer",
+          "answer": {
+            "answer": "寿险及健康险业务归母营运利润2024=96,975[1]\n财产保险业务归母营运利润2024=14,952[1]\n银行业务归母营运利润2024=25,796[1]\n三项核心业务归母营运利润合计=137,723人民币百万元[1]\n寿险及健康险占三项核心业务合计比例=70.41%[1]",
+            "citations": [
+              {
+                "ordinal": 1,
+                "chunk_id": "6ffff1cade59:c162:8307303e27a7f33f",
+                "page_start": 71,
+                "page_end": 71,
+                "section_path": [
+                  "二零二四年年报",
+                  "内含价值分析"
+                ],
+                "excerpt": "归属于母公司股东的营运利润\n\n营运利润与财务报表净利润的勾稽关系如下：\n\n集团合并\n寿险及健康险业务\n\n（人民币百万元）\n2024年\n2023年\n2024年\n2023年\n\n归属于母公司股东的营运利润\n121,862\n111,728\n96,975\n98,809\n\n少数股东营运利润(1)\n20,101\n23,782\n(953)\n966\n\n营运利润\n[1]\n141,964\n135,509\n96,022\n99,775\n\n加：\n\n寿险及健康险业务短期投资波动(2)\n[2]\n(3,925)\n(26,383)\n(3,925)\n(26,383)\n\n经营情况讨论及分析\n\n管理层认为不属于日常营运收支的一次性重大\n\n项目及其他(2)\n[3]\n8,694\n149\n–\n–\n\n净利润\n[4]=[1]+[2]+[3]\n146,733\n109,274\n92,097\n73,391\n\n归属于母公司股东的净利润\n126,607\n85,665\n93,025\n72,598\n\n少数股东损益\n20,126\n23,609\n(928)\n793\n\n注： (1) 少数股东营运利润=合并财务报表少数股东损益－（1－集团持股比例）* 前述剔除项目。\n\n(2) 上述短期投资波动基于长期投资回报率假设(4.0%)计算，并按调整后的投资回报假设对比较期间数据进行了追溯调整。短期投资波动、管理层认为不属\n\n于日常营运收支的一次性重大项目及其他均已包含所得税调整的影响。\n\n(3) 因四舍五入，直接计算未必相等。\n\n（人民币百万元）\n2024年\n2023年\n变动(%)\n\n寿险及健康险业务\n96,975\n98,809\n(1.9)\n\n财产保险业务\n14,952\n8,918\n67.7\n\n银行业务\n25,796\n26,925\n(4.2)\n\n资产管理业务\n(11,899)\n(20,747)\n亏损减少42.6%"
+              }
+            ],
+            "provider": "deepseek-grounded-decimal-calculator",
+            "grounded": true,
+            "claim_citations": [
+              {
+                "claim": "寿险及健康险业务归母营运利润2024=96,975",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "财产保险业务归母营运利润2024=14,952",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "银行业务归母营运利润2024=25,796",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "三项核心业务归母营运利润合计=137,723人民币百万元",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "寿险及健康险占三项核心业务合计比例=70.41%",
+                "citation_ordinals": [
+                  1
+                ]
+              }
+            ]
+          },
+          "target_evidence": {},
+          "target_answers": {}
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-calculate-p3-general-grounded-decimal-dag",
+          "prompt_sha256": "81c318df4fd12fb771faf37f4fb2ca5c85983997e11818b3a86e691a13659329",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "execute_grounded_calculation"
+              ],
+              "input_tokens": 5170,
+              "output_tokens": 421,
+              "elapsed_ms": 2744.3247999763116,
+              "validation_errors": []
+            }
+          ],
+          "request_count": 1,
+          "input_tokens": 5170,
+          "output_tokens": 421
+        }
+      }
+    },
+    {
+      "case_id": "v3_300750_calc_storage_share",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "status": "executed",
+      "expected_fact_count": 3,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "storage_revenue",
+            "matched": true,
+            "matched_value": "57290460"
+          },
+          {
+            "fact_id": "total_revenue",
+            "matched": true,
+            "matched_value": "362012554"
+          },
+          {
+            "fact_id": "share",
+            "matched": true,
+            "matched_value": "15.83%"
+          }
+        ],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "0b65452ca31049888e364f0c4c64c1d5",
+        "task_type": "calculate",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "sufficient_evidence",
+        "query": "计算宁德时代2024年储能电池系统收入占公司营业收入的比例，保留两位小数。",
+        "index_id": "a4b314a9ff7e595a86bf",
+        "created_at": "2026-08-20T07:26:17.953064Z",
+        "completed_at": "2026-08-20T07:26:20.388077Z",
+        "rounds_completed": 1,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p2b1-document-fact-period",
+          "task_type": "calculate",
+          "targets": [],
+          "document_scope": {
+            "document_keys": [],
+            "company_names": [
+              "宁德时代"
+            ],
+            "report_years": [
+              2024
+            ],
+            "document_types": []
+          },
+          "document_year": 2024,
+          "fact_periods": [
+            2024
+          ],
+          "document_scope_resolution": "mentioned_available_year",
+          "retrieval_hint": "计算宁德时代2024年储能电池系统收入占公司营业收入的比例，保留两位小数。",
+          "clarification": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "search-1",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "task:calculate",
+            "query": "宁德时代 2024年 主营业务分析 分产品 储能电池系统 营业收入",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "宁德时代"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 68.57290002517402,
+            "retrieval_trace_id": "02a8211582eb4b0581ede4bb758e4016",
+            "evidence_chunk_ids": [
+              "b4f1713d7b82:c44:f2d0d441e85b798c",
+              "b4f1713d7b82:c46:09987ded599fa03a",
+              "b4f1713d7b82:c38:337e99d144a8fa1a"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "window-1",
+            "round_number": 2,
+            "tool": "get_page_window",
+            "target_id": "task:calculate",
+            "query": "b4f1713d7b82:c44:f2d0d441e85b798c",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "宁德时代"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 55.16150000039488,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "b4f1713d7b82:c39:cd3939fdaea3332a",
+              "b4f1713d7b82:c40:db2bd04ec0e8042b",
+              "b4f1713d7b82:c41:b3c6d34e86a61f51",
+              "b4f1713d7b82:c42:d35a7e65750095f4",
+              "b4f1713d7b82:c43:fd97cfbc721d87ce",
+              "b4f1713d7b82:c44:f2d0d441e85b798c",
+              "b4f1713d7b82:c45:cb8d1bc070d555b3",
+              "b4f1713d7b82:c46:09987ded599fa03a",
+              "b4f1713d7b82:c47:07679fea93d2559e"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_00_lGTVDlUx1MtNbhW3y6u28030",
+            "round_number": 3,
+            "tool": "calculate",
+            "target_id": "task:calculate",
+            "query": "计算宁德时代2024年储能电池系统收入占公司营业收入的比例，保留两位小数。",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "宁德时代"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 0.0,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "b4f1713d7b82:c44:f2d0d441e85b798c"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "a4b314a9ff7e595a86bf",
+          "items": [
+            {
+              "chunk_id": "b4f1713d7b82:c44:f2d0d441e85b798c",
+              "content_sha256": "bd54075c1e746c5b5d964a11da446371dd4e9210e728024be3ad8281a69229b5",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 19,
+              "page_end": 19,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "（1） 营业收入构成"
+              ],
+              "excerpt": "2、收入与成本\n\n（1） 营业收入构成\n\n1）营业收入整体情况\n\n单位：千元\n\n项目\n\n2024 年\n2023 年\n同比增减\n金额\n占营业收入比重\n金额\n占营业收入比重\n\n营业收入合计\n362,012,554\n100.00%\n400,917,045\n100.00%\n-9.70%\n\n分行业\n\n电气机械及器材\n制造业\n356,519,551\n98.48%\n393,182,894\n98.07%\n-9.32%\n\n采选冶炼行业\n5,493,003\n1.52%\n7,734,151\n1.93%\n-28.98%\n\n分产品\n\n动力电池系统\n253,041,337\n69.90%\n285,252,917\n71.15%\n-11.29%\n\n储能电池系统\n57,290,460\n15.83%\n59,900,522\n14.94%\n-4.36%\n\n电池材料及回收\n28,699,935\n7.93%\n33,602,284\n8.38%\n-14.59%\n\n电池矿产资源\n5,493,003\n1.52%\n7,734,151\n1.93%\n-28.98%\n\n其他业务\n17,487,818\n4.83%\n14,427,171\n3.60%\n21.21%\n\n分地区\n\n境内\n251,677,045\n69.52%\n269,924,895\n67.33%\n-6.76%\n\n境外\n110,335,509\n30.48%\n130,992,150\n32.67%\n-15.77%\n\n2）公司需遵守《深圳证券交易所上市公司自律监管指引第4 号——创业板行业信息披露》中的“锂离子电池产业链相关业\n\n务”的披露要求\n\n报告期内上市公司从事锂离子电池产业链相关业务的海外销售收入占同期营业收入30%以上"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c46:09987ded599fa03a",
+              "content_sha256": "c4701c9a259deaf16fa3d7172e69c9901ee44cd386d571f709119a379b861cba",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 19,
+              "page_end": 20,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "适用 □不适用"
+              ],
+              "excerpt": "适用 □不适用\n\n公司需遵守《深圳证券交易所上市公司自律监管指引第4 号——创业板行业信息披露》中的“锂离子电池产业链相关业务”\n的披露要求\n\n1）营业收入及营业成本整体情况\n\n单位：千元\n\n营业成本比上\n\n毛利率比上年\n\n项目\n营业收入\n营业成本\n毛利率\n营业收入比上\n\n年同期增减\n\n年同期增减\n\n同期增减\n\n分业务\n\n电气机械及器材\n制造业\n356,519,551\n268,494,348\n24.69%\n-9.32%\n-15.51%\n5.51%\n\n采选冶炼行业\n5,493,003\n5,024,611\n8.53%\n-28.98%\n-18.93%\n-11.33%\n\n分产品\n\n动力电池系统\n253,041,337\n192,461,282\n23.94%\n-11.29%\n-17.59%\n5.81%\n\n储能电池系统\n57,290,460\n41,914,003\n26.84%\n-4.36%\n-13.98%\n8.19%\n\n电池材料及回收\n28,699,935\n25,682,916\n10.51%\n-14.59%\n-13.75%\n-0.87%\n\n电池矿产资源\n5,493,003\n5,024,611\n8.53%\n-28.98%\n-18.93%\n-11.33%\n\n分地区\n\n境内\n251,677,045\n195,678,188\n22.25%\n-6.76%\n-10.50%\n3.24%\n\n境外\n110,335,509\n77,840,771\n29.45%\n-15.77%\n-26.12%\n9.88%\n\n2）公司主营业务数据统计口径在报告期发生调整的情况下，公司最近1 年按报告期末口径调整后的主营业务数据"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c38:337e99d144a8fa1a",
+              "content_sha256": "162b47814c06ddefe3b01e3a85d5734ac895a5e90e18399a0cbc5c7f59c54887",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 17,
+              "page_end": 17,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "1、概述"
+              ],
+              "excerpt": "四、主营业务分析\n\n1、概述\n\n报告期内，公司实现归属于上市公司股东的净利润507.45 亿元，同比增长15.01%。公司实现锂离子\n\n电池销量475GWh，同比增长21.79%，其中，动力电池系统销量381GWh，同比增长18.85%；储能电池\n\n系统销量93GWh，同比增长34.32%。\n\n报告期内，公司主要经营情况如下："
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c39:cd3939fdaea3332a",
+              "content_sha256": "1564c77e3a1843a73152a34a3d0c1c47cc6d774d52169da38c3787404cea02ba",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 17,
+              "page_end": 18,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "（1）持续推出创新产品"
+              ],
+              "excerpt": "（1）持续推出创新产品\n\n乘用车领域，公司在2023 年发布神行4C 超充电池的基础上发布神行Plus 电池，可实现系统能量密\n\n度超200Wh/kg，是全球首个兼备1,000km 续航以及4C 超充特性的磷酸铁锂电池；推出新一代麒麟高功率\n\n电池，放电功率超1,300kW，可助力新能源车实现零百加速2 秒以内；推出全球首款纯电续航达到400 公\n\n里以上，同时兼具4C 超充能力的骁遥增混电池，弥补增混车型充电补能效率慢的短板。\n\n商用车领域，针对时效性高的物流与平台接单场景，推出天行L-超充、天行L-长续航，使用寿命可\n\n达8 年80 万公里；针对客车应用场景，推出天行客车版，使用寿命可达15 年150 万公里；针对重卡应用\n\n场景，推出天行电池重型商用车版本，使用寿命可达15 年300 万公里，在矿区、建筑工地等恶劣环境下\n\n保持可靠性和稳定性。\n\n储能领域，公司发布了全球首款5 年零衰减、单体6.25MWh 的天恒储能系统，较上一代产品单位面\n\n积能量密度提升30%，占地面积降低20%，可进一步提升储能项目收益率；推出了PU100 储能产品，可\n\n支持6C 放电以满足 10-15 分钟紧急备用电源需求，同时还具备高安全、高功率、易维护等特点，持续助\n\n力数据中心能源管理。"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c40:db2bd04ec0e8042b",
+              "content_sha256": "0d7269d651a5593c68edfb998ac47d7c9b7a98550e44818f0d72402d48d848c9",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 18,
+              "page_end": 18,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "（2）不断升级创新解决方案"
+              ],
+              "excerpt": "（2）不断升级创新解决方案\n\n公司推出的新一代巧克力换电解决方案适配车型广，灵活性强，已在多款车型落地推广，与车企、\n\n运营商、金融机构、服务商等各方合作共同构建换电生态，通过快速换电大幅提升乘用车终端用户的补\n\n能效率和体验。公司推出的骐骥换电能够为重卡运输行业带来更环保、更经济、更高效的补能解决方案。\n\n公司推出的滑板底盘产品具备上下解耦、高度集成以及对外开放三大特征，助力合作伙伴进行个性化开\n\n发，促进联合创新和资源共享。公司推出的超安全磐石底盘在全球范围内首个通过“最高时速+最强冲击”\n\n的双重极限安全测试，可适配不同车型，显著缩短整车开发周期，开创电动车开发合作新生态。"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c41:b3c6d34e86a61f51",
+              "content_sha256": "a2060076c7144fdc3cdedf98016469c409fa78ddef3ac05ceacee0085aad0a3a",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 18,
+              "page_end": 18,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "（3）全面深化客户合作"
+              ],
+              "excerpt": "（3）全面深化客户合作\n\n公司在各新能源领域积极推进全方位的深度客户合作。动力电池领域，公司与Volvo、北京现代、猛\n\n士科技、江汽集团、临工重机、中国龙工、陕西交控、奇瑞商用车、上海国际港务集团、上海城投集团、\n\n山东重工集团、太原重型机械集团、陕汽商用车、厦门路桥等达成战略合作，与法国达飞海运集团签署\n\n合作协议，加深在乘用车、商用车、船舶等领域业务合作。储能电池领域，公司与Quinbrook、NextEra等\n\n签署战略合作协议、全面深化合作，与Rolls-Royce 达成战略合作，拟将天恒储能系统引入欧盟和英国市\n\n场。"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c42:d35a7e65750095f4",
+              "content_sha256": "ebda7dce67873977db4d4a6b1965761cd749e1958a4b7760b877a3e9ca7f2fc6",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 18,
+              "page_end": 18,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "（4）稳步推进全球产能建设"
+              ],
+              "excerpt": "（4）稳步推进全球产能建设\n\n公司稳步推进电池产能建设以满足全球客户订单交付需求。国内方面，公司顺利推进中州基地、贵\n\n阳基地、厦门基地、济宁基地等建设，部分产线已投产并正在进行产能爬坡；海外方面，公司德国工厂\n\n产能逐渐提升，并获得大众汽车集团模组测试实验室及电芯测试实验室双认证，成为全球首家获得大众\n\n集团模组认证、欧洲首家获得大众集团电芯认证的电池制造商。此外，公司积极推进匈牙利工厂、与\n\nStellantis 合资的西班牙工厂以及印尼电池产业链项目的建设或筹建。"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c43:fd97cfbc721d87ce",
+              "content_sha256": "7392c54926c83cbfdc9bcbc0230a51fda2ee505ac8811c888d8293da322800ba",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 18,
+              "page_end": 18,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "（5）推进零碳科技产品与解决方案"
+              ],
+              "excerpt": "（5）推进零碳科技产品与解决方案\n\n基于公司在清洁能源领域的产品与技术优势，结合自身减碳经验，积极开发零碳科技产品与解决方\n\n案。报告期内，公司与山东东营市、江苏南京市、天津市、澳门特别行政区、横琴粤澳深度合作区等城\n\n市或地区签署战略合作协议，同时在海南、盐城、鄂尔多斯、宁德等地开展零碳试点示范，推动公司绿\n\n电直供、源网荷储微电网以及构网型储能等相关创新和示范项目落地。公司通过打造零碳城市建设方案，\n\n与各界合作伙伴共同推动新能源产品绿色智造、新能源投资开发、交通电动化及基础设施建设、电池回\n\n收及梯次利用等领域合作发展，推动各领域绿色低碳转型。"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c45:cb8d1bc070d555b3",
+              "content_sha256": "819c60e0f9e294ffa5ce6d639cd462c03bb3a31095a88bca9582d10c9a6de31e",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 19,
+              "page_end": 19,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "适用 □不适用"
+              ],
+              "excerpt": "适用 □不适用\n\n报告期内，公司销售境外的主要产品为电池系统，较上年同期相比未发生明显变化。公司境外收入110,335,509 千元，占本\n\n期营业收入30.48%。公司主要业务地区的经营环境未发生重大变化，境外客户回款情况正常。\n\n（2） 占公司营业收入或营业利润10%以上的行业、产品、地区、销售模式的情况"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c47:07679fea93d2559e",
+              "content_sha256": "d2b6abb5d6f4804a91340eb9537092ff8c3b16585ff127bd1d77cbd2f72800b3",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 20,
+              "page_end": 21,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "□适用 不适用"
+              ],
+              "excerpt": "□适用 不适用\n\n3）锂离子电池产业链各环节主要产品或业务相关的关键技术或性能指标\n\n适用□不适用\n\n技术参数情况\n\n产品种\n\n技术路\n\n倍率\n\n类\n\n线\n\n主要产\n品类型\n\n下游主要\n应用领域\n电芯质量能\n\n量密度\n\n性能\n循环寿命\n安全性\n\n220~310Wh/\nkg\n1~5C\n2,000~6,000\n次\n\n方形\n\n满足GB38031、UN38.3、ECE\nR100.3 等标准\n\n乘用车、\n商用车\n\nHEV：100～\n\n130Wh/kg\nHEV：\n1C～50C\nHEV：\n\n20,000 次\n\n三元锂\n离子电\n\n池\n\n正极材\n料为镍\n钴锰的\n锂离子\n电池\n\n便携式储能：满足GB31241 等标\n准；消费无人机：满足IEC62133\n2012/2017 等标准；\n\n软包、\n\n1C~17C\n200-4,000 次\n\n圆柱\n\n180-\n350Wh/kg\n\n电动工具：（软包）满足IEC\n62133 2012/2017、UL1642、\nIEC62133、UN38.3 等标准；\n\n便携式储\n能、消费\n无人机、\n电动工\n具、电动\n摩托车等\n\n电动摩托车：满足GB/T 36672 等\n标准\n\n方形、\n\n180～\n200Wh/kg\n0.25C～4C\n4,000-15,000\n次\n\n磷酸铁\n锂电池\n\n圆柱\n\n正极材\n料为磷\n酸铁锂\n的锂离\n子电池\n\n乘用车、\n商用车、\n储能系\n统、电动\n船舶、电\n动自行车\n等\n\n乘用车、商用车：满足\nGB38031、GB38032、UN38.3、\nECE R100.3 等标准\n储能系统：满足GB/T36276、\nUN38.3，UL9540A、UL1973、\nIEC62619 等标准\n电动船舶：满足《船舶应用电池\n动力规范》、UN38.3 等标准\n电动自行车：满足GB/T36972、\nUN38.3 等标准\n\n软包\n140-\n190Wh/kg\n0.5C~6C"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "sufficient",
+          "evidence_count_by_target": {
+            "task:calculate": 10
+          },
+          "gaps": []
+        },
+        "result": {
+          "outcome": "answer",
+          "answer": {
+            "answer": "储能电池系统收入=57,290,460[1]\n营业收入合计=362,012,554[1]\n储能电池系统收入占营业收入比例=15.83%[1]",
+            "citations": [
+              {
+                "ordinal": 1,
+                "chunk_id": "b4f1713d7b82:c44:f2d0d441e85b798c",
+                "page_start": 19,
+                "page_end": 19,
+                "section_path": [
+                  "第三节 管理层讨论与分析",
+                  "四、主营业务分析",
+                  "（1） 营业收入构成"
+                ],
+                "excerpt": "2、收入与成本\n\n（1） 营业收入构成\n\n1）营业收入整体情况\n\n单位：千元\n\n项目\n\n2024 年\n2023 年\n同比增减\n金额\n占营业收入比重\n金额\n占营业收入比重\n\n营业收入合计\n362,012,554\n100.00%\n400,917,045\n100.00%\n-9.70%\n\n分行业\n\n电气机械及器材\n制造业\n356,519,551\n98.48%\n393,182,894\n98.07%\n-9.32%\n\n采选冶炼行业\n5,493,003\n1.52%\n7,734,151\n1.93%\n-28.98%\n\n分产品\n\n动力电池系统\n253,041,337\n69.90%\n285,252,917\n71.15%\n-11.29%\n\n储能电池系统\n57,290,460\n15.83%\n59,900,522\n14.94%\n-4.36%\n\n电池材料及回收\n28,699,935\n7.93%\n33,602,284\n8.38%\n-14.59%\n\n电池矿产资源\n5,493,003\n1.52%\n7,734,151\n1.93%\n-28.98%\n\n其他业务\n17,487,818\n4.83%\n14,427,171\n3.60%\n21.21%\n\n分地区\n\n境内\n251,677,045\n69.52%\n269,924,895\n67.33%\n-6.76%\n\n境外\n110,335,509\n30.48%\n130,992,150\n32.67%\n-15.77%\n\n2）公司需遵守《深圳证券交易所上市公司自律监管指引第4 号——创业板行业信息披露》中的“锂离子电池产业链相关业\n\n务”的披露要求\n\n报告期内上市公司从事锂离子电池产业链相关业务的海外销售收入占同期营业收入30%以上"
+              }
+            ],
+            "provider": "deepseek-grounded-decimal-calculator",
+            "grounded": true,
+            "claim_citations": [
+              {
+                "claim": "储能电池系统收入=57,290,460",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "营业收入合计=362,012,554",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "储能电池系统收入占营业收入比例=15.83%",
+                "citation_ordinals": [
+                  1
+                ]
+              }
+            ]
+          },
+          "target_evidence": {},
+          "target_answers": {}
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-calculate-p3-general-grounded-decimal-dag",
+          "prompt_sha256": "9703902cdadfa9e5b1a2c476d018ca4b649481dc235f745e4d1d67bef3b2e9cd",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "execute_grounded_calculation"
+              ],
+              "input_tokens": 4701,
+              "output_tokens": 306,
+              "elapsed_ms": 2310.167000046931,
+              "validation_errors": []
+            }
+          ],
+          "request_count": 1,
+          "input_tokens": 4701,
+          "output_tokens": 306
+        }
+      }
+    },
+    {
+      "case_id": "v3_300750_calc_net_margin",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "status": "executed",
+      "expected_fact_count": 3,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "margin_2023",
+            "matched": true,
+            "matched_value": "11.01%"
+          },
+          {
+            "fact_id": "margin_2024",
+            "matched": true,
+            "matched_value": "14.02%"
+          },
+          {
+            "fact_id": "change",
+            "matched": true,
+            "matched_value": "3.01个百分点"
+          }
+        ],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "d5b00b884c864c3fa42ab9e832f913d3",
+        "task_type": "calculate",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "sufficient_evidence",
+        "query": "计算宁德时代2023年和2024年的归母净利率，并给出变化百分点。",
+        "index_id": "a4b314a9ff7e595a86bf",
+        "created_at": "2026-08-20T07:26:20.388599Z",
+        "completed_at": "2026-08-20T07:26:24.011404Z",
+        "rounds_completed": 1,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p2b1-document-fact-period",
+          "task_type": "calculate",
+          "targets": [],
+          "document_scope": {
+            "document_keys": [],
+            "company_names": [
+              "宁德时代"
+            ],
+            "report_years": [
+              2023,
+              2024
+            ],
+            "document_types": []
+          },
+          "document_year": null,
+          "fact_periods": [
+            2023,
+            2024
+          ],
+          "document_scope_resolution": null,
+          "retrieval_hint": "计算宁德时代2023年和2024年的归母净利率，并给出变化百分点。",
+          "clarification": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "search-1",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:宁德时代:year:2023",
+            "query": "宁德时代 2023年 营业收入 归属于上市公司股东的净利润 主要会计数据",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "宁德时代"
+              ],
+              "report_years": [
+                2023
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 103.44650002662092,
+            "retrieval_trace_id": "c30fc94a9dce4197b481e18ddc3c9282",
+            "evidence_chunk_ids": [
+              "6081f0377617:c10:d44fbd88df55340d",
+              "6081f0377617:c11:5c62a10e9eba6c22",
+              "6081f0377617:c47:bb6407fd738bbfac"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "window-1",
+            "round_number": 2,
+            "tool": "get_page_window",
+            "target_id": "company:宁德时代:year:2023",
+            "query": "6081f0377617:c10:d44fbd88df55340d",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "宁德时代"
+              ],
+              "report_years": [
+                2023
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 50.51970004569739,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "6081f0377617:c7:2fcfefea06e75553",
+              "6081f0377617:c8:21376697fcd39b71",
+              "6081f0377617:c9:694897814f727a2b",
+              "6081f0377617:c10:d44fbd88df55340d",
+              "6081f0377617:c11:5c62a10e9eba6c22",
+              "6081f0377617:c12:20a1966cbae70376",
+              "6081f0377617:c13:30ed3def474035b4",
+              "6081f0377617:c14:f279a5bd9f3d3124"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "search-2",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:宁德时代:year:2024",
+            "query": "宁德时代 2024年 营业收入 归属于上市公司股东的净利润 主要会计数据",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "宁德时代"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 130.59650000650436,
+            "retrieval_trace_id": "161249531e844432bebc40d1e6f023fe",
+            "evidence_chunk_ids": [
+              "b4f1713d7b82:c10:27244d4bbdbd613b",
+              "b4f1713d7b82:c11:4213e5a075752b49",
+              "b4f1713d7b82:c38:337e99d144a8fa1a"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "window-2",
+            "round_number": 2,
+            "tool": "get_page_window",
+            "target_id": "company:宁德时代:year:2024",
+            "query": "b4f1713d7b82:c10:27244d4bbdbd613b",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "宁德时代"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 53.085400024428964,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "b4f1713d7b82:c7:31ad1cb497c0bb87",
+              "b4f1713d7b82:c8:c78aad04ef76b025",
+              "b4f1713d7b82:c9:f6f3388152362a81",
+              "b4f1713d7b82:c10:27244d4bbdbd613b",
+              "b4f1713d7b82:c11:4213e5a075752b49",
+              "b4f1713d7b82:c12:b36c9b96b6326132",
+              "b4f1713d7b82:c13:8704802819de24f3",
+              "b4f1713d7b82:c14:bc6b2014824d107d",
+              "b4f1713d7b82:c15:6f9995b4179347aa"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_00_Q5PLvn5iyP3eyl7uu4AN9745",
+            "round_number": 3,
+            "tool": "calculate",
+            "target_id": "task:calculate",
+            "query": "计算宁德时代2023年和2024年的归母净利率，并给出变化百分点。",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "宁德时代"
+              ],
+              "report_years": [
+                2023,
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 0.0,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "6081f0377617:c10:d44fbd88df55340d",
+              "b4f1713d7b82:c10:27244d4bbdbd613b"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "a4b314a9ff7e595a86bf",
+          "items": [
+            {
+              "chunk_id": "6081f0377617:c10:d44fbd88df55340d",
+              "content_sha256": "ae23fdcd70a276b71f83dcfc86bd8c107ae78ea10b8e09294f1409ab9c7ee61b",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6081f0377617dddb82f900569d6458c278a7ab26697b34c87684188eac083471",
+              "document_key": "cninfo:300750:annual:2023",
+              "company_name": "宁德时代",
+              "report_year": 2023,
+              "page_start": 7,
+              "page_end": 7,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "五、主要会计数据和财务指标"
+              ],
+              "excerpt": "五、主要会计数据和财务指标\n\n公司是否需追溯调整或重述以前年度会计数据\n\n是 □否\n\n追溯调整或重述原因：2022 年、2021 年每股收益调整的原因系本公司 2023 年4 月完成资本公积金转增股本，对该指标进\n行重新计算。\n\n增减\n2021 年\n\n2023 年\n2022 年\n本年比上年\n\n调整前\n调整后\n调整后\n调整前\n调整后\n\n营业收入（万\n元）\n40,091,704.49\n32,859,398.75\n32,859,398.75\n22.01%\n13,035,579.64\n13,035,579.64\n\n4,412,124.83\n3,072,916.35\n3,072,916.35\n43.58%\n1,593,131.79\n1,593,131.79\n\n归属于上市公司\n股东的净利润\n（万元）\n\n4,009,167.37\n2,821,309.82\n2,821,309.82\n42.10%\n1,344,236.43\n1,344,236.43\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润（万元）\n\n9,282,612.44\n6,120,884.33\n6,120,884.33\n51.65%\n4,290,800.87\n4,290,800.87\n\n经营活动产生的\n现金流量净额\n（万元）\n\n基本每股收益\n（元/股）\n11.7900\n12.9178\n7.1766\n64.28%\n6.8760\n3.8200\n\n稀释每股收益\n（元/股）\n11.7790\n12.8795\n7.1553\n64.62%\n6.8392\n3.7996\n\n加权平均净资产\n收益率\n24.04%\n24.67%\n24.67%\n-0.63%\n21.52%\n21.52%\n\n年末增减\n2021 年末\n\n2023 年末\n2022 年末\n本年末比上\n\n调整前\n调整后\n调整后\n调整前\n调整后\n\n资产总额（万\n元）\n71,716,804.1"
+            },
+            {
+              "chunk_id": "6081f0377617:c11:5c62a10e9eba6c22",
+              "content_sha256": "32e87b6d92d78b0b9683101d9b7c9120df688ae1fcc7d8cb34aee2d8d98e5920",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6081f0377617dddb82f900569d6458c278a7ab26697b34c87684188eac083471",
+              "document_key": "cninfo:300750:annual:2023",
+              "company_name": "宁德时代",
+              "report_year": 2023,
+              "page_start": 7,
+              "page_end": 8,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "第一季度 第二季度 第三季度 第四季度"
+              ],
+              "excerpt": "公司最近三个会计年度扣除非经常性损益前后净利润孰低者均为负值，且最近一年审计报告显示公司持续经营能力存在不\n确定性\n\n□是 否\n\n扣除非经常损益前后的净利润孰低者为负值\n\n□是 否\n\n六、分季度主要财务指标\n\n单位：万元\n\n第一季度\n第二季度\n第三季度\n第四季度\n\n营业收入\n8,903,846.53\n10,020,757.60\n10,543,120.93\n10,623,979.43\n\n归属于上市公司股东\n的净利润\n982,226.51\n1,089,499.94\n1,042,820.91\n1,297,577.48\n\n780,005.67\n975,294.00\n942,800.53\n1,311,067.17\n\n归属于上市公司股东\n的扣除非经常性损益\n的净利润\n\n经营活动产生的现金\n流量净额\n2,096,627.85\n1,610,409.13\n1,558,332.25\n4,017,243.21\n\n上述财务指标或其加总数是否与公司已披露季度报告、半年度报告相关财务指标存在重大差异\n\n□是 否"
+            },
+            {
+              "chunk_id": "6081f0377617:c47:bb6407fd738bbfac",
+              "content_sha256": "01611e41feb15a10c7bc0f578c7713a59768dd91dc963f05f3c2331e6b89606c",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6081f0377617dddb82f900569d6458c278a7ab26697b34c87684188eac083471",
+              "document_key": "cninfo:300750:annual:2023",
+              "company_name": "宁德时代",
+              "report_year": 2023,
+              "page_start": 15,
+              "page_end": 15,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "1、概述"
+              ],
+              "excerpt": "四、主营业务分析\n\n1、概述\n\n报告期内，公司实现营业总收入40,091,704.49 万元，同比增长22.01%，归属于上市公司股东的净利\n\n润4,412,124.83万元，同比增长43.58%。报告期内，公司实现锂离子电池销量390GWh，同比增长34.95%，\n\n其中，动力电池系统销量321GWh，同比增长32.56%；储能电池系统销量69GWh，同比增长46.81%。\n\n报告期内，公司各业务的主要经营情况如下："
+            },
+            {
+              "chunk_id": "6081f0377617:c7:2fcfefea06e75553",
+              "content_sha256": "052eec35dc5dd9d2892ee5e374cf6440be6e1cd9c94de20ac6ddab2db74aea9e",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6081f0377617dddb82f900569d6458c278a7ab26697b34c87684188eac083471",
+              "document_key": "cninfo:300750:annual:2023",
+              "company_name": "宁德时代",
+              "report_year": 2023,
+              "page_start": 5,
+              "page_end": 6,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "一、公司信息"
+              ],
+              "excerpt": "HEV\n指\n英文：hybrid electric vehicle\n中文：混合动力车\n\n巨潮资讯网\n指\nhttp://www.cninfo.com.cn\n\n报告期\n指\n2023 年1 月1 日至2023 年12 月31 日\n\n注：本报告中若出现总数与各分项数值之和尾数不符的情况，均为四舍五入原因造成。\n\n第二节 公司简介和主要财务指标\n\n一、公司信息\n\n股票简称\n宁德时代\n股票代码\n300750\n\n公司的中文名称\n宁德时代新能源科技股份有限公司\n\n公司的中文简称\n宁德时代\n\n公司的外文名称\nContemporary Amperex Technology Co., Ltd.\n\n公司的外文名称缩写\nCATL\n\n公司的法定代表人\n曾毓群\n\n注册地址\n福建省宁德市蕉城区漳湾镇新港路2 号\n\n注册地址的邮政编码\n352100\n\n办公地址\n福建省宁德市蕉城区漳湾镇新港路2 号\n\n办公地址的邮政编码\n352100\n\n公司网址\nwww.catl.com\n\n电子信箱\nCATL-IR@catl.com"
+            },
+            {
+              "chunk_id": "6081f0377617:c8:21376697fcd39b71",
+              "content_sha256": "226dab5982e7f5c53fce94ddb168dfaaa78d71b14a119a441fec4afea1031f1c",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6081f0377617dddb82f900569d6458c278a7ab26697b34c87684188eac083471",
+              "document_key": "cninfo:300750:annual:2023",
+              "company_name": "宁德时代",
+              "report_year": 2023,
+              "page_start": 6,
+              "page_end": 6,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "三、信息披露及备置地点"
+              ],
+              "excerpt": "二、联系人和联系方式\n\n董事会秘书\n证券事务代表\n\n姓名\n蒋理\n陈津\n\n联系地址\n福建省宁德市蕉城区漳湾镇新港路2 号\n福建省宁德市蕉城区漳湾镇新港路2 号\n\n电话\n0593-8901666\n0593-8901666\n\n传真\n0593-8901999\n0593-8901999\n\n电子信箱\nCATL-IR@catl.com\nCATL-IR@catl.com\n\n三、信息披露及备置地点\n\n公司披露年度报告的证券交易所网站\nhttps://www.szse.cn/index/index.html\n\n公司披露年度报告的媒体名称及网址\n巨潮资讯网\n\n公司年度报告备置地点\n公司住所"
+            },
+            {
+              "chunk_id": "6081f0377617:c9:694897814f727a2b",
+              "content_sha256": "0b0b05a42d0512cc5f061d0a1f7223c9254a6e944958629e141035d098f42ff2",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6081f0377617dddb82f900569d6458c278a7ab26697b34c87684188eac083471",
+              "document_key": "cninfo:300750:annual:2023",
+              "company_name": "宁德时代",
+              "report_year": 2023,
+              "page_start": 6,
+              "page_end": 7,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "四、其他有关资料"
+              ],
+              "excerpt": "四、其他有关资料\n\n公司聘请的会计师事务所\n\n会计师事务所名称\n致同会计师事务所（特殊普通合伙）\n\n会计师事务所办公地址\n北京市朝阳区建国门外大街22 号赛特广场5 层\n\n签字会计师姓名\n殷雪芳、施旭锋\n\n公司聘请的报告期内履行持续督导职责的保荐机构\n\n适用 □不适用\n\n保荐机构名称\n保荐机构办公地址\n保荐代表人姓名\n持续督导期间\n\n中信建投证券股份有限公司\n北京市朝阳区景辉街16 号院1 号楼\n泰康集团大厦11 层\n吕晓峰、张帅\n2020 年8 月4 日-2024 年12\n月31 日\n\n公司聘请的报告期内履行持续督导职责的财务顾问\n\n□适用 不适用"
+            },
+            {
+              "chunk_id": "6081f0377617:c12:20a1966cbae70376",
+              "content_sha256": "f343638a859b44259332a5b70d758bad03aeace3d78708d6bc7f8b5985e76a94",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6081f0377617dddb82f900569d6458c278a7ab26697b34c87684188eac083471",
+              "document_key": "cninfo:300750:annual:2023",
+              "company_name": "宁德时代",
+              "report_year": 2023,
+              "page_start": 8,
+              "page_end": 8,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、境内外会计准则下会计数据差异",
+                "1、同时按照国际会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况"
+              ],
+              "excerpt": "七、境内外会计准则下会计数据差异\n\n1、同时按照国际会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况\n\n□适用 不适用\n\n公司报告期不存在按照国际会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况。"
+            },
+            {
+              "chunk_id": "6081f0377617:c13:30ed3def474035b4",
+              "content_sha256": "5884ea4a140429a01b6a89bdc434fa567b2881098f463b12c947811cb94c179d",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6081f0377617dddb82f900569d6458c278a7ab26697b34c87684188eac083471",
+              "document_key": "cninfo:300750:annual:2023",
+              "company_name": "宁德时代",
+              "report_year": 2023,
+              "page_start": 8,
+              "page_end": 8,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、境内外会计准则下会计数据差异",
+                "1、同时按照国际会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况",
+                "3、境内外会计准则下会计数据差异原因说明"
+              ],
+              "excerpt": "2、同时按照境外会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况\n\n□适用 不适用\n\n公司报告期不存在按照境外会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况。\n\n3、境内外会计准则下会计数据差异原因说明\n\n□适用 不适用"
+            },
+            {
+              "chunk_id": "6081f0377617:c14:f279a5bd9f3d3124",
+              "content_sha256": "ea479dcf11e600f8cb29a1e7c283bc1ad35d5e1585490aa5af0fd0fc8ef49546",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:6081f0377617dddb82f900569d6458c278a7ab26697b34c87684188eac083471",
+              "document_key": "cninfo:300750:annual:2023",
+              "company_name": "宁德时代",
+              "report_year": 2023,
+              "page_start": 8,
+              "page_end": 9,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "八、非经常性损益项目及金额"
+              ],
+              "excerpt": "八、非经常性损益项目及金额\n\n适用 □不适用\n\n单位：万元\n\n项目\n2023 年金额\n2022 年金额\n2021 年金额\n说明\n\n非流动性资产处置损益（包括已计提资产减\n值准备的冲销部分）\n-23,594.40\n26,471.26\n-7,504.20\n\n572,456.24\n270,202.97\n167,345.41\n\n计入当期损益的政府补助（与公司正常经营\n业务密切相关，符合国家政策规定、按照确\n定的标准享有、对公司损益产生持续影响的\n政府补助除外）\n\n4,627.04\n40,024.13\n\n除同公司正常经营业务相关的有效套期保值\n业务外，非金融企业持有金融资产和金融负\n债产生的公允价值变动损益以及处置金融资\n产和金融负债产生的损益\n\n委托他人投资或管理资产的损益\n2,675.89\n5,293.73\n6,092.63\n\n单独进行减值测试的应收款项减值准备转回\n6,233.87\n3,278.07\n33,127.58\n\n除上述各项之外的其他营业外收入和支出\n19,575.12\n-11,119.94\n13,064.25\n\n其他符合非经常性损益定义的损益项目\n18,452.77\n4,332.79\n104,097.83\n\n减：所得税影响额\n119,402.68\n68,918.71\n50,461.66\n\n少数股东权益影响额（税后）\n78,066.39\n17,957.79\n16,866.49\n\n合计\n402,957.47\n251,606.53\n248,895.35\n--\n\n其他符合非经常性损益定义的损益项目的具体情况：\n\n适用 □不适用\n\n主要系其他非流动金融资产分红确认的投资收益。\n\n将《公开发行证券的公司信息披露解释性公告第1 号——非经常性损益》中列举的非经常性损益项目界定为经常性损益项\n目的情况说明"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c10:27244d4bbdbd613b",
+              "content_sha256": "0a0f4db96e6f5015133a1edd056b1c3c6f18375d94f656622b1f4637260bb479",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 9,
+              "page_end": 9,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "是 □否"
+              ],
+              "excerpt": "3、公司聘请的报告期内履行持续督导职责的财务顾问\n\n□适用 不适用\n\n五、主要会计数据和财务指标\n\n公司是否需追溯调整或重述以前年度会计数据\n\n是 □否\n\n追溯调整或重述原因：2022 年每股收益调整原因系公司 2023 年4 月完成资本公积金转增股本，对该指标进行重新计算。\n\n2022 年\n\n项目\n2024 年\n2023 年\n本年比上年\n\n增减\n\n调整前\n调整后\n\n营业收入（千元）\n362,012,554\n400,917,045\n-9.70%\n328,593,988\n328,593,988\n\n归属于上市公司股东的净利润（千元）\n50,744,682\n44,121,248\n15.01%\n30,729,163\n30,729,163\n\n归属于上市公司股东的扣除非经常性损\n益的净利润（千元）\n44,992,919\n40,091,674\n12.23%\n28,213,098\n28,213,098\n\n经营活动产生的现金流量净额（千元）\n96,990,345\n92,826,124\n4.49%\n61,208,843\n61,208,843\n\n基本每股收益（元/股）\n11.58\n10.06\n15.11%\n12.92\n7.18\n\n稀释每股收益（元/股）\n11.58\n10.05\n15.22%\n12.88\n7.16\n\n加权平均净资产收益率\n24.13%\n24.04%\n0.09%\n24.67%\n24.67%\n\n2022 年末\n\n项目\n2024 年末\n2023 年末\n本年末比上\n\n年末增减\n\n调整前\n调整后\n\n资产总额（千元）\n786,658,123\n717,168,041\n9.69%\n600,952,352\n600,952,352\n\n归属于上市公司股东的净资产（千元）\n246,930,033\n197,708,052\n24.90%\n164,481,252\n164,481,252\n\n公司最近三个会计年"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c11:4213e5a075752b49",
+              "content_sha256": "bee7c769bb5574ae5dc97c656a41347d66c9efd44004e9d30ab8a07e0aca9d47",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 9,
+              "page_end": 10,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "六、分季度主要财务指标"
+              ],
+              "excerpt": "扣除非经常损益前后的净利润孰低者为负值\n□是 否\n\n六、分季度主要财务指标\n\n单位：千元\n\n项目\n第一季度\n第二季度\n第三季度\n第四季度\n\n营业收入\n79,770,779\n86,996,055\n92,277,915\n102,967,805\n\n归属于上市公司股东的净利润\n10,509,923\n12,355,064\n13,136,086\n14,743,608\n\n归属于上市公司股东的扣除非\n经常性损益的净利润\n9,247,439\n10,806,502\n12,122,470\n12,816,508\n\n经营活动产生的现金流量净额\n28,357,911\n16,351,044\n22,734,647\n29,546,744"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c38:337e99d144a8fa1a",
+              "content_sha256": "162b47814c06ddefe3b01e3a85d5734ac895a5e90e18399a0cbc5c7f59c54887",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 17,
+              "page_end": 17,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "1、概述"
+              ],
+              "excerpt": "四、主营业务分析\n\n1、概述\n\n报告期内，公司实现归属于上市公司股东的净利润507.45 亿元，同比增长15.01%。公司实现锂离子\n\n电池销量475GWh，同比增长21.79%，其中，动力电池系统销量381GWh，同比增长18.85%；储能电池\n\n系统销量93GWh，同比增长34.32%。\n\n报告期内，公司主要经营情况如下："
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c7:31ad1cb497c0bb87",
+              "content_sha256": "7cda599c66256987f2f269c00178c9280bb94e6f8f57bb4128be831fe42db741",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 8,
+              "page_end": 8,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "一、公司信息"
+              ],
+              "excerpt": "第二节 公司简介和主要财务指标\n\n一、公司信息\n\n股票简称\n宁德时代\n股票代码\n300750\n\n公司的中文名称\n宁德时代新能源科技股份有限公司\n\n公司的中文简称\n宁德时代\n\n公司的外文名称\nContemporary Amperex Technology Co.,Ltd.\n\n公司的外文名称缩写\nCATL\n\n公司的法定代表人\n曾毓群\n\n注册地址\n福建省宁德市蕉城区漳湾镇新港路2 号\n\n注册地址的邮政编码\n352100\n\n公司注册地址历史变更情况\n无\n\n办公地址\n福建省宁德市蕉城区漳湾镇新港路2 号\n\n办公地址的邮政编码\n352100\n\n公司网址\nwww.catl.com\n\n电子信箱\nCATL-IR@catl.com"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c8:c78aad04ef76b025",
+              "content_sha256": "ecd3ebc0699ff1f4e4967648f607c295ce58e4505952240f348ee353c230a884",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 8,
+              "page_end": 8,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "三、信息披露及备置地点"
+              ],
+              "excerpt": "二、联系人和联系方式\n\n董事会秘书\n证券事务代表\n\n姓名\n蒋理\n陈津\n\n联系地址\n福建省宁德市蕉城区漳湾镇新港路2 号\n福建省宁德市蕉城区漳湾镇新港路2 号\n\n电话\n0593-8901666\n0593-8901666\n\n传真\n0593-8901999\n0593-8901999\n\n电子信箱\nCATL-IR@catl.com\nCATL-IR@catl.com\n\n三、信息披露及备置地点\n\n公司披露年度报告的证券交易所网站\nhttps://www.szse.cn/index/index.html\n\n公司披露年度报告的媒体名称及网址\n巨潮资讯网\n\n公司年度报告备置地点\n公司住所"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c9:f6f3388152362a81",
+              "content_sha256": "360d5288703d0b16eb5f3a6735e98e0c4da3211317c813ca0e847163b7becba1",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 8,
+              "page_end": 9,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "四、其他有关资料",
+                "1、公司聘请的会计师事务所",
+                "2、公司聘请的报告期内履行持续督导职责的保荐机构"
+              ],
+              "excerpt": "四、其他有关资料\n\n1、公司聘请的会计师事务所\n\n会计师事务所名称\n致同会计师事务所（特殊普通合伙）\n\n会计师事务所办公地址\n北京市朝阳区建国门外大街22 号赛特广场5 层\n\n签字会计师姓名\n殷雪芳、郑海霞\n\n2、公司聘请的报告期内履行持续督导职责的保荐机构\n\n适用 □不适用\n\n保荐机构办公地址\n保荐代表人姓名\n持续督导期间\n\n中信建投证券股份有限公司\n北京市朝阳区景辉街16 号院\n1 号楼泰康集团大厦11 层\n吕晓峰、张帅\n2020 年8 月4 日-2024 年12 月31 日"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c12:b36c9b96b6326132",
+              "content_sha256": "997b2026988dbba0f1fa3154145f45e8ed023c791a69439d0761e16ce7d4a340",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 10,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、境内外会计准则下会计数据差异",
+                "1、同时按照国际会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况"
+              ],
+              "excerpt": "上述财务指标或其加总数是否与公司已披露季度报告、半年度报告相关财务指标存在重大差异\n□是 否\n\n七、境内外会计准则下会计数据差异\n\n1、同时按照国际会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况\n\n□适用 不适用\n\n公司报告期不存在按照国际会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况。"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c13:8704802819de24f3",
+              "content_sha256": "351185b2bf5239be7d74c1ef66351e17aed203563ab6433655d37baa309cffae",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 10,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "八、非经常性损益项目及金额"
+              ],
+              "excerpt": "2、同时按照境外会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况\n\n□适用 不适用\n\n公司报告期不存在按照境外会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况。\n\n八、非经常性损益项目及金额"
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c14:bc6b2014824d107d",
+              "content_sha256": "cdf9968dbf6cd2e41ccf6966c178d3d60fef68e280f8f8a2e46d1e0be5e88326",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 10,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "适用 □不适用"
+              ],
+              "excerpt": "适用 □不适用\n\n单位：千元\n\n项目\n2024 年金额\n2023 年金额\n2022 年金额\n说明\n\n非流动性资产处置损益（包括已计提资产减值准备\n的冲销部分）\n169,816\n-235,944\n264,713\n\n46,270\n400,241\n\n664,223\n\n除同公司正常经营业务相关的有效套期保值业务\n外，非金融企业持有金融资产和金融负债产生的公\n允价值变动损益以及处置金融资产和金融负债产生\n的损益\n\n委托他人投资或管理资产的损益\n179,608\n26,759\n52,937\n\n单独进行减值测试的应收款项减值准备转回\n2,687\n62,339\n32,781\n\n除上述各项之外的其他营业外收入和支出\n-612,613\n195,751\n-111,199\n\n其他符合非经常性损益定义的损益项目\n8,128,318\n5,909,090\n2,745,358\n\n减：所得税影响额\n1,665,244\n1,194,027\n689,187\n\n少数股东权益影响额（税后）\n1,115,034\n780,664\n179,578\n\n合计\n5,751,762\n4,029,575\n2,516,065\n--\n\n其他符合非经常性损益定义的损益项目的具体情况："
+            },
+            {
+              "chunk_id": "b4f1713d7b82:c15:6f9995b4179347aa",
+              "content_sha256": "0252850c390c3cce6a095fc7d24b619037645a0430b290ec1b369b9d82342a18",
+              "target_ids": [
+                "task:calculate"
+              ],
+              "document_id": "sha256:b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+              "document_key": "cninfo:300750:annual:2024",
+              "company_name": "宁德时代",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 10,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "适用 □不适用"
+              ],
+              "excerpt": "适用 □不适用\n\n主要是部分股权投资的持股比例变动产生的投资收益、其他非流动金融资产投资分红收益及其他收益等。\n\n将《公开发行证券的公司信息披露解释性公告第1 号——非经常性损益》中列举的非经常性损益项目界定为经常性损益项\n目的情况说明\n□适用 不适用\n\n公司不存在将《公开发行证券的公司信息披露解释性公告第1 号——非经常性损益》中列举的非经常性损益项目界定为经\n常性损益的项目的情形。"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "sufficient",
+          "evidence_count_by_target": {
+            "task:calculate": 19
+          },
+          "gaps": []
+        },
+        "result": {
+          "outcome": "answer",
+          "answer": {
+            "answer": "2023年营业收入(万元)=40,091,704.49[1]\n2023年归母净利润(万元)=4,412,124.83[1]\n2024年营业收入(千元)=362,012,554[2]\n2024年归母净利润(千元)=50,744,682[2]\n2023年归母净利率=11.01%[1]\n2024年归母净利率=14.02%[2]\n归母净利率变化百分点=3.01个百分点[2][1]\n2024年归母净利率14.02%，2023年归母净利率11.01%；扩大[2][1]",
+            "citations": [
+              {
+                "ordinal": 1,
+                "chunk_id": "6081f0377617:c10:d44fbd88df55340d",
+                "page_start": 7,
+                "page_end": 7,
+                "section_path": [
+                  "第二节 公司简介和主要财务指标",
+                  "五、主要会计数据和财务指标"
+                ],
+                "excerpt": "五、主要会计数据和财务指标\n\n公司是否需追溯调整或重述以前年度会计数据\n\n是 □否\n\n追溯调整或重述原因：2022 年、2021 年每股收益调整的原因系本公司 2023 年4 月完成资本公积金转增股本，对该指标进\n行重新计算。\n\n增减\n2021 年\n\n2023 年\n2022 年\n本年比上年\n\n调整前\n调整后\n调整后\n调整前\n调整后\n\n营业收入（万\n元）\n40,091,704.49\n32,859,398.75\n32,859,398.75\n22.01%\n13,035,579.64\n13,035,579.64\n\n4,412,124.83\n3,072,916.35\n3,072,916.35\n43.58%\n1,593,131.79\n1,593,131.79\n\n归属于上市公司\n股东的净利润\n（万元）\n\n4,009,167.37\n2,821,309.82\n2,821,309.82\n42.10%\n1,344,236.43\n1,344,236.43\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润（万元）\n\n9,282,612.44\n6,120,884.33\n6,120,884.33\n51.65%\n4,290,800.87\n4,290,800.87\n\n经营活动产生的\n现金流量净额\n（万元）\n\n基本每股收益\n（元/股）\n11.7900\n12.9178\n7.1766\n64.28%\n6.8760\n3.8200\n\n稀释每股收益\n（元/股）\n11.7790\n12.8795\n7.1553\n64.62%\n6.8392\n3.7996\n\n加权平均净资产\n收益率\n24.04%\n24.67%\n24.67%\n-0.63%\n21.52%\n21.52%\n\n年末增减\n2021 年末\n\n2023 年末\n2022 年末\n本年末比上\n\n调整前\n调整后\n调整后\n调整前\n调整后\n\n资产总额（万\n元）\n71,716,804.1"
+              },
+              {
+                "ordinal": 2,
+                "chunk_id": "b4f1713d7b82:c10:27244d4bbdbd613b",
+                "page_start": 9,
+                "page_end": 9,
+                "section_path": [
+                  "第二节 公司简介和主要财务指标",
+                  "是 □否"
+                ],
+                "excerpt": "3、公司聘请的报告期内履行持续督导职责的财务顾问\n\n□适用 不适用\n\n五、主要会计数据和财务指标\n\n公司是否需追溯调整或重述以前年度会计数据\n\n是 □否\n\n追溯调整或重述原因：2022 年每股收益调整原因系公司 2023 年4 月完成资本公积金转增股本，对该指标进行重新计算。\n\n2022 年\n\n项目\n2024 年\n2023 年\n本年比上年\n\n增减\n\n调整前\n调整后\n\n营业收入（千元）\n362,012,554\n400,917,045\n-9.70%\n328,593,988\n328,593,988\n\n归属于上市公司股东的净利润（千元）\n50,744,682\n44,121,248\n15.01%\n30,729,163\n30,729,163\n\n归属于上市公司股东的扣除非经常性损\n益的净利润（千元）\n44,992,919\n40,091,674\n12.23%\n28,213,098\n28,213,098\n\n经营活动产生的现金流量净额（千元）\n96,990,345\n92,826,124\n4.49%\n61,208,843\n61,208,843\n\n基本每股收益（元/股）\n11.58\n10.06\n15.11%\n12.92\n7.18\n\n稀释每股收益（元/股）\n11.58\n10.05\n15.22%\n12.88\n7.16\n\n加权平均净资产收益率\n24.13%\n24.04%\n0.09%\n24.67%\n24.67%\n\n2022 年末\n\n项目\n2024 年末\n2023 年末\n本年末比上\n\n年末增减\n\n调整前\n调整后\n\n资产总额（千元）\n786,658,123\n717,168,041\n9.69%\n600,952,352\n600,952,352\n\n归属于上市公司股东的净资产（千元）\n246,930,033\n197,708,052\n24.90%\n164,481,252\n164,481,252\n\n公司最近三个会计年"
+              }
+            ],
+            "provider": "deepseek-grounded-decimal-calculator",
+            "grounded": true,
+            "claim_citations": [
+              {
+                "claim": "2023年营业收入(万元)=40,091,704.49",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "2023年归母净利润(万元)=4,412,124.83",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "2024年营业收入(千元)=362,012,554",
+                "citation_ordinals": [
+                  2
+                ]
+              },
+              {
+                "claim": "2024年归母净利润(千元)=50,744,682",
+                "citation_ordinals": [
+                  2
+                ]
+              },
+              {
+                "claim": "2023年归母净利率=11.01%",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "2024年归母净利率=14.02%",
+                "citation_ordinals": [
+                  2
+                ]
+              },
+              {
+                "claim": "归母净利率变化百分点=3.01个百分点",
+                "citation_ordinals": [
+                  2,
+                  1
+                ]
+              },
+              {
+                "claim": "2024年归母净利率14.02%，2023年归母净利率11.01%；扩大",
+                "citation_ordinals": [
+                  2,
+                  1
+                ]
+              }
+            ]
+          },
+          "target_evidence": {},
+          "target_answers": {}
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-calculate-p3-general-grounded-decimal-dag",
+          "prompt_sha256": "bee8d2265a70ca62dd97daa8ebb5604d7c40cb4a266792a7d03f485a58500456",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "execute_grounded_calculation"
+              ],
+              "input_tokens": 6995,
+              "output_tokens": 566,
+              "elapsed_ms": 3284.090399974957,
+              "validation_errors": []
+            }
+          ],
+          "request_count": 1,
+          "input_tokens": 6995,
+          "output_tokens": 566
+        }
+      }
+    }
+  ]
+}

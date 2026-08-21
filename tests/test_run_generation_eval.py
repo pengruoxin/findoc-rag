@@ -110,8 +110,9 @@ def test_runner_source_uses_dataset_or_validated_migration_bound_index_gate() ->
     source = (ROOT / "scripts/run_generation_eval.py").read_text(encoding="utf-8")
     assert "validate_migration_manifest(" in source
     assert "resolve_evaluation_index_id(" in source
-    assert 'args.lane == "retrieved_context" or args.migration_manifest is not None' in source
-    assert "index if migration is not None else None" in source
+    assert "index = resolve_current_index(args.index_root)" in source
+    assert "Dataset spans isolated indexes; pass --split" in source
+    assert "chunks = load_chunks(index, judged_chunk_ids)" in source
 
 
 def test_required_remote_run_fails_closed_after_retaining_error_artifacts() -> None:

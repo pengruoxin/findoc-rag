@@ -1,0 +1,785 @@
+{
+  "schema_version": "1",
+  "status": "complete",
+  "generated_at": "2026-08-21T03:55:31.773196+00:00",
+  "change_id": "p4e-bounded-atomic-support-proof",
+  "change_scope": "For non-audit verified extracts, require a verbatim support proof for the atomic requirement with the weakest claim/contract match. Low proof-language alignment gets one contrastive challenge; invalid proofs escalate to manual review and partition errors get one retry.",
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "same_provider_independent_verifier": false,
+  "proof_selection": "one weakest claim/requirement contract per non-audit trace",
+  "proof_challenge_language_coverage_below": 0.9,
+  "prompt_revisions": [
+    "evidence-verifier-p4e-bounded-proof-context-v11",
+    "evidence-verifier-p4e-support-proof-off-v9"
+  ],
+  "splits": {
+    "calibration": {
+      "dataset_sha256": "2e6ce78e5acd87ec1e1c54dd6e7193f674ba8445aa7716f7fde5a6212dee2b56",
+      "strict_case_pass_count_before": 22,
+      "strict_case_pass_count_after": 22,
+      "strict_case_pass_count_delta": 0,
+      "before_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9230769230769231,
+        "supported_case_pass_rate": 0.9166666666666666,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "after_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9230769230769231,
+        "supported_case_pass_rate": 0.9166666666666666,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "verifier_decisions": {
+        "accept_original": 10,
+        "not_routed": 4
+      },
+      "risk_gate_statuses": {
+        "pass": 10,
+        "not_applicable": 4
+      },
+      "risk_gate_findings": {},
+      "incremental_verifier_cost": {
+        "model_requests": 11,
+        "model_input_tokens": 50654,
+        "model_output_tokens": 2010,
+        "model_total_tokens": 52664
+      },
+      "composed_report": "reports/agent/agent-hard-v3-calibration-deepseek-p4e-composed.json",
+      "composed_report_sha256": "d5d1775c83d9806adff5637b9ec696557aab1bf64b8a7004c164945557c200f4"
+    },
+    "dev": {
+      "dataset_sha256": "fd15f3396fcceb3eb213251ea37ce7bea7decd00574b87c09720d607b1443933",
+      "strict_case_pass_count_before": 23,
+      "strict_case_pass_count_after": 23,
+      "strict_case_pass_count_delta": 0,
+      "before_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9716981132075472,
+        "supported_case_pass_rate": 0.9583333333333334,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "after_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9716981132075472,
+        "supported_case_pass_rate": 0.9583333333333334,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "verifier_decisions": {
+        "accept_original": 8,
+        "not_routed": 6
+      },
+      "risk_gate_statuses": {
+        "review": 1,
+        "pass": 9,
+        "not_applicable": 4
+      },
+      "risk_gate_findings": {
+        "low_evidence_language_coverage": 1
+      },
+      "incremental_verifier_cost": {
+        "model_requests": 11,
+        "model_input_tokens": 46073,
+        "model_output_tokens": 1949,
+        "model_total_tokens": 48022
+      },
+      "composed_report": "reports/agent/agent-hard-v3-dev-deepseek-p4e-composed.json",
+      "composed_report_sha256": "cc6d9cee194eb5d1ad1664384c222c524f53eb796483975997831bb5111aaa69"
+    }
+  },
+  "combined": {
+    "case_count": 48,
+    "strict_case_pass_count_before": 45,
+    "strict_case_pass_rate_before": 0.9375,
+    "strict_case_pass_count_after": 45,
+    "strict_case_pass_rate_after": 0.9375,
+    "strict_case_pass_count_delta": 0,
+    "proof_off_normal_verifier_cost": {
+      "model_requests": 18,
+      "model_input_tokens": 83086,
+      "model_output_tokens": 1492,
+      "model_total_tokens": 84578
+    },
+    "proof_on_normal_verifier_cost": {
+      "model_requests": 22,
+      "model_input_tokens": 96727,
+      "model_output_tokens": 3959,
+      "model_total_tokens": 100686
+    },
+    "normal_cost_delta": {
+      "model_requests": 4,
+      "model_total_tokens": 16108,
+      "model_total_token_change_rate": 0.19045141762633308
+    },
+    "normal_answer_verifier_decisions": {
+      "accept_original": 18,
+      "not_routed": 10
+    },
+    "risk_gate_statuses": {
+      "pass": 19,
+      "not_applicable": 8,
+      "review": 1
+    },
+    "risk_gate_findings": {
+      "low_evidence_language_coverage": 1
+    }
+  },
+  "high_overlap_ablation": {
+    "proof_off_report": {
+      "path": "reports/agent/agent-hard-v3-deepseek-p4e-support-proof-ablation-off-high-overlap-v1.json",
+      "sha256": "092d7b2fd1516770a14d6c6fa8653bebeb8408e028b33b4ad83e6c800a3d2814"
+    },
+    "proof_off_metrics": {
+      "mutation_count": 15,
+      "routed_rate": 0.8666666666666667,
+      "safe_detection_rate": 0.9333333333333333,
+      "unsafe_accept_rate": 0.06666666666666667,
+      "verifier_error_rate": 0.0,
+      "manual_review_rate": 0.0,
+      "breakdown": {
+        "accounting_sign_flip": {
+          "case_count": 5,
+          "routed_count": 3,
+          "safe_detection_count": 5,
+          "final_decisions": {
+            "local_gate_rejected": 5
+          }
+        },
+        "label_swap": {
+          "case_count": 5,
+          "routed_count": 5,
+          "safe_detection_count": 5,
+          "final_decisions": {
+            "abstain": 5
+          }
+        },
+        "relation_swap": {
+          "case_count": 5,
+          "routed_count": 5,
+          "safe_detection_count": 4,
+          "final_decisions": {
+            "abstain": 4,
+            "accept_original": 1
+          }
+        }
+      }
+    },
+    "proof_off_runtime_cost": {
+      "model_requests": 10,
+      "input_tokens": 39834,
+      "output_tokens": 5582,
+      "total_tokens": 45416
+    },
+    "proof_on_report": {
+      "path": "reports/agent/agent-hard-v3-deepseek-p4e-bounded-proof-context-high-overlap-v7.json",
+      "sha256": "b074883c675e15d4a5d59264e580a29d389f51c4c00a376397cf87e487611737"
+    },
+    "proof_on_metrics": {
+      "mutation_count": 15,
+      "routed_rate": 0.8666666666666667,
+      "safe_detection_rate": 1.0,
+      "unsafe_accept_rate": 0.0,
+      "verifier_error_rate": 0.0,
+      "manual_review_rate": 0.06666666666666667,
+      "breakdown": {
+        "accounting_sign_flip": {
+          "case_count": 5,
+          "routed_count": 3,
+          "safe_detection_count": 5,
+          "final_decisions": {
+            "local_gate_rejected": 5
+          }
+        },
+        "label_swap": {
+          "case_count": 5,
+          "routed_count": 5,
+          "safe_detection_count": 5,
+          "final_decisions": {
+            "manual_review": 1,
+            "abstain": 4
+          }
+        },
+        "relation_swap": {
+          "case_count": 5,
+          "routed_count": 5,
+          "safe_detection_count": 5,
+          "final_decisions": {
+            "abstain": 5
+          }
+        }
+      }
+    },
+    "proof_on_runtime_cost": {
+      "model_requests": 11,
+      "input_tokens": 45585,
+      "output_tokens": 6773,
+      "total_tokens": 52358
+    },
+    "fixed_unsafe_case_ids": [
+      "v3_601398_y23_asset_quality:relation_swap"
+    ]
+  },
+  "known_fault_regression": {
+    "report": {
+      "path": "reports/agent/agent-hard-v3-calibration-deepseek-p4e-known-faults-v2.json",
+      "sha256": "0e736fa04029bdca6ad028daa0ca8202b0055225ab2db3eaec5822bbcbb803fc"
+    },
+    "metrics": {
+      "mutation_count": 15,
+      "safe_detection_rate": 1.0,
+      "unsafe_accept_rate": 0.0,
+      "verifier_error_rate": 0.0,
+      "manual_review_rate": 0.0,
+      "omission_repair_rate": 1.0
+    },
+    "runtime_cost": {
+      "model_requests": 20,
+      "input_tokens": 86295,
+      "output_tokens": 6523,
+      "total_tokens": 92818
+    }
+  },
+  "open_risk_regression": {
+    "report": {
+      "path": "reports/agent/agent-hard-v3-deepseek-p4e-open-risk-regression-v1.json",
+      "sha256": "f95a3879da9bdc8e78dafbd29174507d978262a463772e6089c4258e024cbcb8"
+    },
+    "metrics": {
+      "mutation_count": 15,
+      "routed_rate": 1.0,
+      "safe_detection_rate": 1.0,
+      "unsafe_accept_rate": 0.0,
+      "fail_closed_rate": 1.0,
+      "verifier_error_rate": 0.0,
+      "manual_review_rate": 0.0,
+      "breakdown": {
+        "semantic_negation": {
+          "case_count": 5,
+          "safe_detection_count": 5,
+          "routed_count": 5,
+          "final_decisions": {
+            "abstain": 5
+          }
+        },
+        "unsupported_causal_inference": {
+          "case_count": 5,
+          "safe_detection_count": 5,
+          "routed_count": 5,
+          "final_decisions": {
+            "abstain": 5
+          }
+        },
+        "scope_qualifier_corruption": {
+          "case_count": 5,
+          "safe_detection_count": 5,
+          "routed_count": 5,
+          "final_decisions": {
+            "abstain": 5
+          }
+        }
+      }
+    },
+    "runtime_cost": {
+      "model_requests": 15,
+      "input_tokens": 67476,
+      "output_tokens": 9776,
+      "total_tokens": 77252
+    }
+  },
+  "iterations": [
+    {
+      "label": "all-requirements-proof-v1",
+      "fault_report": {
+        "path": "reports/agent/agent-hard-v3-deepseek-p4e-support-proof-high-overlap-v1.json",
+        "sha256": "b4f99548eaf4f9f277ffb4bd506b809bc62f324f0d84bb6547187caf217acc73"
+      },
+      "fault_metrics": {
+        "mutation_count": 15,
+        "routed_rate": 0.8666666666666667,
+        "safe_detection_rate": 1.0,
+        "unsafe_accept_rate": 0.0,
+        "verifier_error_rate": 0.0,
+        "manual_review_rate": 0.4,
+        "breakdown": {
+          "accounting_sign_flip": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "local_gate_rejected": 5
+            }
+          },
+          "label_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "abstain": 2,
+              "manual_review": 3
+            }
+          },
+          "relation_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "abstain": 2,
+              "manual_review": 3
+            }
+          }
+        }
+      },
+      "fault_runtime_cost": {
+        "model_requests": 10,
+        "input_tokens": 42824,
+        "output_tokens": 8380,
+        "total_tokens": 51204
+      },
+      "adopted": false,
+      "normal_report": {
+        "path": "reports/agent/agent-hard-v3-calibration-deepseek-p4e-support-proof-v1.json",
+        "sha256": "5e153cef8414bbcac922df0a54e5f713ff9f23a9fe46720c857b31516ed59e13"
+      },
+      "normal_metrics": {
+        "case_count": 14,
+        "executed_case_count": 14,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.5714285714285714,
+        "supported_fact_accuracy": 0.2962962962962963,
+        "end_to_end_fact_accuracy": 0.2962962962962963,
+        "supported_case_pass_rate": 0.5714285714285714,
+        "end_to_end_case_pass_rate": 0.5714285714285714,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 0.27586206896551724,
+        "requirement_evidence_coverage": 0.27586206896551724,
+        "scope_validation_rate": 0.27586206896551724,
+        "claim_citation_completeness": 0.4
+      },
+      "normal_verifier_cost": {
+        "model_requests": 10,
+        "model_input_tokens": 48934,
+        "model_output_tokens": 7361,
+        "model_total_tokens": 56295
+      }
+    },
+    {
+      "label": "normalized-quotes-with-challenge-v2",
+      "fault_report": {
+        "path": "reports/agent/agent-hard-v3-deepseek-p4e-support-proof-challenge-high-overlap-v2.json",
+        "sha256": "07c45ee9422d0187581020bfbbc76ecb8a0de20010e17fe33f1170d529c7890d"
+      },
+      "fault_metrics": {
+        "mutation_count": 15,
+        "routed_rate": 0.8666666666666667,
+        "safe_detection_rate": 0.8666666666666667,
+        "unsafe_accept_rate": 0.0,
+        "verifier_error_rate": 0.13333333333333333,
+        "manual_review_rate": 0.0,
+        "breakdown": {
+          "accounting_sign_flip": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "local_gate_rejected": 5
+            }
+          },
+          "label_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 4,
+            "final_decisions": {
+              "abstain": 4,
+              "error": 1
+            }
+          },
+          "relation_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 4,
+            "final_decisions": {
+              "abstain": 4,
+              "error": 1
+            }
+          }
+        }
+      },
+      "fault_runtime_cost": {
+        "model_requests": 11,
+        "input_tokens": 43665,
+        "output_tokens": 9570,
+        "total_tokens": 53235
+      },
+      "adopted": false,
+      "normal_report": {
+        "path": "reports/agent/agent-hard-v3-calibration-deepseek-p4e-support-proof-challenge-v2.json",
+        "sha256": "5d9eace916e9b9bb3bc80da809651517f0962e20a72a9ccd57406ff8a914b3b5"
+      },
+      "normal_metrics": {
+        "case_count": 14,
+        "executed_case_count": 14,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.8571428571428571,
+        "supported_fact_accuracy": 0.6111111111111112,
+        "end_to_end_fact_accuracy": 0.6111111111111112,
+        "supported_case_pass_rate": 0.7857142857142857,
+        "end_to_end_case_pass_rate": 0.7857142857142857,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 0.6206896551724138,
+        "requirement_evidence_coverage": 0.6206896551724138,
+        "scope_validation_rate": 0.6206896551724138,
+        "claim_citation_completeness": 0.8
+      },
+      "normal_verifier_cost": {
+        "model_requests": 11,
+        "model_input_tokens": 50178,
+        "model_output_tokens": 7500,
+        "model_total_tokens": 57678
+      }
+    },
+    {
+      "label": "bounded-weakest-contract-v3",
+      "fault_report": {
+        "path": "reports/agent/agent-hard-v3-deepseek-p4e-bounded-support-proof-high-overlap-v3.json",
+        "sha256": "d75f1abe3167fbc7f3d212353a4fdf5045b4c4b7ae677c2c1ac45b76934669f0"
+      },
+      "fault_metrics": {
+        "mutation_count": 15,
+        "routed_rate": 0.8666666666666667,
+        "safe_detection_rate": 0.4666666666666667,
+        "unsafe_accept_rate": 0.0,
+        "verifier_error_rate": 0.5333333333333333,
+        "manual_review_rate": 0.0,
+        "breakdown": {
+          "accounting_sign_flip": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "local_gate_rejected": 5
+            }
+          },
+          "label_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 0,
+            "final_decisions": {
+              "error": 5
+            }
+          },
+          "relation_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 2,
+            "final_decisions": {
+              "error": 3,
+              "abstain": 2
+            }
+          }
+        }
+      },
+      "fault_runtime_cost": {
+        "model_requests": 11,
+        "input_tokens": 44357,
+        "output_tokens": 6768,
+        "total_tokens": 51125
+      },
+      "adopted": false,
+      "normal_report": {
+        "path": "reports/agent/agent-hard-v3-calibration-deepseek-p4e-bounded-proof-v3.json",
+        "sha256": "fec757408b310dd0434e8689b8917ed08d169f84a95b536a03dac73999a3b726"
+      },
+      "normal_metrics": {
+        "case_count": 14,
+        "executed_case_count": 14,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.8518518518518519,
+        "end_to_end_fact_accuracy": 0.8518518518518519,
+        "supported_case_pass_rate": 0.8571428571428571,
+        "end_to_end_case_pass_rate": 0.8571428571428571,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "normal_verifier_cost": {
+        "model_requests": 11,
+        "model_input_tokens": 50437,
+        "model_output_tokens": 2203,
+        "model_total_tokens": 52640
+      }
+    },
+    {
+      "label": "finding-wins-normalization-v4",
+      "fault_report": {
+        "path": "reports/agent/agent-hard-v3-deepseek-p4e-bounded-proof-normalized-high-overlap-v4.json",
+        "sha256": "cf7f6b095bfc9004495196a26d5a365ff588659d69349ab6536e48383d232634"
+      },
+      "fault_metrics": {
+        "mutation_count": 15,
+        "routed_rate": 0.8666666666666667,
+        "safe_detection_rate": 0.9333333333333333,
+        "unsafe_accept_rate": 0.0,
+        "verifier_error_rate": 0.06666666666666667,
+        "manual_review_rate": 0.0,
+        "breakdown": {
+          "accounting_sign_flip": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "local_gate_rejected": 5
+            }
+          },
+          "label_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "abstain": 5
+            }
+          },
+          "relation_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 4,
+            "final_decisions": {
+              "abstain": 4,
+              "error": 1
+            }
+          }
+        }
+      },
+      "fault_runtime_cost": {
+        "model_requests": 11,
+        "input_tokens": 44357,
+        "output_tokens": 6587,
+        "total_tokens": 50944
+      },
+      "adopted": false
+    },
+    {
+      "label": "manual-fallback-v5",
+      "fault_report": {
+        "path": "reports/agent/agent-hard-v3-deepseek-p4e-bounded-proof-manual-fallback-high-overlap-v5.json",
+        "sha256": "56634fe62edc8ca3a809e2bb1214eaa98974e04d227e114957a32baa9f4d144d"
+      },
+      "fault_metrics": {
+        "mutation_count": 15,
+        "routed_rate": 0.8666666666666667,
+        "safe_detection_rate": 1.0,
+        "unsafe_accept_rate": 0.0,
+        "verifier_error_rate": 0.0,
+        "manual_review_rate": 0.06666666666666667,
+        "breakdown": {
+          "accounting_sign_flip": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "local_gate_rejected": 5
+            }
+          },
+          "label_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "manual_review": 1,
+              "abstain": 4
+            }
+          },
+          "relation_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "abstain": 5
+            }
+          }
+        }
+      },
+      "fault_runtime_cost": {
+        "model_requests": 11,
+        "input_tokens": 44357,
+        "output_tokens": 7409,
+        "total_tokens": 51766
+      },
+      "adopted": false,
+      "normal_report": {
+        "path": "reports/agent/agent-hard-v3-dev-deepseek-p4e-bounded-proof-posthoc-v4.json",
+        "sha256": "c71119d8a2e06ca9f8623331b935bbb0d9e43c5cd77ab3b4966a34abc12b7e43"
+      },
+      "normal_metrics": {
+        "case_count": 14,
+        "executed_case_count": 14,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.7857142857142857,
+        "supported_fact_accuracy": 0.5614035087719298,
+        "end_to_end_fact_accuracy": 0.5614035087719298,
+        "supported_case_pass_rate": 0.7857142857142857,
+        "end_to_end_case_pass_rate": 0.7857142857142857,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 0.5882352941176471,
+        "requirement_evidence_coverage": 0.5882352941176471,
+        "scope_validation_rate": 0.5882352941176471,
+        "claim_citation_completeness": 0.7
+      },
+      "normal_verifier_cost": {
+        "model_requests": 11,
+        "model_input_tokens": 42970,
+        "model_output_tokens": 2728,
+        "model_total_tokens": 45698
+      }
+    },
+    {
+      "label": "bounded-proof-context-retry-v7",
+      "fault_report": {
+        "path": "reports/agent/agent-hard-v3-deepseek-p4e-bounded-proof-context-high-overlap-v7.json",
+        "sha256": "b074883c675e15d4a5d59264e580a29d389f51c4c00a376397cf87e487611737"
+      },
+      "fault_metrics": {
+        "mutation_count": 15,
+        "routed_rate": 0.8666666666666667,
+        "safe_detection_rate": 1.0,
+        "unsafe_accept_rate": 0.0,
+        "verifier_error_rate": 0.0,
+        "manual_review_rate": 0.06666666666666667,
+        "breakdown": {
+          "accounting_sign_flip": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "local_gate_rejected": 5
+            }
+          },
+          "label_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "manual_review": 1,
+              "abstain": 4
+            }
+          },
+          "relation_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "abstain": 5
+            }
+          }
+        }
+      },
+      "fault_runtime_cost": {
+        "model_requests": 11,
+        "input_tokens": 45585,
+        "output_tokens": 6773,
+        "total_tokens": 52358
+      },
+      "adopted": true,
+      "normal_report": {
+        "path": "reports/agent/agent-hard-v3-calibration-deepseek-p4e-bounded-proof-context-v7.json",
+        "sha256": "b3cd8bcf96ea07f8df31dd28451da28c8397d63672e51e0bfb85555d91d4096f"
+      },
+      "normal_metrics": {
+        "case_count": 14,
+        "executed_case_count": 14,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.8518518518518519,
+        "end_to_end_fact_accuracy": 0.8518518518518519,
+        "supported_case_pass_rate": 0.8571428571428571,
+        "end_to_end_case_pass_rate": 0.8571428571428571,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "normal_verifier_cost": {
+        "model_requests": 11,
+        "model_input_tokens": 50654,
+        "model_output_tokens": 2010,
+        "model_total_tokens": 52664
+      }
+    }
+  ],
+  "paired_changed_cases": [],
+  "decision": {
+    "adopt_bounded_support_proof_for_non_audit_verifier_routes": true,
+    "require_proof_for_every_requirement": false,
+    "treat_manual_review_as_automatic_success": false,
+    "reason": "The same-code ablation fixed the remaining high-overlap relation swap (14/15 to 15/15) with no normal strict regression. Normal verifier cost rose by about 19%, so proof is bounded to one weak atomic contract and existing audit reviews keep the compact path."
+  },
+  "dev_governance": {
+    "final_dev_run_is_posthoc": true,
+    "unbiased_dev_confirmation": false,
+    "frozen_test_opened": false
+  }
+}

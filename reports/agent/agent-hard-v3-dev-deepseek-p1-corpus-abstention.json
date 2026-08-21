@@ -1,0 +1,185 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-provisional-gold-dev-abstain",
+  "dataset_path": "D:/202607/raglab/data/evaluation/agent-hard-v3-dev-abstain.json",
+  "dataset_sha256": "124de4478af80db21ed53fc6e3e9f0451cd0a2357e5e3baeb3c9a3401b34e467",
+  "index_scope": "dev-abstain",
+  "index_path": "D:/202607/raglab/data/indexes/agent-hard-v3/development",
+  "evaluated_at": "2026-08-20T07:37:49.644615+00:00",
+  "runtime": "deepseek",
+  "scoring": "local_exact_gold_and_citation_overlap",
+  "source_validation": {
+    "valid": true,
+    "referenced_document_count": 0,
+    "verified_document_count": 0,
+    "errors": []
+  },
+  "status": "complete",
+  "reason": null,
+  "provider": {
+    "name": "deepseek",
+    "model": "deepseek-v4-flash",
+    "endpoint": "https://api.deepseek.com/chat/completions"
+  },
+  "index_id": "a4b314a9ff7e595a86bf",
+  "metrics": {
+    "case_count": 2,
+    "executed_case_count": 2,
+    "unsupported_case_count": 0,
+    "task_coverage_rate": 1.0,
+    "plan_target_exact_rate": 1.0,
+    "behavior_accuracy": 1.0,
+    "supported_fact_accuracy": 0.0,
+    "end_to_end_fact_accuracy": 0.0,
+    "supported_case_pass_rate": 1.0,
+    "end_to_end_case_pass_rate": 1.0,
+    "safe_abstention_accuracy": 1.0,
+    "clarification_accuracy": 0.0
+  },
+  "items": [
+    {
+      "case_id": "v3_601318_future_unavailable",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "status": "executed",
+      "expected_fact_count": 0,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "3c399528db9c4c878a345cd4271d6cf5",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "no_new_evidence",
+        "query": "请给出中国平安2025年寿险及健康险新业务价值和归母营运利润，并引用当前语料中的年报页码。",
+        "index_id": "a4b314a9ff7e595a86bf",
+        "created_at": "2026-08-20T07:37:51.814142Z",
+        "completed_at": "2026-08-20T07:37:51.815225Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p2b1-document-fact-period",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [
+            2025
+          ],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": null,
+          "corpus_unavailable_reason": "当前索引中中国平安仅包含报告年度2023,2024，没有2025年实际事实的可验证年报证据。"
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "a4b314a9ff7e595a86bf",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [
+            "corpus_year_coverage"
+          ]
+        },
+        "result": {
+          "outcome": "abstain",
+          "answer": {
+            "answer": "当前索引中中国平安仅包含报告年度2023,2024，没有2025年实际事实的可验证年报证据。",
+            "citations": [],
+            "provider": "agent-local-corpus-coverage-gate",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_300750_future_unavailable",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "status": "executed",
+      "expected_fact_count": 0,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "2ef20fc3f33647bcb954a3e4eeaba22c",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "no_new_evidence",
+        "query": "请给出宁德时代2025年动力电池系统收入和毛利率，并引用当前语料中的年报页码。",
+        "index_id": "a4b314a9ff7e595a86bf",
+        "created_at": "2026-08-20T07:37:51.815225Z",
+        "completed_at": "2026-08-20T07:37:51.815225Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p2b1-document-fact-period",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [
+            2025
+          ],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": null,
+          "corpus_unavailable_reason": "当前索引中宁德时代仅包含报告年度2023,2024，没有2025年实际事实的可验证年报证据。"
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "a4b314a9ff7e595a86bf",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [
+            "corpus_year_coverage"
+          ]
+        },
+        "result": {
+          "outcome": "abstain",
+          "answer": {
+            "answer": "当前索引中宁德时代仅包含报告年度2023,2024，没有2025年实际事实的可验证年报证据。",
+            "citations": [],
+            "provider": "agent-local-corpus-coverage-gate",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {}
+        },
+        "model_trace": null
+      }
+    }
+  ]
+}

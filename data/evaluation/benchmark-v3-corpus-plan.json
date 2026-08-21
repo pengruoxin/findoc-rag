@@ -1,0 +1,100 @@
+{
+  "schema_version": "1",
+  "plan_id": "findoc-rag-benchmark-v3-corpus",
+  "sealed_at": "2026-08-19T00:00:00+08:00",
+  "split_strategy": "document_blind",
+  "allocation_unit": "company",
+  "selection_protocol": "allocated_before_question_authoring_or_rule_tuning",
+  "documents": [
+    {
+      "document_key": "cninfo:600519:annual:2024",
+      "security_code": "600519",
+      "company_name": "贵州茅台",
+      "report_year": 2024,
+      "split": "calibration",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:600887:annual:2024",
+      "security_code": "600887",
+      "company_name": "伊利股份",
+      "report_year": 2024,
+      "split": "calibration",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:000333:annual:2023",
+      "security_code": "000333",
+      "company_name": "美的集团",
+      "report_year": 2023,
+      "split": "dev",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:000333:annual:2024",
+      "security_code": "000333",
+      "company_name": "美的集团",
+      "report_year": 2024,
+      "split": "dev",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:601088:annual:2023",
+      "security_code": "601088",
+      "company_name": "中国神华",
+      "report_year": 2023,
+      "split": "dev",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:601088:annual:2024",
+      "security_code": "601088",
+      "company_name": "中国神华",
+      "report_year": 2024,
+      "split": "dev",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:600690:annual:2023",
+      "security_code": "600690",
+      "company_name": "海尔智家",
+      "report_year": 2023,
+      "split": "frozen_test",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:600690:annual:2024",
+      "security_code": "600690",
+      "company_name": "海尔智家",
+      "report_year": 2024,
+      "split": "frozen_test",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:600900:annual:2023",
+      "security_code": "600900",
+      "company_name": "长江电力",
+      "report_year": 2023,
+      "split": "frozen_test",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:600900:annual:2024",
+      "security_code": "600900",
+      "company_name": "长江电力",
+      "report_year": 2024,
+      "split": "frozen_test",
+      "source": "cninfo",
+      "question_target": 6
+    }
+  ]
+}

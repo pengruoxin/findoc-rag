@@ -1,0 +1,22 @@
+{
+  "policy_id": "agentic-rag-p0-v1",
+  "plan_id": "findoc-rag-benchmark-v3-corpus",
+  "ready_for_acquisition": true,
+  "blockers": [],
+  "stats": {
+    "document_count": 10,
+    "company_count": 6,
+    "report_year_count": 2,
+    "split_document_counts": {
+      "calibration": 2,
+      "dev": 4,
+      "frozen_test": 4
+    },
+    "split_question_targets": {
+      "calibration": 12,
+      "dev": 24,
+      "frozen_test": 24
+    }
+  },
+  "company_split_overlaps": []
+}

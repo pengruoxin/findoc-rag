@@ -1,0 +1,41 @@
+{
+  "schema_version": "1",
+  "freeze_id": "benchmark-v3-p0-freeze-2026-08-19",
+  "locked_at": "2026-08-19T17:30:00+08:00",
+  "scope": "runtime_and_development_baseline_before_frozen_test_authoring",
+  "code": {
+    "git_revision": "42bd5c5b393b782e12341f009b3ba3c17483141e",
+    "dirty": true,
+    "executable_fingerprint": "941ea7827fd41fd9c16749ae5ed7f6d2358d8b5f7cbf46d92f5e1d4024f9b2e7"
+  },
+  "artifacts": {
+    "corpus_plan_sha256": "b638eacb99351fe86d45e35859144e384fe2fd342014dd2766948f81dd02d51b",
+    "version_manifest_sha256": "87445725a9ab89d80664071871b43925a1083b47e78ad42196a496158ba28713",
+    "development_dataset_sha256": "f2ec4ab9dab90f1ee60f37492928c0911f45e82a6c36bf940e042191215c8858"
+  },
+  "indexes": {
+    "calibration": "a66f0caef7dd29101861",
+    "development": "c5f61887df54d2be2ce1",
+    "frozen_test": "7a06388a3bbd4f4c44db"
+  },
+  "runtime": {
+    "prompt_revision": "evidence-first-v1",
+    "model_label": "deterministic-p0-freeze",
+    "remote_generation": false,
+    "rewrite_mode": "deterministic",
+    "filter_source": "query_derived",
+    "evidence_routing": "structured-table-v1",
+    "candidate_budget_policy": "scope-adaptive-20-to-100"
+  },
+  "development_baseline": {
+    "oracle_summary_sha256": "cde4a83a07fca120218335a4aecb012785e750e95f1aacabe3e68795408077bf",
+    "retrieved_summary_sha256": "2b9830a87820073804b00dfce965a8ae57c437002c6f3db92345b1115d21324b",
+    "note": "The summary hashes identify the 24-item dev-only oracle and retrieved baseline runs."
+  },
+  "post_freeze_policy": {
+    "allow_runtime_code_changes_before_frozen_run": false,
+    "allow_prompt_or_threshold_changes_before_frozen_run": false,
+    "allow_frozen_annotation_artifacts": true,
+    "frozen_run_count": 1
+  }
+}

@@ -36,6 +36,7 @@ def main() -> int:
         default=benchmark_chunk_paths(ROOT),
         help="chunks.jsonl paths; defaults to local catalog plus committed evidence catalog",
     )
+    parser.add_argument("--expected-item-count", type=int)
     args = parser.parse_args()
 
     benchmark = json.loads(args.benchmark.read_text(encoding="utf-8"))
@@ -48,12 +49,17 @@ def main() -> int:
         index_id = lock["corpus_index_id"]
         format_version = lock["chunk_schema_version"]
     chunks = load_chunks(args.chunks)
+    expected_item_count = (
+        args.expected_item_count
+        if args.expected_item_count is not None
+        else EXPECTED_ITEM_COUNT if canonical else None
+    )
     result = validate_benchmark(
         benchmark,
         corpus_index_id=index_id,
         chunk_schema_version=format_version,
         chunks=chunks,
-        expected_item_count=EXPECTED_ITEM_COUNT,
+        expected_item_count=expected_item_count,
     )
 
     for warning in result.warnings:

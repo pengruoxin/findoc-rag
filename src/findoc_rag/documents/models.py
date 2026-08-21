@@ -46,6 +46,8 @@ class DocumentElement(BaseModel):
     font_name: str = ""
     is_bold: bool = False
     lines: list[PdfLine] = Field(default_factory=list)
+    extraction_source: Literal["native", "ocr"] = "native"
+    confidence: float | None = Field(default=None, ge=0, le=1)
 
 
 class ElementReference(BaseModel):
@@ -66,6 +68,17 @@ class DocumentPage(BaseModel):
     media_box: BoundingBox | None = None
     crop_box: BoundingBox | None = None
     coordinate_space: str = "pymupdf_unrotated_page"
+    geometry_warning_count: int = Field(default=0, ge=0)
+    discarded_block_count: int = Field(default=0, ge=0)
+    extraction_route: Literal[
+        "native", "partial_ocr", "full_ocr", "manual_review"
+    ] = "native"
+    native_character_count: int | None = Field(default=None, ge=0)
+    ocr_character_count: int = Field(default=0, ge=0)
+    ocr_attempted: bool = False
+    ocr_succeeded: bool = False
+    ocr_backend: str | None = None
+    extraction_warnings: list[str] = Field(default_factory=list)
 
 
 class ParsedDocument(BaseModel):
@@ -95,6 +108,22 @@ class StructuredTableCell(BaseModel):
     column: str
     value: str
     section: str = ""
+    row_index: int | None = Field(default=None, ge=1)
+    column_index: int | None = Field(default=None, ge=1)
+    page_number: int | None = Field(default=None, ge=1)
+    value_bbox: BoundingBox | None = None
+    coordinate_space: str | None = None
+
+    @model_validator(mode="after")
+    def validate_geometry(self) -> "StructuredTableCell":
+        geometry_values = (self.page_number, self.value_bbox, self.coordinate_space)
+        if any(value is not None for value in geometry_values) and not all(
+            value is not None for value in geometry_values
+        ):
+            raise ValueError(
+                "page_number, value_bbox, and coordinate_space must be set together"
+            )
+        return self
 
 
 class StructuredTable(BaseModel):
@@ -119,6 +148,12 @@ class StructuredTable(BaseModel):
             raise ValueError("page_end must not precede page_start")
         if not self.cells:
             raise ValueError("A structured table must contain at least one cell")
+        if any(
+            cell.page_number is not None
+            and not self.page_start <= cell.page_number <= self.page_end
+            for cell in self.cells
+        ):
+            raise ValueError("Structured cell page must fall inside the table page range")
         return self
 
 

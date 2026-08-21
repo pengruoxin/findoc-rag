@@ -27,6 +27,11 @@ api = [
 dense = [
     "sentence-transformers>=3.3",
 ]
+ocr = [
+    "onnxruntime>=1.22,<2",
+    "pillow>=11",
+    "rapidocr>=3.9,<4",
+]
 evaluation = [
     "datasets>=3.0",
     "ragas>=0.3,<0.4",

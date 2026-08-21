@@ -1,0 +1,787 @@
+{
+  "schema_version": "1",
+  "security_code": "600309",
+  "annotation_status": "assistant_source_verified_provisional",
+  "independent_double_review_complete": false,
+  "cases": [
+    {
+      "case_id": "v3_600309_y23_core",
+      "task_type": "extract",
+      "query": "万华化学2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "175360935668.36",
+            "1753.6093566836",
+            "1753.61"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "16815755534.31",
+            "168.1575553431",
+            "168.16"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "16438841961.03",
+            "164.3884196103",
+            "164.39"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "26796752552.51",
+            "267.9675255251",
+            "267.97"
+          ],
+          "unit": "元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2023_1219331064.pdf",
+          "pages": [
+            7,
+            8
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主要会计数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_y23_segments",
+      "task_type": "extract",
+      "query": "万华化学2023年聚氨酯、石化和精细化学品及新材料三类业务的收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "poly_revenue",
+          "description": "聚氨酯系列收入",
+          "acceptable_values": [
+            "67386160276.12",
+            "673.8616027612",
+            "673.86"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "poly_margin",
+          "description": "聚氨酯系列毛利率",
+          "acceptable_values": [
+            "27.69%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "petro_revenue",
+          "description": "石化系列收入",
+          "acceptable_values": [
+            "69327924114.13",
+            "693.2792411413",
+            "693.28"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "petro_margin",
+          "description": "石化系列毛利率",
+          "acceptable_values": [
+            "3.51%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "fine_revenue",
+          "description": "精细化学品及新材料收入",
+          "acceptable_values": [
+            "23836062497.47",
+            "238.3606249747",
+            "238.36"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "fine_margin",
+          "description": "精细化学品及新材料毛利率",
+          "acceptable_values": [
+            "21.42%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2023_1219331064.pdf",
+          "pages": [
+            16,
+            17
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主营业务分产品表列示三类业务收入和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_y23_rd",
+      "task_type": "extract",
+      "query": "万华化学2023年研发投入合计、费用化金额、资本化金额及占营业收入比例分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd_total",
+          "description": "研发投入合计",
+          "acceptable_values": [
+            "4080709256.26",
+            "40.8070925626",
+            "40.81"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "rd_expensed",
+          "description": "费用化研发投入",
+          "acceptable_values": [
+            "4080709256.26",
+            "40.8070925626",
+            "40.81"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "rd_capitalized",
+          "description": "资本化研发投入",
+          "acceptable_values": [
+            "无资本化研发投入",
+            "未发生资本化",
+            "资本化金额为0"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "rd_intensity",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "2.33%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2023_1219331064.pdf",
+          "pages": [
+            19
+          ]
+        }
+      ],
+      "gold_rationale": "资本化栏为空且研发投入合计等于费用化金额，因此资本化金额为零。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_y24_core",
+      "task_type": "extract",
+      "query": "万华化学2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "182069119160.94",
+            "1820.6911916094",
+            "1820.69"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "13033066612.84",
+            "130.3306661284",
+            "130.33"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2024年扣非归母净利润",
+          "acceptable_values": [
+            "13358861995.56",
+            "133.5886199556",
+            "133.59"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2024年经营活动现金流量净额",
+          "acceptable_values": [
+            "30053435178.33",
+            "300.5343517833",
+            "300.53"
+          ],
+          "unit": "元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            7,
+            8
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主要会计数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_y24_segments",
+      "task_type": "extract",
+      "query": "万华化学2024年三类主要业务的收入、成本和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "poly_revenue",
+          "description": "聚氨酯系列收入",
+          "acceptable_values": [
+            "75844150078.36",
+            "758.4415007836",
+            "758.44"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "poly_cost",
+          "description": "聚氨酯系列成本",
+          "acceptable_values": [
+            "56009191727.71",
+            "560.0919172771",
+            "560.09"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "poly_margin",
+          "description": "聚氨酯系列毛利率",
+          "acceptable_values": [
+            "26.15%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "petro_revenue",
+          "description": "石化系列收入",
+          "acceptable_values": [
+            "72518271926.10",
+            "725.182719261",
+            "725.18"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "petro_cost",
+          "description": "石化系列成本",
+          "acceptable_values": [
+            "69965500296.23",
+            "699.6550029623",
+            "699.66"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "petro_margin",
+          "description": "石化系列毛利率",
+          "acceptable_values": [
+            "3.52%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "fine_revenue",
+          "description": "精细化学品及新材料收入",
+          "acceptable_values": [
+            "28273080500.47",
+            "282.7308050047",
+            "282.73"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "fine_cost",
+          "description": "精细化学品及新材料成本",
+          "acceptable_values": [
+            "24661116345.41",
+            "246.6111634541",
+            "246.61"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "fine_margin",
+          "description": "精细化学品及新材料毛利率",
+          "acceptable_values": [
+            "12.78%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主营业务分产品表列示三类业务收入、成本和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_trend_core",
+      "task_type": "compare",
+      "query": "比较万华化学2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:万华化学:year:2023",
+        "company:万华化学:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "1753.61",
+            "175360935668.36"
+          ],
+          "unit": "亿元/元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "1820.69",
+            "182069119160.94"
+          ],
+          "unit": "亿元/元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "168.16",
+            "16815755534.31"
+          ],
+          "unit": "亿元/元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "130.33",
+            "13033066612.84"
+          ],
+          "unit": "亿元/元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "267.97",
+            "26796752552.51"
+          ],
+          "unit": "亿元/元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "300.53",
+            "30053435178.33"
+          ],
+          "unit": "亿元/元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "收入和经营现金流增长、归母净利润下降",
+          "acceptable_values": [
+            "归母净利润下降",
+            "净利润下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2023_1219331064.pdf",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            7
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入增长3.83%，归母净利润下降22.49%，经营现金流增长12.15%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_trend_segments",
+      "task_type": "compare",
+      "query": "比较万华化学2023年和2024年聚氨酯、石化、精细化学品及新材料业务的毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:万华化学:year:2023",
+        "company:万华化学:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "poly_2023",
+          "description": "2023年聚氨酯毛利率",
+          "acceptable_values": [
+            "27.69%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "poly_2024",
+          "description": "2024年聚氨酯毛利率",
+          "acceptable_values": [
+            "26.15%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "petro_2023",
+          "description": "2023年石化毛利率",
+          "acceptable_values": [
+            "3.51%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "petro_2024",
+          "description": "2024年石化毛利率",
+          "acceptable_values": [
+            "3.52%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "fine_2023",
+          "description": "2023年精细化学品及新材料毛利率",
+          "acceptable_values": [
+            "21.42%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "fine_2024",
+          "description": "2024年精细化学品及新材料毛利率",
+          "acceptable_values": [
+            "12.78%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2023_1219331064.pdf",
+          "pages": [
+            16,
+            17
+          ]
+        },
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        }
+      ],
+      "gold_rationale": "聚氨酯和精细化学品及新材料毛利率下降，石化毛利率微升0.01个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_calc_polyurethane_share",
+      "task_type": "calculate",
+      "query": "计算万华化学2024年聚氨酯业务收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "poly_revenue",
+          "description": "聚氨酯收入",
+          "acceptable_values": [
+            "75844150078.36"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "total_revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "182069119160.94"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "share",
+          "description": "聚氨酯收入占比",
+          "acceptable_values": [
+            "41.66%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            7,
+            17
+          ]
+        }
+      ],
+      "gold_rationale": "75844150078.36/182069119160.94=41.6568%，保留两位小数为41.66%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_calc_margin_spread",
+      "task_type": "calculate",
+      "query": "计算万华化学2024年聚氨酯业务与石化业务毛利率的差值，并与2023年的差值比较。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "spread_2023",
+          "description": "2023年聚氨酯与石化毛利率差",
+          "acceptable_values": [
+            "24.18个百分点"
+          ],
+          "unit": "百分点"
+        },
+        {
+          "fact_id": "spread_2024",
+          "description": "2024年聚氨酯与石化毛利率差",
+          "acceptable_values": [
+            "22.63个百分点"
+          ],
+          "unit": "百分点"
+        },
+        {
+          "fact_id": "change",
+          "description": "差值收窄",
+          "acceptable_values": [
+            "收窄1.55个百分点",
+            "缩小1.55个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2023_1219331064.pdf",
+          "pages": [
+            16,
+            17
+          ]
+        },
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        }
+      ],
+      "gold_rationale": "2023年差值27.69%-3.51%=24.18个百分点；2024年为22.63个百分点，收窄1.55个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_verify_divergence",
+      "task_type": "compare",
+      "query": "核验说法：万华化学2024年营业收入较2023年增长，但归母净利润下降。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:万华化学:year:2023",
+        "company:万华化学:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_change",
+          "description": "营业收入增长",
+          "acceptable_values": [
+            "3.83%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_change",
+          "description": "归母净利润下降",
+          "acceptable_values": [
+            "-22.49%",
+            "下降22.49%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "说法成立",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "核验通过"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600309:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/600309_2024_1223097325.pdf",
+          "pages": [
+            7
+          ]
+        }
+      ],
+      "gold_rationale": "2024年营业收入增长3.83%，归母净利润下降22.49%，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出万华化学2025年聚氨酯业务收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_600309_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家化工公司的分部毛利率变化，但先确认公司、比较年度和分部口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

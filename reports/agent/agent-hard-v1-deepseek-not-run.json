@@ -1,0 +1,26 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v1",
+  "dataset_path": "D:/202607/raglab/data/evaluation/agent-hard-v1.json",
+  "dataset_sha256": "41e71522923cc08b58383cd62fc4acd9a376e06d72d5a9fa12f044b63522e6c4",
+  "index_scope": "benchmark-v3",
+  "index_path": "D:/202607/raglab/data/indexes/benchmark-v3",
+  "evaluated_at": "2026-08-20T02:17:09.846848+00:00",
+  "runtime": "deepseek",
+  "scoring": "local_exact_gold_and_citation_overlap",
+  "source_validation": {
+    "valid": true,
+    "referenced_document_count": 4,
+    "verified_document_count": 4,
+    "errors": []
+  },
+  "status": "not_run",
+  "reason": "missing_provider_api_key",
+  "provider": {
+    "name": "deepseek",
+    "model": "deepseek-v4-flash",
+    "endpoint": "https://api.deepseek.com/chat/completions"
+  },
+  "metrics": null,
+  "items": []
+}

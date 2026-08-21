@@ -1,0 +1,830 @@
+{
+  "schema_version": "1",
+  "security_code": "000063",
+  "annotation_status": "assistant_source_verified_provisional",
+  "independent_double_review_complete": false,
+  "cases": [
+    {
+      "case_id": "v3_000063_y23_core",
+      "task_type": "extract",
+      "query": "中兴通讯2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "124250.9",
+            "1242.509"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "9325.8",
+            "93.258"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "7399.6",
+            "73.996"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "17405.7",
+            "174.057"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2023_1219266488.pdf",
+          "pages": [
+            11,
+            12
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主要财务数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_y23_markets",
+      "task_type": "extract",
+      "query": "中兴通讯2023年运营商网络、政企业务和消费者业务的营业收入及毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "carrier_revenue",
+          "description": "运营商网络收入",
+          "acceptable_values": [
+            "82758.9",
+            "827.589"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "carrier_margin",
+          "description": "运营商网络毛利率",
+          "acceptable_values": [
+            "49.11%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "enterprise_revenue",
+          "description": "政企业务收入",
+          "acceptable_values": [
+            "13583.5",
+            "135.835"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "enterprise_margin",
+          "description": "政企业务毛利率",
+          "acceptable_values": [
+            "34.94%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "consumer_revenue",
+          "description": "消费者业务收入",
+          "acceptable_values": [
+            "27908.5",
+            "279.085"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "consumer_margin",
+          "description": "消费者业务毛利率",
+          "acceptable_values": [
+            "22.26%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2023_1219266488.pdf",
+          "pages": [
+            26,
+            27
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报按业务划分表列示三大市场收入和当年报告口径毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_y23_rd",
+      "task_type": "extract",
+      "query": "中兴通讯2023年研发投入金额、占营业收入比例和研发人员占比分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd",
+          "description": "研发投入金额",
+          "acceptable_values": [
+            "26783.3",
+            "267.833"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "intensity",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "21.56%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "people_share",
+          "description": "研发人员占集团员工人数比例",
+          "acceptable_values": [
+            "49.09%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2023_1219266488.pdf",
+          "pages": [
+            30
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报研发投入表列示投入金额、强度和研发人员占比。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_y24_core",
+      "task_type": "extract",
+      "query": "中兴通讯2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "121298.8",
+            "1212.988"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "8424.8",
+            "84.248"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2024年扣非归母净利润",
+          "acceptable_values": [
+            "6179.1",
+            "61.791"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2024年经营活动现金流量净额",
+          "acceptable_values": [
+            "11479.8",
+            "114.798"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            11,
+            12
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主要财务数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_y24_markets",
+      "task_type": "extract",
+      "query": "中兴通讯2024年三大业务市场的营业收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "carrier_revenue",
+          "description": "运营商网络收入",
+          "acceptable_values": [
+            "70326.7",
+            "703.267"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "carrier_yoy",
+          "description": "运营商网络收入同比",
+          "acceptable_values": [
+            "-15.02%",
+            "下降15.02%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "carrier_margin",
+          "description": "运营商网络毛利率",
+          "acceptable_values": [
+            "50.90%",
+            "50.9%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "enterprise_revenue",
+          "description": "政企业务收入",
+          "acceptable_values": [
+            "18566.0",
+            "18566",
+            "185.66"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "enterprise_yoy",
+          "description": "政企业务收入同比",
+          "acceptable_values": [
+            "36.68%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "enterprise_margin",
+          "description": "政企业务毛利率",
+          "acceptable_values": [
+            "15.33%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "consumer_revenue",
+          "description": "消费者业务收入",
+          "acceptable_values": [
+            "32406.1",
+            "324.061"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "consumer_yoy",
+          "description": "消费者业务收入同比",
+          "acceptable_values": [
+            "16.12%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "consumer_margin",
+          "description": "消费者业务毛利率",
+          "acceptable_values": [
+            "22.66%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            26,
+            27,
+            28
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报按业务划分表列示三大市场收入、同比和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_trend_core",
+      "task_type": "compare",
+      "query": "比较中兴通讯2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中兴通讯:year:2023",
+        "company:中兴通讯:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "124250.9",
+            "1242.509"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "121298.8",
+            "1212.988"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "9325.8",
+            "93.258"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "8424.8",
+            "84.248"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "17405.7",
+            "174.057"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "11479.8",
+            "114.798"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "三项指标均下降",
+          "acceptable_values": [
+            "均下降",
+            "全部下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2023_1219266488.pdf",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入下降2.38%，归母净利润下降9.66%，经营现金流下降34.05%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_trend_markets",
+      "task_type": "compare",
+      "query": "按中兴通讯2024年年报追溯调整后的可比口径，比较2023年和2024年运营商网络、政企业务和消费者业务的收入与毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中兴通讯:year:2023",
+        "company:中兴通讯:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "carrier_revenue_2023",
+          "description": "2023年运营商网络收入",
+          "acceptable_values": [
+            "82758.9",
+            "827.589"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "carrier_revenue_2024",
+          "description": "2024年运营商网络收入",
+          "acceptable_values": [
+            "70326.7",
+            "703.267"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "carrier_margin_2023",
+          "description": "可比口径2023年运营商网络毛利率",
+          "acceptable_values": [
+            "49.11%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "carrier_margin_2024",
+          "description": "2024年运营商网络毛利率",
+          "acceptable_values": [
+            "50.90%",
+            "50.9%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "enterprise_revenue_2023",
+          "description": "2023年政企业务收入",
+          "acceptable_values": [
+            "13583.5",
+            "135.835"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "enterprise_revenue_2024",
+          "description": "2024年政企业务收入",
+          "acceptable_values": [
+            "18566.0",
+            "18566",
+            "185.66"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "enterprise_margin_2023",
+          "description": "可比口径2023年政企业务毛利率",
+          "acceptable_values": [
+            "34.91%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "enterprise_margin_2024",
+          "description": "2024年政企业务毛利率",
+          "acceptable_values": [
+            "15.33%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "consumer_revenue_2023",
+          "description": "2023年消费者业务收入",
+          "acceptable_values": [
+            "27908.5",
+            "279.085"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "consumer_revenue_2024",
+          "description": "2024年消费者业务收入",
+          "acceptable_values": [
+            "32406.1",
+            "324.061"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "consumer_margin_2023",
+          "description": "可比口径2023年消费者业务毛利率",
+          "acceptable_values": [
+            "22.09%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "consumer_margin_2024",
+          "description": "2024年消费者业务毛利率",
+          "acceptable_values": [
+            "22.66%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            26,
+            27,
+            28
+          ]
+        }
+      ],
+      "gold_rationale": "按2024年报追溯口径，运营商收入下降但毛利率升1.79个百分点；政企收入增长但毛利率降19.58个百分点；消费者收入和毛利率均增长。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_calc_enterprise_share",
+      "task_type": "calculate",
+      "query": "计算中兴通讯2024年政企业务收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "enterprise_revenue",
+          "description": "政企业务收入",
+          "acceptable_values": [
+            "18566.0",
+            "18566"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "total_revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "121298.8"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "share",
+          "description": "政企业务收入占比",
+          "acceptable_values": [
+            "15.31%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            26
+          ]
+        }
+      ],
+      "gold_rationale": "18566.0/121298.8=15.3060%，保留两位小数为15.31%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_calc_rd_change",
+      "task_type": "calculate",
+      "query": "计算中兴通讯2024年研发投入相对2023年的增长率，并比较研发投入强度变化。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd_2023",
+          "description": "2023年研发投入",
+          "acceptable_values": [
+            "26783.3"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "rd_2024",
+          "description": "2024年研发投入",
+          "acceptable_values": [
+            "25508.9"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "rd_change",
+          "description": "研发投入变化率",
+          "acceptable_values": [
+            "-4.76%",
+            "下降4.76%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "intensity_2023",
+          "description": "2023年研发投入强度",
+          "acceptable_values": [
+            "21.56%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "intensity_2024",
+          "description": "2024年研发投入强度",
+          "acceptable_values": [
+            "21.03%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "intensity_change",
+          "description": "研发投入强度下降",
+          "acceptable_values": [
+            "下降0.53个百分点",
+            "减少0.53个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2023_1219266488.pdf",
+          "pages": [
+            30
+          ]
+        },
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            31
+          ]
+        }
+      ],
+      "gold_rationale": "(25508.9-26783.3)/26783.3=-4.7582%，研发投入强度由21.56%降至21.03%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_verify_divergence",
+      "task_type": "compare",
+      "query": "核验说法：中兴通讯2024年营业收入较2023年增长，但归母净利润下降。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中兴通讯:year:2023",
+        "company:中兴通讯:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_change",
+          "description": "营业收入实际下降",
+          "acceptable_values": [
+            "-2.38%",
+            "下降2.38%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_change",
+          "description": "归母净利润下降",
+          "acceptable_values": [
+            "-9.66%",
+            "下降9.66%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "因营业收入并未增长，原说法不成立",
+          "acceptable_values": [
+            "说法不成立",
+            "结论为假",
+            "营业收入下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000063:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/000063_2024_1222675749.pdf",
+          "pages": [
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入下降2.38%，归母净利润下降9.66%；原说法的前半句错误，因此不成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出中兴通讯2025年政企业务收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_000063_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家通信设备公司的三大市场表现，但先确认公司、年度和市场分类口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

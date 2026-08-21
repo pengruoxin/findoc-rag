@@ -1,0 +1,347 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v1",
+  "phase": "p0",
+  "generated_at": "2026-08-20T04:10:59.020785+00:00",
+  "missing_reports": [],
+  "runs": [
+    {
+      "run_id": "baseline",
+      "report": "reports/agent/agent-hard-v1-deepseek.json",
+      "change": "首次真实 DeepSeek 困难集基线",
+      "verdict": "baseline",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 0.6,
+        "behavior_accuracy": 0.0,
+        "supported_fact_accuracy": 0.0,
+        "end_to_end_fact_accuracy": 0.0,
+        "supported_case_pass_rate": 0.0,
+        "end_to_end_case_pass_rate": 0.0,
+        "safe_abstention_accuracy": 0.0
+      },
+      "runtime": {
+        "model_requests": 12,
+        "model_input_tokens": 48290,
+        "model_output_tokens": 2183,
+        "tool_calls": 25,
+        "actual_retrieval_calls": 25
+      }
+    },
+    {
+      "run_id": "p0a1_loop_control",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0a-loop-control.json",
+      "change": "缺口重试、重复检索限制与提交预算保留",
+      "verdict": "improved",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 0.6,
+        "behavior_accuracy": 0.4,
+        "supported_fact_accuracy": 0.47368421052631576,
+        "end_to_end_fact_accuracy": 0.32142857142857145,
+        "supported_case_pass_rate": 0.2,
+        "end_to_end_case_pass_rate": 0.125,
+        "safe_abstention_accuracy": 0.0
+      },
+      "runtime": {
+        "model_requests": 11,
+        "model_input_tokens": 33433,
+        "model_output_tokens": 2570,
+        "tool_calls": 11,
+        "actual_retrieval_calls": 11
+      }
+    },
+    {
+      "run_id": "p0a2_forced_submit",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0a2-forced-submit.json",
+      "change": "仅用 named tool_choice 强制提交",
+      "verdict": "no_gain",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 0.6,
+        "behavior_accuracy": 0.4,
+        "supported_fact_accuracy": 0.47368421052631576,
+        "end_to_end_fact_accuracy": 0.32142857142857145,
+        "supported_case_pass_rate": 0.2,
+        "end_to_end_case_pass_rate": 0.125,
+        "safe_abstention_accuracy": 0.0
+      },
+      "runtime": {
+        "model_requests": 11,
+        "model_input_tokens": 33922,
+        "model_output_tokens": 2624,
+        "tool_calls": 11,
+        "actual_retrieval_calls": 11
+      }
+    },
+    {
+      "run_id": "p0a3_fresh_finalizer",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0a3-fresh-finalizer.json",
+      "change": "丢弃陈旧检索历史的独立最终提交上下文",
+      "verdict": "improved",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 0.6,
+        "behavior_accuracy": 0.6,
+        "supported_fact_accuracy": 0.5789473684210527,
+        "end_to_end_fact_accuracy": 0.39285714285714285,
+        "supported_case_pass_rate": 0.4,
+        "end_to_end_case_pass_rate": 0.25,
+        "safe_abstention_accuracy": 1.0
+      },
+      "runtime": {
+        "model_requests": 11,
+        "model_input_tokens": 29114,
+        "model_output_tokens": 3563,
+        "tool_calls": 11,
+        "actual_retrieval_calls": 11
+      }
+    },
+    {
+      "run_id": "p0b1_provenance_targets",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0b-provenance-targets.json",
+      "change": "拆分事实年度、报告年份、报表口径和数值版本",
+      "verdict": "mixed",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.8,
+        "supported_fact_accuracy": 0.631578947368421,
+        "end_to_end_fact_accuracy": 0.42857142857142855,
+        "supported_case_pass_rate": 0.2,
+        "end_to_end_case_pass_rate": 0.125,
+        "safe_abstention_accuracy": 1.0
+      },
+      "runtime": {
+        "model_requests": 12,
+        "model_input_tokens": 25429,
+        "model_output_tokens": 3786,
+        "tool_calls": 13,
+        "actual_retrieval_calls": 13
+      }
+    },
+    {
+      "run_id": "p0b2_table_hints",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0b2-table-hints.json",
+      "change": "财务表定位提示、同表多版本证据绑定与跨报告过滤修正",
+      "verdict": "improved",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.6,
+        "supported_fact_accuracy": 0.8421052631578947,
+        "end_to_end_fact_accuracy": 0.5714285714285714,
+        "supported_case_pass_rate": 0.6,
+        "end_to_end_case_pass_rate": 0.375,
+        "safe_abstention_accuracy": 0.0
+      },
+      "runtime": {
+        "model_requests": 14,
+        "model_input_tokens": 36949,
+        "model_output_tokens": 5429,
+        "tool_calls": 13,
+        "actual_retrieval_calls": 13
+      }
+    },
+    {
+      "run_id": "p0b3_optional_submit_schema",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0b3-cross-target-claims.json",
+      "change": "放宽提交工具必填字段",
+      "verdict": "regressed",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.4,
+        "supported_fact_accuracy": 0.3157894736842105,
+        "end_to_end_fact_accuracy": 0.21428571428571427,
+        "supported_case_pass_rate": 0.4,
+        "end_to_end_case_pass_rate": 0.25,
+        "safe_abstention_accuracy": 0.0
+      },
+      "runtime": {
+        "model_requests": 13,
+        "model_input_tokens": 32912,
+        "model_output_tokens": 4860,
+        "tool_calls": 13,
+        "actual_retrieval_calls": 13
+      }
+    },
+    {
+      "run_id": "p0b4_strict_submit_schema",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0b4-strict-schema-lenient-abstain.json",
+      "change": "恢复模型侧严格 schema，保留本地非答案默认值",
+      "verdict": "improved",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.8,
+        "supported_fact_accuracy": 1.0,
+        "end_to_end_fact_accuracy": 0.6785714285714286,
+        "supported_case_pass_rate": 0.8,
+        "end_to_end_case_pass_rate": 0.5,
+        "safe_abstention_accuracy": 0.0
+      },
+      "runtime": {
+        "model_requests": 13,
+        "model_input_tokens": 33008,
+        "model_output_tokens": 4702,
+        "tool_calls": 13,
+        "actual_retrieval_calls": 13
+      }
+    },
+    {
+      "run_id": "p0b5_nonanswer_parser",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0b5-safe-nonanswer-parser.json",
+      "change": "仅对畸形非答案载荷做安全解析",
+      "verdict": "regressed",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.6,
+        "supported_fact_accuracy": 0.631578947368421,
+        "end_to_end_fact_accuracy": 0.42857142857142855,
+        "supported_case_pass_rate": 0.6,
+        "end_to_end_case_pass_rate": 0.375,
+        "safe_abstention_accuracy": 0.0
+      },
+      "runtime": {
+        "model_requests": 13,
+        "model_input_tokens": 32926,
+        "model_output_tokens": 4609,
+        "tool_calls": 13,
+        "actual_retrieval_calls": 13
+      }
+    },
+    {
+      "run_id": "p0b6_no_evidence_gate",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0b6-local-no-evidence-gate.json",
+      "change": "零证据缺口由本地门禁确定性拒答，并记录 validation_errors",
+      "verdict": "improved",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.8,
+        "supported_fact_accuracy": 0.6842105263157895,
+        "end_to_end_fact_accuracy": 0.4642857142857143,
+        "supported_case_pass_rate": 0.8,
+        "end_to_end_case_pass_rate": 0.5,
+        "safe_abstention_accuracy": 1.0
+      },
+      "runtime": {
+        "model_requests": 12,
+        "model_input_tokens": 31003,
+        "model_output_tokens": 4662,
+        "tool_calls": 13,
+        "actual_retrieval_calls": 13
+      }
+    },
+    {
+      "run_id": "p0b7_cross_year_groups",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0b7-cross-year-evidence-groups.json",
+      "change": "同公司同比或重述任务建立跨年度证据组",
+      "verdict": "mixed",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.8,
+        "supported_fact_accuracy": 0.631578947368421,
+        "end_to_end_fact_accuracy": 0.42857142857142855,
+        "supported_case_pass_rate": 0.6,
+        "end_to_end_case_pass_rate": 0.375,
+        "safe_abstention_accuracy": 1.0
+      },
+      "runtime": {
+        "model_requests": 11,
+        "model_input_tokens": 26841,
+        "model_output_tokens": 3924,
+        "tool_calls": 13,
+        "actual_retrieval_calls": 13
+      }
+    },
+    {
+      "run_id": "p0b8_provenance_repair",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0b8-provenance-citation-repair.json",
+      "change": "补齐已检索的指定报告年份引用，受控支持跨公司比较 claim",
+      "verdict": "improved",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 1.0,
+        "end_to_end_fact_accuracy": 0.6785714285714286,
+        "supported_case_pass_rate": 1.0,
+        "end_to_end_case_pass_rate": 0.625,
+        "safe_abstention_accuracy": 1.0
+      },
+      "runtime": {
+        "model_requests": 10,
+        "model_input_tokens": 22144,
+        "model_output_tokens": 3342,
+        "tool_calls": 13,
+        "actual_retrieval_calls": 13
+      }
+    },
+    {
+      "run_id": "p0b8_replication",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0b8-replication.json",
+      "change": "同代码、同数据、同索引复现实验",
+      "verdict": "replicated",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 1.0,
+        "end_to_end_fact_accuracy": 0.6785714285714286,
+        "supported_case_pass_rate": 1.0,
+        "end_to_end_case_pass_rate": 0.625,
+        "safe_abstention_accuracy": 1.0
+      },
+      "runtime": {
+        "model_requests": 10,
+        "model_input_tokens": 22144,
+        "model_output_tokens": 3334,
+        "tool_calls": 13,
+        "actual_retrieval_calls": 13
+      }
+    }
+  ]
+}

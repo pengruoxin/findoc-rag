@@ -1,1403 +1,221 @@
 <!doctype html>
-<html lang="zh-CN" data-theme="auto">
+<html lang="zh-CN" data-theme="light">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FinDocRAG · Evidence Workspace</title>
-<link rel="icon" href="favicon.svg">
-<style>
-  /* ---------- tokens ---------- */
-  :root{
-    --bg:#f2f5fa; --bg-grad:#e8eef9; --surface:#fff; --surface-2:#f7f9fe; --surface-3:#eef2fa;
-    --ink:#141c2b; --ink-2:#3c4a61; --muted:#6c7b93;
-    --line:#e0e7f1; --line-2:#edf1f8;
-    --brand:#3565da; --brand-ink:#2c55b6; --brand-soft:#e9f0ff; --brand-line:#cfdefc;
-    --ok:#0a8b58; --ok-soft:#e6f7ef; --warn:#a4650a; --warn-soft:#fdf3e3;
-    --danger:#c2382f; --danger-soft:#fceceb; --violet:#6d4df6; --violet-soft:#efeaff;
-    --shadow:0 10px 30px rgba(30,52,96,.07); --shadow-lg:0 18px 48px rgba(30,52,96,.12);
-    --radius:14px; --radius-sm:9px;
-    --mono:ui-monospace,SFMono-Regular,"Cascadia Mono",Consolas,monospace;
-  }
-  html[data-theme="dark"]{
-    --bg:#0d1220; --bg-grad:#111a2d; --surface:#151d2f; --surface-2:#1a2436; --surface-3:#212c41;
-    --ink:#e8eef9; --ink-2:#bcc9dd; --muted:#8695ae;
-    --line:#26324a; --line-2:#1e2839;
-    --brand:#5c8bf5; --brand-ink:#9bb8fb; --brand-soft:#1c2a48; --brand-line:#2f4573;
-    --ok:#3fcb8e; --ok-soft:#122c22; --warn:#e0a33f; --warn-soft:#2d2313;
-    --danger:#f0796d; --danger-soft:#331a19; --violet:#a992ff; --violet-soft:#231d3d;
-    --shadow:0 10px 30px rgba(0,0,0,.32); --shadow-lg:0 18px 48px rgba(0,0,0,.45);
-  }
-  @media(prefers-color-scheme:dark){
-    html[data-theme="auto"]{
-      --bg:#0d1220; --bg-grad:#111a2d; --surface:#151d2f; --surface-2:#1a2436; --surface-3:#212c41;
-      --ink:#e8eef9; --ink-2:#bcc9dd; --muted:#8695ae;
-      --line:#26324a; --line-2:#1e2839;
-      --brand:#5c8bf5; --brand-ink:#9bb8fb; --brand-soft:#1c2a48; --brand-line:#2f4573;
-      --ok:#3fcb8e; --ok-soft:#122c22; --warn:#e0a33f; --warn-soft:#2d2313;
-      --danger:#f0796d; --danger-soft:#331a19; --violet:#a992ff; --violet-soft:#231d3d;
-      --shadow:0 10px 30px rgba(0,0,0,.32); --shadow-lg:0 18px 48px rgba(0,0,0,.45);
-    }
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
-  body{
-    background:linear-gradient(180deg,var(--bg-grad),var(--bg) 340px) no-repeat,var(--bg);
-    color:var(--ink);
-    font:14px/1.55 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
-    -webkit-font-smoothing:antialiased;
-  }
-  button,input,select,textarea{font:inherit;color:inherit}
-  button{cursor:pointer}
-  a{color:var(--brand-ink)}
-  .shell{width:min(1560px,100%);margin:0 auto;padding:0 clamp(12px,2vw,26px) 44px}
-  /* ---------- top bar ---------- */
-  .topbar{
-    position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:12px;
-    padding:11px 0;border-bottom:1px solid var(--line);
-    background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(12px);
-  }
-  .brand{display:flex;align-items:center;gap:10px;min-width:0;margin-right:auto}
-  .mark{
-    width:32px;height:32px;flex:0 0 auto;border-radius:9px;display:grid;place-items:center;
-    color:#fff;font-weight:800;font-size:15px;
-    background:linear-gradient(135deg,#5487ee,#2d55c8);box-shadow:0 5px 14px rgba(53,101,218,.34);
-  }
-  .brand-name{font-weight:750;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
-  .brand-sub{color:var(--muted);font-size:11.5px;margin-top:-2px;white-space:nowrap}
-  .top-tools{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}
-  .pill{
-    display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;
-    border:1px solid var(--line);background:var(--surface);color:var(--muted);
-    font-size:11.5px;font-weight:600;white-space:nowrap;
-  }
-  .pill.click{cursor:pointer}
-  .pill.click:hover{border-color:var(--brand-line);color:var(--brand-ink)}
-  .dot{width:7px;height:7px;border-radius:50%;background:#9aa6ba;flex:0 0 auto}
-  .dot.ok{background:var(--ok);box-shadow:0 0 0 3px var(--ok-soft)}
-  .dot.warn{background:var(--warn);box-shadow:0 0 0 3px var(--warn-soft)}
-  .dot.danger{background:var(--danger);box-shadow:0 0 0 3px var(--danger-soft)}
-  .dot.live{animation:pulse 1.1s ease-in-out infinite}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-  .icon-btn{
-    display:grid;place-items:center;width:31px;height:31px;padding:0;border-radius:9px;
-    border:1px solid var(--line);background:var(--surface);color:var(--ink-2);
-  }
-  .icon-btn:hover{border-color:var(--brand-line);color:var(--brand-ink);background:var(--brand-soft)}
-  .icon-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
-
-  /* ---------- ask bar ---------- */
-  .ask{padding:22px 0 0}
-  .ask-lead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:11px}
-  .ask-lead h1{margin:0;font-size:clamp(18px,2.3vw,23px);letter-spacing:-.028em;font-weight:730}
-  .ask-lead span{color:var(--muted);font-size:12.5px}
-  .querybox{
-    display:flex;gap:8px;align-items:center;padding:7px 7px 7px 13px;background:var(--surface);
-    border:1px solid var(--brand-line);border-radius:13px;box-shadow:var(--shadow);transition:.16s;
-  }
-  .querybox:focus-within{border-color:var(--brand);box-shadow:0 0 0 4px var(--brand-soft),var(--shadow)}
-  .querybox svg{width:17px;height:17px;flex:0 0 auto;stroke:var(--muted);fill:none;stroke-width:1.8;stroke-linecap:round}
-  .querybox input{flex:1;min-width:0;border:0;outline:0;padding:9px 2px;font-size:15px;background:transparent}
-  .kbd{
-    font:11px/1 var(--mono);color:var(--muted);border:1px solid var(--line);border-bottom-width:2px;
-    border-radius:5px;padding:3px 5px;background:var(--surface-2);white-space:nowrap;
-  }
-  .btn{
-    border:1px solid var(--line);background:var(--surface);color:var(--ink-2);border-radius:var(--radius-sm);
-    padding:8px 13px;font-weight:640;transition:.15s;white-space:nowrap;
-  }
-  .btn:hover{border-color:var(--brand-line);background:var(--brand-soft);color:var(--brand-ink)}
-  .btn:disabled{opacity:.55;cursor:not-allowed}
-  .btn-primary{border-color:transparent;background:var(--brand);color:#fff;padding:9px 19px;box-shadow:0 5px 14px rgba(53,101,218,.26)}
-  .btn-primary:hover{background:var(--brand-ink);color:#fff;border-color:transparent}
-  .btn-sm{padding:5px 9px;font-size:12px}
-  .btn-quiet{border:0;background:transparent;color:var(--brand-ink);padding:4px 6px;font-weight:640;font-size:12.5px}
-  .btn-quiet:hover{background:var(--brand-soft);border-radius:6px}
-
-  .chips{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 0}
-  .chip{
-    border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;
-    padding:6px 11px;font-size:12px;font-weight:600;
-  }
-  .chip:hover{border-color:var(--brand-line);color:var(--brand-ink);background:var(--brand-soft)}
-  .chip .tag{font:10px/1 var(--mono);color:var(--violet);margin-right:5px}
-
-  .notice{display:none;margin:12px 0 0;padding:10px 12px;border-radius:var(--radius-sm);font-size:13px;border:1px solid transparent}
-  .notice.error{background:var(--danger-soft);color:var(--danger);border-color:color-mix(in srgb,var(--danger) 24%,transparent)}
-  .notice.info{background:var(--brand-soft);color:var(--brand-ink);border-color:var(--brand-line)}
-  /* ---------- two-column evidence layout ---------- */
-  .stage{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:16px;align-items:start;margin-top:16px}
-  .col{min-width:0;display:flex;flex-direction:column;gap:14px}
-  .col-evidence{position:sticky;top:64px;max-height:calc(100vh - 84px);overflow:auto;scrollbar-width:thin;padding-right:2px}
-
-  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
-  .card-flush{padding:0;overflow:hidden}
-  .cap{
-    display:flex;align-items:center;gap:8px;font-size:11px;font-weight:730;
-    letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 2px;
-  }
-  .cap .count{
-    font:10.5px/1 var(--mono);letter-spacing:0;padding:3px 6px;border-radius:5px;
-    background:var(--surface-3);color:var(--ink-2);
-  }
-  .cap .spacer{margin-left:auto}
-  .muted{color:var(--muted)}
-  .small{font-size:12px}
-  .mono{font-family:var(--mono);font-size:12px}
-  .nowrap{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .rule{height:1px;background:var(--line-2);margin:13px 0}
-
-  /* ---------- answer ---------- */
-  .answer-card{border-top:3px solid var(--brand)}
-  .answer-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:11px}
-  .badge{
-    display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:999px;
-    font-size:10.5px;font-weight:760;letter-spacing:.06em;border:1px solid transparent;
-  }
-  .badge-answer{background:var(--ok-soft);color:var(--ok);border-color:color-mix(in srgb,var(--ok) 26%,transparent)}
-  .badge-abstain{background:var(--warn-soft);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 26%,transparent)}
-  .badge-clarify{background:var(--brand-soft);color:var(--brand-ink);border-color:var(--brand-line)}
-  .badge-evidence-only{background:var(--surface-3);color:var(--muted);border-color:var(--line)}
-  .badge-idle{background:var(--surface-3);color:var(--muted);border-color:var(--line)}
-  .badge-ghost{background:transparent;color:var(--muted);border-color:var(--line);font-weight:650;letter-spacing:0}
-
-  .answer-body{font-size:15.5px;line-height:1.78}
-  .answer-body.plain{white-space:pre-wrap}
-  .claim{margin:0 0 9px;padding-left:11px;border-left:2px solid var(--line);transition:.15s}
-  .claim:last-child{margin-bottom:0}
-  .claim.lit{border-left-color:var(--brand);background:var(--brand-soft);border-radius:0 6px 6px 0}
-  .cite{
-    display:inline-flex;align-items:center;justify-content:center;min-width:19px;height:19px;padding:0 5px;
-    margin:0 1px;border:1px solid var(--brand-line);border-radius:5px;background:var(--brand-soft);
-    color:var(--brand-ink);font:700 10.5px/1 var(--mono);vertical-align:1px;
-  }
-  .cite:hover,.cite.lit{background:var(--brand);color:#fff;border-color:var(--brand)}
-  .cite.dead{background:var(--danger-soft);color:var(--danger);border-color:color-mix(in srgb,var(--danger) 30%,transparent)}
-
-  .facts{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:7px;margin-top:13px}
-  .fact{background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--radius-sm);padding:8px 10px;min-width:0}
-  .fact .k{font-size:9.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:1px}
-  .fact .v{font-size:12.5px;font-weight:640;overflow-wrap:anywhere}
-  .fact.wide{grid-column:1/-1}
-  .fact.good .v{color:var(--ok)}
-  .fact.bad .v{color:var(--danger)}
-
-  .diff{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;margin-top:12px;padding:9px 11px;background:var(--violet-soft);border-radius:var(--radius-sm)}
-  .diff b{color:var(--violet);font:10px/1.6 var(--mono);letter-spacing:.06em;flex:0 0 auto}
-  .diff span{overflow-wrap:anywhere}
-  /* ---------- evidence cards ---------- */
-  .ev-list{display:flex;flex-direction:column;gap:10px}
-  .ev{
-    background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;
-    box-shadow:var(--shadow);transition:.16s;scroll-margin-top:70px;
-  }
-  .ev.lit{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft),var(--shadow)}
-  .ev-head{display:flex;align-items:flex-start;gap:9px;padding:11px 12px;background:var(--surface-2);border-bottom:1px solid var(--line-2)}
-  .ev-ord{
-    flex:0 0 auto;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;
-    background:var(--brand);color:#fff;font:700 11px/1 var(--mono);
-  }
-  .ev.dim .ev-ord{background:var(--surface-3);color:var(--muted)}
-  .ev-id{flex:1;min-width:0}
-  .ev-where{font-size:12.5px;font-weight:640;color:var(--ink-2)}
-  .ev-path{font-size:11.5px;color:var(--muted);overflow-wrap:anywhere;margin-top:1px}
-  .ev-chunk{font:10.5px/1.5 var(--mono);color:var(--muted);overflow-wrap:anywhere;margin-top:3px}
-  .ev-body{padding:11px 12px}
-  .ev-body pre{
-    white-space:pre-wrap;word-break:break-word;margin:0;max-height:230px;overflow:auto;
-    background:var(--surface-2);border:1px solid var(--line-2);border-radius:8px;padding:10px;
-    font:12px/1.68 var(--mono);color:var(--ink-2);scrollbar-width:thin;
-  }
-  .ev-foot{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 12px;border-top:1px solid var(--line-2);font-size:11.5px}
-  .sha{font:10.5px/1.5 var(--mono);overflow-wrap:anywhere;color:var(--muted);flex:1;min-width:120px}
-  .sha.ok{color:var(--ok)}
-  .sha.bad{color:var(--danger)}
-  .scores{display:flex;gap:5px;flex-wrap:wrap}
-  .score{font:10.5px/1 var(--mono);padding:3px 6px;border-radius:5px;background:var(--surface-3);color:var(--ink-2);white-space:nowrap}
-  .score.up{background:var(--ok-soft);color:var(--ok)}
-  .score.down{background:var(--danger-soft);color:var(--danger)}
-
-  .empty{
-    display:flex;flex-direction:column;align-items:center;gap:6px;padding:34px 18px;text-align:center;
-    color:var(--muted);font-size:12.5px;
-  }
-  .empty svg{width:26px;height:26px;stroke:var(--line);fill:none;stroke-width:1.5}
-  .empty b{color:var(--ink-2);font-size:13px;font-weight:650}
-
-  .skel{background:var(--surface-3);border-radius:6px;animation:shimmer 1.15s ease-in-out infinite}
-  @keyframes shimmer{0%,100%{opacity:.55}50%{opacity:.95}}
-
-  /* ---------- trace ---------- */
-  .stages{display:flex;flex-direction:column}
-  .stg{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-2)}
-  .stg:last-of-type{border-bottom:0}
-  .stg-name{flex:0 0 74px;font:700 10.5px/1.4 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2)}
-  .stg-bar{flex:1;height:5px;background:var(--surface-3);border-radius:99px;overflow:hidden;min-width:36px}
-  .stg-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#7ea2f5,var(--brand))}
-  .stg-bar.rr i{background:linear-gradient(90deg,#a892fa,var(--violet))}
-  .stg-num{flex:0 0 auto;font:11px/1 var(--mono);color:var(--muted);text-align:right;min-width:84px}
-  .stg-hits{margin:0 0 6px 84px;font:10.5px/1.7 var(--mono);color:var(--muted);overflow-wrap:anywhere}
-  .stg-hits em{color:var(--brand-ink);font-style:normal}
-
-  /* ---------- drawer ---------- */
-  .scrim{position:fixed;inset:0;z-index:60;background:rgba(12,20,36,.42);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:.18s}
-  .scrim.open{opacity:1;pointer-events:auto}
-  .drawer{
-    position:fixed;top:0;right:0;bottom:0;z-index:61;width:min(430px,100%);display:flex;flex-direction:column;
-    background:var(--surface);border-left:1px solid var(--line);box-shadow:var(--shadow-lg);
-    transform:translateX(102%);transition:transform .22s cubic-bezier(.4,0,.2,1);
-  }
-  .drawer.open{transform:none}
-  .drawer-head{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line)}
-  .drawer-head h2{margin:0;font-size:14px;font-weight:700}
-  .drawer-head .icon-btn{margin-left:auto}
-  .drawer-body{flex:1;overflow:auto;padding:14px 16px 26px;scrollbar-width:thin}
-  .tabs{display:flex;gap:4px;padding:9px 16px 0}
-  .tab{
-    border:0;background:transparent;color:var(--muted);padding:7px 11px;border-radius:8px 8px 0 0;
-    font-size:12.5px;font-weight:650;border-bottom:2px solid transparent;
-  }
-  .tab:hover{color:var(--brand-ink)}
-  .tab[aria-selected="true"]{color:var(--brand-ink);background:var(--brand-soft);border-bottom-color:var(--brand)}
-  .panel[hidden]{display:none}
-  /* ---------- form controls ---------- */
-  .field{margin-top:12px}
-  .field:first-child{margin-top:0}
-  .field label{display:block;color:var(--muted);font-size:11.5px;font-weight:640;margin-bottom:5px}
-  .field input,.field select{
-    width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:var(--radius-sm);
-    background:var(--surface-2);outline:none;transition:.15s;
-  }
-  .field input:focus,.field select:focus{border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-soft);background:var(--surface)}
-  .field .hint{font-size:11px;color:var(--muted);margin-top:4px}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .toggle{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line-2)}
-  .toggle:last-child{border-bottom:0}
-  .toggle-txt{min-width:0}
-  .toggle-txt b{display:block;font-size:12.5px;font-weight:640;color:var(--ink-2)}
-  .toggle-txt span{font-size:11px;color:var(--muted)}
-  .sw{position:relative;width:36px;height:20px;flex:0 0 auto}
-  .sw input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
-  .sw i{position:absolute;inset:0;background:var(--surface-3);border:1px solid var(--line);border-radius:999px;transition:.16s}
-  .sw i:after{content:"";position:absolute;top:2px;left:2px;width:14px;height:14px;background:var(--surface);border-radius:50%;transition:.16s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
-  .sw input:checked + i{background:var(--brand);border-color:var(--brand)}
-  .sw input:checked + i:after{transform:translateX(16px);background:#fff}
-  .sw input:disabled + i{opacity:.45}
-  .sw input:focus-visible + i{box-shadow:0 0 0 3px var(--brand-soft)}
-
-  .kv{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--line-2);font-size:12px}
-  .kv:last-child{border-bottom:0}
-  .kv span{color:var(--muted);flex:0 0 auto}
-  .kv b{font-weight:640;color:var(--ink-2);text-align:right;overflow-wrap:anywhere;font-family:var(--mono);font-size:11.5px}
-  .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-  .stat{background:var(--surface-2);border:1px solid var(--line-2);border-radius:var(--radius-sm);padding:9px 10px}
-  .stat .n{font-size:18px;font-weight:730;letter-spacing:-.02em;line-height:1.25}
-  .stat .l{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
-  .caps{display:flex;flex-wrap:wrap;gap:5px}
-  .cf{
-    display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:620;padding:4px 8px;border-radius:999px;
-    border:1px solid var(--line);background:var(--surface-2);color:var(--muted);
-  }
-  .cf:before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.5}
-  .cf.on{background:var(--brand-soft);border-color:var(--brand-line);color:var(--brand-ink)}
-  .cf.on:before{opacity:1}
-
-  .drop{
-    border:1px dashed var(--brand-line);background:var(--surface-2);border-radius:11px;padding:16px 12px;
-    text-align:center;color:var(--brand-ink);transition:.15s;
-  }
-  .drop:hover,.drop.over{border-color:var(--brand);background:var(--brand-soft)}
-  .drop b{display:block;font-size:13px}
-  .drop input{display:none}
-  .steps{display:flex;gap:3px;margin-top:12px}
-  .step{flex:1;text-align:center;font-size:9.5px;color:var(--muted);letter-spacing:.02em}
-  .step i{display:block;height:4px;background:var(--surface-3);border-radius:99px;margin-bottom:4px;transition:.2s}
-  .step.done i{background:var(--ok)}
-  .step.active i{background:var(--brand)}
-  .step.fail i{background:var(--danger)}
-  .step.done,.step.active{color:var(--ink-2);font-weight:640}
-
-  .dbg{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:10px;display:block;overflow-x:auto;scrollbar-width:thin}
-  .dbg th,.dbg td{padding:6px 8px;border-bottom:1px solid var(--line-2);text-align:left;white-space:nowrap}
-  .dbg th{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:700}
-  .dbg td{font-family:var(--mono);font-size:11px;color:var(--ink-2)}
-  .dbg tbody tr:hover{background:var(--surface-2)}
-  .dbg .num{text-align:right}
-
-  .toast{
-    position:fixed;left:50%;bottom:22px;z-index:80;transform:translate(-50%,14px);
-    padding:9px 15px;border-radius:999px;background:var(--ink);color:var(--bg);
-    font-size:12.5px;font-weight:620;box-shadow:var(--shadow-lg);opacity:0;pointer-events:none;transition:.2s;
-  }
-  .toast.show{opacity:1;transform:translate(-50%,0)}
-  .busy{opacity:.6;pointer-events:none}
-  [hidden]{display:none !important}
-  :focus-visible{outline:2px solid var(--brand);outline-offset:2px}
-  @media(prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
-
-  @media(max-width:1080px){
-    .stage{grid-template-columns:minmax(0,1fr)}
-    .col-evidence{position:static;max-height:none;overflow:visible}
-  }
-  @media(max-width:620px){
-    .topbar{position:static}
-    .brand-sub{display:none}
-    .querybox .kbd{display:none}
-    .facts{grid-template-columns:1fr 1fr}
-    .drawer{width:100%}
-  }
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="FinDocRAG 证据优先的财务文档 Agent 工作台">
+  <title>FinDocRAG · 财务文档 Agent</title>
+  <link rel="icon" href="favicon.svg">
+  <link rel="stylesheet" href="workspace.css">
+  <script src="workspace.js" defer></script>
 </head>
 <body>
-<div class="shell">
-  <header class="topbar">
-    <div class="brand">
-      <span class="mark" aria-hidden="true">F</span>
-      <div>
-        <div class="brand-name">FinDocRAG</div>
-        <div class="brand-sub">证据优先的年报问答工作台</div>
+  <div class="app-shell">
+    <header class="appbar">
+      <a class="brand" href="/" aria-label="FinDocRAG 首页">
+        <span class="brand-mark" aria-hidden="true">F</span>
+        <span><b>FinDocRAG</b><small>财务文档 Agent</small></span>
+      </a>
+      <div class="app-actions">
+        <button class="status-pill" id="healthButton" type="button" data-open-panel="runtime">
+          <i class="status-dot" id="healthDot"></i><span id="healthText">正在连接</span>
+        </button>
+        <button class="status-pill key-pill" id="keyButton" type="button" data-open-panel="model">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m11 12 8-8m-3 3 2 2m-5 1 2 2"/></svg>
+          <span id="keyStatus">配置 DeepSeek Key</span>
+        </button>
+        <button class="button button-soft" type="button" data-open-panel="upload">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M5 14v5h14v-5"/></svg>
+          上传 PDF
+        </button>
+        <button class="icon-button" id="themeButton" type="button" aria-label="切换明暗主题" title="切换主题">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5 8.5 8.5 0 1 0 20.5 14.3Z"/></svg>
+        </button>
+        <button class="icon-button" type="button" data-open-panel="settings" aria-label="打开设置" title="设置">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6v.2h-4V21a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H2.8v-4H3a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3A1.7 1.7 0 0 0 10 3V2.8h4V3a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.2v4H21a1.7 1.7 0 0 0-1.6 1Z"/></svg>
+        </button>
       </div>
-    </div>
-    <div class="top-tools">
-      <span class="pill" id="healthPill" title="服务与索引状态"><span class="dot" id="healthDot"></span><span id="healthText">连接中…</span></span>
-      <button class="pill click mono" id="indexPill" type="button" title="点击复制完整 index_id">index —</button>
-      <button class="icon-btn" id="themeBtn" type="button" title="切换深色 / 浅色（T）" aria-label="切换主题">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8Z"/></svg>
-      </button>
-      <button class="icon-btn" id="refreshBtn" type="button" title="刷新服务状态（R）" aria-label="刷新状态">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 5v6h-6"/></svg>
-      </button>
-      <button class="btn btn-sm" id="panelBtn" type="button" aria-expanded="false">检索设置</button>
-    </div>
-  </header>
+    </header>
 
-  <section class="ask">
-    <div class="ask-lead">
-      <h1>从年报里定位可核验的财务证据</h1>
-      <span>每个 claim 都绑定页码、章节与 chunk SHA-256</span>
-    </div>
-    <div class="querybox">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="queryInput" value="贵州茅台 2024 年营业收入是多少"
-             placeholder="输入问题，例如：伊利股份 2024 年各季度经营活动现金流量净额"
-             aria-label="检索问题" autocomplete="off" spellcheck="false">
-      <span class="kbd">/</span>
-      <button class="btn btn-primary" id="searchBtn" type="button">检索</button>
-    </div>
-    <div class="chips" id="chips">
-      <button class="chip" data-q="贵州茅台 2024 年营业收入是多少"><span class="tag">年度</span>营业收入</button>
-      <button class="chip" data-q="伊利股份 2024 年各季度经营活动现金流量净额分别是多少"><span class="tag">季度</span>各季度现金流</button>
-      <button class="chip" data-q="伊利股份 2024 年主营业务分行业或分产品营业成本是多少"><span class="tag">分部</span>分行业营业成本</button>
-      <button class="chip" data-q="贵州茅台 2024 年前五名客户销售占比是多少"><span class="tag">集中度</span>客户集中度</button>
-      <button class="chip" data-q="贵州茅台 2026 年营业收入会是多少"><span class="tag">拒答</span>未来预测</button>
-    </div>
-    <div class="notice" id="notice" role="alert"></div>
-  </section>
-
-  <div class="stage">
-    <div class="col col-answer">
-      <section class="card answer-card" id="answerCard" aria-live="polite">
-        <div class="answer-head">
-          <span class="badge badge-idle" id="outcomeBadge">IDLE</span>
-          <span class="badge badge-ghost" id="providerBadge" hidden></span>
-          <span class="badge badge-ghost" id="groundedBadge" hidden></span>
-          <span class="small muted" id="answerState" style="margin-left:auto">等待检索</span>
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">EVIDENCE-FIRST · AGENTIC RAG</span>
+          <h1>把年报问题，变成<br><em>有出处的结论</em></h1>
+          <p>上传财务文档，交给 Agent 检索、抽取、比较或计算。每个结论都能回到具体页码和原文。</p>
         </div>
-        <div class="answer-body plain" id="answerBody">输入问题后，回答与逐条引用会显示在这里。</div>
-        <div class="diff" id="rewriteDiff" hidden><b>REWRITE</b><span id="rewriteText"></span></div>
-        <div class="facts" id="facts"></div>
-      </section>
 
-      <section class="card">
-        <div class="cap">检索 trace<span class="count" id="traceCount" hidden></span>
-          <span class="spacer"></span>
-          <button class="btn-quiet" id="traceCopyBtn" type="button" hidden>复制 trace_id</button>
-        </div>
-        <div class="small muted" id="traceSummary">发起检索后显示阶段耗时与候选池变化。</div>
-        <div class="stages" id="traceStages"></div>
-      </section>
-
-      <section class="card" id="debugCard" hidden>
-        <div class="cap">检索调试 · /v1/search<span class="count" id="debugMode"></span>
-          <span class="spacer"></span>
-          <span class="small muted" id="debugMeta"></span>
-        </div>
-        <p class="small muted" style="margin:6px 0 0">
-          这里用同一组参数直接调用 <span class="mono">/v1/search</span>，不经过
-          <span class="mono">/v1/query</span> 的相对时间解析、别名路由与改写门控，因此命中可能与上方回答不同。
-        </p>
-        <div id="debugBody"></div>
-      </section>
-    </div>
-
-    <div class="col col-evidence">
-      <section class="card card-flush" style="padding:16px 16px 0">
-        <div class="cap">引用证据<span class="count" id="evidenceCount" hidden></span>
-          <span class="spacer"></span>
-          <button class="btn-quiet" id="verifyAllBtn" type="button" hidden>全部校验 SHA</button>
-        </div>
-        <div class="ev-list" id="evidenceList" style="padding-bottom:16px">
-          <div class="empty">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/></svg>
-            <b>暂无证据</b>
-            <span>回答返回后，这里按 ordinal 列出 chunk 原文与页码</span>
+        <div class="composer-card">
+          <div class="task-switch" id="taskSwitch" role="tablist" aria-label="任务类型">
+            <button class="task-option active" type="button" data-task="query" role="tab" aria-selected="true">快速问答</button>
+            <button class="task-option" type="button" data-task="compare" role="tab" aria-selected="false">对比分析</button>
+            <button class="task-option" type="button" data-task="extract" role="tab" aria-selected="false">精确抽取</button>
+            <button class="task-option" type="button" data-task="calculate" role="tab" aria-selected="false">计算核验</button>
+          </div>
+          <label class="sr-only" for="queryInput">输入财务文档问题</label>
+          <textarea id="queryInput" rows="3" placeholder="例如：比较海尔智家和长江电力 2024 年营业收入，并给出证据。">贵州茅台 2024 年营业收入是多少？</textarea>
+          <div class="composer-footer">
+            <div class="run-context">
+              <span id="agentModeText">本地检索 + 证据门禁</span>
+              <span class="context-sep">·</span>
+              <span id="verifierModeText">无需第二 Agent</span>
+            </div>
+            <button class="button button-primary" id="runButton" type="button">
+              <span id="runButtonText">查找答案</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 14-7-4 14-3-6-7-1Z"/></svg>
+            </button>
           </div>
         </div>
+
+        <div class="suggestions" id="suggestions">
+          <button type="button" data-task="compare" data-query="比较海尔智家和长江电力 2024 年营业收入">两家公司对比</button>
+          <button type="button" data-task="extract" data-query="海尔智家 2024 年使用权资产表中，累计折旧期末余额合计是多少？">复杂表格抽取</button>
+          <button type="button" data-task="calculate" data-query="计算贵州茅台 2024 年营业收入同比增长率">带证据计算</button>
+          <button type="button" data-task="query" data-query="贵州茅台 2026 年营业收入会是多少？">测试安全拒答</button>
+        </div>
+        <div class="notice" id="notice" role="alert" hidden></div>
+      </section>
+
+      <section class="workspace" aria-label="分析结果与证据">
+        <div class="result-column">
+          <article class="panel result-panel" id="resultPanel" aria-live="polite">
+            <header class="panel-heading">
+              <div>
+                <span class="section-label">分析结果</span>
+                <h2 id="resultTitle">等待任务</h2>
+              </div>
+              <span class="outcome-badge idle" id="outcomeBadge">未开始</span>
+            </header>
+            <div class="answer-content empty-answer" id="answerContent">
+              <div class="empty-illustration" aria-hidden="true">
+                <svg viewBox="0 0 48 48"><path d="M14 8h20a4 4 0 0 1 4 4v24a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V12a4 4 0 0 1 4-4Z"/><path d="M17 18h14M17 25h14M17 32h8"/></svg>
+              </div>
+              <b>从一个问题开始</b>
+              <p>答案、关键结论和引用关系会显示在这里。</p>
+            </div>
+            <div class="result-summary" id="resultSummary" hidden></div>
+          </article>
+
+          <article class="panel process-panel">
+            <header class="panel-heading compact">
+              <div><span class="section-label">执行过程</span><h2>Agent 做了什么</h2></div>
+              <button class="text-button" id="copyTraceButton" type="button" hidden>复制任务 ID</button>
+            </header>
+            <div class="process-list" id="processList">
+              <div class="process-empty">运行后会用人类可读的步骤展示检索、工具调用、证据门禁和独立复核。</div>
+            </div>
+            <details class="technical-details" id="technicalTrace" hidden>
+              <summary>查看技术追踪信息</summary>
+              <div id="technicalTraceBody"></div>
+            </details>
+          </article>
+        </div>
+
+        <aside class="evidence-column" aria-label="引用证据">
+          <div class="panel evidence-panel">
+            <header class="panel-heading compact evidence-heading">
+              <div><span class="section-label">引用证据</span><h2>原文依据</h2></div>
+              <span class="evidence-count" id="evidenceCount">0 条</span>
+            </header>
+            <p class="evidence-intro" id="evidenceIntro">这里优先展示来源、页码、支持的结论和可阅读原文；技术标识收在卡片底部。</p>
+            <div class="evidence-list" id="evidenceList">
+              <div class="evidence-empty">
+                <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M13 7h17l6 6v28H13Z"/><path d="M30 7v7h7M18 22h13M18 28h13M18 34h8"/></svg>
+                <b>暂无引用证据</b>
+                <span>完成任务后，证据会按结论自动分组。</span>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer-scrim" id="drawerScrim"></div>
+  <aside class="drawer" id="drawer" aria-label="工作台设置" aria-hidden="true">
+    <header class="drawer-header">
+      <div><span class="section-label">工作台</span><h2 id="drawerTitle">模型配置</h2></div>
+      <button class="icon-button" id="drawerClose" type="button" aria-label="关闭设置">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+      </button>
+    </header>
+    <nav class="drawer-tabs" aria-label="设置栏目">
+      <button type="button" data-panel="model" class="active">模型</button>
+      <button type="button" data-panel="upload">上传</button>
+      <button type="button" data-panel="settings">任务设置</button>
+      <button type="button" data-panel="reviews">人工审核</button>
+      <button type="button" data-panel="runtime">服务</button>
+    </nav>
+    <div class="drawer-body">
+      <section class="drawer-panel active" data-panel-content="model">
+        <div class="setting-lead">
+          <span class="setting-icon"><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 8-8m-3 3 2 2m-5 1 2 2"/></svg></span>
+          <div><h3>DeepSeek API Key</h3><p>用于远程回答、主 Agent 和高风险 Evidence Verifier。</p></div>
+        </div>
+        <div class="field">
+          <label for="apiKeyInput">API Key</label>
+          <div class="password-field">
+            <input id="apiKeyInput" type="password" placeholder="sk-..." autocomplete="off" spellcheck="false">
+            <button id="toggleKeyButton" type="button">显示</button>
+          </div>
+        </div>
+        <button class="button button-primary full" id="saveKeyButton" type="button">在当前标签页中使用</button>
+        <button class="button button-plain full" id="clearKeyButton" type="button" hidden>清除当前 Key</button>
+        <div class="privacy-note">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.6 2.8 8.1 7 10 4.2-1.9 7-5.4 7-10V6Z"/><path d="m9 12 2 2 4-5"/></svg>
+          <p><b>不会写入浏览器存储或服务器文件。</b>Key 只保存在当前标签页内，并通过同源 HTTPS 请求转发给 DeepSeek。刷新页面即清除。</p>
+        </div>
+      </section>
+
+      <section class="drawer-panel" data-panel-content="upload">
+        <div class="setting-lead">
+          <span class="setting-icon"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M5 14v5h14v-5"/></svg></span>
+          <div><h3>上传财务 PDF</h3><p>支持原生文本和扫描件；扫描页会按需进入本地 OCR。</p></div>
+        </div>
+        <div class="dropzone" id="dropzone" role="button" tabindex="0">
+          <input id="fileInput" type="file" accept="application/pdf" hidden>
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M12 7h16l8 8v26H12Z"/><path d="M28 7v9h9M24 34V21m0 0-5 5m5-5 5 5"/></svg>
+          <b id="fileName">拖入或选择 PDF</b>
+          <span id="fileHint">最大 100 MB；文件只发送到当前 FinDocRAG 服务</span>
+        </div>
+        <div class="form-grid">
+          <div class="field"><label for="uploadCompany">公司名称</label><input id="uploadCompany" placeholder="例如：贵州茅台"></div>
+          <div class="field"><label for="uploadYear">报告年份</label><input id="uploadYear" type="number" min="1900" max="2100" placeholder="2024"></div>
+        </div>
+        <div class="field"><label for="uploadType">文档类型</label><select id="uploadType"><option value="annual">年度报告</option><option value="interim">中期报告</option><option value="announcement">公告</option><option value="other">其他</option></select></div>
+        <details class="advanced-upload"><summary>高级：自定义文档标识</summary><div class="field"><label for="documentKey">document_key</label><input id="documentKey" placeholder="留空则自动生成"></div></details>
+        <button class="button button-primary full" id="uploadButton" type="button" disabled>上传并建立索引</button>
+        <div class="upload-progress" id="uploadProgress" hidden>
+          <div class="progress-track"><i id="uploadProgressBar"></i></div>
+          <div class="progress-copy"><b id="uploadStatus">准备上传</b><span id="uploadMessage"></span></div>
+        </div>
+      </section>
+
+      <section class="drawer-panel" data-panel-content="settings">
+        <h3>任务与检索</h3>
+        <div class="field"><label for="retrievalMode">检索模式</label><select id="retrievalMode"><option value="lexical">关键词检索</option></select><small id="modeHint">根据当前索引能力自动更新。</small></div>
+        <div class="form-grid">
+          <div class="field"><label for="topKInput">返回证据数</label><input id="topKInput" type="number" min="1" max="10" value="5"></div>
+          <div class="field"><label for="candidateKInput">候选池</label><input id="candidateKInput" type="number" min="1" max="1000" placeholder="服务默认"></div>
+        </div>
+        <div class="field"><label for="verifierPolicy">高风险抽取复核</label><select id="verifierPolicy"><option value="auto">自动判断（推荐）</option><option value="always">每次都启用第二 Agent</option><option value="off">关闭第二 Agent</option></select><small>仅影响精确抽取任务；普通问答、比较和计算不会额外调用 Verifier。</small></div>
+        <label class="toggle-row"><span><b>结构口径路由</b><small>识别季度、分部、合并与母公司口径</small></span><input id="scopeToggle" type="checkbox"></label>
+        <label class="toggle-row"><span><b>自适应候选池</b><small>复杂问题自动扩大检索候选</small></span><input id="adaptiveToggle" type="checkbox" checked></label>
+      </section>
+
+      <section class="drawer-panel" data-panel-content="reviews">
+        <div class="reviews-head"><div><h3>待人工审核</h3><p>这里只显示自动证据门禁主动拦下的高风险答案。</p></div><button class="button button-soft" id="refreshReviewsButton" type="button">刷新</button></div>
+        <div class="review-list" id="reviewList"><div class="drawer-empty">尚未加载审核队列。</div></div>
+      </section>
+
+      <section class="drawer-panel" data-panel-content="runtime">
+        <h3>服务状态</h3>
+        <div class="runtime-grid" id="runtimeGrid"><span>正在读取能力信息…</span></div>
+        <details class="technical-details"><summary>索引技术信息</summary><div id="indexDetails">—</div></details>
       </section>
     </div>
-  </div>
-</div>
+  </aside>
 
-<div class="scrim" id="scrim"></div>
-<aside class="drawer" id="drawer" role="dialog" aria-modal="false" aria-label="检索设置与服务状态">
-  <div class="drawer-head">
-    <h2 id="drawerTitle">检索设置</h2>
-    <button class="icon-btn" id="drawerClose" type="button" title="关闭（Esc）" aria-label="关闭">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </button>
-  </div>
-  <div class="tabs" role="tablist">
-    <button class="tab" role="tab" id="tab-search" aria-selected="true" aria-controls="panel-search">检索</button>
-    <button class="tab" role="tab" id="tab-runtime" aria-selected="false" aria-controls="panel-runtime">运行时</button>
-    <button class="tab" role="tab" id="tab-ingest" aria-selected="false" aria-controls="panel-ingest">摄入</button>
-  </div>
-  <div class="drawer-body">
-
-    <div class="panel" id="panel-search" role="tabpanel" aria-labelledby="tab-search">
-      <div class="grid2">
-        <div class="field">
-          <label for="fCompany">公司</label>
-          <select id="fCompany"><option value="">自动识别</option><option value="贵州茅台">贵州茅台</option><option value="伊利股份">伊利股份</option></select>
-        </div>
-        <div class="field">
-          <label for="fYear">报告年份</label>
-          <select id="fYear"><option value="">自动识别</option><option value="2024">2024</option><option value="2023">2023</option></select>
-        </div>
-      </div>
-      <div class="field">
-        <label for="fMode">检索模式</label>
-        <select id="fMode"><option value="">继承服务默认</option></select>
-        <div class="hint" id="modeHint">模式列表来自 /v1/capabilities，只列出当前索引真实支持的模式。</div>
-      </div>
-      <div class="grid2">
-        <div class="field">
-          <label for="fTopK">top_k</label>
-          <input id="fTopK" type="number" min="1" max="100" value="5">
-        </div>
-        <div class="field">
-          <label for="fCandK">candidate_k</label>
-          <input id="fCandK" type="number" min="1" max="1000" placeholder="服务默认">
-        </div>
-      </div>
-      <div class="hint" id="limitHint" style="margin-top:-4px"></div>
-      <div class="rule"></div>
-      <div class="toggle">
-        <div class="toggle-txt"><b>结构化口径路由</b><span>按季度 / 分部 / 合并等口径重排候选</span></div>
-        <label class="sw"><input id="fScope" type="checkbox"><i></i></label>
-      </div>
-      <div class="toggle">
-        <div class="toggle-txt"><b>交叉编码重排</b><span>需服务端已配置 reranker</span></div>
-        <label class="sw"><input id="fRerank" type="checkbox"><i></i></label>
-      </div>
-      <div class="toggle">
-        <div class="toggle-txt"><b>自适应候选预算</b><span>按口径动态扩大 candidate_k</span></div>
-        <label class="sw"><input id="fAdaptive" type="checkbox"><i></i></label>
-      </div>
-      <div class="toggle">
-        <div class="toggle-txt"><b>调试并行调用 /v1/search</b><span>额外展示融合分、rerank 位次与 bbox</span></div>
-        <label class="sw"><input id="fDebug" type="checkbox"><i></i></label>
-      </div>
-      <div class="rule"></div>
-      <div class="cap">证据 resolve</div>
-      <div class="field">
-        <label for="resolveIds">chunk_ids（逗号分隔，最多 <span id="resolveMax">50</span> 个）</label>
-        <input id="resolveIds" placeholder="chunk-abc,chunk-def" autocomplete="off" spellcheck="false">
-      </div>
-      <button class="btn" id="resolveBtn" type="button" style="width:100%;margin-top:9px">按 index_id 校验 SHA-256</button>
-      <div class="mono muted" id="resolveResult" style="margin-top:9px;white-space:pre-wrap;overflow-wrap:anywhere"></div>
-    </div>
-
-    <div class="panel" id="panel-runtime" role="tabpanel" aria-labelledby="tab-runtime" hidden>
-      <div class="cap">运行时能力</div>
-      <div class="caps" id="capList"><span class="small muted">加载中…</span></div>
-      <div class="rule"></div>
-      <div class="cap">检索限额</div>
-      <div class="kv"><span>modes</span><b id="capModes">—</b></div>
-      <div class="kv"><span>top_k</span><b id="capTopK">—</b></div>
-      <div class="kv"><span>candidate_k</span><b id="capCandK">—</b></div>
-      <div class="kv"><span>生成上下文上限</span><b id="capGenCtx">—</b></div>
-      <div class="rule"></div>
-      <div class="cap">索引清单</div>
-      <div class="kv"><span>index_id</span><b id="idxId">—</b></div>
-      <div class="kv"><span>chunk_count</span><b id="idxChunks">—</b></div>
-      <div class="kv"><span>平均文档长度</span><b id="idxAvgLen">—</b></div>
-      <div class="kv"><span>documents</span><b id="idxDocs">—</b></div>
-      <div class="kv"><span>dense_model</span><b id="idxDense">—</b></div>
-      <div class="kv"><span>embedding_dimension</span><b id="idxDim">—</b></div>
-      <div class="kv"><span>tokenizer</span><b id="idxTok">—</b></div>
-      <div class="kv"><span>BM25 k1 / b</span><b id="idxBm25">—</b></div>
-      <div class="kv"><span>结构化表格 sidecar</span><b id="idxTables">—</b></div>
-      <div class="kv"><span>表格单元格</span><b id="idxCells">—</b></div>
-      <div class="kv"><span>source_chunk_sha256</span><b id="idxSha">—</b></div>
-      <div class="rule"></div>
-      <div class="cap">服务指标<span class="spacer"></span><span class="small muted">/v1/metrics</span></div>
-      <div class="stats" id="metricStats"></div>
-      <div class="kv" style="margin-top:9px"><span>requests_by_mode</span><b id="mByMode">—</b></div>
-      <div class="kv"><span>errors_by_type</span><b id="mByErr">—</b></div>
-    </div>
-
-    <div class="panel" id="panel-ingest" role="tabpanel" aria-labelledby="tab-ingest" hidden>
-      <div class="cap">PDF 摄入</div>
-      <p class="small muted" style="margin:0 0 11px">上传只落盘，不会改动 active corpus；必须显式提交 document_key 才会进入 validating → ingesting → indexing。</p>
-      <div class="drop" id="dropzone" role="button" tabindex="0">
-        <b>拖入或点击选择 PDF</b>
-        <span class="small">单文件上限 100 MB</span>
-        <input id="fileInput" type="file" accept="application/pdf">
-      </div>
-      <div class="field">
-        <label for="jobKey">document_key</label>
-        <input id="jobKey" placeholder="cninfo:600519:annual:2024" autocomplete="off" spellcheck="false">
-      </div>
-      <button class="btn btn-primary" id="processBtn" type="button" style="width:100%;margin-top:11px" disabled>发起处理</button>
-      <div class="steps" id="jobSteps">
-        <span class="step"><i></i>上传</span><span class="step"><i></i>校验</span>
-        <span class="step"><i></i>解析</span><span class="step"><i></i>索引</span><span class="step"><i></i>就绪</span>
-      </div>
-      <div class="mono muted" id="jobId" style="margin-top:9px">未上传文件</div>
-      <div class="small muted" id="jobMessage" style="margin-top:5px"></div>
-    </div>
-
-  </div>
-</aside>
-
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<script>
-"use strict";
-
-const $ = (id) => document.getElementById(id);
-const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({
-  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
-}[c]));
-const num = (v) => (v === null || v === undefined || v === "" ? "—" : String(v));
-const ms = (v) => (v == null ? "—" : `${Number(v).toFixed(1)}ms`);
-const fx = (v, d = 3) => (v == null ? "—" : Number(v).toFixed(d));
-const short = (s, n = 12) => (s ? String(s).slice(0, n) : "—");
-
-const state = {
-  indexId: "",
-  capabilities: null,
-  manifest: null,
-  citations: [],
-  traceId: "",
-  activeJobId: null,
-  jobTimer: null,
-  litOrdinal: null,
-};
-
-/* ---------- transport ---------- */
-async function api(path, options = {}) {
-  const res = await fetch(path, options);
-  let data = null;
-  try { data = await res.json(); } catch (_) { /* non-JSON body */ }
-  if (!res.ok) {
-    const err = new Error(data?.error?.message || data?.detail || `HTTP ${res.status}`);
-    err.code = data?.error?.code || "";
-    err.status = res.status;
-    err.details = data?.error?.details;
-    throw err;
-  }
-  return data;
-}
-
-const postJSON = (path, body) => api(path, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(body),
-});
-
-/* ---------- chrome ---------- */
-function notice(message, kind = "error") {
-  const el = $("notice");
-  el.textContent = message;
-  el.className = `notice ${kind}`;
-  el.style.display = "block";
-}
-function clearNotice() { $("notice").style.display = "none"; }
-
-let toastTimer = null;
-function toast(message) {
-  const el = $("toast");
-  el.textContent = message;
-  el.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove("show"), 1900);
-}
-
-async function copy(text, label) {
-  try {
-    await navigator.clipboard.writeText(text);
-    toast(`${label} 已复制`);
-  } catch (_) {
-    toast("复制失败，请手动选择");
-  }
-}
-
-/* ---------- theme ---------- */
-const THEME_KEY = "findoc-ui-theme";
-function applyTheme(theme) {
-  document.documentElement.dataset.theme = theme;
-  try { localStorage.setItem(THEME_KEY, theme); } catch (_) { /* private mode */ }
-}
-function currentTheme() {
-  if (document.documentElement.dataset.theme !== "auto") return document.documentElement.dataset.theme;
-  return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-}
-try {
-  const saved = localStorage.getItem(THEME_KEY);
-  if (saved === "dark" || saved === "light") document.documentElement.dataset.theme = saved;
-} catch (_) { /* ignore */ }
-
-/* ---------- drawer ---------- */
-function openDrawer(tab) {
-  $("drawer").classList.add("open");
-  $("scrim").classList.add("open");
-  $("panelBtn").setAttribute("aria-expanded", "true");
-  if (tab) selectTab(tab);
-}
-function closeDrawer() {
-  $("drawer").classList.remove("open");
-  $("scrim").classList.remove("open");
-  $("panelBtn").setAttribute("aria-expanded", "false");
-}
-const TABS = ["search", "runtime", "ingest"];
-function selectTab(name) {
-  for (const t of TABS) {
-    $(`tab-${t}`).setAttribute("aria-selected", String(t === name));
-    $(`panel-${t}`).hidden = t !== name;
-  }
-  $("drawerTitle").textContent = { search: "检索设置", runtime: "运行时与索引", ingest: "PDF 摄入" }[name];
-}
-
-/* ---------- status ---------- */
-function setHealth(kind, text) {
-  $("healthDot").className = `dot ${kind}`;
-  $("healthText").textContent = text;
-}
-
-async function refreshStatus() {
-  $("refreshBtn").disabled = true;
-  try {
-    const ready = await api("/health/ready");
-    state.indexId = ready.index_id || "";
-    setHealth("ok", "ready");
-    $("indexPill").textContent = `index ${short(state.indexId)}`;
-  } catch (e) {
-    state.indexId = "";
-    setHealth("danger", e.status ? `不可用 ${e.status}` : "未连接");
-    $("indexPill").textContent = "index —";
-  }
-
-  const results = await Promise.allSettled([
-    api("/v1/capabilities"),
-    api("/v1/index"),
-    api("/v1/metrics"),
-  ]);
-  state.capabilities = results[0].status === "fulfilled" ? results[0].value : null;
-  state.manifest = results[1].status === "fulfilled" ? results[1].value : null;
-  renderCapabilities();
-  renderManifest();
-  renderMetrics(results[2].status === "fulfilled" ? results[2].value : null);
-  $("refreshBtn").disabled = false;
-}
-
-const CAP_LABEL = {
-  answer: "回答生成", rewrite: "查询改写", reranker: "交叉重排", scope: "口径路由",
-  tracing: "trace", deterministic_tables: "确定性表格", structured_table_artifacts: "表格 sidecar",
-  ingestion_jobs: "摄入任务", claim_citations: "claim 引用", evidence_resolve: "证据 resolve",
-};
-
-function renderCapabilities() {
-  const cap = state.capabilities;
-  const modeSelect = $("fMode");
-  const keep = modeSelect.value;
-
-  if (!cap) {
-    $("capList").innerHTML = '<span class="small muted">/v1/capabilities 不可用</span>';
-    modeSelect.innerHTML = '<option value="">继承服务默认</option>';
-    $("modeHint").textContent = "能力接口不可用，模式交由服务端决定。";
-    for (const id of ["capModes", "capTopK", "capCandK", "capGenCtx"]) $(id).textContent = "—";
-    return;
-  }
-
-  const features = cap.features || {};
-  $("capList").innerHTML = Object.entries(CAP_LABEL)
-    .map(([key, label]) => `<span class="cf ${features[key] ? "on" : ""}">${esc(label)}</span>`)
-    .join("");
-
-  // Only offer modes the loaded index actually supports; a lexical-only index has no dense/hybrid.
-  const modes = cap.modes || [];
-  const MODE_TEXT = { lexical: "lexical · 纯关键词", dense: "dense · 向量", hybrid: "hybrid · RRF 融合" };
-  modeSelect.innerHTML = '<option value="">继承服务默认</option>'
-    + modes.map((m) => `<option value="${esc(m)}">${esc(MODE_TEXT[m] || m)}</option>`).join("");
-  modeSelect.value = modes.includes(keep) ? keep : "";
-  $("modeHint").textContent = modes.length > 1
-    ? "模式列表来自 /v1/capabilities，只列出当前索引真实支持的模式。"
-    : "当前索引无 dense embeddings，只声明 lexical。";
-
-  // Mirror server-declared limits onto the inputs so requests cannot be rejected client-side.
-  const topK = cap.limits?.top_k;
-  const candK = cap.limits?.candidate_k;
-  if (topK) {
-    const input = $("fTopK");
-    input.min = topK.minimum; input.max = topK.maximum;
-    input.placeholder = String(topK.default);
-    if (!input.value) input.value = topK.default;
-  }
-  if (candK) {
-    const input = $("fCandK");
-    input.min = candK.minimum; input.max = candK.maximum;
-    input.placeholder = `服务默认 ${candK.default}`;
-  }
-  $("limitHint").textContent = topK && candK
-    ? `top_k ≤ ${topK.maximum}，candidate_k ≤ ${candK.maximum}，且 candidate_k ≥ top_k。`
-    : "";
-  $("resolveMax").textContent = cap.limits?.max_evidence_chunk_ids ?? 50;
-
-  $("capModes").textContent = modes.join(" / ") || "—";
-  $("capTopK").textContent = topK ? `${topK.default} (${topK.minimum}–${topK.maximum})` : "—";
-  $("capCandK").textContent = candK ? `${candK.default} (${candK.minimum}–${candK.maximum})` : "—";
-  $("capGenCtx").textContent = num(cap.limits?.max_generation_contexts);
-
-  // Toggles for capabilities the runtime has not enabled are shown as unavailable, not silently broken.
-  const gate = (id, enabled, why) => {
-    const input = $(id);
-    input.disabled = !enabled;
-    if (!enabled) input.checked = false;
-    input.closest(".toggle").querySelector(".toggle-txt span").textContent = enabled
-      ? input.dataset.hint || ""
-      : why;
-  };
-  for (const id of ["fScope", "fRerank"]) {
-    const span = $(id).closest(".toggle").querySelector(".toggle-txt span");
-    if (!$(id).dataset.hint) $(id).dataset.hint = span.textContent;
-  }
-  gate("fScope", !!features.scope, "服务端未启用口径路由");
-  gate("fRerank", !!features.reranker, "服务端未配置 reranker");
-}
-
-function renderManifest() {
-  const m = state.manifest;
-  const set = (id, value) => { $(id).textContent = value; };
-  if (!m) {
-    for (const id of ["idxId", "idxChunks", "idxAvgLen", "idxDocs", "idxDense", "idxDim",
-      "idxTok", "idxBm25", "idxTables", "idxCells", "idxSha"]) set(id, "—");
-    return;
-  }
-  set("idxId", short(m.index_id, 16));
-  set("idxChunks", num(m.chunk_count));
-  set("idxAvgLen", m.average_document_length ? Number(m.average_document_length).toFixed(1) : "—");
-  set("idxDocs", num((m.document_ids || []).length));
-  set("idxDense", m.dense_model || "仅 lexical");
-  set("idxDim", num(m.embedding_dimension));
-  set("idxTok", m.tokenizer || "—");
-  set("idxBm25", `${num(m.bm25_k1)} / ${num(m.bm25_b)}`);
-  set("idxTables", `${num(m.structured_table_count)}${m.structured_table_generator ? ` · ${m.structured_table_generator}` : ""}`);
-  set("idxCells", num(m.structured_table_cell_count));
-  set("idxSha", short(m.source_chunk_sha256, 16));
-}
-
-function renderMetrics(m) {
-  if (!m) {
-    $("metricStats").innerHTML = '<div class="small muted" style="grid-column:1/-1">tracing 未启用，无服务指标</div>';
-    $("mByMode").textContent = "—";
-    $("mByErr").textContent = "—";
-    return;
-  }
-  const cells = [
-    [num(m.request_count), "请求数"],
-    [m.error_rate != null ? `${(m.error_rate * 100).toFixed(1)}%` : "—", "错误率"],
-    [m.latency_p50_ms != null ? `${Number(m.latency_p50_ms).toFixed(0)}ms` : "—", "p50 延迟"],
-    [m.latency_p95_ms != null ? `${Number(m.latency_p95_ms).toFixed(0)}ms` : "—", "p95 延迟"],
-  ];
-  $("metricStats").innerHTML = cells
-    .map(([n, l]) => `<div class="stat"><div class="n">${esc(n)}</div><div class="l">${esc(l)}</div></div>`)
-    .join("");
-  const dict = (obj) => {
-    const entries = Object.entries(obj || {});
-    return entries.length ? entries.map(([k, v]) => `${k}:${v}`).join(" ") : "无";
-  };
-  $("mByMode").textContent = dict(m.requests_by_mode);
-  $("mByErr").textContent = dict(m.errors_by_type);
-}
-
-/* ---------- request payload ---------- */
-function buildPayload(query) {
-  const payload = { query };
-  const mode = $("fMode").value;
-  if (mode) payload.mode = mode;
-
-  const topK = Number($("fTopK").value);
-  if (Number.isFinite(topK) && topK > 0) payload.top_k = topK;
-  const candK = Number($("fCandK").value);
-  if ($("fCandK").value.trim() && Number.isFinite(candK) && candK > 0) payload.candidate_k = candK;
-
-  const filters = {};
-  const company = $("fCompany").value;
-  const year = $("fYear").value;
-  if (company) filters.company_names = [company];
-  if (year) filters.report_years = [Number(year)];
-  if (Object.keys(filters).length) payload.filters = filters;
-
-  if ($("fScope").checked) payload.scope_routing = true;
-  if ($("fRerank").checked) payload.rerank = true;
-  if ($("fAdaptive").checked) payload.adaptive_candidate_budget = true;
-  return payload;
-}
-
-/* ---------- answer ---------- */
-const OUTCOME = {
-  answer: { label: "ANSWER", cls: "badge-answer" },
-  abstain: { label: "ABSTAIN", cls: "badge-abstain" },
-  clarify: { label: "CLARIFY", cls: "badge-clarify" },
-  evidence_only: { label: "EVIDENCE ONLY", cls: "badge-evidence-only" },
-};
-const PROVIDER = {
-  "deterministic-table": "确定性表格抽取",
-  "openai-compatible": "远程 LLM 生成",
-  clarification: "澄清",
-  abstention: "拒答",
-  "guardrail-abstention": "护栏拒答",
-  "remote-abstention": "远程拒答",
-  "evidence-only": "仅证据",
-};
-
-function citeHtml(ordinal, valid) {
-  const n = esc(ordinal);
-  return valid
-    ? `<button class="cite" data-cite="${n}" type="button" title="跳到证据 #${n}">${n}</button>`
-    : `<span class="cite dead" title="引用越界：没有第 ${n} 条证据">${n}</span>`;
-}
-
-function renderAnswer(d) {
-  state.citations = d.citations || [];
-  state.traceId = d.trace_id || "";
-  const valid = new Set(state.citations.map((c) => c.ordinal));
-
-  const outcome = OUTCOME[d.outcome] || { label: String(d.outcome || "UNKNOWN").toUpperCase(), cls: "badge-idle" };
-  const badge = $("outcomeBadge");
-  badge.textContent = outcome.label;
-  badge.className = `badge ${outcome.cls}`;
-
-  const provider = $("providerBadge");
-  provider.textContent = PROVIDER[d.provider] || d.provider || "—";
-  provider.hidden = false;
-
-  const grounded = $("groundedBadge");
-  grounded.textContent = d.grounded ? "grounded" : "not grounded";
-  grounded.className = `badge ${d.grounded ? "badge-answer" : "badge-abstain"}`;
-  grounded.hidden = false;
-  $("answerState").textContent = `${state.citations.length} 条证据`;
-
-  const body = $("answerBody");
-  const claims = d.claim_citations || [];
-  if (claims.length) {
-    body.classList.remove("plain");
-    body.innerHTML = claims.map((c, i) => {
-      const pills = (c.citation_ordinals || []).map((n) => citeHtml(n, valid.has(n))).join("");
-      return `<p class="claim" data-claim="${i}">${esc(c.claim)} ${pills}</p>`;
-    }).join("");
-  } else if (d.answer) {
-    // No claim graph (abstain / clarify / evidence_only): keep the raw text and only
-    // linkify inline [n] markers so nothing is invented that the contract did not return.
-    body.classList.add("plain");
-    body.innerHTML = esc(d.answer).replace(/\[(\d+)\]/g, (_, n) => citeHtml(Number(n), valid.has(Number(n))));
-  } else {
-    body.classList.add("plain");
-    body.innerHTML = '<span class="muted">服务返回空回答</span>';
-  }
-
-  const rewritten = d.resolved_query && d.resolved_query !== d.original_query;
-  $("rewriteDiff").hidden = !rewritten;
-  if (rewritten) $("rewriteText").textContent = d.resolved_query;
-
-  renderFacts(d);
-  renderEvidence();
-  if (d.trace_id) loadTrace(d.trace_id);
-  else { $("traceSummary").textContent = "本次响应未附带 trace_id。"; $("traceStages").innerHTML = ""; }
-}
-
-function renderFacts(d) {
-  const route = d.route || {};
-  const filters = d.applied_filters || {};
-  const list = (v) => (Array.isArray(v) && v.length ? v.join(", ") : "");
-  const facts = [
-    ["rewrite", `${d.rewrite_mode || "—"} → ${d.rewrite_gate || "—"}`, ""],
-    ["contract", d.contract_version || "—", ""],
-    ["trace_id", short(d.trace_id), ""],
-    ["request_id", short(d.request_id), ""],
-    ["index_id", short(d.index_id), d.index_id && state.indexId && d.index_id !== state.indexId ? "bad" : ""],
-    ["路由公司", list(route.company_names) || "自动", ""],
-    ["报告年份", list(route.report_years) || "自动", ""],
-    ["事实期间", list(route.fact_periods) || "—", ""],
-    ["预测目标年", list(route.forecast_target_years) || "—", ""],
-    ["年份策略", route.year_filter_policy || "none", ""],
-    ["生效过滤", [list(filters.company_names), list(filters.report_years), list(filters.document_types)]
-      .filter(Boolean).join(" · ") || "无", ""],
-  ];
-  $("facts").innerHTML = facts
-    .map(([k, v, cls]) => `<div class="fact ${cls}"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`)
-    .join("");
-}
-
-/* ---------- evidence ---------- */
-function evidenceEmpty(title, detail) {
-  return `<div class="empty">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"/><path d="M14 3v5h5"/></svg>
-    <b>${esc(title)}</b><span>${esc(detail)}</span></div>`;
-}
-
-function renderEvidence() {
-  const list = $("evidenceList");
-  const items = state.citations;
-  $("evidenceCount").hidden = !items.length;
-  $("evidenceCount").textContent = `${items.length}`;
-  $("verifyAllBtn").hidden = !items.length;
-
-  if (!items.length) {
-    list.innerHTML = evidenceEmpty("本次没有引用证据", "拒答或澄清结果不绑定证据，属于预期行为");
-    return;
-  }
-
-  list.innerHTML = items.map((c) => {
-    const path = (c.section_path || []).join(" › ") || "章节未标注";
-    const pages = c.page_start === c.page_end ? `第 ${c.page_start} 页` : `第 ${c.page_start}–${c.page_end} 页`;
-    return `<article class="ev" data-ev="${esc(c.ordinal)}" id="ev-${esc(c.ordinal)}">
-      <div class="ev-head">
-        <span class="ev-ord">${esc(c.ordinal)}</span>
-        <div class="ev-id">
-          <div class="ev-where">${esc(pages)}</div>
-          <div class="ev-path">${esc(path)}</div>
-          <div class="ev-chunk">${esc(c.chunk_id || "")}</div>
-        </div>
-      </div>
-      <div class="ev-body"><pre>${esc(c.excerpt || "服务未返回原文摘录")}</pre></div>
-      <div class="ev-foot">
-        <span class="sha" data-sha="${esc(c.ordinal)}">SHA-256 未校验</span>
-        <button class="btn btn-sm" data-verify="${esc(c.ordinal)}" type="button">校验</button>
-        <button class="btn btn-sm" data-copy-chunk="${esc(c.ordinal)}" type="button">复制 chunk_id</button>
-      </div>
-    </article>`;
-  }).join("");
-}
-
-function lightCitation(ordinal) {
-  state.litOrdinal = ordinal;
-  for (const el of document.querySelectorAll(".ev")) {
-    el.classList.toggle("lit", Number(el.dataset.ev) === ordinal);
-  }
-  for (const el of document.querySelectorAll(".cite")) {
-    el.classList.toggle("lit", Number(el.dataset.cite) === ordinal);
-  }
-  const target = document.querySelector(`.ev[data-ev="${ordinal}"]`);
-  target?.scrollIntoView?.({ behavior: "smooth", block: "nearest" });
-}
-
-/* Hovering a claim dims evidence that the claim does not cite. */
-function focusClaim(claimEl) {
-  const cited = new Set([...claimEl.querySelectorAll(".cite")].map((b) => Number(b.dataset.cite)));
-  for (const el of document.querySelectorAll(".claim")) el.classList.toggle("lit", el === claimEl);
-  for (const el of document.querySelectorAll(".ev")) {
-    el.classList.toggle("dim", cited.size > 0 && !cited.has(Number(el.dataset.ev)));
-  }
-}
-function blurClaims() {
-  for (const el of document.querySelectorAll(".claim")) el.classList.remove("lit");
-  for (const el of document.querySelectorAll(".ev")) el.classList.remove("dim");
-}
-
-async function verifyOrdinals(ordinals) {
-  if (!state.indexId) { notice("索引 ID 未知，无法调用 evidence:resolve", "error"); return; }
-  const wanted = ordinals
-    .map((o) => state.citations.find((c) => c.ordinal === o))
-    .filter((c) => c && c.chunk_id);
-  if (!wanted.length) return;
-
-  for (const c of wanted) {
-    const el = document.querySelector(`[data-sha="${c.ordinal}"]`);
-    if (el) { el.textContent = "校验中…"; el.className = "sha"; }
-  }
-  try {
-    const res = await postJSON("/v1/evidence:resolve", {
-      index_id: state.indexId,
-      chunk_ids: wanted.map((c) => c.chunk_id),
-    });
-    // The contract preserves request order, so zip positionally instead of parsing ids back out.
-    (res.evidence || []).forEach((item, i) => {
-      const el = document.querySelector(`[data-sha="${wanted[i].ordinal}"]`);
-      if (!el) return;
-      el.textContent = `SHA-256 ${item.sha256}`;
-      el.className = "sha ok";
-    });
-    toast(`${wanted.length} 条证据已按 index_id 校验`);
-  } catch (e) {
-    for (const c of wanted) {
-      const el = document.querySelector(`[data-sha="${c.ordinal}"]`);
-      if (el) { el.textContent = `校验失败：${e.message}`; el.className = "sha bad"; }
-    }
-    notice(`证据 resolve 失败（${e.code || e.status || "error"}）：${e.message}`, "error");
-  }
-}
-
-/* ---------- trace ---------- */
-async function loadTrace(traceId) {
-  $("traceSummary").textContent = "trace 加载中…";
-  $("traceStages").innerHTML = '<div class="stg"><span class="skel" style="height:12px;width:100%"></span></div>';
-  $("traceCopyBtn").hidden = false;
-  try {
-    renderTrace(await api(`/v1/traces/${encodeURIComponent(traceId)}`));
-  } catch (e) {
-    $("traceCount").hidden = true;
-    $("traceSummary").textContent = `trace 不可用：${e.message}`;
-    $("traceStages").innerHTML = "";
-  }
-}
-
-function renderTrace(t) {
-  const bits = [
-    t.status === "error" ? "ERROR" : "OK",
-    `mode ${t.mode}`,
-    `总耗时 ${ms(t.total_duration_ms)}`,
-    `top_k ${t.requested_top_k} · 命中 ${t.result_count}`,
-  ];
-  if (t.base_candidate_k != null && t.base_candidate_k !== t.candidate_k) {
-    bits.push(`候选池 ${t.base_candidate_k}→${t.candidate_k}${t.candidate_budget_reason ? ` (${t.candidate_budget_reason})` : ""}`);
-  } else {
-    bits.push(`候选池 ${t.candidate_k}`);
-  }
-  if (t.inferred_scope) bits.push(`口径 ${t.inferred_scope}${t.scope_confidence ? `/${t.scope_confidence}` : ""}`);
-  if (t.reranked) bits.push(`重排 ${t.reranker_model || "on"}`);
-  if (t.error_type) bits.push(`错误 ${t.error_type}`);
-  $("traceSummary").textContent = bits.join("  ·  ");
-
-  const stages = t.stages || [];
-  $("traceCount").hidden = !stages.length;
-  $("traceCount").textContent = `${stages.length} 阶段`;
-  if (!stages.length) {
-    $("traceStages").innerHTML = '<div class="small muted" style="padding-top:8px">该 trace 未记录阶段数据。</div>';
-    return;
-  }
-  const peak = Math.max(...stages.map((s) => s.duration_ms), 0.001);
-  $("traceStages").innerHTML = stages.map((s) => {
-    const pct = Math.max(2, Math.round((s.duration_ms / peak) * 100));
-    const hits = (s.hits || []).slice(0, 3).map((h) => {
-      const extra = [];
-      if (h.rerank_score != null) extra.push(`rr ${fx(h.rerank_score)}`);
-      if (h.rank_delta) extra.push(`Δ${h.rank_delta > 0 ? "+" : ""}${h.rank_delta}`);
-      if (h.scope_score != null) extra.push(`scope ${h.scope_score}`);
-      return `<em>${esc(h.rank)}.</em> ${esc(h.chunk_id)} ${fx(h.score)}${extra.length ? ` · ${esc(extra.join(" · "))}` : ""}`;
-    }).join("<br>");
-    return `<div class="stg">
-        <span class="stg-name">${esc(s.stage)}</span>
-        <span class="stg-bar ${s.stage === "rerank" ? "rr" : ""}"><i style="width:${pct}%"></i></span>
-        <span class="stg-num">${ms(s.duration_ms)} · ${esc(s.candidate_count)}</span>
-      </div>${hits ? `<div class="stg-hits">${hits}</div>` : ""}`;
-  }).join("");
-}
-
-/* ---------- /v1/search debug view ---------- */
-async function loadDebug(payload) {
-  const card = $("debugCard");
-  card.hidden = false;
-  $("debugBody").innerHTML = '<div class="small muted" style="padding-top:8px">调用 /v1/search…</div>';
-  try {
-    const r = await postJSON("/v1/search", payload);
-    $("debugMode").textContent = r.mode;
-    $("debugMeta").textContent = `${ms(r.took_ms)} · 候选 ${r.base_candidate_k}→${r.effective_candidate_k} (${r.candidate_budget_reason})`
-      + (r.reranked ? ` · rerank ${r.reranker_model || "on"}` : "")
-      + (r.inferred_scope ? ` · 口径 ${r.inferred_scope}` : "");
-    renderDebugTable(r.hits || []);
-  } catch (e) {
-    $("debugMode").textContent = "失败";
-    $("debugMeta").textContent = "";
-    $("debugBody").innerHTML = `<div class="small" style="color:var(--danger);padding-top:8px">${esc(e.message)}</div>`;
-  }
-}
-
-function renderDebugTable(hits) {
-  if (!hits.length) {
-    $("debugBody").innerHTML = '<div class="small muted" style="padding-top:8px">无命中。</div>';
-    return;
-  }
-  const rows = hits.map((h) => {
-    const box = h.chunk?.element_references?.[0]?.bbox;
-    const bbox = box ? `${box.x0.toFixed(0)},${box.y0.toFixed(0)}–${box.x1.toFixed(0)},${box.y1.toFixed(0)}` : "—";
-    const delta = h.rank_delta;
-    const deltaCell = delta ? `<span class="score ${delta > 0 ? "up" : "down"}">${delta > 0 ? "+" : ""}${delta}</span>` : "—";
-    return `<tr>
-      <td class="num">${esc(h.rank)}</td>
-      <td>${esc(h.chunk?.chunk_id || "")}</td>
-      <td class="num">${fx(h.score, 4)}</td>
-      <td class="num">${h.lexical_rank != null ? `#${h.lexical_rank} ${fx(h.lexical_score)}` : "—"}</td>
-      <td class="num">${h.dense_rank != null ? `#${h.dense_rank} ${fx(h.dense_score)}` : "—"}</td>
-      <td class="num">${h.rerank_score != null ? fx(h.rerank_score) : "—"}</td>
-      <td class="num">${deltaCell}</td>
-      <td class="num">${h.scope_score != null ? esc(h.scope_score) : "—"}</td>
-      <td class="num">${esc(h.page_start)}–${esc(h.page_end)}</td>
-      <td>${esc(bbox)}</td>
-    </tr>`;
-  }).join("");
-  $("debugBody").innerHTML = `<table class="dbg">
-    <thead><tr>
-      <th>rank</th><th>chunk_id</th><th>score</th><th>lexical</th><th>dense</th>
-      <th>rerank</th><th>Δrank</th><th>scope</th><th>页</th><th>bbox (首元素)</th>
-    </tr></thead><tbody>${rows}</tbody></table>`;
-}
-
-/* ---------- run ---------- */
-function setPending() {
-  $("answerState").textContent = "检索与生成中…";
-  $("outcomeBadge").textContent = "RUNNING";
-  $("outcomeBadge").className = "badge badge-idle";
-  $("healthDot").classList.add("live");
-  $("answerBody").classList.add("plain");
-  $("answerBody").innerHTML = '<span class="muted">正在调用 /v1/query…</span>';
-  $("facts").innerHTML = "";
-  $("rewriteDiff").hidden = true;
-  $("evidenceList").innerHTML = '<div class="ev"><div class="ev-body"><span class="skel" style="display:block;height:64px"></span></div></div>';
-  $("evidenceCount").hidden = true;
-  $("verifyAllBtn").hidden = true;
-}
-
-function setFailed(message) {
-  $("answerState").textContent = "请求失败";
-  $("outcomeBadge").textContent = "FAILED";
-  $("outcomeBadge").className = "badge badge-abstain";
-  $("providerBadge").hidden = true;
-  $("groundedBadge").hidden = true;
-  $("answerBody").classList.add("plain");
-  $("answerBody").innerHTML = `<span class="muted">${esc(message)}</span>`;
-  $("facts").innerHTML = "";
-  state.citations = [];
-  renderEvidence();
-  $("evidenceList").innerHTML = evidenceEmpty("请求未完成", "修正参数后重试，或在检索设置里检查模式与限额");
-  $("traceSummary").textContent = "—";
-  $("traceStages").innerHTML = "";
-  $("traceCount").hidden = true;
-}
-
-async function runQuery(text) {
-  const query = String(text ?? $("queryInput").value).trim();
-  if (!query) { notice("请输入问题", "error"); $("queryInput").focus(); return; }
-  clearNotice();
-  const payload = buildPayload(query);
-  $("searchBtn").disabled = true;
-  $("answerCard").classList.add("busy");
-  setPending();
-  const debug = $("fDebug").checked;
-  if (debug) loadDebug(payload); else $("debugCard").hidden = true;
-  try {
-    renderAnswer(await postJSON("/v1/query", payload));
-  } catch (e) {
-    setFailed(`${e.code ? `${e.code}: ` : ""}${e.message}`);
-    notice(e.message, "error");
-    if (e.status === 0 || !e.status) setHealth("danger", "未连接");
-  } finally {
-    $("searchBtn").disabled = false;
-    $("answerCard").classList.remove("busy");
-    $("healthDot").classList.remove("live");
-  }
-}
-
-/* ---------- ingestion ---------- */
-const JOB_FLOW = ["uploaded", "validating", "ingesting", "indexing", "ready"];
-
-function renderJob(job) {
-  if (job) state.activeJobId = job.job_id;
-  const status = job?.status || "uploaded";
-  const steps = [...$("jobSteps").children];
-  const at = JOB_FLOW.indexOf(status);
-  steps.forEach((el, i) => {
-    if (status === "failed") el.className = i === steps.length - 1 ? "step fail" : "step done";
-    else if (status === "ready") el.className = "step done";
-    else if (i < at) el.className = "step done";
-    else if (i === at) el.className = "step active";
-    else el.className = "step";
-  });
-  $("jobId").textContent = job
-    ? `job ${short(job.job_id)} · ${job.filename || ""} · ${status}`
-    : "未上传文件";
-  const detail = [job?.message, job?.error_code && `error ${job.error_code}`,
-    job?.document_version_id && `version ${short(job.document_version_id)}`,
-    job?.index_id && `index ${short(job.index_id)}`].filter(Boolean).join(" · ");
-  $("jobMessage").textContent = detail;
-  $("processBtn").disabled = status !== "uploaded";
-  if (status === "ready") refreshStatus();
-}
-
-function pollJob(jobId) {
-  clearInterval(state.jobTimer);
-  state.jobTimer = setInterval(async () => {
-    try {
-      const job = await api(`/v1/uploads/${encodeURIComponent(jobId)}`);
-      renderJob(job);
-      if (job.status === "ready" || job.status === "failed") clearInterval(state.jobTimer);
-    } catch (_) {
-      clearInterval(state.jobTimer);
-    }
-  }, 1200);
-}
-
-async function uploadFile(file) {
-  if (!file.name.toLowerCase().endsWith(".pdf")) { $("jobMessage").textContent = "只支持 PDF"; return; }
-  $("jobMessage").textContent = `上传中 ${(file.size / 1048576).toFixed(1)} MB…`;
-  if (!$("jobKey").value.trim()) $("jobKey").value = "";
-  try {
-    const job = await api("/v1/uploads", {
-      method: "POST",
-      headers: { "Content-Type": "application/pdf", "X-Filename": file.name },
-      body: file,
-    });
-    renderJob(job);
-    pollJob(job.job_id);
-  } catch (e) {
-    $("jobMessage").textContent = `上传失败：${e.message}`;
-  }
-}
-
-async function processJob() {
-  const key = $("jobKey").value.trim();
-  if (!state.activeJobId) { $("jobMessage").textContent = "请先上传 PDF"; return; }
-  if (!key) { $("jobMessage").textContent = "请填写稳定的 document_key"; $("jobKey").focus(); return; }
-  $("processBtn").disabled = true;
-  try {
-    const job = await api(`/v1/uploads/${encodeURIComponent(state.activeJobId)}:process`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ document_key: key, metadata: {} }),
-    });
-    renderJob(job);
-    pollJob(job.job_id);
-  } catch (e) {
-    $("jobMessage").textContent = `处理失败：${e.message}`;
-    $("processBtn").disabled = false;
-  }
-}
-
-async function resolveTool() {
-  const ids = $("resolveIds").value.split(",").map((s) => s.trim()).filter(Boolean);
-  const out = $("resolveResult");
-  if (!ids.length) { out.textContent = "请填写至少一个 chunk_id"; return; }
-  if (!state.indexId) { out.textContent = "索引 ID 未知，先刷新状态"; return; }
-  out.textContent = "解析中…";
-  try {
-    const res = await postJSON("/v1/evidence:resolve", { index_id: state.indexId, chunk_ids: ids });
-    out.textContent = (res.evidence || [])
-      .map((e, i) => `${ids[i]}\n  p.${e.chunk?.page_start}-${e.chunk?.page_end} · ${e.chunk?.estimated_token_count ?? "?"} tok\n  ${e.sha256}`)
-      .join("\n");
-  } catch (e) {
-    const missing = e.details?.missing_chunk_ids;
-    out.textContent = `失败（${e.code || e.status}）：${e.message}${missing ? `\n缺失：${missing.join(", ")}` : ""}`;
-  }
-}
-
-/* ---------- wiring ---------- */
-$("searchBtn").addEventListener("click", () => runQuery());
-$("queryInput").addEventListener("keydown", (e) => {
-  if (e.key === "Enter") runQuery();
-  if (e.key === "Escape") { e.target.value = ""; clearNotice(); }
-});
-$("chips").addEventListener("click", (e) => {
-  const chip = e.target.closest("[data-q]");
-  if (!chip) return;
-  $("queryInput").value = chip.dataset.q;
-  runQuery(chip.dataset.q);
-});
-
-$("refreshBtn").addEventListener("click", refreshStatus);
-$("themeBtn").addEventListener("click", () => applyTheme(currentTheme() === "dark" ? "light" : "dark"));
-$("indexPill").addEventListener("click", () => {
-  if (state.indexId) copy(state.indexId, "index_id"); else toast("索引 ID 未知");
-});
-$("panelBtn").addEventListener("click", () => {
-  if ($("drawer").classList.contains("open")) closeDrawer(); else openDrawer("search");
-});
-$("drawerClose").addEventListener("click", closeDrawer);
-$("scrim").addEventListener("click", closeDrawer);
-for (const t of TABS) $(`tab-${t}`).addEventListener("click", () => selectTab(t));
-$("healthPill").addEventListener("click", () => openDrawer("runtime"));
-
-$("traceCopyBtn").addEventListener("click", () => {
-  if (state.traceId) copy(state.traceId, "trace_id");
-});
-$("verifyAllBtn").addEventListener("click", () => verifyOrdinals(state.citations.map((c) => c.ordinal)));
-
-$("answerBody").addEventListener("click", (e) => {
-  const cite = e.target.closest("[data-cite]");
-  if (cite) lightCitation(Number(cite.dataset.cite));
-});
-$("answerBody").addEventListener("mouseover", (e) => {
-  const claim = e.target.closest(".claim");
-  if (claim) focusClaim(claim);
-});
-$("answerBody").addEventListener("mouseleave", blurClaims);
-
-$("evidenceList").addEventListener("click", (e) => {
-  const verify = e.target.closest("[data-verify]");
-  if (verify) { verifyOrdinals([Number(verify.dataset.verify)]); return; }
-  const copyBtn = e.target.closest("[data-copy-chunk]");
-  if (copyBtn) {
-    const c = state.citations.find((x) => x.ordinal === Number(copyBtn.dataset.copyChunk));
-    if (c?.chunk_id) copy(c.chunk_id, "chunk_id");
-    return;
-  }
-  const card = e.target.closest(".ev");
-  if (card) lightCitation(Number(card.dataset.ev));
-});
-
-$("resolveBtn").addEventListener("click", resolveTool);
-$("resolveIds").addEventListener("keydown", (e) => { if (e.key === "Enter") resolveTool(); });
-
-const dz = $("dropzone");
-const fileInput = $("fileInput");
-dz.addEventListener("click", () => fileInput.click());
-dz.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileInput.click(); } });
-fileInput.addEventListener("change", (e) => { if (e.target.files[0]) uploadFile(e.target.files[0]); });
-for (const ev of ["dragover", "dragleave", "drop"]) dz.addEventListener(ev, (e) => e.preventDefault());
-dz.addEventListener("dragover", () => dz.classList.add("over"));
-dz.addEventListener("dragleave", () => dz.classList.remove("over"));
-dz.addEventListener("drop", (e) => {
-  dz.classList.remove("over");
-  if (e.dataTransfer.files[0]) uploadFile(e.dataTransfer.files[0]);
-});
-$("processBtn").addEventListener("click", processJob);
-
-/* Keyboard: / focus, R refresh, T theme, S settings, Esc close. */
-document.addEventListener("keydown", (e) => {
-  const typing = /^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement?.tagName || "");
-  if (e.key === "Escape") {
-    if ($("drawer").classList.contains("open")) { closeDrawer(); return; }
-    blurClaims();
-    return;
-  }
-  if (typing || e.metaKey || e.ctrlKey || e.altKey) return;
-  if (e.key === "/") { e.preventDefault(); $("queryInput").focus(); $("queryInput").select(); return; }
-  if (e.key === "r" || e.key === "R") { e.preventDefault(); refreshStatus(); return; }
-  if (e.key === "t" || e.key === "T") { e.preventDefault(); applyTheme(currentTheme() === "dark" ? "light" : "dark"); return; }
-  if (e.key === "s" || e.key === "S") { e.preventDefault(); openDrawer("search"); }
-});
-
-selectTab("search");
-
-// A ?q= deep link makes a result state shareable and lets the README screenshot
-// be regenerated deterministically. Capabilities must load first so the payload
-// respects the service's declared modes and limits.
-refreshStatus().then(() => {
-  const query = new URLSearchParams(location.search).get("q");
-  if (!query) return;
-  $("queryInput").value = query;
-  runQuery(query);
-});
-</script>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
-

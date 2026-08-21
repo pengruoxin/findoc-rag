@@ -26,23 +26,95 @@ def _keys(cells):
 
 
 BLOCKS_A = [
-    {"lines": [{"spans": [
-        {"text": "归属于上市公司股东的扣除非经常性损益后的净利润",
-         "bbox": (40.8, 200.0, 180.0, 209.0), "size": 9.0, "bold": False}]}]},
-    {"lines": [{"spans": [
-        {"text": "24,051,471,185.69", "bbox": (200.0, 200.0, 300.0, 209.0), "size": 9.0, "bold": False},
-        {"text": "17,618,626,634.30", "bbox": (300.0, 200.0, 400.0, 209.0), "size": 9.0, "bold": False},
-        {"text": "19,108,543,634.77", "bbox": (400.0, 200.0, 500.0, 209.0), "size": 9.0, "bold": False},
-        {"text": "25,462,264,522.66", "bbox": (500.0, 200.0, 600.0, 209.0), "size": 9.0, "bold": False}]}]},
+    {
+        "lines": [
+            {
+                "spans": [
+                    {
+                        "text": "归属于上市公司股东的扣除非经常性损益后的净利润",
+                        "bbox": (40.8, 200.0, 180.0, 209.0),
+                        "size": 9.0,
+                        "bold": False,
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "lines": [
+            {
+                "spans": [
+                    {
+                        "text": "24,051,471,185.69",
+                        "bbox": (200.0, 200.0, 300.0, 209.0),
+                        "size": 9.0,
+                        "bold": False,
+                    },
+                    {
+                        "text": "17,618,626,634.30",
+                        "bbox": (300.0, 200.0, 400.0, 209.0),
+                        "size": 9.0,
+                        "bold": False,
+                    },
+                    {
+                        "text": "19,108,543,634.77",
+                        "bbox": (400.0, 200.0, 500.0, 209.0),
+                        "size": 9.0,
+                        "bold": False,
+                    },
+                    {
+                        "text": "25,462,264,522.66",
+                        "bbox": (500.0, 200.0, 600.0, 209.0),
+                        "size": 9.0,
+                        "bold": False,
+                    },
+                ]
+            }
+        ]
+    },
 ]
 
 BLOCKS_B = [
-    {"lines": [{"spans": [
-        {"text": "液体乳及乳制品", "bbox": (40.8, 100.0, 150.0, 109.0), "size": 9.0, "bold": False}]}]},
-    {"lines": [{"spans": [
-        {"text": "制造业", "bbox": (40.8, 109.0, 90.0, 118.0), "size": 9.0, "bold": False},
-        {"text": "113,399,011,137.27", "bbox": (200.0, 105.0, 300.0, 114.0), "size": 9.0, "bold": False},
-        {"text": "74,731,457,627.92", "bbox": (300.0, 105.0, 400.0, 114.0), "size": 9.0, "bold": False}]}]},
+    {
+        "lines": [
+            {
+                "spans": [
+                    {
+                        "text": "液体乳及乳制品",
+                        "bbox": (40.8, 100.0, 150.0, 109.0),
+                        "size": 9.0,
+                        "bold": False,
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "lines": [
+            {
+                "spans": [
+                    {
+                        "text": "制造业",
+                        "bbox": (40.8, 109.0, 90.0, 118.0),
+                        "size": 9.0,
+                        "bold": False,
+                    },
+                    {
+                        "text": "113,399,011,137.27",
+                        "bbox": (200.0, 105.0, 300.0, 114.0),
+                        "size": 9.0,
+                        "bold": False,
+                    },
+                    {
+                        "text": "74,731,457,627.92",
+                        "bbox": (300.0, 105.0, 400.0, 114.0),
+                        "size": 9.0,
+                        "bold": False,
+                    },
+                ]
+            }
+        ]
+    },
 ]
 
 
@@ -54,13 +126,32 @@ def test_normalizers_and_unit_detection():
 
 
 def test_pymupdf_builder_accepts_realistic_dict_and_bold_flag():
-    raw = {"blocks": [
-        {"type": 1, "lines": [{"spans": [{"text": "image", "bbox": (0, 0, 1, 1)}]}]},
-        {"type": 0, "lines": [{"spans": [
-            {"text": "营业收入", "bbox": (10, 10, 60, 20), "font": "SimHei-Bold", "size": 9},
-            {"text": "100.00", "bbox": (100, 10, 150, 20), "font": "Song", "size": 9},
-        ]}]},
-    ]}
+    raw = {
+        "blocks": [
+            {"type": 1, "lines": [{"spans": [{"text": "image", "bbox": (0, 0, 1, 1)}]}]},
+            {
+                "type": 0,
+                "lines": [
+                    {
+                        "spans": [
+                            {
+                                "text": "营业收入",
+                                "bbox": (10, 10, 60, 20),
+                                "font": "SimHei-Bold",
+                                "size": 9,
+                            },
+                            {
+                                "text": "100.00",
+                                "bbox": (100, 10, 150, 20),
+                                "font": "Song",
+                                "size": 9,
+                            },
+                        ]
+                    }
+                ],
+            },
+        ]
+    }
     blocks = blocks_from_pymupdf_dict(raw)
     assert len(blocks) == 1
     assert isinstance(blocks[0], Block)
@@ -90,11 +181,26 @@ def test_persisted_document_ir_replays_existing_coordinate_pipeline():
                             PdfLine(
                                 bbox=BoundingBox(x0=40, y0=100, x1=560, y1=109),
                                 spans=[
-                                    PdfSpan(text="主营业务", bbox=BoundingBox(x0=40, y0=100, x1=120, y1=109)),
-                                    PdfSpan(text="100.00", bbox=BoundingBox(x0=180, y0=100, x1=240, y1=109)),
-                                    PdfSpan(text="20.00", bbox=BoundingBox(x0=280, y0=100, x1=340, y1=109)),
-                                    PdfSpan(text="90.00", bbox=BoundingBox(x0=380, y0=100, x1=440, y1=109)),
-                                    PdfSpan(text="18.00", bbox=BoundingBox(x0=480, y0=100, x1=540, y1=109)),
+                                    PdfSpan(
+                                        text="主营业务",
+                                        bbox=BoundingBox(x0=40, y0=100, x1=120, y1=109),
+                                    ),
+                                    PdfSpan(
+                                        text="100.00",
+                                        bbox=BoundingBox(x0=180, y0=100, x1=240, y1=109),
+                                    ),
+                                    PdfSpan(
+                                        text="20.00",
+                                        bbox=BoundingBox(x0=280, y0=100, x1=340, y1=109),
+                                    ),
+                                    PdfSpan(
+                                        text="90.00",
+                                        bbox=BoundingBox(x0=380, y0=100, x1=440, y1=109),
+                                    ),
+                                    PdfSpan(
+                                        text="18.00",
+                                        bbox=BoundingBox(x0=480, y0=100, x1=540, y1=109),
+                                    ),
                                 ],
                             )
                         ],
@@ -117,6 +223,8 @@ def test_persisted_document_ir_replays_existing_coordinate_pipeline():
         ("上期收入", "90.00"),
         ("上期成本", "18.00"),
     ]
+    assert all(cell.page_number == 1 for cell in cells)
+    assert cells[0].value_bbox == (180.0, 100.0, 240.0, 109.0)
 
 
 def test_fixture_a_quarterly_label_value_pairing():
@@ -146,13 +254,21 @@ def test_fixture_b_wrapped_label_is_joined():
 
 
 def test_note_cost_four_default_value_columns():
-    blocks = [{"lines": [{"spans": [
-        {"text": "主营业务", "bbox": (40, 100, 120, 109)},
-        {"text": "170,611,838,052.02", "bbox": (180, 100, 260, 109)},
-        {"text": "13,629,995,812.89", "bbox": (280, 100, 360, 109)},
-        {"text": "147,218,996,281.04", "bbox": (380, 100, 460, 109)},
-        {"text": "11,620,203,653.32", "bbox": (480, 100, 560, 109)},
-    ]}]}]
+    blocks = [
+        {
+            "lines": [
+                {
+                    "spans": [
+                        {"text": "主营业务", "bbox": (40, 100, 120, 109)},
+                        {"text": "170,611,838,052.02", "bbox": (180, 100, 260, 109)},
+                        {"text": "13,629,995,812.89", "bbox": (280, 100, 360, 109)},
+                        {"text": "147,218,996,281.04", "bbox": (380, 100, 460, 109)},
+                        {"text": "11,620,203,653.32", "bbox": (480, 100, 560, 109)},
+                    ]
+                }
+            ]
+        }
+    ]
     got = reconstruct_cells(blocks, "note_cost")
     assert [(c.column, c.value) for c in got] == [
         ("本期收入", "170611838052.02"),
@@ -164,19 +280,31 @@ def test_note_cost_four_default_value_columns():
 
 def test_annual_headers_use_geometry_and_skip_yoy_column():
     blocks = [
-        {"lines": [{"spans": [
-            {"text": "2024年", "bbox": (200, 50, 260, 59)},
-            {"text": "2023年", "bbox": (300, 50, 360, 59)},
-            {"text": "同比", "bbox": (400, 50, 450, 59)},
-            {"text": "2022年", "bbox": (500, 50, 560, 59)},
-        ]}]},
-        {"lines": [{"spans": [
-            {"text": "总资产", "bbox": (40, 100, 100, 109)},
-            {"text": "298,944,579,918.70", "bbox": (200, 100, 260, 109)},
-            {"text": "272,699,660,092.25", "bbox": (300, 100, 360, 109)},
-            {"text": "9.62", "bbox": (400, 100, 450, 109)},
-            {"text": "254,500,826,096.02", "bbox": (500, 100, 560, 109)},
-        ]}]},
+        {
+            "lines": [
+                {
+                    "spans": [
+                        {"text": "2024年", "bbox": (200, 50, 260, 59)},
+                        {"text": "2023年", "bbox": (300, 50, 360, 59)},
+                        {"text": "同比", "bbox": (400, 50, 450, 59)},
+                        {"text": "2022年", "bbox": (500, 50, 560, 59)},
+                    ]
+                }
+            ]
+        },
+        {
+            "lines": [
+                {
+                    "spans": [
+                        {"text": "总资产", "bbox": (40, 100, 100, 109)},
+                        {"text": "298,944,579,918.70", "bbox": (200, 100, 260, 109)},
+                        {"text": "272,699,660,092.25", "bbox": (300, 100, 360, 109)},
+                        {"text": "9.62", "bbox": (400, 100, 450, 109)},
+                        {"text": "254,500,826,096.02", "bbox": (500, 100, 560, 109)},
+                    ]
+                }
+            ]
+        },
     ]
     got = reconstruct_cells(blocks, "annual_data")
     assert [(c.column, c.value) for c in got] == [
@@ -188,19 +316,31 @@ def test_annual_headers_use_geometry_and_skip_yoy_column():
 
 def test_annual_headers_follow_later_reporting_years():
     blocks = [
-        {"lines": [{"spans": [
-            {"text": "2026年", "bbox": (200, 50, 260, 59)},
-            {"text": "2025年", "bbox": (300, 50, 360, 59)},
-            {"text": "同比", "bbox": (400, 50, 450, 59)},
-            {"text": "2024年", "bbox": (500, 50, 560, 59)},
-        ]}]},
-        {"lines": [{"spans": [
-            {"text": "总资产", "bbox": (40, 100, 100, 109)},
-            {"text": "360.00", "bbox": (200, 100, 260, 109)},
-            {"text": "330.00", "bbox": (300, 100, 360, 109)},
-            {"text": "9.09", "bbox": (400, 100, 450, 109)},
-            {"text": "300.00", "bbox": (500, 100, 560, 109)},
-        ]}]},
+        {
+            "lines": [
+                {
+                    "spans": [
+                        {"text": "2026年", "bbox": (200, 50, 260, 59)},
+                        {"text": "2025年", "bbox": (300, 50, 360, 59)},
+                        {"text": "同比", "bbox": (400, 50, 450, 59)},
+                        {"text": "2024年", "bbox": (500, 50, 560, 59)},
+                    ]
+                }
+            ]
+        },
+        {
+            "lines": [
+                {
+                    "spans": [
+                        {"text": "总资产", "bbox": (40, 100, 100, 109)},
+                        {"text": "360.00", "bbox": (200, 100, 260, 109)},
+                        {"text": "330.00", "bbox": (300, 100, 360, 109)},
+                        {"text": "9.09", "bbox": (400, 100, 450, 109)},
+                        {"text": "300.00", "bbox": (500, 100, 560, 109)},
+                    ]
+                }
+            ]
+        },
     ]
 
     got = reconstruct_cells(blocks, "annual_data")
@@ -212,16 +352,79 @@ def test_annual_headers_follow_later_reporting_years():
     ]
 
 
+def test_fragmented_annual_values_keep_adjusted_columns_explicit():
+    def spans(y: float, values: list[tuple[str, float, float]]) -> dict:
+        return {
+            "lines": [
+                {"spans": [{"text": text, "bbox": (x0, y, x1, y + 9)} for text, x0, x1 in values]}
+            ]
+        }
+
+    blocks = [
+        spans(
+            50,
+            [
+                ("2023", 200, 230),
+                ("年", 231, 240),
+                ("2022", 300, 330),
+                ("年", 331, 340),
+                ("2021", 500, 530),
+                ("年", 531, 540),
+            ],
+        ),
+        spans(62, [("调整前", 292, 330), ("调整后", 352, 390)]),
+        spans(
+            100,
+            [
+                ("经营活动产生的现金流量净额", 40, 170),
+                ("360", 200, 218),
+                (",", 219, 222),
+                ("403", 223, 241),
+                ("485", 292, 310),
+                (",", 311, 314),
+                ("905", 315, 333),
+                ("476", 352, 370),
+                (",", 371, 374),
+                ("776", 375, 393),
+                ("24", 430, 442),
+                (".", 443, 445),
+                ("4", 446, 452),
+                ("90", 500, 512),
+                (",", 513, 516),
+                ("116", 517, 535),
+            ],
+        ),
+    ]
+
+    got = reconstruct_cells(blocks, "annual_data")
+
+    assert [(cell.column, cell.value) for cell in got] == [
+        ("2023年", "360403"),
+        ("2022年调整前", "485905"),
+        ("2022年调整后", "476776"),
+        ("2021年", "90116"),
+    ]
+    assert all(cell.value_bbox is None for cell in got)
+
+
 def test_segment_keeps_first_three_business_metrics_only():
-    blocks = [{"lines": [{"spans": [
-        {"text": "酒类", "bbox": (40, 100, 80, 109)},
-        {"text": "170,611,838,052.02", "bbox": (150, 100, 220, 109)},
-        {"text": "13,629,995,812.89", "bbox": (240, 100, 310, 109)},
-        {"text": "92.01", "bbox": (330, 100, 370, 109)},
-        {"text": "15.89", "bbox": (390, 100, 430, 109)},
-        {"text": "17.30", "bbox": (450, 100, 490, 109)},
-        {"text": "0.10", "bbox": (510, 100, 550, 109)},
-    ]}]}]
+    blocks = [
+        {
+            "lines": [
+                {
+                    "spans": [
+                        {"text": "酒类", "bbox": (40, 100, 80, 109)},
+                        {"text": "170,611,838,052.02", "bbox": (150, 100, 220, 109)},
+                        {"text": "13,629,995,812.89", "bbox": (240, 100, 310, 109)},
+                        {"text": "92.01", "bbox": (330, 100, 370, 109)},
+                        {"text": "15.89", "bbox": (390, 100, 430, 109)},
+                        {"text": "17.30", "bbox": (450, 100, 490, 109)},
+                        {"text": "0.10", "bbox": (510, 100, 550, 109)},
+                    ]
+                }
+            ]
+        }
+    ]
     got = reconstruct_cells(blocks, "segment")
     assert [(c.column, c.value) for c in got] == [
         ("营业收入", "170611838052.02"),
@@ -231,10 +434,20 @@ def test_segment_keeps_first_three_business_metrics_only():
 
 
 def test_concentration_uses_text_fallback_from_span_geometry():
-    blocks = [{"lines": [{"spans": [
-        {"text": "前五名客户销售额711,963.51万元，占年度销售总额6.17%；",
-         "bbox": (40, 100, 500, 110)}
-    ]}]}]
+    blocks = [
+        {
+            "lines": [
+                {
+                    "spans": [
+                        {
+                            "text": "前五名客户销售额711,963.51万元，占年度销售总额6.17%；",
+                            "bbox": (40, 100, 500, 110),
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
     got = reconstruct_cells(blocks, "concentration")
     assert _keys(got) == {
         ("前五名客户", "销售额(万元)", "711963.51"),
@@ -270,22 +483,36 @@ def test_merge_pages_is_order_preserving_and_deduplicates():
 
 def test_quarterly_split_label_is_repaired():
     blocks = [
-        {"lines": [{"spans": [
-            {"text": "归属于上市公司股东的扣除非经常性损益",
-             "bbox": (40, 100, 180, 109)},
-            {"text": "24,051,471,185.69", "bbox": (200, 100, 260, 109)},
-            {"text": "17,618,626,634.30", "bbox": (280, 100, 340, 109)},
-            {"text": "19,108,543,634.77", "bbox": (360, 100, 420, 109)},
-            {"text": "25,462,264,522.66", "bbox": (440, 100, 500, 109)},
-        ]}]},
-        {"lines": [{"spans": [
-            {"text": "后的净利润", "bbox": (40, 118, 100, 127)},
-            {"text": "经营活动产生的现金流量净额", "bbox": (100, 118, 180, 127)},
-            {"text": "9,187,422,415.09", "bbox": (200, 118, 260, 127)},
-            {"text": "27,434,411,397.54", "bbox": (280, 118, 340, 127)},
-            {"text": "7,799,552,404.82", "bbox": (360, 118, 420, 127)},
-            {"text": "48,042,305,950.98", "bbox": (440, 118, 500, 127)},
-        ]}]},
+        {
+            "lines": [
+                {
+                    "spans": [
+                        {
+                            "text": "归属于上市公司股东的扣除非经常性损益",
+                            "bbox": (40, 100, 180, 109),
+                        },
+                        {"text": "24,051,471,185.69", "bbox": (200, 100, 260, 109)},
+                        {"text": "17,618,626,634.30", "bbox": (280, 100, 340, 109)},
+                        {"text": "19,108,543,634.77", "bbox": (360, 100, 420, 109)},
+                        {"text": "25,462,264,522.66", "bbox": (440, 100, 500, 109)},
+                    ]
+                }
+            ]
+        },
+        {
+            "lines": [
+                {
+                    "spans": [
+                        {"text": "后的净利润", "bbox": (40, 118, 100, 127)},
+                        {"text": "经营活动产生的现金流量净额", "bbox": (100, 118, 180, 127)},
+                        {"text": "9,187,422,415.09", "bbox": (200, 118, 260, 127)},
+                        {"text": "27,434,411,397.54", "bbox": (280, 118, 340, 127)},
+                        {"text": "7,799,552,404.82", "bbox": (360, 118, 420, 127)},
+                        {"text": "48,042,305,950.98", "bbox": (440, 118, 500, 127)},
+                    ]
+                }
+            ]
+        },
     ]
     cells = reconstruct_cells(blocks, "quarterly")
     rows = {normalize_label(c.row) for c in cells}
@@ -294,17 +521,29 @@ def test_quarterly_split_label_is_repaired():
 
 
 def test_segment_rows_do_not_cross_pages():
-    page1 = {"lines": [{"spans": [
-        {"text": "主营业务分行业情况", "bbox": (40, 50, 200, 59)},
-        {"text": "酒类", "bbox": (40, 100, 80, 109)},
-        {"text": "170,611,838,052.02", "bbox": (150, 100, 220, 109)},
-        {"text": "13,629,995,812.89", "bbox": (240, 100, 310, 109)},
-        {"text": "92.01", "bbox": (330, 100, 370, 109)},
-    ]}]}
-    page2_prose = {"lines": [{"spans": [
-        {"text": "液体乳库存量增加主要原因：春节备货", "bbox": (40, 700, 400, 709)},
-        {"text": "123,456,789.01", "bbox": (410, 700, 480, 709)},
-    ]}]}
+    page1 = {
+        "lines": [
+            {
+                "spans": [
+                    {"text": "主营业务分行业情况", "bbox": (40, 50, 200, 59)},
+                    {"text": "酒类", "bbox": (40, 100, 80, 109)},
+                    {"text": "170,611,838,052.02", "bbox": (150, 100, 220, 109)},
+                    {"text": "13,629,995,812.89", "bbox": (240, 100, 310, 109)},
+                    {"text": "92.01", "bbox": (330, 100, 370, 109)},
+                ]
+            }
+        ]
+    }
+    page2_prose = {
+        "lines": [
+            {
+                "spans": [
+                    {"text": "液体乳库存量增加主要原因：春节备货", "bbox": (40, 700, 400, 709)},
+                    {"text": "123,456,789.01", "bbox": (410, 700, 480, 709)},
+                ]
+            }
+        ]
+    }
     blocks = [
         blocks_from_pymupdf_dict({"blocks": [page1]}, page=1),
         blocks_from_pymupdf_dict({"blocks": [page2_prose]}, page=2),

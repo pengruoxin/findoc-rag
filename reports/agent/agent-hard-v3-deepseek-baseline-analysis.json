@@ -1,0 +1,1281 @@
+{
+  "schema_version": "1",
+  "generated_at": "2026-08-20T07:10:46.063327+00:00",
+  "status": "complete",
+  "evaluation_scope": "calibration + dev only; frozen_test remains sealed",
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "scoring_note": "Machine metrics use deterministic local scoring after the generic percentage-boundary correction. Assistant audit is separate and provisional.",
+  "external_claims_ready": false,
+  "external_claim_blockers": [
+    "gold remains assistant-source-verified provisional",
+    "independent human double review is incomplete",
+    "frozen_test was not opened"
+  ],
+  "splits": {
+    "calibration": {
+      "dataset": "data/evaluation/agent-hard-v3-calibration.json",
+      "dataset_sha256": "2e6ce78e5acd87ec1e1c54dd6e7193f674ba8445aa7716f7fde5a6212dee2b56",
+      "report": "reports/agent/agent-hard-v3-calibration-deepseek-baseline-rescored.json",
+      "report_sha256": "924fedfb89c06127e217cebcbb6113be47679b738fd4111a2b5095e9d7e56b27",
+      "index_id": "b1879a69987a53b283dc",
+      "raw_machine_metrics": {
+        "case_count": 24,
+        "executed_case_count": 20,
+        "unsupported_case_count": 4,
+        "task_coverage_rate": 0.8333333333333334,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.8,
+        "supported_fact_accuracy": 0.7065217391304348,
+        "end_to_end_fact_accuracy": 0.625,
+        "supported_case_pass_rate": 0.6,
+        "end_to_end_case_pass_rate": 0.5,
+        "safe_abstention_accuracy": 0.0,
+        "clarification_accuracy": 1.0
+      },
+      "assistant_audited_case_pass_count": 15,
+      "assistant_audited_case_pass_rate": 0.625,
+      "machine_case_pass_count": 12,
+      "runtime_cost": {
+        "model_requests": 45,
+        "model_input_tokens": 117148,
+        "model_output_tokens": 14470,
+        "tool_calls": 52,
+        "tool_duration_ms": 2803.8537999382243,
+        "model_total_tokens": 131618
+      }
+    },
+    "dev": {
+      "dataset": "data/evaluation/agent-hard-v3-dev.json",
+      "dataset_sha256": "fd15f3396fcceb3eb213251ea37ce7bea7decd00574b87c09720d607b1443933",
+      "report": "reports/agent/agent-hard-v3-dev-deepseek-baseline-rescored.json",
+      "report_sha256": "a0d3f725fcace7674bfe566f6b19189ddae74f6a679a697e9fae16be89abef14",
+      "index_id": "a4b314a9ff7e595a86bf",
+      "raw_machine_metrics": {
+        "case_count": 24,
+        "executed_case_count": 20,
+        "unsupported_case_count": 4,
+        "task_coverage_rate": 0.8333333333333334,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.85,
+        "supported_fact_accuracy": 0.8494623655913979,
+        "end_to_end_fact_accuracy": 0.7452830188679245,
+        "supported_case_pass_rate": 0.5,
+        "end_to_end_case_pass_rate": 0.4166666666666667,
+        "safe_abstention_accuracy": 0.0,
+        "clarification_accuracy": 1.0
+      },
+      "assistant_audited_case_pass_count": 16,
+      "assistant_audited_case_pass_rate": 0.6666666666666666,
+      "machine_case_pass_count": 10,
+      "runtime_cost": {
+        "model_requests": 45,
+        "model_input_tokens": 107818,
+        "model_output_tokens": 14681,
+        "tool_calls": 48,
+        "tool_duration_ms": 4320.933599956334,
+        "model_total_tokens": 122499
+      }
+    }
+  },
+  "combined": {
+    "case_count": 48,
+    "machine_case_pass_count": 22,
+    "machine_case_pass_rate": 0.4583333333333333,
+    "assistant_audited_case_pass_count": 31,
+    "assistant_audited_case_pass_rate": 0.6458333333333334,
+    "machine_failure_count": 26,
+    "manual_audit_verdict_counts": {
+      "evaluator_false_negative": 9,
+      "genuine_agent_failure": 17
+    },
+    "genuine_failure_category_counts": {
+      "future_fact_behavior_confusion": 4,
+      "metric_scope_confusion": 1,
+      "multi_document_retrieval_failure": 3,
+      "multi_fact_omission": 1,
+      "unsupported_general_calculation": 8
+    },
+    "runtime_cost": {
+      "model_requests": 90,
+      "model_input_tokens": 224966,
+      "model_output_tokens": 29151,
+      "tool_calls": 100,
+      "tool_duration_ms": 7124.787399894558,
+      "model_total_tokens": 254117
+    }
+  },
+  "next_single_variable_recommendation": {
+    "id": "p0-general-grounded-calculation-routing",
+    "change": "让现有通用计算代理支持带来源的跨文档派生计算，不改检索和答案评分。",
+    "direct_target_case_count": 8,
+    "expected_primary_metric": "task_coverage_rate",
+    "current_combined_task_coverage_rate": 0.8333333333333334
+  },
+  "cases": [
+    {
+      "split": "calibration",
+      "case_id": "v3_601398_y23_core",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_601398_y23_asset_quality",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_601398_y23_ecl_audit",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": 0.5384615384615384,
+      "audited_missing_fact_ids": [
+        "risk_scenarios"
+      ],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "multi_fact_omission",
+        "reason": "同义表述覆盖多个被机器漏判的事实，但回答仍遗漏经济情景及其权重。",
+        "matched_fact_overrides": [
+          "risk_ead",
+          "audit_controls",
+          "audit_models",
+          "audit_it",
+          "audit_collateral"
+        ],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_601398_y24_core",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_601398_y24_interest",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 0.7142857142857143,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "gold_matcher_false_negative",
+        "reason": "回答明确包含LPR下调和存款期限结构变动，机器被括号和同义词阻断。",
+        "matched_fact_overrides": [
+          "reason_lpr",
+          "reason_deposit"
+        ],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_601398_trend_core",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": 0.0,
+      "audited_missing_fact_ids": [
+        "profit_2023",
+        "profit_2024",
+        "assets_2023",
+        "assets_2024",
+        "loans_2023",
+        "loans_2024",
+        "deposits_2023",
+        "deposits_2024",
+        "trend"
+      ],
+      "machine_citation_source_coverage": 0.0,
+      "audited_citation_source_coverage": 0.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "multi_document_retrieval_failure",
+        "reason": "比较代理没有取得两期四项核心数据并错误拒答。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_601398_trend_asset_quality",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "visual_summary"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": 0.0,
+      "audited_missing_fact_ids": [
+        "npl_2023",
+        "npl_2024",
+        "coverage_2023",
+        "coverage_2024",
+        "capital_2023",
+        "capital_2024",
+        "cost_2023",
+        "cost_2024"
+      ],
+      "machine_citation_source_coverage": 0.0,
+      "audited_citation_source_coverage": 0.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "multi_document_retrieval_failure",
+        "reason": "比较代理在模型预算内未形成通过门禁的答案。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_601398_calc_profit_growth",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "runtime_status": "unsupported_task_type",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": null,
+      "audited_missing_fact_ids": [
+        "profit_2023",
+        "profit_2024",
+        "growth"
+      ],
+      "machine_citation_source_coverage": null,
+      "audited_citation_source_coverage": 0.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "unsupported_general_calculation",
+        "reason": "通用带来源计算未被路由到可执行控制器。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_601398_calc_loan_deposit_gap",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "runtime_status": "unsupported_task_type",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": null,
+      "audited_missing_fact_ids": [
+        "gap_2023",
+        "gap_2024",
+        "gap_change"
+      ],
+      "machine_citation_source_coverage": null,
+      "audited_citation_source_coverage": 0.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "unsupported_general_calculation",
+        "reason": "通用带来源计算未被路由到可执行控制器。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_601398_verify_quality",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence",
+        "visual_summary"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 0.8,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "gold_matcher_false_negative",
+        "reason": "回答给出两期数值并明确判断不良率下降、资本充足率上升，语义结论成立。",
+        "matched_fact_overrides": [
+          "verdict"
+        ],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_601398_future_unavailable",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "future_fact_behavior_confusion",
+        "reason": "已明确公司且事实超出语料年份，应安全拒答而不是要求补充公司和报告年度。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_601398_ambiguous_scope",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_002594_y23_core",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_002594_y23_products",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "cross_page_table"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_002594_y23_rd",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_002594_y24_core",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_002594_y24_products",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "cross_page_table"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_002594_trend_core",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_002594_trend_rd",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_002594_calc_profit_margin",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "runtime_status": "unsupported_task_type",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": null,
+      "audited_missing_fact_ids": [
+        "margin_2023",
+        "margin_2024",
+        "margin_change"
+      ],
+      "machine_citation_source_coverage": null,
+      "audited_citation_source_coverage": 0.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "unsupported_general_calculation",
+        "reason": "通用带来源计算未被路由到可执行控制器。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_002594_calc_product_share",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "dense_table"
+      ],
+      "runtime_status": "unsupported_task_type",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": null,
+      "audited_missing_fact_ids": [
+        "auto_revenue",
+        "total_revenue",
+        "share"
+      ],
+      "machine_citation_source_coverage": null,
+      "audited_citation_source_coverage": 0.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "unsupported_general_calculation",
+        "reason": "通用带来源计算未被路由到可执行控制器。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_002594_verify_growth",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 0.6666666666666666,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "gold_matcher_false_negative",
+        "reason": "回答明确说明两项均增长且净利润增速快于收入增速。",
+        "matched_fact_overrides": [
+          "verdict"
+        ],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_002594_future_unavailable",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "future_fact_behavior_confusion",
+        "reason": "已明确公司且事实超出语料年份，应安全拒答而不是要求澄清。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "calibration",
+      "case_id": "v3_002594_ambiguous_scope",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_601318_y23_core",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 0.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "citation_whitelist_false_negative",
+        "reason": "引用的同一份年报第16、17、49页直接支持答案，只是不在原金标页白名单。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": 1.0
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_601318_y23_segments",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_601318_y23_audit",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 0.8235294117647058,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "gold_matcher_false_negative",
+        "reason": "责任单元、评估主要假设和独立计算代表性合同组均与金标语义一致。",
+        "matched_fact_overrides": [
+          "risk_unit",
+          "audit_assumptions",
+          "audit_recalculation"
+        ],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_601318_y24_core",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": 0.5,
+      "audited_missing_fact_ids": [
+        "operating_profit",
+        "net_profit"
+      ],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "metric_scope_confusion",
+        "reason": "回答把寿险分部营运利润和净利润当成集团归母口径。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_601318_y24_customer",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_601318_trend_core",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": 0.5,
+      "audited_missing_fact_ids": [
+        "op_2023",
+        "op_2024",
+        "nbv_2023"
+      ],
+      "machine_citation_source_coverage": 0.0,
+      "audited_citation_source_coverage": 0.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "multi_document_retrieval_failure",
+        "reason": "回答只覆盖部分比较项并错误拒答。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_601318_trend_customer",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 0.8571428571428571,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "gold_matcher_false_negative",
+        "reason": "回答明确写出客均合同数由2.95降至2.92，方向事实完整。",
+        "matched_fact_overrides": [
+          "direction"
+        ],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_601318_calc_nbv_growth",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "runtime_status": "unsupported_task_type",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": null,
+      "audited_missing_fact_ids": [
+        "nbv_2023",
+        "nbv_2024",
+        "growth"
+      ],
+      "machine_citation_source_coverage": null,
+      "audited_citation_source_coverage": 0.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "unsupported_general_calculation",
+        "reason": "通用带来源计算未被路由到可执行控制器。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_601318_calc_segment_share",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "runtime_status": "unsupported_task_type",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": null,
+      "audited_missing_fact_ids": [
+        "life",
+        "property",
+        "bank",
+        "share"
+      ],
+      "machine_citation_source_coverage": null,
+      "audited_citation_source_coverage": 0.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "unsupported_general_calculation",
+        "reason": "通用带来源计算未被路由到可执行控制器。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_601318_verify_nbv",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 0.8,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 0.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "citation_whitelist_and_matcher_false_negative",
+        "reason": "同一份年报第65、66页直接支持全部数值，回答也明确指出原说法不成立。",
+        "matched_fact_overrides": [
+          "verdict"
+        ],
+        "citation_coverage_override": 1.0
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_601318_future_unavailable",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "future_fact_behavior_confusion",
+        "reason": "已明确公司且事实超出语料年份，应安全拒答而不是要求澄清。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_601318_ambiguous_scope",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_300750_y23_core",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_300750_y23_products",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_300750_y23_rd",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_300750_y24_core",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_300750_y24_products",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 0.6666666666666666,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "gold_matcher_false_negative",
+        "reason": "回答用“减少”表达金标中的“下降”，三项同比数值均正确。",
+        "matched_fact_overrides": [
+          "power_yoy",
+          "storage_yoy",
+          "material_yoy"
+        ],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_300750_trend_core",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 0.8571428571428571,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "gold_matcher_false_negative",
+        "reason": "回答逐项明确营业收入下降、净利润和经营现金流上升。",
+        "matched_fact_overrides": [
+          "direction"
+        ],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_300750_trend_products",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_300750_calc_storage_share",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "runtime_status": "unsupported_task_type",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": null,
+      "audited_missing_fact_ids": [
+        "storage_revenue",
+        "total_revenue",
+        "share"
+      ],
+      "machine_citation_source_coverage": null,
+      "audited_citation_source_coverage": 0.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "unsupported_general_calculation",
+        "reason": "通用带来源计算未被路由到可执行控制器。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_300750_calc_net_margin",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "runtime_status": "unsupported_task_type",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": null,
+      "audited_missing_fact_ids": [
+        "margin_2023",
+        "margin_2024",
+        "change"
+      ],
+      "machine_citation_source_coverage": null,
+      "audited_citation_source_coverage": 0.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "unsupported_general_calculation",
+        "reason": "通用带来源计算未被路由到可执行控制器。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_300750_verify_divergence",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_300750_future_unavailable",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "audited_case_pass": false,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "future_fact_behavior_confusion",
+        "reason": "已明确公司且事实超出语料年份，应安全拒答而不是要求澄清。",
+        "matched_fact_overrides": [],
+        "citation_coverage_override": null
+      }
+    },
+    {
+      "split": "dev",
+      "case_id": "v3_300750_ambiguous_scope",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "audited_case_pass": true,
+      "machine_fact_accuracy": 1.0,
+      "audited_missing_fact_ids": [],
+      "machine_citation_source_coverage": 1.0,
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null
+    }
+  ],
+  "errors": []
+}

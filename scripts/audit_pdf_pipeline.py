@@ -210,7 +210,9 @@ def main() -> None:
     (args.output_dir / "summary.json").write_text(
         json.dumps(stats, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
-    print(json.dumps(stats, ensure_ascii=False, indent=2))
+    # Keep the CLI output safe on Windows terminals that still default to GBK;
+    # the persisted JSON remains UTF-8 with readable Chinese text.
+    print(json.dumps(stats, ensure_ascii=True, indent=2))
 
 
 if __name__ == "__main__":

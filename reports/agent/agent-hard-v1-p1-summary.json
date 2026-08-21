@@ -1,0 +1,165 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v1",
+  "phase": "p1",
+  "generated_at": "2026-08-20T04:08:17.840223+00:00",
+  "missing_reports": [],
+  "runs": [
+    {
+      "run_id": "p0b8_start",
+      "report": "reports/agent/agent-hard-v1-deepseek-p0b8-provenance-citation-repair.json",
+      "change": "P1 起点：仅支持 5 个 compare 难例",
+      "verdict": "baseline",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 5,
+        "unsupported_case_count": 3,
+        "task_coverage_rate": 0.625,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 1.0,
+        "end_to_end_fact_accuracy": 0.6785714285714286,
+        "supported_case_pass_rate": 1.0,
+        "end_to_end_case_pass_rate": 0.625,
+        "safe_abstention_accuracy": 1.0
+      },
+      "runtime": {
+        "model_requests": 10,
+        "model_input_tokens": 22144,
+        "model_output_tokens": 3342,
+        "tool_calls": 13,
+        "actual_retrieval_calls": 13
+      }
+    },
+    {
+      "run_id": "p1a0_page_window",
+      "report": "reports/agent/agent-hard-v1-deepseek-p1a-extract-page-window.json",
+      "change": "跨页 extract 与 page window；旧工具上下文干扰最终提交",
+      "verdict": "no_gain",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 6,
+        "unsupported_case_count": 2,
+        "task_coverage_rate": 0.75,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.8333333333333334,
+        "supported_fact_accuracy": 0.95,
+        "end_to_end_fact_accuracy": 0.6785714285714286,
+        "supported_case_pass_rate": 0.8333333333333334,
+        "end_to_end_case_pass_rate": 0.625,
+        "safe_abstention_accuracy": 1.0
+      },
+      "runtime": {
+        "model_requests": 13,
+        "model_input_tokens": 41263,
+        "model_output_tokens": 3755,
+        "tool_calls": 17,
+        "actual_retrieval_calls": 14
+      }
+    },
+    {
+      "run_id": "p1a1_phase_isolated_extract",
+      "report": "reports/agent/agent-hard-v1-deepseek-p1a1-single-window-finalizer.json",
+      "change": "单窗口展开与独立抽取 finalizer",
+      "verdict": "improved",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 6,
+        "unsupported_case_count": 2,
+        "task_coverage_rate": 0.75,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 1.0,
+        "end_to_end_fact_accuracy": 0.7142857142857143,
+        "supported_case_pass_rate": 1.0,
+        "end_to_end_case_pass_rate": 0.75,
+        "safe_abstention_accuracy": 1.0
+      },
+      "runtime": {
+        "model_requests": 13,
+        "model_input_tokens": 27602,
+        "model_output_tokens": 3862,
+        "tool_calls": 15,
+        "actual_retrieval_calls": 14
+      }
+    },
+    {
+      "run_id": "p1b0_cited_calculator",
+      "report": "reports/agent/agent-hard-v1-deepseek-p1b-cited-decimal-calculator.json",
+      "change": "带来源 Decimal 计算器；并行工具调用导致阶段协议失败",
+      "verdict": "no_gain",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 7,
+        "unsupported_case_count": 1,
+        "task_coverage_rate": 0.875,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.8571428571428571,
+        "supported_fact_accuracy": 0.8333333333333334,
+        "end_to_end_fact_accuracy": 0.7142857142857143,
+        "supported_case_pass_rate": 0.8571428571428571,
+        "end_to_end_case_pass_rate": 0.75,
+        "safe_abstention_accuracy": 1.0
+      },
+      "runtime": {
+        "model_requests": 14,
+        "model_input_tokens": 28096,
+        "model_output_tokens": 4118,
+        "tool_calls": 16,
+        "actual_retrieval_calls": 15
+      }
+    },
+    {
+      "run_id": "p1b1_phase_isolated_calculator",
+      "report": "reports/agent/agent-hard-v1-deepseek-p1b1-phase-isolated-calculator.json",
+      "change": "检索、页面窗口、计算器三阶段隔离",
+      "verdict": "improved",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 7,
+        "unsupported_case_count": 1,
+        "task_coverage_rate": 0.875,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 1.0,
+        "end_to_end_fact_accuracy": 0.8571428571428571,
+        "supported_case_pass_rate": 1.0,
+        "end_to_end_case_pass_rate": 0.875,
+        "safe_abstention_accuracy": 1.0
+      },
+      "runtime": {
+        "model_requests": 16,
+        "model_input_tokens": 33760,
+        "model_output_tokens": 4123,
+        "tool_calls": 18,
+        "actual_retrieval_calls": 15
+      }
+    },
+    {
+      "run_id": "p1c_pdf_geometry_relationships",
+      "report": "reports/agent/agent-hard-v1-deepseek-p1c-pdf-geometry-relationships.json",
+      "change": "PDF 文字坐标与连接线关系重建，DeepSeek 关系确认，本地百分比求和",
+      "verdict": "improved",
+      "metrics": {
+        "case_count": 8,
+        "executed_case_count": 8,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 1.0,
+        "end_to_end_fact_accuracy": 1.0,
+        "supported_case_pass_rate": 1.0,
+        "end_to_end_case_pass_rate": 1.0,
+        "safe_abstention_accuracy": 1.0
+      },
+      "runtime": {
+        "model_requests": 19,
+        "model_input_tokens": 36769,
+        "model_output_tokens": 4455,
+        "tool_calls": 21,
+        "actual_retrieval_calls": 16
+      }
+    }
+  ]
+}

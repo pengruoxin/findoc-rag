@@ -6,12 +6,12 @@ import pymupdf
 from pydantic import BaseModel
 
 from findoc_rag.chunking import ChunkingConfig, build_chunking_report, chunk_document
-from findoc_rag.documents.pdf import parse_pdf
+from findoc_rag.documents.pdf import PdfExtractionConfig, parse_pdf
 from findoc_rag.documents.quality import PdfQualityConfig, evaluate_pdf_quality
 from findoc_rag.io import write_text_lf
 from findoc_rag.registry import DocumentRegistry, DocumentVersion
 
-DOCUMENT_IR_SCHEMA_VERSION = "2"
+DOCUMENT_IR_SCHEMA_VERSION = "4"
 PDF_PARSER_NAME = "pymupdf"
 OCR_CONFIG = {"mode": "disabled"}
 QUALITY_CONFIG = PdfQualityConfig().model_dump(mode="json")
@@ -70,6 +70,7 @@ def ingest_pdf(
     chunking_config: ChunkingConfig | None = None,
     metadata: dict | None = None,
     pdf_quality_config: PdfQualityConfig | None = None,
+    pdf_extraction_config: PdfExtractionConfig | None = None,
 ) -> IngestionResult:
     resolved_source = source.resolve(strict=True)
     content_hash = file_sha256(resolved_source)
@@ -84,8 +85,14 @@ def ingest_pdf(
         )
     config = chunking_config or ChunkingConfig()
     quality_config = pdf_quality_config or PdfQualityConfig()
+    extraction_config = pdf_extraction_config or PdfExtractionConfig()
     processing_fingerprint, processing_components = build_processing_fingerprint(
         config,
+        ocr_config=(
+            OCR_CONFIG
+            if pdf_extraction_config is None
+            else extraction_config.model_dump(mode="json")
+        ),
         quality_config=quality_config.model_dump(mode="json"),
     )
     decision = registry.begin_ingestion(
@@ -117,7 +124,7 @@ def ingest_pdf(
     manifest_path = version_directory / "ingestion-manifest.json"
 
     try:
-        document = parse_pdf(resolved_source)
+        document = parse_pdf(resolved_source, extraction_config)
         if document.content_sha256 != content_hash:
             raise ValueError("Source PDF changed while ingestion was running")
         quality_report = evaluate_pdf_quality(document, quality_config)

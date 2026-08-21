@@ -1,0 +1,84 @@
+{
+  "schema_version": "1",
+  "status": "complete",
+  "evaluated_at": "2026-08-21T14:22:07.666089+08:00",
+  "evaluation": "P4-F append-only human-review workflow contract",
+  "source": {
+    "path": "reports/agent/agent-hard-v3-dev-deepseek-p3b2-authority-ranking-extract-posthoc-v3.json",
+    "sha256": "be55bef89d98c4a2c23c858a9a665f7d90f8effcbcaf8250b5cbe2a737b714a6",
+    "case_id": "v3_601318_y23_segments",
+    "provider": "deepseek",
+    "model": "deepseek-v4-flash"
+  },
+  "baseline": {
+    "stage": "P4-E",
+    "manual_review_marker": true,
+    "operational_workflow_checks_passed": 0,
+    "operational_workflow_checks_total": 10
+  },
+  "p4f": {
+    "checks_passed": 10,
+    "checks_total": 10,
+    "pass_rate": 1.0,
+    "checks": [
+      {
+        "check": "candidate_preserved",
+        "passed": true,
+        "detail": "withheld DeepSeek result is present in the immutable packet"
+      },
+      {
+        "check": "claim_page_evidence_visible",
+        "passed": true,
+        "detail": "at least one atomic claim exposes chunk hash, page, section, and excerpt"
+      },
+      {
+        "check": "durable_pending_queue",
+        "passed": true,
+        "detail": "new packet is discoverable as pending"
+      },
+      {
+        "check": "approve_lifecycle",
+        "passed": true,
+        "detail": "approval restores the exact withheld answer"
+      },
+      {
+        "check": "source_trace_immutable",
+        "passed": true,
+        "detail": "resolution does not overwrite the original model trace"
+      },
+      {
+        "check": "one_shot_resolution",
+        "passed": true,
+        "detail": "a second decision cannot replace the first audit record"
+      },
+      {
+        "check": "correct_lifecycle",
+        "passed": true,
+        "detail": "corrected answer remains bound to packet evidence"
+      },
+      {
+        "check": "reject_lifecycle",
+        "passed": true,
+        "detail": "rejection keeps the task safely abstained"
+      },
+      {
+        "check": "stale_trace_guard",
+        "passed": true,
+        "detail": "approval is rejected after any source-trace change"
+      },
+      {
+        "check": "outside_evidence_guard",
+        "passed": true,
+        "detail": "reviewer cannot inject an unseen chunk ID"
+      }
+    ]
+  },
+  "runtime_cost": {
+    "model_requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0,
+    "note": "Stored real Agent trace; workflow evaluation makes no provider call."
+  },
+  "frozen_test_opened": false
+}

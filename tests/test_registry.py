@@ -339,6 +339,38 @@ def test_active_corpus_index_generation_is_atomic_and_idempotent(tmp_path: Path)
     assert (index_root / "current.json").is_file()
 
 
+def test_benchmark_index_excludes_unselected_splits(tmp_path: Path) -> None:
+    registry = DocumentRegistry(tmp_path / "registry.sqlite3")
+    storage = tmp_path / "versions"
+    dev_source = tmp_path / "dev.pdf"
+    frozen_source = tmp_path / "frozen.pdf"
+    write_pdf(dev_source, "Development revenue was 100 million. " * 10)
+    write_pdf(frozen_source, "Frozen revenue was 200 million. " * 10)
+    dev = ingest_pdf(
+        dev_source,
+        "company:dev:2024",
+        registry,
+        storage,
+        metadata={"benchmark_split": "dev"},
+    )
+    frozen = ingest_pdf(
+        frozen_source,
+        "company:frozen:2024",
+        registry,
+        storage,
+        metadata={"benchmark_split": "frozen_test"},
+    )
+
+    result = build_active_corpus_index(
+        registry,
+        tmp_path / "development-index",
+        benchmark_splits={"dev"},
+    )
+
+    assert result.pointer.active_version_ids == [dev.version.version_id]
+    assert frozen.version.version_id not in result.pointer.active_version_ids
+
+
 def test_reingesting_historical_content_reuses_version_artifacts(tmp_path: Path) -> None:
     source = tmp_path / "report.pdf"
     write_pdf(source, "Revenue was 100 million in 2023. " * 10)

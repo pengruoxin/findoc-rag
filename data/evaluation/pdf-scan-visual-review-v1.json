@@ -1,0 +1,27 @@
+{
+  "schema_version": "1",
+  "review_status": "assistant_visual_review_provisional",
+  "items": [
+    {
+      "document_key": "cninfo:000333:annual:2023",
+      "page_number": 1,
+      "classification": "cover",
+      "eligible_scanned_table": false,
+      "notes": "Annual-report cover with a full-page photograph and a small native title layer."
+    },
+    {
+      "document_key": "cninfo:000333:annual:2024",
+      "page_number": 1,
+      "classification": "cover",
+      "eligible_scanned_table": false,
+      "notes": "Annual-report cover with a full-page illustration and a small native title layer."
+    },
+    {
+      "document_key": "cninfo:601088:annual:2023",
+      "page_number": 306,
+      "classification": "diagram",
+      "eligible_scanned_table": false,
+      "notes": "Equity-structure diagram; not a scanned financial table."
+    }
+  ]
+}

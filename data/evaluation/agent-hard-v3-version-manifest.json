@@ -1,0 +1,211 @@
+{
+  "schema_version": "1",
+  "plan_id": "findoc-rag-agent-hard-v3-external-corpus",
+  "created_at": "2026-08-20T05:51:18.103384+00:00",
+  "registry_document_count": 16,
+  "documents": [
+    {
+      "document_key": "cninfo:601398:annual:2023",
+      "split": "calibration",
+      "version_id": "7b1e57e46f04e20f36415811",
+      "content_version_id": "1c1771af0d2104358737b351",
+      "content_sha256": "e310e8a55ff8f057782c6c70b003fa220ca5a2e484334bffbf308bdc39b3434d",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 643,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:601398:annual:2024",
+      "split": "calibration",
+      "version_id": "2430b27fea3f4edd22e682f3",
+      "content_version_id": "74fe6ff13e64852479f6ad30",
+      "content_sha256": "27b9c08e81061722ab4166ad23d4f90366a3f075af1422543fa6dcb8c7d1a03c",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 607,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:002594:annual:2023",
+      "split": "calibration",
+      "version_id": "36fc46bac58c5d4178a8e168",
+      "content_version_id": "ba177d792c2e0e1ad1ba753e",
+      "content_sha256": "959b00a12055470a63962303d90557dca90e84d104d92025aeb70805aa7cc036",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 503,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:002594:annual:2024",
+      "split": "calibration",
+      "version_id": "98bd0683e63102fa94d4e8d5",
+      "content_version_id": "cee9bbd0b273e22ce1c43805",
+      "content_sha256": "e9c2d7fdd088e151ccb6c8ad3d95587b2b014b10f2c9731508d23ce07fde4de3",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 587,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:601318:annual:2023",
+      "split": "dev",
+      "version_id": "97d682181ce5efdd78e14819",
+      "content_version_id": "7b5b5be8a81424cd48a3c544",
+      "content_sha256": "f55538814200d77a61492ba216e45508f487064207bca6a4d90c7b55add43823",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 738,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:601318:annual:2024",
+      "split": "dev",
+      "version_id": "e0500fe033b87ab780bdf373",
+      "content_version_id": "0b9c7033f3d1c81b48460687",
+      "content_sha256": "6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 745,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:300750:annual:2023",
+      "split": "dev",
+      "version_id": "65fc4f6a9da07b2903e6d50d",
+      "content_version_id": "fe6c9603eb31cf871561857f",
+      "content_sha256": "6081f0377617dddb82f900569d6458c278a7ab26697b34c87684188eac083471",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 623,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:300750:annual:2024",
+      "split": "dev",
+      "version_id": "ccb4a15138df179e5b5e933a",
+      "content_version_id": "9480a62a0ea30a4d6f2791d7",
+      "content_sha256": "b4f1713d7b821eb076c102711d177fe942ccc2bc8dd171ae5d7a95799a65b0ad",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 566,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:600309:annual:2023",
+      "split": "frozen_test",
+      "version_id": "a920f41d2d08427c36918fe2",
+      "content_version_id": "29b805d6648d9ccbf88ddb5c",
+      "content_sha256": "64eb90a55396add030faaa7a05996fdd5f0095c1c26f0f1309ab6f19522991f1",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 448,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:600309:annual:2024",
+      "split": "frozen_test",
+      "version_id": "4e583736bc619e4cf5efb44b",
+      "content_version_id": "521d4db8bb88d56c6900398f",
+      "content_sha256": "0c37e70c554609f4a22990fd97f3da4ee92bb717e44d641ac7800083789d4df7",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 463,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:002352:annual:2023",
+      "split": "frozen_test",
+      "version_id": "d909e554d6393525975e1777",
+      "content_version_id": "00362f38de2e3dd2ea21c13c",
+      "content_sha256": "f6b8df37483caf043756a4c06249d99b994cae0157ed797a1344229091411a5c",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 581,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:002352:annual:2024",
+      "split": "frozen_test",
+      "version_id": "5d41c4b8d20d68a6feda4c49",
+      "content_version_id": "8fc32f888348d63021644067",
+      "content_sha256": "e17ec642bafcdade70524523a6fdda031d75accf57c034d96a3595933645025d",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 549,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:300760:annual:2023",
+      "split": "frozen_test",
+      "version_id": "ff3526347d1c495d3aeb853d",
+      "content_version_id": "1d7f20f10ff5214b38e8fbc4",
+      "content_sha256": "9659c94de7c62249e711711daf13ebf8ec978476fa42edfb8178ea9ccf2afa88",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 720,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:300760:annual:2024",
+      "split": "frozen_test",
+      "version_id": "081a84614ecfe31ea9dbe5ee",
+      "content_version_id": "2168b08225129fd3a0138216",
+      "content_sha256": "4bb8bfaa68fbbe2c9a07198a32e3228ecfcf067e1ddd42fa44fa52fdca63622b",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 823,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:000063:annual:2023",
+      "split": "frozen_test",
+      "version_id": "be0caafec060fa1c07210f27",
+      "content_version_id": "66cd905c53ce29bdc95a82c0",
+      "content_sha256": "b11c96ff8cca3cd9ce63a309ced8f4a79ca10658d5c46998d527e4ab8ae59978",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 474,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:000063:annual:2024",
+      "split": "frozen_test",
+      "version_id": "0296b29a4ebb8c42345a8397",
+      "content_version_id": "738cb10edf8352d82bba1bac",
+      "content_sha256": "05d75561d39aab30d942a8616770e32ad9d14c41aade058025b45f069d9fc2a1",
+      "processing_fingerprint": "2db6c7daa8b777523a54e5eebe7cceafa7a7fabb9a22aa29b4b786f4e2ade6dc",
+      "chunk_count": 467,
+      "status": "active"
+    }
+  ],
+  "indexes": {
+    "calibration": {
+      "index_id": "b1879a69987a53b283dc",
+      "active_version_ids": [
+        "36fc46bac58c5d4178a8e168",
+        "98bd0683e63102fa94d4e8d5",
+        "7b1e57e46f04e20f36415811",
+        "2430b27fea3f4edd22e682f3"
+      ],
+      "chunk_count": 2340,
+      "dense_model": null
+    },
+    "development": {
+      "index_id": "a4b314a9ff7e595a86bf",
+      "active_version_ids": [
+        "36fc46bac58c5d4178a8e168",
+        "98bd0683e63102fa94d4e8d5",
+        "65fc4f6a9da07b2903e6d50d",
+        "ccb4a15138df179e5b5e933a",
+        "97d682181ce5efdd78e14819",
+        "e0500fe033b87ab780bdf373",
+        "7b1e57e46f04e20f36415811",
+        "2430b27fea3f4edd22e682f3"
+      ],
+      "chunk_count": 5012,
+      "dense_model": null
+    },
+    "frozen_test": {
+      "index_id": "ef0210d6e04c3a281cdf",
+      "active_version_ids": [
+        "be0caafec060fa1c07210f27",
+        "0296b29a4ebb8c42345a8397",
+        "d909e554d6393525975e1777",
+        "5d41c4b8d20d68a6feda4c49",
+        "ff3526347d1c495d3aeb853d",
+        "081a84614ecfe31ea9dbe5ee",
+        "a920f41d2d08427c36918fe2",
+        "4e583736bc619e4cf5efb44b"
+      ],
+      "chunk_count": 4525,
+      "dense_model": null
+    }
+  }
+}

@@ -1,0 +1,2319 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-questions",
+  "status": "questions_frozen_gold_pending",
+  "purpose": "Document- and company-blind external candidate set; no Agent run is permitted before gold freezing.",
+  "corpus_plan": "data/evaluation/agent-hard-v3-corpus-plan.json",
+  "source_manifest": "data/evaluation/agent-hard-v3-source-manifest.json",
+  "question_payload_sha256": "a8650156ea0377b15955636d72208b77b9f582d1a5c57a52745eba2740595cb4",
+  "source_set_sha256": "08e5a3f2816d10a7f2f2ea04f70156d6adfb2211deae001f1da9c34e689bcf23",
+  "comparability": {
+    "hard_v2_task_type_compatible": true,
+    "same_three_core_task_types": true,
+    "new_agent_commands": [
+      "verify",
+      "clarify"
+    ],
+    "gold_scoring_ready": false,
+    "reason_not_ready": "Independent gold facts, exact evidence pages, and double review are pending."
+  },
+  "statistics": {
+    "question_count": 96,
+    "company_count": 8,
+    "source_document_count": 16,
+    "report_years": [
+      2023,
+      2024
+    ],
+    "task_type_counts": {
+      "calculate": 16,
+      "compare": 24,
+      "extract": 56
+    },
+    "agent_command_counts": {
+      "calculate": 16,
+      "clarify": 8,
+      "compare": 16,
+      "extract": 48,
+      "verify": 8
+    },
+    "expected_behavior_counts": {
+      "abstain": 16,
+      "answer": 80
+    },
+    "split_counts": {
+      "calibration": 24,
+      "dev": 24,
+      "frozen_test": 48
+    },
+    "challenge_type_counts": {
+      "abstention_required": 8,
+      "ambiguous_scope": 8,
+      "calculator_required": 16,
+      "claim_verification": 8,
+      "clarification_required": 8,
+      "cross_page_evidence": 5,
+      "cross_page_table": 3,
+      "dense_table": 37,
+      "derived_metric": 16,
+      "document_blind": 96,
+      "exact_value": 52,
+      "multi_document": 40,
+      "multi_evidence": 8,
+      "multi_fact": 40,
+      "multi_year": 16,
+      "narrative_evidence": 4,
+      "segment_table": 22,
+      "unavailable_period": 8,
+      "visual_summary": 10
+    }
+  },
+  "questions": [
+    {
+      "case_id": "v3_601398_y23_core",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "工商银行2023年净利润、资产总额、客户贷款及垫款总额和客户存款分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601398"
+      ],
+      "company_name": "工商银行",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601398_y23_asset_quality",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "工商银行2023年不良贷款率、拨备覆盖率、资本充足率和成本收入比分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601398"
+      ],
+      "company_name": "工商银行",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601398_y23_ecl_audit",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "工商银行2023年关于客户贷款及垫款预期信用损失的关键审计事项，风险点和审计应对分别是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601398"
+      ],
+      "company_name": "工商银行",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601398_y24_core",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "工商银行2024年净利润、资产总额、客户贷款及垫款总额和客户存款分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601398"
+      ],
+      "company_name": "工商银行",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601398_y24_interest",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "工商银行2024年净利息收入和净利息收益率如何变化，年报解释的主要原因是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601398"
+      ],
+      "company_name": "工商银行",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601398_trend_core",
+      "split": "calibration",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较工商银行2023年和2024年的净利润、资产总额、客户贷款及垫款总额和客户存款，分别判断增减。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601398"
+      ],
+      "company_name": "工商银行",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601398_trend_asset_quality",
+      "split": "calibration",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较工商银行2023年和2024年的不良贷款率、拨备覆盖率、资本充足率和成本收入比。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601398"
+      ],
+      "company_name": "工商银行",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601398_calc_profit_growth",
+      "split": "calibration",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "用年报披露的净利润计算工商银行2024年相对2023年的增长率，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601398"
+      ],
+      "company_name": "工商银行",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601398_calc_loan_deposit_gap",
+      "split": "calibration",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "分别计算工商银行2023年和2024年客户存款减客户贷款及垫款的差额，并判断差额是否扩大。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601398"
+      ],
+      "company_name": "工商银行",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601398_verify_quality",
+      "split": "calibration",
+      "task_type": "compare",
+      "agent_command": "verify",
+      "query": "核验说法：工商银行2024年较2023年不良贷款率下降，同时资本充足率上升。请给出证据和结论。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601398"
+      ],
+      "company_name": "工商银行",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601398_future_unavailable",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "请给出工商银行2025年实际不良贷款率、拨备覆盖率和资本充足率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "insufficient_evidence",
+      "company_ids": [
+        "601398"
+      ],
+      "company_name": "工商银行",
+      "report_years": [
+        2025
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601398_ambiguous_scope",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "clarify",
+      "query": "请比较这家银行两年的资产质量指标并解释变化，但先不要假定我指的是哪家银行或哪两个年度。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "clarify",
+      "company_ids": [
+        "601398"
+      ],
+      "company_name": "工商银行",
+      "report_years": [],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002594_y23_core",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "比亚迪2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002594"
+      ],
+      "company_name": "比亚迪",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002594_y23_products",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "比亚迪2023年汽车、汽车相关产品及其他产品与手机部件、组装及其他产品的营业收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "cross_page_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002594"
+      ],
+      "company_name": "比亚迪",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002594_y23_rd",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "比亚迪2023年研发投入金额、占营业收入比例、研发人员数量及占比分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002594"
+      ],
+      "company_name": "比亚迪",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002594_y24_core",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "比亚迪2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002594"
+      ],
+      "company_name": "比亚迪",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002594_y24_products",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "比亚迪2024年两大产品类别的营业收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "cross_page_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002594"
+      ],
+      "company_name": "比亚迪",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002594_trend_core",
+      "split": "calibration",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较比亚迪2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002594"
+      ],
+      "company_name": "比亚迪",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002594_trend_rd",
+      "split": "calibration",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较比亚迪2023年和2024年的研发投入金额、研发投入强度及研发人员数量。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002594"
+      ],
+      "company_name": "比亚迪",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002594_calc_profit_margin",
+      "split": "calibration",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "用营业收入和归母净利润计算比亚迪2023年、2024年的归母净利率，并计算变化百分点。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002594"
+      ],
+      "company_name": "比亚迪",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002594_calc_product_share",
+      "split": "calibration",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "计算比亚迪2024年汽车、汽车相关产品及其他产品收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "dense_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002594"
+      ],
+      "company_name": "比亚迪",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002594_verify_growth",
+      "split": "calibration",
+      "task_type": "compare",
+      "agent_command": "verify",
+      "query": "核验说法：比亚迪2024年营业收入和归母净利润均高于2023年，且净利润增速更快。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002594"
+      ],
+      "company_name": "比亚迪",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002594_future_unavailable",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "请给出比亚迪2025年全年汽车业务收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "insufficient_evidence",
+      "company_ids": [
+        "002594"
+      ],
+      "company_name": "比亚迪",
+      "report_years": [
+        2025
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002594_ambiguous_scope",
+      "split": "calibration",
+      "task_type": "extract",
+      "agent_command": "clarify",
+      "query": "请比较这家新能源汽车公司的盈利能力变化，但先确认公司名称、比较年度和所指利润口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "clarify",
+      "company_ids": [
+        "002594"
+      ],
+      "company_name": "比亚迪",
+      "report_years": [],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601318_y23_core",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "中国平安2023年归母营运利润、归母净利润，以及按2023年末最新投资回报率和风险贴现率等假设计算的寿险及健康险新业务价值和内含价值分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601318"
+      ],
+      "company_name": "中国平安",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601318_y23_segments",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "中国平安2023年寿险及健康险、财产保险、银行三项业务归属于母公司股东的营运利润分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601318"
+      ],
+      "company_name": "中国平安",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601318_y23_audit",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "中国平安2023年保险合同负债计量相关关键审计事项的主要风险和审计应对是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601318"
+      ],
+      "company_name": "中国平安",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601318_y24_core",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "中国平安2024年归母营运利润、归母净利润，以及按2024年末最新假设计算的寿险及健康险新业务价值和内含价值分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601318"
+      ],
+      "company_name": "中国平安",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601318_y24_customer",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "中国平安2024年个人客户数、客均合同数以及持有四个及以上合同的客户留存率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601318"
+      ],
+      "company_name": "中国平安",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601318_trend_core",
+      "split": "dev",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "按中国平安2024年年报的可比口径（其中2023年归母营运利润为追溯调整后），比较2023年和2024年的归母营运利润、归母净利润及寿险新业务价值。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601318"
+      ],
+      "company_name": "中国平安",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601318_trend_customer",
+      "split": "dev",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较中国平安2023年和2024年的个人客户数、客均合同数以及持有集团内4个及以上合同客户的留存率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601318"
+      ],
+      "company_name": "中国平安",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601318_calc_nbv_growth",
+      "split": "dev",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "按中国平安2024年年报的可比口径，用披露值计算2024年寿险及健康险新业务价值相对2023年的增长率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601318"
+      ],
+      "company_name": "中国平安",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601318_calc_segment_share",
+      "split": "dev",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "计算中国平安2024年寿险及健康险业务归母营运利润占寿险及健康险、财产保险、银行三项核心业务归母营运利润合计的比例。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601318"
+      ],
+      "company_name": "中国平安",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601318_verify_nbv",
+      "split": "dev",
+      "task_type": "compare",
+      "agent_command": "verify",
+      "query": "按中国平安2024年年报的可比（调整后）口径核验说法：2024年寿险及健康险新业务价值较2023年增长，但内含价值没有增长。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "601318"
+      ],
+      "company_name": "中国平安",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601318_future_unavailable",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "请给出中国平安2025年寿险及健康险新业务价值和归母营运利润，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "insufficient_evidence",
+      "company_ids": [
+        "601318"
+      ],
+      "company_name": "中国平安",
+      "report_years": [
+        2025
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_601318_ambiguous_scope",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "clarify",
+      "query": "请分析这家保险公司两年的新业务价值变化，但先确认公司、年度以及新业务价值口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "clarify",
+      "company_ids": [
+        "601318"
+      ],
+      "company_name": "中国平安",
+      "report_years": [],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300750_y23_core",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "宁德时代2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300750"
+      ],
+      "company_name": "宁德时代",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300750_y23_products",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "宁德时代2023年动力电池系统、储能电池系统和电池材料及回收三类业务的收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300750"
+      ],
+      "company_name": "宁德时代",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300750_y23_rd",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "宁德时代2023年研发费用、研发投入占营业收入比例和研发人员数量分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300750"
+      ],
+      "company_name": "宁德时代",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300750_y24_core",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "宁德时代2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300750"
+      ],
+      "company_name": "宁德时代",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300750_y24_products",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "宁德时代2024年动力电池系统、储能电池系统和电池材料及回收业务的收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300750"
+      ],
+      "company_name": "宁德时代",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300750_trend_core",
+      "split": "dev",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较宁德时代2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300750"
+      ],
+      "company_name": "宁德时代",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300750_trend_products",
+      "split": "dev",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较宁德时代2023年和2024年动力电池系统与储能电池系统的收入和毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300750"
+      ],
+      "company_name": "宁德时代",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300750_calc_storage_share",
+      "split": "dev",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "计算宁德时代2024年储能电池系统收入占公司营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300750"
+      ],
+      "company_name": "宁德时代",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300750_calc_net_margin",
+      "split": "dev",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "计算宁德时代2023年和2024年的归母净利率，并给出变化百分点。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300750"
+      ],
+      "company_name": "宁德时代",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300750_verify_divergence",
+      "split": "dev",
+      "task_type": "compare",
+      "agent_command": "verify",
+      "query": "核验说法：宁德时代2024年营业收入较2023年下降，但归母净利润上升。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300750"
+      ],
+      "company_name": "宁德时代",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300750_future_unavailable",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "请给出宁德时代2025年动力电池系统收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "insufficient_evidence",
+      "company_ids": [
+        "300750"
+      ],
+      "company_name": "宁德时代",
+      "report_years": [
+        2025
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300750_ambiguous_scope",
+      "split": "dev",
+      "task_type": "extract",
+      "agent_command": "clarify",
+      "query": "请比较这家电池公司的业务结构变化，但先确认公司、年度和所指电池业务口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "clarify",
+      "company_ids": [
+        "300750"
+      ],
+      "company_name": "宁德时代",
+      "report_years": [],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_600309_y23_core",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "万华化学2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "600309"
+      ],
+      "company_name": "万华化学",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_600309_y23_segments",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "万华化学2023年聚氨酯、石化和精细化学品及新材料三类业务的收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "600309"
+      ],
+      "company_name": "万华化学",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_600309_y23_rd",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "万华化学2023年研发投入合计、费用化金额、资本化金额及占营业收入比例分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "600309"
+      ],
+      "company_name": "万华化学",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_600309_y24_core",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "万华化学2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "600309"
+      ],
+      "company_name": "万华化学",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_600309_y24_segments",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "万华化学2024年三类主要业务的收入、成本和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "600309"
+      ],
+      "company_name": "万华化学",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_600309_trend_core",
+      "split": "frozen_test",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较万华化学2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "600309"
+      ],
+      "company_name": "万华化学",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_600309_trend_segments",
+      "split": "frozen_test",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较万华化学2023年和2024年聚氨酯、石化、精细化学品及新材料业务的毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "600309"
+      ],
+      "company_name": "万华化学",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_600309_calc_polyurethane_share",
+      "split": "frozen_test",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "计算万华化学2024年聚氨酯业务收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "600309"
+      ],
+      "company_name": "万华化学",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_600309_calc_margin_spread",
+      "split": "frozen_test",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "计算万华化学2024年聚氨酯业务与石化业务毛利率的差值，并与2023年的差值比较。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "600309"
+      ],
+      "company_name": "万华化学",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_600309_verify_divergence",
+      "split": "frozen_test",
+      "task_type": "compare",
+      "agent_command": "verify",
+      "query": "核验说法：万华化学2024年营业收入较2023年增长，但归母净利润下降。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "600309"
+      ],
+      "company_name": "万华化学",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_600309_future_unavailable",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "请给出万华化学2025年聚氨酯业务收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "insufficient_evidence",
+      "company_ids": [
+        "600309"
+      ],
+      "company_name": "万华化学",
+      "report_years": [
+        2025
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_600309_ambiguous_scope",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "clarify",
+      "query": "请比较这家化工公司的分部毛利率变化，但先确认公司、比较年度和分部口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "clarify",
+      "company_ids": [
+        "600309"
+      ],
+      "company_name": "万华化学",
+      "report_years": [],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002352_y23_core",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "顺丰控股2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002352"
+      ],
+      "company_name": "顺丰控股",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002352_y23_businesses",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "顺丰控股2023年各主要物流分部的营业收入及同比变化分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table",
+        "cross_page_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002352"
+      ],
+      "company_name": "顺丰控股",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002352_y23_audit",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "顺丰控股2023年收入确认相关关键审计事项的主要风险和审计应对是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002352"
+      ],
+      "company_name": "顺丰控股",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002352_y24_core",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "顺丰控股2024年营业收入、归母净利润、息税折旧摊销前利润和净资产收益率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002352"
+      ],
+      "company_name": "顺丰控股",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002352_y24_network",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "顺丰控股2024年国际快递、货代及供应链业务覆盖国家及地区数、全球运营管理干支线货车数、运营全货机数、全球累计运营航空线路数、铁路普列线路数和海运线路数分别是多少？请保留信息图中的大于号下限口径。",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002352"
+      ],
+      "company_name": "顺丰控股",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002352_trend_core",
+      "split": "frozen_test",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较顺丰控股2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002352"
+      ],
+      "company_name": "顺丰控股",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002352_trend_businesses",
+      "split": "frozen_test",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较顺丰控股2023年和2024年时效快递、经济快递、快运及冷运医药业务的收入变化。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002352"
+      ],
+      "company_name": "顺丰控股",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002352_calc_profit_margin",
+      "split": "frozen_test",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "计算顺丰控股2023年和2024年的归母净利率，并给出变化百分点。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002352"
+      ],
+      "company_name": "顺丰控股",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002352_calc_vehicle_rail_ratio",
+      "split": "frozen_test",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "根据顺丰控股2024年运力信息图披露的下限，计算全球运营管理干支线货车数量与铁路普列线路数量之比的下限，保留两位小数并保留大于号。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002352"
+      ],
+      "company_name": "顺丰控股",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002352_verify_summary",
+      "split": "frozen_test",
+      "task_type": "compare",
+      "agent_command": "verify",
+      "query": "核验说法：顺丰控股2024年营业收入上升、归母净利润上升，但总资产下降。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "002352"
+      ],
+      "company_name": "顺丰控股",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002352_future_unavailable",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "请给出顺丰控股2025年全球运营全货机数量和全年营业收入，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "insufficient_evidence",
+      "company_ids": [
+        "002352"
+      ],
+      "company_name": "顺丰控股",
+      "report_years": [
+        2025
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_002352_ambiguous_scope",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "clarify",
+      "query": "请比较这家物流公司的网络能力变化，但先确认公司、年度和要比较的运输方式。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "clarify",
+      "company_ids": [
+        "002352"
+      ],
+      "company_name": "顺丰控股",
+      "report_years": [],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300760_y23_core",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "迈瑞医疗2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300760"
+      ],
+      "company_name": "迈瑞医疗",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300760_y23_products",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "迈瑞医疗2023年生命信息与支持、体外诊断和医学影像三类产品的收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300760"
+      ],
+      "company_name": "迈瑞医疗",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300760_y23_rd",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "迈瑞医疗2023年研发投入金额、占营业收入比例和研发人员数量分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300760"
+      ],
+      "company_name": "迈瑞医疗",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300760_y24_core",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "迈瑞医疗2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300760"
+      ],
+      "company_name": "迈瑞医疗",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300760_y24_products",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "迈瑞医疗2024年三大产品线的收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300760"
+      ],
+      "company_name": "迈瑞医疗",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300760_trend_core",
+      "split": "frozen_test",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较迈瑞医疗2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300760"
+      ],
+      "company_name": "迈瑞医疗",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300760_trend_products",
+      "split": "frozen_test",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "按迈瑞医疗2024年年报追溯调整后的可比口径，比较2023年和2024年生命信息与支持、体外诊断、医学影像三大产品线的收入与毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300760"
+      ],
+      "company_name": "迈瑞医疗",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300760_calc_ivd_share",
+      "split": "frozen_test",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "计算迈瑞医疗2024年体外诊断产品收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300760"
+      ],
+      "company_name": "迈瑞医疗",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300760_calc_margin_spread",
+      "split": "frozen_test",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "按迈瑞医疗2024年年报追溯调整后的可比口径，计算2024年三大产品线最高与最低毛利率之差，并与2023年的差值比较。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300760"
+      ],
+      "company_name": "迈瑞医疗",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300760_verify_growth",
+      "split": "frozen_test",
+      "task_type": "compare",
+      "agent_command": "verify",
+      "query": "核验说法：迈瑞医疗2024年营业收入和归母净利润均高于2023年。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "300760"
+      ],
+      "company_name": "迈瑞医疗",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300760_future_unavailable",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "请给出迈瑞医疗2025年体外诊断产品收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "insufficient_evidence",
+      "company_ids": [
+        "300760"
+      ],
+      "company_name": "迈瑞医疗",
+      "report_years": [
+        2025
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_300760_ambiguous_scope",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "clarify",
+      "query": "请比较这家医疗器械公司的产品结构变化，但先确认公司、年度和产品分类口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "clarify",
+      "company_ids": [
+        "300760"
+      ],
+      "company_name": "迈瑞医疗",
+      "report_years": [],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_000063_y23_core",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "中兴通讯2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "000063"
+      ],
+      "company_name": "中兴通讯",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_000063_y23_markets",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "中兴通讯2023年运营商网络、政企业务和消费者业务的营业收入及毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "000063"
+      ],
+      "company_name": "中兴通讯",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_000063_y23_rd",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "中兴通讯2023年研发投入金额、占营业收入比例和研发人员占比分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "000063"
+      ],
+      "company_name": "中兴通讯",
+      "report_years": [
+        2023
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_000063_y24_core",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "中兴通讯2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "000063"
+      ],
+      "company_name": "中兴通讯",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_000063_y24_markets",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "中兴通讯2024年三大业务市场的营业收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "000063"
+      ],
+      "company_name": "中兴通讯",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_000063_trend_core",
+      "split": "frozen_test",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "比较中兴通讯2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "000063"
+      ],
+      "company_name": "中兴通讯",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_000063_trend_markets",
+      "split": "frozen_test",
+      "task_type": "compare",
+      "agent_command": "compare",
+      "query": "按中兴通讯2024年年报追溯调整后的可比口径，比较2023年和2024年运营商网络、政企业务和消费者业务的收入与毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "000063"
+      ],
+      "company_name": "中兴通讯",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_000063_calc_enterprise_share",
+      "split": "frozen_test",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "计算中兴通讯2024年政企业务收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "000063"
+      ],
+      "company_name": "中兴通讯",
+      "report_years": [
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_000063_calc_rd_change",
+      "split": "frozen_test",
+      "task_type": "calculate",
+      "agent_command": "calculate",
+      "query": "计算中兴通讯2024年研发投入相对2023年的增长率，并比较研发投入强度变化。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "000063"
+      ],
+      "company_name": "中兴通讯",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_000063_verify_divergence",
+      "split": "frozen_test",
+      "task_type": "compare",
+      "agent_command": "verify",
+      "query": "核验说法：中兴通讯2024年营业收入较2023年增长，但归母净利润下降。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_response_mode": "answer",
+      "company_ids": [
+        "000063"
+      ],
+      "company_name": "中兴通讯",
+      "report_years": [
+        2023,
+        2024
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_000063_future_unavailable",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "extract",
+      "query": "请给出中兴通讯2025年政企业务收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "insufficient_evidence",
+      "company_ids": [
+        "000063"
+      ],
+      "company_name": "中兴通讯",
+      "report_years": [
+        2025
+      ],
+      "gold_status": "pending_independent_annotation"
+    },
+    {
+      "case_id": "v3_000063_ambiguous_scope",
+      "split": "frozen_test",
+      "task_type": "extract",
+      "agent_command": "clarify",
+      "query": "请比较这家通信设备公司的三大市场表现，但先确认公司、年度和市场分类口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_response_mode": "clarify",
+      "company_ids": [
+        "000063"
+      ],
+      "company_name": "中兴通讯",
+      "report_years": [],
+      "gold_status": "pending_independent_annotation"
+    }
+  ]
+}

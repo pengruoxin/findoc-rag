@@ -15,6 +15,7 @@ from collections.abc import Mapping
 from pydantic import BaseModel, Field
 
 from findoc_rag.documents.models import (
+    BoundingBox,
     DocumentChunk,
     ParsedDocument,
     StructuredTable,
@@ -32,8 +33,13 @@ from findoc_rag.table_reconstruction import (
     select_table_cells,
 )
 
-STRUCTURED_TABLE_SCHEMA_VERSION = 1
-STRUCTURED_TABLE_GENERATOR = "coordinate-safe-v2"
+STRUCTURED_TABLE_SCHEMA_VERSION = 2
+STRUCTURED_TABLE_GENERATOR = "coordinate-safe-v4-pdf-validated"
+SUPPORTED_STRUCTURED_TABLE_ARTIFACTS = {
+    (1, "coordinate-safe-v2"),
+    (2, "coordinate-safe-v3-geometry"),
+    (STRUCTURED_TABLE_SCHEMA_VERSION, STRUCTURED_TABLE_GENERATOR),
+}
 TABLE_TYPES: tuple[TableType, ...] = (
     "quarterly",
     "note_cost",
@@ -69,11 +75,7 @@ def structured_tables_sha256(tables: list[StructuredTable]) -> str:
 
 
 def load_structured_tables(text: str) -> list[StructuredTable]:
-    return [
-        StructuredTable.model_validate_json(line)
-        for line in text.splitlines()
-        if line.strip()
-    ]
+    return [StructuredTable.model_validate_json(line) for line in text.splitlines() if line.strip()]
 
 
 def chunk_payload_sha256(chunk: DocumentChunk) -> str:
@@ -87,8 +89,13 @@ def infer_table_types(text: str) -> list[TableType]:
     detected: list[TableType] = []
     if all(name in compact for name in ("第一季度", "第二季度", "第三季度", "第四季度")):
         detected.append("quarterly")
+    # Generic notes such as 投资收益 also contain 本期/上期发生额 plus the
+    # words 收入 and 成本 in row prose. Requiring the regulatory section
+    # title prevents adjacent two-column notes from being mislabeled as the
+    # four-column revenue/cost table.
     if (
-        "本期发生额" in compact
+        "营业收入和营业成本" in compact
+        and "本期发生额" in compact
         and "上期发生额" in compact
         and "收入" in compact
         and "成本" in compact
@@ -115,9 +122,7 @@ def _canonical_section(section: str) -> str:
     return _SECTION_NAMES.get(section, section)
 
 
-def _restore_segment_sections(
-    cells: list[ExtractedCell], text: str
-) -> list[ExtractedCell]:
+def _restore_segment_sections(cells: list[ExtractedCell], text: str) -> list[ExtractedCell]:
     """Recover section labels that geometry loses across a page boundary."""
     text_sections = {
         (normalize_label(cell.row), cell.column, normalize_value(cell.value)): cell.section
@@ -134,9 +139,59 @@ def _restore_segment_sections(
                 (normalize_label(cell.row), cell.column, normalize_value(cell.value)),
                 "",
             ),
+            page_number=cell.page_number,
+            value_bbox=cell.value_bbox,
         )
         for cell in cells
     ]
+
+
+def _attach_unique_coordinate_geometry(
+    selected_cells: list[ExtractedCell],
+    coordinate_cells: list[ExtractedCell],
+) -> list[ExtractedCell]:
+    """Bind text-selected cells only when one exact coordinate cell agrees."""
+
+    candidates: dict[tuple[str, str, str, str], list[ExtractedCell]] = {}
+    for cell in coordinate_cells:
+        key = (
+            _canonical_section(cell.section),
+            normalize_label(cell.row),
+            cell.column,
+            normalize_value(cell.value),
+        )
+        candidates.setdefault(key, []).append(cell)
+    bound: list[ExtractedCell] = []
+    for cell in selected_cells:
+        if cell.page_number is not None and cell.value_bbox is not None:
+            bound.append(cell)
+            continue
+        key = (
+            _canonical_section(cell.section),
+            normalize_label(cell.row),
+            cell.column,
+            normalize_value(cell.value),
+        )
+        matches = [
+            candidate
+            for candidate in candidates.get(key, [])
+            if candidate.page_number is not None and candidate.value_bbox is not None
+        ]
+        if len(matches) != 1:
+            bound.append(cell)
+            continue
+        match = matches[0]
+        bound.append(
+            ExtractedCell(
+                row=cell.row,
+                column=cell.column,
+                value=cell.value,
+                section=cell.section,
+                page_number=match.page_number,
+                value_bbox=match.value_bbox,
+            )
+        )
+    return bound
 
 
 def build_structured_tables(
@@ -173,9 +228,7 @@ def build_structured_tables(
             coordinate_cells = (
                 reconstruct_cells(blocks, table_type, region=region) if blocks else []
             )
-            selection = select_table_cells(
-                coordinate_cells, chunk.text, table_type
-            )
+            selection = select_table_cells(coordinate_cells, chunk.text, table_type)
             if not selection.cells:
                 continue
             selected_cells = (
@@ -183,15 +236,45 @@ def build_structured_tables(
                 if table_type == "segment"
                 else selection.cells
             )
-            cells = [
-                StructuredTableCell(
-                    row=cell.row,
-                    column=cell.column,
-                    value=cell.value,
-                    section=_canonical_section(cell.section),
+            geometry_candidates = (
+                _restore_segment_sections(coordinate_cells, chunk.text)
+                if table_type == "segment"
+                else coordinate_cells
+            )
+            selected_cells = _attach_unique_coordinate_geometry(
+                selected_cells,
+                geometry_candidates,
+            )
+            row_indices: dict[tuple[str, str], int] = {}
+            column_indices: dict[str, int] = {}
+            cells: list[StructuredTableCell] = []
+            for cell in selected_cells:
+                row_key = (_canonical_section(cell.section), normalize_label(cell.row))
+                row_index = row_indices.setdefault(row_key, len(row_indices) + 1)
+                column_index = column_indices.setdefault(cell.column, len(column_indices) + 1)
+                has_geometry = cell.page_number is not None and cell.value_bbox is not None
+                cells.append(
+                    StructuredTableCell(
+                        row=cell.row,
+                        column=cell.column,
+                        value=cell.value,
+                        section=row_key[0],
+                        row_index=row_index,
+                        column_index=column_index,
+                        page_number=cell.page_number if has_geometry else None,
+                        value_bbox=(
+                            BoundingBox(
+                                x0=cell.value_bbox[0],
+                                y0=cell.value_bbox[1],
+                                x1=cell.value_bbox[2],
+                                y1=cell.value_bbox[3],
+                            )
+                            if has_geometry and cell.value_bbox is not None
+                            else None
+                        ),
+                        coordinate_space=("pymupdf_unrotated_page" if has_geometry else None),
+                    )
                 )
-                for cell in selected_cells
-            ]
             records.append(
                 StructuredTable(
                     table_id=f"{chunk.chunk_id}:{table_type}",

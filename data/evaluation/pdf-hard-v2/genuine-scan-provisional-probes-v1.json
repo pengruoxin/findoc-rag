@@ -1,0 +1,285 @@
+{
+  "schema_version": "1",
+  "dataset_id": "pdf-hard-v2-genuine-scan-provisional-probes-v1",
+  "status": "assistant_curated_provisional",
+  "candidate_manifest": "data/evaluation/pdf-hard-v2/genuine-scan-development-candidates.json",
+  "candidate_manifest_sha256": "319e2206e15645a6702dfb9b4f94abe9342d0909ead240d8c06b7c599ed2a3d1",
+  "pdf_path": "data/evaluation/pdf-hard-v2/genuine-scan-development-candidates.pdf",
+  "pdf_sha256": "068cf99e5502ef5da8c1fce2da8f22e03e3314be6a3fc97a6e106aa16862c29f",
+  "counts_toward_formal_target": false,
+  "independent_review_required": true,
+  "pages": [
+    {
+      "candidate_id": "haining-leather-2025-p1-related-funds-scan",
+      "page_number": 1,
+      "expected_route": "full_ocr",
+      "probes": [
+        {
+          "probe_id": "p1-header-related-funds",
+          "probe_type": "text",
+          "category": "header",
+          "expected_text": "其他关联资金往来",
+          "annotation_note": "左上角分类表头，视觉逐字确认。"
+        },
+        {
+          "probe_id": "p1-header-opening-balance",
+          "probe_type": "text",
+          "category": "header",
+          "expected_text": "2025年期初往来资金余额",
+          "annotation_note": "第五列表头，视觉逐字确认。"
+        },
+        {
+          "probe_id": "p1-header-closing-balance",
+          "probe_type": "text",
+          "category": "header",
+          "expected_text": "2025年期末往来资金余额",
+          "annotation_note": "第九列表头，视觉逐字确认。"
+        },
+        {
+          "probe_id": "p1-cell-hongyue-opening",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "海宁皮革时尚小镇投资开发有限公司",
+          "column_label": "2025年期初往来资金余额",
+          "expected_value": "144,133.68",
+          "annotation_note": "首条资金往来记录的期初余额。"
+        },
+        {
+          "probe_id": "p1-cell-investment-closing",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "海宁中国皮革城投资有限公司",
+          "column_label": "2025年期末往来资金余额",
+          "expected_value": "76,568.24",
+          "annotation_note": "投资有限公司记录的期末余额。"
+        },
+        {
+          "probe_id": "p1-cell-wuhan-closing",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "武汉海潮海宁皮革城有限公司",
+          "column_label": "2025年期末往来资金余额",
+          "expected_value": "87,657.26",
+          "annotation_note": "武汉海潮记录的期末余额。"
+        },
+        {
+          "probe_id": "p1-cell-total-closing",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "总计",
+          "column_label": "2025年期末往来资金余额",
+          "expected_value": "441,783.53",
+          "annotation_note": "底部总计行的期末余额。"
+        }
+      ]
+    },
+    {
+      "candidate_id": "xinong-2020-p7-balance-sheet-scan",
+      "page_number": 2,
+      "expected_route": "full_ocr",
+      "probes": [
+        {
+          "probe_id": "p2-title",
+          "probe_type": "text",
+          "category": "title",
+          "expected_text": "合并资产负债表",
+          "annotation_note": "页面主标题。"
+        },
+        {
+          "probe_id": "p2-header-year-end",
+          "probe_type": "text",
+          "category": "header",
+          "expected_text": "年末余额",
+          "annotation_note": "本期金额列表头。"
+        },
+        {
+          "probe_id": "p2-header-year-start",
+          "probe_type": "text",
+          "category": "header",
+          "expected_text": "年初余额",
+          "annotation_note": "对比金额列表头。"
+        },
+        {
+          "probe_id": "p2-cell-cash",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "货币资金",
+          "column_label": "年末余额",
+          "expected_value": "105,904,442.39",
+          "annotation_note": "货币资金年末余额。"
+        },
+        {
+          "probe_id": "p2-cell-receivables",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "应收账款",
+          "column_label": "年末余额",
+          "expected_value": "22,842,501.76",
+          "annotation_note": "应收账款年末余额。"
+        },
+        {
+          "probe_id": "p2-cell-inventory",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "存货",
+          "column_label": "年末余额",
+          "expected_value": "380,916,004.19",
+          "annotation_note": "存货年末余额。"
+        },
+        {
+          "probe_id": "p2-cell-current-assets",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "流动资产合计",
+          "column_label": "年末余额",
+          "expected_value": "864,604,825.08",
+          "annotation_note": "流动资产合计年末余额。"
+        },
+        {
+          "probe_id": "p2-cell-total-assets",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "资产总计",
+          "column_label": "年末余额",
+          "expected_value": "1,751,879,686.69",
+          "annotation_note": "资产总计年末余额。"
+        }
+      ]
+    },
+    {
+      "candidate_id": "xinong-2020-p11-income-statement-scan",
+      "page_number": 3,
+      "expected_route": "full_ocr",
+      "probes": [
+        {
+          "probe_id": "p3-title",
+          "probe_type": "text",
+          "category": "title",
+          "expected_text": "合并利润表",
+          "annotation_note": "页面主标题。"
+        },
+        {
+          "probe_id": "p3-header-current",
+          "probe_type": "text",
+          "category": "header",
+          "expected_text": "本年金额",
+          "annotation_note": "本年金额列表头。"
+        },
+        {
+          "probe_id": "p3-header-prior",
+          "probe_type": "text",
+          "category": "header",
+          "expected_text": "上年金额",
+          "annotation_note": "上年金额列表头。"
+        },
+        {
+          "probe_id": "p3-cell-revenue",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "营业收入",
+          "column_label": "本年金额",
+          "expected_value": "556,230,065.25",
+          "annotation_note": "营业收入本年金额。"
+        },
+        {
+          "probe_id": "p3-cell-cost",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "营业成本",
+          "column_label": "本年金额",
+          "expected_value": "418,878,705.54",
+          "annotation_note": "营业成本本年金额。"
+        },
+        {
+          "probe_id": "p3-cell-operating-profit",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "营业利润",
+          "column_label": "本年金额",
+          "expected_value": "36,712,125.66",
+          "annotation_note": "营业利润本年金额。"
+        },
+        {
+          "probe_id": "p3-cell-net-profit",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "净利润",
+          "column_label": "本年金额",
+          "expected_value": "43,036,723.64",
+          "annotation_note": "净利润本年金额。"
+        },
+        {
+          "probe_id": "p3-cell-eps",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "基本每股收益",
+          "column_label": "本年金额",
+          "expected_value": "0.10",
+          "annotation_note": "基本每股收益本年金额。"
+        }
+      ]
+    },
+    {
+      "candidate_id": "xinong-2020-p15-equity-change-scan",
+      "page_number": 4,
+      "expected_route": "full_ocr",
+      "probes": [
+        {
+          "probe_id": "p4-title",
+          "probe_type": "text",
+          "category": "title",
+          "expected_text": "合并股东权益变动表",
+          "annotation_note": "页面主标题。"
+        },
+        {
+          "probe_id": "p4-header-parent-equity",
+          "probe_type": "text",
+          "category": "header",
+          "expected_text": "归属于母公司股东权益",
+          "annotation_note": "横向多级表头的父级标题。"
+        },
+        {
+          "probe_id": "p4-header-minority",
+          "probe_type": "text",
+          "category": "header",
+          "expected_text": "少数股东权益",
+          "annotation_note": "倒数第二列表头。"
+        },
+        {
+          "probe_id": "p4-header-equity-total",
+          "probe_type": "text",
+          "category": "header",
+          "expected_text": "股东权益合计",
+          "annotation_note": "最右列表头。"
+        },
+        {
+          "probe_id": "p4-cell-prior-close-capital",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "上年年末余额",
+          "column_label": "股本",
+          "expected_value": "381,512,820.00",
+          "annotation_note": "上年年末余额行的股本。"
+        },
+        {
+          "probe_id": "p4-cell-current-open-capital",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "本年期初余额",
+          "column_label": "股本",
+          "expected_value": "381,512,820.00",
+          "annotation_note": "本年期初余额行的股本；已按渲染页复核原表措辞。"
+        },
+        {
+          "probe_id": "p4-cell-current-close-total",
+          "probe_type": "row_value",
+          "category": "cell",
+          "row_label": "本期期末余额",
+          "column_label": "股东权益合计",
+          "expected_value": "482,110,062.36",
+          "annotation_note": "本期期末余额行的股东权益合计；已按渲染页复核原表措辞。"
+        }
+      ]
+    }
+  ]
+}

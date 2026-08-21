@@ -1,0 +1,34 @@
+{
+  "schema_version": "1",
+  "phase": "hard-v3-provisional-gold-prebaseline",
+  "closed_on": "2026-08-20",
+  "question_payload_sha256": "a8650156ea0377b15955636d72208b77b9f582d1a5c57a52745eba2740595cb4",
+  "dataset_sha256": "58dfdc06584fab4cf28a675f90e3ac626859d8c239e4dc325de6a3e83a6bc135",
+  "model_assistance": "none",
+  "evaluated_agent_called": false,
+  "case_count": 96,
+  "behavior_counts": {
+    "answer": 80,
+    "abstain": 8,
+    "clarify": 8
+  },
+  "gold": {
+    "expected_fact_count": 435,
+    "evidence_source_count": 101,
+    "evidence_page_reference_count": 172,
+    "annotation_status": "assistant_source_verified_provisional",
+    "independent_double_review_complete": false
+  },
+  "quality_gates": {
+    "question_audit": "25/25",
+    "gold_audit": "16/16",
+    "source_pdf_sha256": "16/16",
+    "visual_review_page_count": 13,
+    "regression_tests": "56/56",
+    "ruff": "passed"
+  },
+  "ready_for_provisional_baseline": true,
+  "ready_for_frozen_test_claim": false,
+  "frozen_test_claim_blocker": "independent_double_review_pending",
+  "next_action": "Run calibration/dev DeepSeek baseline only after accepting provisional-gold status; keep frozen_test sealed until double review."
+}

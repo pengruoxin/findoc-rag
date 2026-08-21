@@ -1,0 +1,85 @@
+{
+  "schema_version": "1",
+  "review_status": "assistant_visual_review_provisional",
+  "purpose": "development_candidate_selection_not_gold",
+  "items": [
+    {
+      "candidate_id": "moutai-2024-p108-merged-header",
+      "document_key": "cninfo:600519:annual:2024",
+      "local_file": "data/artifacts/cninfo/600519_2024_1222993920.pdf",
+      "source_sha256": "5299f4940e2ce4e91084b73dc457d558b9d335fa76fbfee6227e4254eb7f4a30",
+      "source_page_number": 108,
+      "assigned_split": "calibration",
+      "primary_stratum": "merged_hierarchical_header",
+      "additional_strata": ["native_control"],
+      "selected": true,
+      "classification": "valid_complex_table_candidate",
+      "notes": "营业收入和营业成本表含本期/上期父表头及收入/成本子表头。"
+    },
+    {
+      "candidate_id": "shenhua-2023-p203-borderless",
+      "document_key": "cninfo:601088:annual:2023",
+      "local_file": "data/artifacts/cninfo/601088_2023_1219390021.pdf",
+      "source_sha256": "451aaacb1779c2572807a0f25985d8c18db355c2b40f3eef0a673210c9820bf9",
+      "source_page_number": 203,
+      "assigned_split": "development",
+      "primary_stratum": "borderless_table",
+      "additional_strata": ["native_control"],
+      "selected": true,
+      "classification": "valid_complex_table_candidate",
+      "notes": "负债和股东权益表无外框，依赖三列稳定对齐恢复结构。"
+    },
+    {
+      "candidate_id": "shenhua-2023-p302-dense-layout",
+      "document_key": "cninfo:601088:annual:2023",
+      "local_file": "data/artifacts/cninfo/601088_2023_1219390021.pdf",
+      "source_sha256": "451aaacb1779c2572807a0f25985d8c18db355c2b40f3eef0a673210c9820bf9",
+      "source_page_number": 302,
+      "assigned_split": "development",
+      "primary_stratum": "native_control",
+      "additional_strata": ["merged_hierarchical_header", "rotated_or_mixed_layout"],
+      "selected": true,
+      "classification": "valid_complex_table_candidate",
+      "notes": "同页包含多个彩色小表和多级年度表头，可作为高密度原生控制页。"
+    },
+    {
+      "candidate_id": "shenhua-2024-p260-landscape",
+      "document_key": "cninfo:601088:annual:2024",
+      "local_file": "data/artifacts/cninfo/601088_2024_1222870380.pdf",
+      "source_sha256": "4b3a8db26ae2fb07083966fadea0f92535cfbe6d0791c3318c6511113b138e8f",
+      "source_page_number": 260,
+      "assigned_split": "development",
+      "primary_stratum": "rotated_or_mixed_layout",
+      "additional_strata": ["merged_hierarchical_header", "native_control"],
+      "selected": true,
+      "classification": "valid_complex_table_candidate",
+      "notes": "横向分部信息表，列数多、字号小，并包含多级分部/年度表头。"
+    },
+    {
+      "candidate_id": "rejected-shenhua-2023-p101-prose",
+      "document_key": "cninfo:601088:annual:2023",
+      "local_file": "data/artifacts/cninfo/601088_2023_1219390021.pdf",
+      "source_sha256": "451aaacb1779c2572807a0f25985d8c18db355c2b40f3eef0a673210c9820bf9",
+      "source_page_number": 101,
+      "assigned_split": "development",
+      "primary_stratum": "borderless_table",
+      "additional_strata": [],
+      "selected": false,
+      "classification": "false_positive_prose_with_dates",
+      "notes": "合同正文含大量日期但不是表格；促成 financial numeric span 门禁。"
+    },
+    {
+      "candidate_id": "rejected-midea-2024-p237-prose",
+      "document_key": "cninfo:000333:annual:2024",
+      "local_file": "data/artifacts/cninfo/000333_2024_1222951181.pdf",
+      "source_sha256": "b17a9b9b84bca1d2a4e4a3cadc5dd5ba5c85e3f1fd2d758acd3315b5b040ecd9",
+      "source_page_number": 237,
+      "assigned_split": "development",
+      "primary_stratum": "borderless_table",
+      "additional_strata": [],
+      "selected": false,
+      "classification": "false_positive_aligned_financial_prose",
+      "notes": "贷款说明有两列对齐金额但不是表格；促成三列网格门禁。"
+    }
+  ]
+}

@@ -4,6 +4,65 @@
 
 最低验收要求与迭代流程见 [评测基线 §5](../evaluation/baseline-zh.md#5-迭代协议)；当前基线数字见同一文档；每次实验的完整分析见 [实验总结索引](../evaluation/experiment-summaries.md)。看不懂的词见 [术语表](../glossary-zh.md)。
 
+## 2026-08-21：P4-G 表格 Cell / Geometry Proof
+
+- 问题：P4-F 审核包只有 chunk 页范围；结构化表虽有 row/column/value，但数值 token bbox 在重建到 sidecar 时丢失，无法核对“数字在哪个格子”。
+- 改动：sidecar schema 2 保存 row/column index、page、value bbox 和 coordinate space；每格生成绑定 table/chunk SHA/行列/数值/坐标的防篡改 proof，并贯通 AgentEvidence 与 `agent review inspect`。旧 schema 1 仍可读取。
+- 保守策略：text fallback 只有在 `section+row+column+value` 对坐标候选唯一精确匹配时才补 bbox；其余明确 text-only。proof 不进入模型 prompt。
+- 评测：8 份 calibration+dev 年报、5,012 chunks、11 表、111 格；语义 exact **111/111**，逻辑 index/proof **111/111**；value bbox **0/111→102/111（91.89%）**，坐标路径 72/72，文本路径唯一匹配补 30，剩余 9 格不伪造坐标。0 模型请求/token，frozen 未打开。
+- 生产：仅用 calibration/dev 重建两个活跃索引；calibration schema 2 / 32 cells，development schema 2 / 111 cells。旧 generation 保留为固定基线，chunk/index identity 不变。
+- 验证：P4-G/PDF/Agent 定向 **80 passed**，全仓 **413 passed**；Ruff 与 `git diff --check` 通过。
+- 边界：当前只精确绑定 value bbox，不含 row/header 独立 bbox、区域截图或真实扫描表泛化。下一步只对 9 个残差/人工升级任务做有限 region proof，并量化误绑定和视觉 token。
+
+## 2026-08-21：P4-F 不可变人工复核闭环
+
+- 问题：P4-E 的 `manual_review` 只有状态和原因；候选答案被拒答文本替换，没有待审队列、审批结果、防过期绑定或包外证据门禁。
+- 改动：保留 withheld `AgentTaskResult`；自动生成绑定 task trace SHA-256 的审核包，包含 atomic claim、chunk 内容 hash、PDF 页码、章节和 excerpt；增加 `agent review enqueue/list/inspect/resolve`，支持 approve/correct/reject。
+- 安全性：resolution 与原始 trace 分离并一次性追加；审批前重算 trace hash；correct 必须绑定包内证据；重复审批、stale trace、包外 chunk 全部 fail closed。写入使用 flush/fsync 后的不可覆盖原子链接。
+- 附带修复：Verifier 的 computed token/request 字段过去会被持久化后触发严格 schema 重载失败；新文件不再写派生字段，旧 JSON 仍兼容读取。
+- 评测：取已存真实 `deepseek-v4-flash` 开发 trace 执行闭环，候选保留、证据展示、pending、三种决策、原始 trace 不变、one-shot、stale/outside guards 共 **10/10**；0 模型请求、0 token，frozen test 未打开。
+- 验证：P4-F 定向 **55 passed**，全仓 **407 passed**；Ruff、CLI help、报告复跑和 `git diff --check` 通过。
+- 边界：这不是问答准确率或人审准确率；当前仅 CLI，无 Web 鉴权/通知、双人审核和 SLA。下一步补 PDF 表格 cell/geometry proof，不增加 Agent 角色。
+
+## 2026-08-21：P4-E 有界原子事实 Support Proof
+
+- 问题：P4-D 剩余关系错误已经进入 Verifier，但模型只返回 4 个 supported ID、没有证据证明，仍把“同比下降→上升”放行。
+- 改动：非 audit 复核只为 contract 相似度最低的 requirement 生成 exact claim→cited quote proof；本地校验 claim、引用归属、quote 锚定和数值支持；低语言对齐做一次带有限表头上下文的 challenge；proof/partition 无效转人工，结构 partition 只重试一次。
+- 同代码消融：高重叠 **14/15→15/15**、unsafe 1→0；修复项为 `v3_601398_y23_asset_quality:relation_swap`。最终构成 9 模型拒答、5 本地拒答、1 人工升级；故障请求 10→11、token 45,416→52,358（+15.29%）。
+- 正常与回归：组合严格 **45/48→45/48**；正常请求 18→22、token 84,578→100,686（+19.05%）。已知故障 15/15、遗漏修复 5/5；开放风险本轮 15/15，但保留 P4-D 14–15/15 波动边界。
+- 负实验：v1 每项都 proof 使 calibration 12/14→8/14；v2 长工具输出仍产生 2 error；v3 未归一 proof/finding 冲突产生 8 error；后续用最弱项选择、finding 优先、表头上下文、audit 紧凑路径和一次 partition 重试逐项修复。所有报告保留。
+- 验证：全仓 **400 passed**；Ruff、CLI 参数加载、组合报告生成、SHA/指标一致性断言与 `git diff --check` 通过；frozen test 未打开，dev 为 post-hoc。
+- 决策：采用有界单项 proof，不采用每项 proof；`manual_review` 是安全暂停而非自动成功。下一步接不同 provider/model，或完成工单/审批回写与表格 cell/geometry proof。
+
+## 2026-08-21：P4-D 高语言重叠关系与会计符号风险
+
+- 问题：P4-C 的字符覆盖只擅长发现“新语言”；同页标签、关系方向或会计括号偷换仍能保持 0.824–1.000 的覆盖率并绕过开放风险信号。
+- 改动：简单抽取 claim 偏离原子 requirement contract 时升级 Verifier；claim 擅自为正数增加负号/会计括号时本地拒答；必要数字遗漏时升级一次修复。三类 finding 都写入结构化轨迹。
+- 高重叠集：15 个标签/关系/符号故障，安全处理 **5/15→14/15**，unsafe 9→1；标签 5/5、符号 5/5、关系 4/5。剩余 `v3_601398_y23_asset_quality:relation_swap` 被 DeepSeek 接受，没有继续添加 benchmark 专用方向词规则。
+- 正常与回归：组合严格 **45/48→45/48**，请求保持 18，token 81,812→84,198（+2.92%）；修正 omission 评测器后，已知故障 13/15→15/15、遗漏修复 3/5→5/5。开放风险当前代码复跑均路由 15/15，但安全处理出现 14–15/15 波动。
+- 负实验：重复注入 focused evidence 让正常 token 升到 166,273（较 P4-C +103.23%），高重叠仅 13/15，已撤回。旧 omission 评测器会把千分位逗号当分句符，两个历史样本不是实际遗漏，已标为不可比。
+- 验证：全仓 **396 passed**；Ruff、组合报告生成、报告一致性断言与 `git diff --check` 通过；frozen test 未打开。
+- 决策：采用轻量 contract/sign/completeness 门禁；不继续堆关系词规则。下一步优先不同 provider/model 的独立 Verifier 或人工升级，再做 frozen test 一次性无偏确认。
+
+## 2026-08-21：P4-C 开放式 Claim 风险路由
+
+- 问题：P4-B 本地硬规则只能覆盖已知错误；不在公司/时期/数字/单位/引用规则内的新语义错误，简单任务可能完全不进入 Verifier。
+- 改动：新增 claim 对 requirement、文档范围和引用证据的字符二元组覆盖异常信号，覆盖低于 0.72 只标 `review`，绝不本地拒答；Verifier prompt 明确新增的因果、否定、预测或范围限定应判证据不足。抽取 CLI 默认 `auto` 高风险路由，可 `off/always`，旧开关兼容。
+- 正式消融：15 个不改公司、显式年、数字、单位和引用范围的未见语义故障；相同代码和 prompt 下，仅关闭/开启信号，路由 **9/15→15/15**、安全处理 **9/15→15/15**、unsafe accept 6→0、结构错误 0；请求 9→15，token 38,529→59,914。
+- 正常与已知回归：组合严格 **45/48→45/48**；正常请求仍 18，token 80,560→81,812（+1.55%）；P4-B 已知故障仍 15/15、遗漏修复 5/5，请求仍 20。
+- 验证：全仓 **392 passed**；Ruff、组合报告生成与 `git diff --check` 通过。
+- 负实验：第一版范围故障与原文“归属于母公司股东”语义重叠，P4-C 仅 14/15；旧报告保留，最终改成明确无证据的境外零售口径，并使用同代码 ablation，避免把评测修订冒充模型提升。
+- 边界：0.72 使用 calibration + post-hoc dev 109 条正常 claim 选择；字符覆盖不是蕴含；15 个合成故障样本小；同 provider；frozen test 未打开。下一步补高语言覆盖的关系偷换和 OCR 符号盲测，不继续加风险词。
+
+## 2026-08-21：P4-B 确定性 Claim 风险闸门
+
+- 目标：修复 P4-A 独立 Verifier 对跨公司主体错误仍有 1/5 漏检，同时避免简单规则误杀财务单位换算、舍入和年报比较期。
+- 改动：高风险复核前增加零模型调用闸门；主体、事实期间和引用文档范围的明确冲突 fail-closed，数字或单位无法对齐时只强制升级 DeepSeek。轨迹记录规则版本、状态和逐 requirement finding；修复后重新过闸门再二次复核。
+- 正常配对：calibration 22/24、dev post-hoc 23/24，合计严格 **45/48→45/48**；28 条已保存正常轨迹中 20 pass、8 not applicable、0 false reject。正常仍触发 18 次 Verifier，80,560 token；与 P4-A 的 257 token 差异仅为输出波动。
+- 故障配对：同一 15 个 claim 退化由 **14/15→15/15**，错主体由 4/5→5/5 且全部本地拦截；数值 5/5 拒答、细项遗漏 5/5 修复。请求 25→20，token 100,941→80,882（-20,059，-19.87%），unsafe accept 1→0。
+- 验证：全仓 **388 passed**，Ruff、组合报告生成与 `git diff --check` 通过。
+- 边界：样本是受控故障；未知公司别名仍可能漏过；dev 为 post-hoc；frozen test 未打开；主 Agent 与 Verifier 仍是同一 DeepSeek 模型。多 Agent 继续只对高风险任务显式开启，下一单变量为自动高风险路由，不增加角色。
+
 ## 2026-08-14：目标完成性审计（报告来源与历史最佳口径）
 
 - 在线实证：用目标索引 `9898...` 直接启动 RetrievalService/FastAPI；季度题候选池 20→40，top hit 带 16 个 quarterly cells，生成器返回 grounded `deterministic-table`、1 个 citation 和 1 个 claim-citation；capabilities 声明 structured artifact，evidence resolve 返回 chunk SHA，错 index 为 409，ingestion 默认关闭为 503。

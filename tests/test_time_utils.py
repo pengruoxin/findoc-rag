@@ -41,6 +41,38 @@ def test_relative_time_without_anchor_raises() -> None:
         resolve_relative_time("贵州茅台去年营业收入是多少？", None)
 
 
+def test_document_relative_last_year_uses_report_year_not_query_clock() -> None:
+    resolved, cues = resolve_relative_time(
+        "2022年年报里的去年营业收入是多少？", date(2026, 8, 20)
+    )
+
+    assert resolved == "2022年年报里的2021年营业收入是多少？"
+    assert cues == [r"去年|上一年|上年"]
+
+
+def test_document_relative_time_can_resolve_without_runtime_anchor() -> None:
+    resolved, cues = resolve_relative_time("根据2022年度报告，本年净利润是多少？", None)
+
+    assert resolved == "根据2022年度报告，2022年净利润是多少？"
+    assert cues == [r"今年|本年|本年度"]
+
+
+def test_relative_cue_before_document_reference_uses_query_clock() -> None:
+    resolved, _ = resolve_relative_time(
+        "去年发布的2022年年报披露了什么？", date(2026, 8, 20)
+    )
+
+    assert resolved == "2025年发布的2022年年报披露了什么？"
+
+
+def test_previous_clause_does_not_leak_document_time_anchor() -> None:
+    resolved, _ = resolve_relative_time(
+        "先看2022年年报；去年行业收入是多少？", date(2026, 8, 20)
+    )
+
+    assert resolved == "先看2022年年报；2025年行业收入是多少？"
+
+
 def test_parse_as_of_date() -> None:
     assert parse_as_of_date("2025-04-30") == date(2025, 4, 30)
     assert parse_as_of_date("") is None

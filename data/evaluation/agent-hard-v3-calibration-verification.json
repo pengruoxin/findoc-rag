@@ -1,0 +1,147 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-provisional-gold-calibration-verification",
+  "description": "Ninety-six company- and document-blind Agent tasks over sixteen official CNINFO annual reports. Facts and pages are source-verified provisional gold; independent double review remains pending. Split: calibration. Challenge: claim verification.",
+  "index_scope": "calibration-verification",
+  "source_manifest": "data/evaluation/agent-hard-v3-source-manifest.json",
+  "gold_policy": "Gold was transcribed before the first Agent run. No evaluated Agent, DeepSeek answer, or LLM judge was used to create it. Exact values, deterministic behavior checks, and page-bound citations are scored locally.",
+  "cases": [
+    {
+      "case_id": "v3_601398_verify_quality",
+      "task_type": "compare",
+      "query": "核验说法：工商银行2024年较2023年不良贷款率下降，同时资本充足率上升。请给出证据和结论。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:工商银行:year:2023",
+        "company:工商银行:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "npl_2023",
+          "description": "2023年不良贷款率",
+          "acceptable_values": [
+            "1.36%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "npl_2024",
+          "description": "2024年不良贷款率",
+          "acceptable_values": [
+            "1.34%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital_2023",
+          "description": "2023年资本充足率",
+          "acceptable_values": [
+            "19.10%",
+            "19.1%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital_2024",
+          "description": "2024年资本充足率",
+          "acceptable_values": [
+            "19.39%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "说法成立",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "核验通过"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            16
+          ]
+        }
+      ],
+      "gold_rationale": "不良贷款率由1.36%降至1.34%，资本充足率由19.10%升至19.39%，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_verify_growth",
+      "task_type": "compare",
+      "query": "核验说法：比亚迪2024年营业收入和归母净利润均高于2023年，且净利润增速更快。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:比亚迪:year:2023",
+        "company:比亚迪:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_growth",
+          "description": "营业收入同比增长",
+          "acceptable_values": [
+            "29.02%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_growth",
+          "description": "归母净利润同比增长",
+          "acceptable_values": [
+            "34.00%",
+            "34%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "两项均增长且净利润增速更快",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "净利润增速更快"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "2024年营业收入增长29.02%，归母净利润增长34.00%，后者更快，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

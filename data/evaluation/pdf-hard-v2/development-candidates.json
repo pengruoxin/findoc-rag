@@ -1,0 +1,76 @@
+{
+  "schema_version": "1",
+  "dataset_id": "pdf-hard-v2-development-candidates",
+  "status": "assistant_visual_reviewed_unannotated",
+  "review_source": "D:/202607/raglab/data/evaluation/pdf-hard-v2/candidate-visual-review-v1.json",
+  "review_sha256": "dbaee9dd62e0b436a80de566b430719c357d061c3c3f163f7131bf45983eefd0",
+  "pdf_path": "data/evaluation/pdf-hard-v2/development-candidates.pdf",
+  "pdf_sha256": "2cb87c428f1c6b7d428d53913f438e49e4461682c0f85843188f6a2aedfee36e",
+  "page_count": 4,
+  "counts_toward_target": false,
+  "frozen_gold_present": false,
+  "pages": [
+    {
+      "candidate_id": "moutai-2024-p108-merged-header",
+      "challenge_page_number": 1,
+      "document_key": "cninfo:600519:annual:2024",
+      "source_file": "data/artifacts/cninfo/600519_2024_1222993920.pdf",
+      "source_sha256": "5299f4940e2ce4e91084b73dc457d558b9d335fa76fbfee6227e4254eb7f4a30",
+      "source_page_number": 108,
+      "assigned_split": "calibration",
+      "primary_stratum": "merged_hierarchical_header",
+      "additional_strata": [
+        "native_control"
+      ],
+      "annotation_status": "unannotated",
+      "counts_toward_target": false
+    },
+    {
+      "candidate_id": "shenhua-2023-p203-borderless",
+      "challenge_page_number": 2,
+      "document_key": "cninfo:601088:annual:2023",
+      "source_file": "data/artifacts/cninfo/601088_2023_1219390021.pdf",
+      "source_sha256": "451aaacb1779c2572807a0f25985d8c18db355c2b40f3eef0a673210c9820bf9",
+      "source_page_number": 203,
+      "assigned_split": "development",
+      "primary_stratum": "borderless_table",
+      "additional_strata": [
+        "native_control"
+      ],
+      "annotation_status": "unannotated",
+      "counts_toward_target": false
+    },
+    {
+      "candidate_id": "shenhua-2023-p302-dense-layout",
+      "challenge_page_number": 3,
+      "document_key": "cninfo:601088:annual:2023",
+      "source_file": "data/artifacts/cninfo/601088_2023_1219390021.pdf",
+      "source_sha256": "451aaacb1779c2572807a0f25985d8c18db355c2b40f3eef0a673210c9820bf9",
+      "source_page_number": 302,
+      "assigned_split": "development",
+      "primary_stratum": "native_control",
+      "additional_strata": [
+        "merged_hierarchical_header",
+        "rotated_or_mixed_layout"
+      ],
+      "annotation_status": "unannotated",
+      "counts_toward_target": false
+    },
+    {
+      "candidate_id": "shenhua-2024-p260-landscape",
+      "challenge_page_number": 4,
+      "document_key": "cninfo:601088:annual:2024",
+      "source_file": "data/artifacts/cninfo/601088_2024_1222870380.pdf",
+      "source_sha256": "4b3a8db26ae2fb07083966fadea0f92535cfbe6d0791c3318c6511113b138e8f",
+      "source_page_number": 260,
+      "assigned_split": "development",
+      "primary_stratum": "rotated_or_mixed_layout",
+      "additional_strata": [
+        "merged_hierarchical_header",
+        "native_control"
+      ],
+      "annotation_status": "unannotated",
+      "counts_toward_target": false
+    }
+  ]
+}

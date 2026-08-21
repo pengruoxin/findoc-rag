@@ -12,6 +12,18 @@ services:
       # Scope routing is pure logic with no model dependency, so the workspace
       # can demonstrate statement-scope filtering out of the box.
       FINDOC_RAG_SCOPE_ROUTING_ENABLED: "true"
-      # Remote answer generation stays off; the demo runs fully offline.
-      # To enable it, set DEEPSEEK_API_KEY and FINDOC_RAG_ANSWER_ENABLED=true.
+      FINDOC_RAG_INGESTION_ENABLED: "true"
+      FINDOC_RAG_UPLOAD_ROOT: /app/data/runtime/uploads
+      FINDOC_RAG_REGISTRY_PATH: /app/data/runtime/catalog/registry.sqlite3
+      FINDOC_RAG_STORAGE_DIR: /app/data/runtime/catalog/versions
+      FINDOC_RAG_CORPUS_INDEX_ROOT: /app/data/runtime/indexes/corpus
+      FINDOC_RAG_AGENT_TASK_DIR: /app/data/runtime/agent/tasks
+      FINDOC_RAG_HUMAN_REVIEW_DIR: /app/data/runtime/agent/reviews
+      # Provider keys are entered per browser tab and forwarded only for the
+      # current request; they are not written to the container filesystem.
+    volumes:
+      - findoc-runtime:/app/data/runtime
     restart: unless-stopped
+
+volumes:
+  findoc-runtime:

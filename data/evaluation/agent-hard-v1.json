@@ -1,0 +1,397 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v1",
+  "description": "面向 PDF Agentic RAG 的困难集；允许首轮低分，用于定位结构提取、证据可达性、口径规划、计算和拒答缺陷。",
+  "index_scope": "benchmark-v3",
+  "source_manifest": "data/evaluation/benchmark-v3-source-manifest.json",
+  "gold_policy": "答案来自官方 PDF 原页；跨页表 7 条底层标注已由工作区用户复核，其余条目由助手逐页渲染并视觉核对。模型不参与 gold 生成或评分。",
+  "cases": [
+    {
+      "case_id": "haier_lease_cross_page_reconciliation",
+      "task_type": "calculate",
+      "query": "核对海尔智家2024年使用权资产：账面原值期末余额合计减累计折旧期末余额合计，是否等于期末账面价值合计？列出三个原值并给出差额。",
+      "challenge_types": [
+        "cross_page_table",
+        "horizontal_continuation",
+        "section_state_carry",
+        "arithmetic_reconciliation"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "original_closing_total",
+          "description": "账面原值期末余额合计",
+          "acceptable_values": ["9,158,716,606.73", "9158716606.73"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "depreciation_closing_total",
+          "description": "累计折旧期末余额合计",
+          "acceptable_values": ["3,316,847,042.37", "3316847042.37"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "carrying_closing_total",
+          "description": "期末账面价值合计",
+          "acceptable_values": ["5,841,869,564.36", "5841869564.36"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "reconciliation_difference",
+          "description": "勾稽差额",
+          "acceptable_values": ["0", "0.00", "无差额", "相等"],
+          "unit": "元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600690:annual:2024",
+          "local_file": "data/artifacts/cninfo/600690_2024_1222926246.pdf",
+          "pages": [185, 186]
+        }
+      ],
+      "gold_rationale": "第185页给出账面原值期末合计9,158,716,606.73；第186页延续累计折旧并给出期末合计3,316,847,042.37及期末账面价值5,841,869,564.36。前两者相减与后者完全相等。",
+      "annotation_status": "human_verified_source_facts"
+    },
+    {
+      "case_id": "haier_lease_depreciation_section_carry",
+      "task_type": "extract",
+      "query": "海尔智家2024年使用权资产表中，累计折旧的期末余额合计是多少？不要误取账面原值的同名行。",
+      "challenge_types": [
+        "cross_page_table",
+        "repeated_row_label",
+        "section_state_carry",
+        "near_miss_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "depreciation_closing_total",
+          "description": "累计折旧期末余额合计",
+          "acceptable_values": ["3,316,847,042.37", "3316847042.37"],
+          "unit": "元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600690:annual:2024",
+          "local_file": "data/artifacts/cninfo/600690_2024_1222926246.pdf",
+          "pages": [185, 186]
+        }
+      ],
+      "gold_rationale": "“二、累计折旧”标题位于第185页底部，数值行续到第186页；正确值为3,316,847,042.37，不是同表账面原值的9,158,716,606.73。",
+      "annotation_status": "human_verified_source_facts"
+    },
+    {
+      "case_id": "shenhua_2023_equity_graph_relationships",
+      "task_type": "calculate",
+      "query": "根据中国神华2023年报权益结构图，H股股东、国家能源投资集团有限责任公司、其他A股股东的持股比例分别是多少？三者合计是否为100%？",
+      "challenge_types": [
+        "visual_diagram",
+        "relationship_reconstruction",
+        "flattened_text_ambiguity",
+        "arithmetic_reconciliation"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "h_shareholders",
+          "description": "H股股东持股比例",
+          "acceptable_values": ["17.00%", "17%"],
+          "unit": "%"
+        },
+        {
+          "fact_id": "chn_energy",
+          "description": "国家能源投资集团持股比例",
+          "acceptable_values": ["69.52%"],
+          "unit": "%"
+        },
+        {
+          "fact_id": "other_a",
+          "description": "其他A股股东持股比例",
+          "acceptable_values": ["13.48%"],
+          "unit": "%"
+        },
+        {
+          "fact_id": "shareholder_total",
+          "description": "三类股东合计",
+          "acceptable_values": ["100%", "100.00%", "等于100%"],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601088:annual:2023",
+          "local_file": "data/artifacts/cninfo/601088_2023_1219390021.pdf",
+          "pages": [306]
+        }
+      ],
+      "gold_rationale": "第306页权益结构图左侧三条连线分别标注17.00%、69.52%、13.48%，合计100.00%。扁平文本层保留字符但不保留连线关系。",
+      "annotation_status": "assistant_visual_verified"
+    },
+    {
+      "case_id": "haier_2024_scope_collision",
+      "task_type": "compare",
+      "query": "比较海尔智家2024年合并口径营业收入与母公司口径营业收入，并计算两者差额。",
+      "challenge_types": [
+        "scope_collision",
+        "same_label_different_statement",
+        "long_document_retrieval",
+        "arithmetic_difference"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "scope:海尔智家:consolidated:year:2024",
+        "scope:海尔智家:parent:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "consolidated_revenue",
+          "description": "合并口径营业收入",
+          "acceptable_values": ["285,981,225,203.93", "285981225203.93"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "parent_revenue",
+          "description": "母公司口径营业收入",
+          "acceptable_values": ["494,626,718.01", "494626718.01"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "scope_difference",
+          "description": "两种口径营业收入差额",
+          "acceptable_values": ["285,486,598,485.92", "285486598485.92"],
+          "unit": "元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600690:annual:2024",
+          "local_file": "data/artifacts/cninfo/600690_2024_1222926246.pdf",
+          "pages": [10, 246]
+        }
+      ],
+      "gold_rationale": "第10页主要会计数据为合并口径285,981,225,203.93元；第246页母公司财务报表注释合计收入为494,626,718.01元；差额285,486,598,485.92元。",
+      "annotation_status": "assistant_visual_verified"
+    },
+    {
+      "case_id": "haier_2024_restatement_provenance",
+      "task_type": "compare",
+      "query": "海尔智家2024年报对2023年营业收入给出了调整前和调整后两个数。比较这两个数并计算调整增加额，证据必须来自2024年报。",
+      "challenge_types": [
+        "restatement",
+        "fact_year_document_year_mismatch",
+        "same_period_multiple_values",
+        "provenance_constraint"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "fact:海尔智家:revenue:year:2023:as_reported",
+        "fact:海尔智家:revenue:year:2023:restated_in_2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023_before",
+          "description": "2023年营业收入调整前",
+          "acceptable_values": ["261,427,783,050.10", "261427783050.10"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "revenue_2023_after",
+          "description": "2023年营业收入调整后",
+          "acceptable_values": ["274,204,520,847.97", "274204520847.97"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "revenue_restatement_increase",
+          "description": "调整增加额",
+          "acceptable_values": ["12,776,737,797.87", "12776737797.87"],
+          "unit": "元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600690:annual:2024",
+          "local_file": "data/artifacts/cninfo/600690_2024_1222926246.pdf",
+          "pages": [10]
+        }
+      ],
+      "gold_rationale": "第10页同一行明确并列2023年调整后274,204,520,847.97与调整前261,427,783,050.10；差额12,776,737,797.87。事实年度是2023，但证据文档年度是2024。",
+      "annotation_status": "assistant_visual_verified"
+    },
+    {
+      "case_id": "cypc_2024_restatement_growth_basis",
+      "task_type": "compare",
+      "query": "长江电力2024年营业收入同比增长8.12%的比较基数是2023年调整前还是调整后？列出2024数、两种2023数及调整差额。",
+      "challenge_types": [
+        "restatement",
+        "growth_basis",
+        "cross_document_conflict",
+        "false_premise_resistance"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:长江电力:year:2024",
+        "company:长江电力:year:2023"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": ["84,491,870,566.52", "84491870566.52"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "revenue_2023_after",
+          "description": "2023年营业收入调整后",
+          "acceptable_values": ["78,143,535,736.10", "78143535736.10"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "revenue_2023_before",
+          "description": "2023年营业收入调整前",
+          "acceptable_values": ["78,111,573,265.75", "78111573265.75"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "revenue_restatement_increase",
+          "description": "2023年调整增加额",
+          "acceptable_values": ["31,962,470.35", "31962470.35"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "growth_rate",
+          "description": "2024年同比增幅",
+          "acceptable_values": ["8.12%", "8.12"],
+          "unit": "%"
+        },
+        {
+          "fact_id": "growth_basis",
+          "description": "同比基数口径",
+          "acceptable_values": ["调整后", "2023年调整后数"],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600900:annual:2023",
+          "local_file": "data/artifacts/cninfo/600900_2023_1219922588.pdf",
+          "pages": [6]
+        },
+        {
+          "document_key": "cninfo:600900:annual:2024",
+          "local_file": "data/artifacts/cninfo/600900_2024_1223421172.pdf",
+          "pages": [5]
+        }
+      ],
+      "gold_rationale": "2023年报第6页为78,111,573,265.75；2024年报第5页并列调整后78,143,535,736.10和调整前78,111,573,265.75，并明确同比8.12%。同比采用调整后基数。",
+      "annotation_status": "assistant_visual_verified"
+    },
+    {
+      "case_id": "four_target_adjusted_revenue_compare",
+      "task_type": "compare",
+      "query": "比较海尔智家和长江电力2023年、2024年营业收入；2023年统一采用各自2024年报披露的调整后比较数，并判断哪家公司2024年同比增幅更高。",
+      "challenge_types": [
+        "multi_company",
+        "multi_year",
+        "target_completeness",
+        "fact_year_document_year_mismatch",
+        "restated_comparative_policy"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:海尔智家:year:2023",
+        "company:海尔智家:year:2024",
+        "company:长江电力:year:2023",
+        "company:长江电力:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "haier_2023_after",
+          "description": "海尔智家2023年调整后营业收入",
+          "acceptable_values": ["274,204,520,847.97", "274204520847.97"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "haier_2024",
+          "description": "海尔智家2024年营业收入",
+          "acceptable_values": ["285,981,225,203.93", "285981225203.93"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "haier_growth",
+          "description": "海尔智家2024年同比增幅",
+          "acceptable_values": ["4.29%", "4.29"],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cypc_2023_after",
+          "description": "长江电力2023年调整后营业收入",
+          "acceptable_values": ["78,143,535,736.10", "78143535736.10"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "cypc_2024",
+          "description": "长江电力2024年营业收入",
+          "acceptable_values": ["84,491,870,566.52", "84491870566.52"],
+          "unit": "元"
+        },
+        {
+          "fact_id": "cypc_growth",
+          "description": "长江电力2024年同比增幅",
+          "acceptable_values": ["8.12%", "8.12"],
+          "unit": "%"
+        },
+        {
+          "fact_id": "higher_growth_company",
+          "description": "同比增幅更高的公司",
+          "acceptable_values": ["长江电力"],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600690:annual:2024",
+          "local_file": "data/artifacts/cninfo/600690_2024_1222926246.pdf",
+          "pages": [10]
+        },
+        {
+          "document_key": "cninfo:600900:annual:2024",
+          "local_file": "data/artifacts/cninfo/600900_2024_1223421172.pdf",
+          "pages": [5]
+        }
+      ],
+      "gold_rationale": "两家公司的2023调整后数及2024数都应取自各自2024年报的主要会计数据表；4.29%小于8.12%，因此长江电力更高。",
+      "annotation_status": "assistant_visual_verified"
+    },
+    {
+      "case_id": "haier_future_actual_refusal",
+      "task_type": "compare",
+      "query": "只依据海尔智家2024年报，比较其2024年与2025年实际营业收入。若2025年实际数未披露，必须明确拒答，不能用目标、预测或外部知识代替。",
+      "challenge_types": [
+        "unanswerable",
+        "future_actual",
+        "false_premise",
+        "safe_abstention"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [
+        "company:海尔智家:year:2024",
+        "company:海尔智家:year:2025"
+      ],
+      "expected_facts": [],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600690:annual:2024",
+          "local_file": "data/artifacts/cninfo/600690_2024_1222926246.pdf",
+          "pages": []
+        }
+      ],
+      "gold_rationale": "2024年报在2025年3月发布，不包含2025完整年度实际营业收入。任何具体2025实际数都超出给定证据。",
+      "annotation_status": "assistant_source_scope_verified"
+    }
+  ]
+}

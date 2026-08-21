@@ -8,6 +8,7 @@ available. If a project-local ``table_extraction.extract_cells`` exists it is
 used as the text fallback; otherwise a conservative built-in parser covers the
 five regulatory table families used by this module.
 """
+
 from __future__ import annotations
 
 import math
@@ -28,6 +29,8 @@ class ExtractedCell:
     column: str
     value: str
     section: str = ""
+    page_number: int | None = None
+    value_bbox: tuple[float, float, float, float] | None = None
 
 
 @dataclass(frozen=True)
@@ -125,13 +128,12 @@ class _Band:
         return [t for t in self.tokens if not t.numeric]
 
 
-_NUM_RE = re.compile(
-    r"(?<![\w.])[-+−]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?%?(?![\w.])"
-)
+_NUM_RE = re.compile(r"(?<![\w.])[-+−]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?%?(?![\w.])")
 _FULL_NUM_RE = re.compile(r"^[-+−]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?%?$")
 _YEAR_RE = re.compile(r"^(20\d{2})年(?:末)?$")
 _QUARTER_RE = re.compile(r"^第([一二三四])季度$")
-_UNIT_RE = re.compile(r"单位[:：]?\s*(元|万元|亿元)")
+_DECLARED_UNIT_RE = re.compile(r"单位[:：]?\s*(百万元|万元|千元|亿元|元)")
+_PARENTHETICAL_UNIT_RE = re.compile(r"[（(]\s*人民币\s*(百万元|万元|千元|亿元|元)\s*[）)]")
 
 _EXPECTED_COLUMNS: dict[TableType, tuple[str, ...]] = {
     "quarterly": ("第一季度", "第二季度", "第三季度", "第四季度"),
@@ -145,6 +147,9 @@ _EXPECTED_COLUMNS: dict[TableType, tuple[str, ...]] = {
 }
 
 _STANDARD_FINANCE_LABELS = (
+    "归属于母公司股东的扣除非经常性损益后的净利润",
+    "归属于母公司股东的净利润",
+    "归属于母公司股东权益",
     "归属于上市公司股东的扣除非经常性损益后的净利润",
     "归属于上市公司股东的扣除非经常性损益的净利润",
     "归属于上市公司股东的净利润",
@@ -152,16 +157,34 @@ _STANDARD_FINANCE_LABELS = (
     "归属于上市公司股东的净资产",
     "营业收入",
     "总资产",
+    "总负债",
+    "股东权益",
     "股本",
 )
 
 _HEADER_FRAGMENTS = {
-    "项目", "收入", "成本", "本期发生额", "上期发生额",
-    "分行业", "分产品", "分地区", "销售模式",
-    "营业收入", "营业成本", "毛利率",
-    "营业收入比", "营业成本比", "毛利率比",
-    "上年增减", "上年增减（%）", "上年增减(%)",
-    "减（%）", "（%）", "(%)", "%",
+    "项目",
+    "收入",
+    "成本",
+    "本期发生额",
+    "上期发生额",
+    "分行业",
+    "分产品",
+    "分地区",
+    "销售模式",
+    "营业收入",
+    "营业成本",
+    "毛利率",
+    "营业收入比",
+    "营业成本比",
+    "毛利率比",
+    "上年增减",
+    "上年增减（%）",
+    "上年增减(%)",
+    "减（%）",
+    "（%）",
+    "(%)",
+    "%",
 }
 _SECTION_PATTERNS = (
     ("分行业", re.compile(r"主营业务分行业情况")),
@@ -180,7 +203,10 @@ _REGION_MARKERS: dict[TableType, str] = {
 
 _REGION_END_MARKERS: dict[TableType, tuple[str, ...]] = {
     "quarterly": ("季度数据与已披露",),
-    "note_cost": ("注：", "注:",),
+    "note_cost": (
+        "注：",
+        "注:",
+    ),
     "segment": ("其他说明", "情况的说明", "报告期内向单个客户"),
     "annual_data": ("报告期末公司前三年",),
     "concentration": ("其他说明",),
@@ -237,9 +263,7 @@ def _is_bold(font: str, flags: int = 0, explicit: object = None) -> bool:
     return bool(flags & 16)
 
 
-def blocks_from_pymupdf_dict(
-    raw: dict | list[dict], page: int = 0
-) -> list[Block]:
+def blocks_from_pymupdf_dict(raw: dict | list[dict], page: int = 0) -> list[Block]:
     """Convert PyMuPDF ``get_text("dict")`` output or block-like dicts.
 
     Unknown/non-text blocks are ignored. Missing font/size/bold metadata is
@@ -337,18 +361,10 @@ def _split_span(span: Span, page: int = 0) -> list[_Token]:
     stripped = normalize_label(text)
     # Year/quarter headers contain digits but are categorical column labels.
     if _YEAR_RE.match(stripped) or _QUARTER_RE.match(stripped):
-        return (
-            [_Token(text.strip(), span.bbox, False, span.text, page)]
-            if text.strip()
-            else []
-        )
+        return [_Token(text.strip(), span.bbox, False, span.text, page)] if text.strip() else []
     matches = list(_NUM_RE.finditer(text))
     if not matches:
-        return (
-            [_Token(text.strip(), span.bbox, False, span.text, page)]
-            if text.strip()
-            else []
-        )
+        return [_Token(text.strip(), span.bbox, False, span.text, page)] if text.strip() else []
 
     x0, y0, x1, y1 = span.bbox
     width = max(0.01, x1 - x0)
@@ -360,28 +376,22 @@ def _split_span(span: Span, page: int = 0) -> list[_Token]:
         return (x0 + width * a / n, y0, x0 + width * b / n, y1)
 
     for m in matches:
-        prefix = text[last:m.start()]
+        prefix = text[last : m.start()]
         if prefix.strip():
             a = last + len(prefix) - len(prefix.lstrip())
             b = m.start() - (len(prefix) - len(prefix.rstrip()))
             if b > a:
-                out.append(
-                    _Token(text[a:b].strip(), bbox_for(a, b), False, span.text, page)
-                )
+                out.append(_Token(text[a:b].strip(), bbox_for(a, b), False, span.text, page))
         raw = m.group(0).strip()
         if raw:
-            out.append(
-                _Token(raw, bbox_for(m.start(), m.end()), True, span.text, page)
-            )
+            out.append(_Token(raw, bbox_for(m.start(), m.end()), True, span.text, page))
         last = m.end()
     suffix = text[last:]
     if suffix.strip():
         a = last + len(suffix) - len(suffix.lstrip())
         b = len(text) - (len(suffix) - len(suffix.rstrip()))
         if b > a:
-            out.append(
-                _Token(text[a:b].strip(), bbox_for(a, b), False, span.text, page)
-            )
+            out.append(_Token(text[a:b].strip(), bbox_for(a, b), False, span.text, page))
     return out
 
 
@@ -408,34 +418,44 @@ def _is_anchor_candidate(token: _Token) -> bool:
 
 
 def _is_prose_label(label: str) -> bool:
-    return any(marker in label for marker in _PROSE_MARKERS) or bool(
-        re.search(r"20\d{2}", label)
-    )
+    return any(marker in label for marker in _PROSE_MARKERS) or bool(re.search(r"20\d{2}", label))
 
 
-def cluster_row_bands(tokens: Sequence[_Token], gap_factor: float = 0.28) -> list[_Band]:
-    """Cluster tokens by overlapping/nearby y intervals.
+def cluster_row_bands(
+    tokens: Sequence[_Token],
+    gap_factor: float = 0.28,
+    *,
+    center_only: bool = False,
+) -> list[_Band]:
+    """Cluster tokens by visual baseline without merging adjacent data rows.
 
-    Transitive overlap is intentional: a value centered between two wrapped
-    label lines can bridge them into one logical row band.
+    Dense designed tables can have glyph boxes from neighboring rows that
+    slightly overlap. Interval-transitive clustering therefore collapses an
+    entire table into one row. Center-line clustering keeps those rows apart;
+    wrapped label-only lines are reattached later by
+    :func:`_nearest_pending_label`.
     """
     if not tokens:
         return []
     heights = sorted(t.height for t in tokens)
     median_h = heights[len(heights) // 2]
+    center_tolerance = max(1.5, median_h * 0.45)
     gap = max(1.0, median_h * gap_factor)
 
-    ordered = sorted(tokens, key=lambda t: (t.y0, t.y1, t.x0))
+    ordered = sorted(tokens, key=lambda t: (t.page, t.yc, t.x0))
     bands: list[_Band] = []
     for tok in ordered:
         candidates: list[tuple[float, int]] = []
         for i, band in enumerate(bands):
             if band.page != tok.page:
                 continue
+            center_delta = abs(tok.yc - band.yc)
             overlap = min(tok.y1, band.y1) - max(tok.y0, band.y0)
             near = max(tok.y0, band.y0) - min(tok.y1, band.y1)
-            if overlap >= -gap or near <= gap:
-                candidates.append((abs(tok.yc - band.yc), i))
+            if (center_only and center_delta <= center_tolerance) or (
+                not center_only and (overlap >= -gap or near <= gap)
+            ):
+                candidates.append((center_delta, i))
         if candidates:
             _, i = min(candidates)
             band = bands[i]
@@ -445,25 +465,96 @@ def cluster_row_bands(tokens: Sequence[_Token], gap_factor: float = 0.28) -> lis
         else:
             bands.append(_Band([tok], tok.y0, tok.y1, tok.page))
 
-    # Merge overlapping bands created before a bridging token arrived.
-    changed = True
-    while changed:
-        changed = False
-        bands.sort(key=lambda b: b.y0)
-        merged: list[_Band] = []
-        for b in bands:
-            if merged and b.page == merged[-1].page and b.y0 <= merged[-1].y1 + gap:
-                prev = merged[-1]
-                prev.tokens.extend(b.tokens)
-                prev.y0 = min(prev.y0, b.y0)
-                prev.y1 = max(prev.y1, b.y1)
-                changed = True
-            else:
-                merged.append(b)
-        bands = merged
+    if not center_only:
+        changed = True
+        while changed:
+            changed = False
+            bands.sort(key=lambda band: (band.page, band.y0, band.y1))
+            merged: list[_Band] = []
+            for band in bands:
+                if merged and band.page == merged[-1].page and band.y0 <= merged[-1].y1 + gap:
+                    previous = merged[-1]
+                    previous.tokens.extend(band.tokens)
+                    previous.y0 = min(previous.y0, band.y0)
+                    previous.y1 = max(previous.y1, band.y1)
+                    changed = True
+                else:
+                    merged.append(band)
+            bands = merged
+    bands.sort(key=lambda band: (band.page, band.y0, band.y1))
     for band in bands:
         band.tokens.sort(key=lambda t: (t.y0, t.x0))
+        band.tokens = _coalesce_fragmented_numbers(band.tokens)
     return bands
+
+
+def _coalesce_fragmented_numbers(tokens: Sequence[_Token]) -> list[_Token]:
+    """Join PDF spans such as ``360`` ``,`` ``403`` into one value token.
+
+    Some designed annual reports draw every thousands group and punctuation
+    mark as a separate PDF span.  Treating those spans as separate columns
+    destroys both the value and the header alignment.  Only punctuation-led,
+    tightly adjacent runs are joined; bare neighboring integers (for example
+    a year followed by a month) remain separate.
+    """
+
+    ordered = sorted(tokens, key=lambda token: (token.x0, token.y0))
+    output: list[_Token] = []
+    index = 0
+    punctuation = {",", "."}
+    while index < len(ordered):
+        token = ordered[index]
+        if not token.numeric:
+            output.append(token)
+            index += 1
+            continue
+        parts = [token]
+        cursor = index + 1
+        while cursor + 1 < len(ordered):
+            separator = ordered[cursor]
+            following = ordered[cursor + 1]
+            height = max(token.height, following.height)
+            horizontal_gap = max(
+                0.0,
+                separator.x0 - parts[-1].x1,
+                following.x0 - separator.x1,
+            )
+            vertically_aligned = abs(token.yc - following.yc) <= max(1.5, height * 0.35)
+            if (
+                separator.text.strip() in punctuation
+                and following.numeric
+                and separator.page == token.page == following.page
+                and vertically_aligned
+                and horizontal_gap <= max(3.0, height * 0.45)
+            ):
+                parts.extend((separator, following))
+                cursor += 2
+                continue
+            break
+        if len(parts) == 1:
+            output.append(token)
+            index += 1
+            continue
+        text = "".join(part.text.strip() for part in parts)
+        if not _FULL_NUM_RE.fullmatch(text):
+            output.extend(parts)
+        else:
+            output.append(
+                _Token(
+                    text=text,
+                    bbox=(
+                        min(part.x0 for part in parts),
+                        min(part.y0 for part in parts),
+                        max(part.x1 for part in parts),
+                        max(part.y1 for part in parts),
+                    ),
+                    numeric=True,
+                    source_text="".join(part.source_text for part in parts),
+                    page=token.page,
+                )
+            )
+        index = cursor
+    return sorted(output, key=lambda token: (token.y0, token.x0))
 
 
 def cluster_numeric_columns(tokens: Sequence[_Token]) -> list[float]:
@@ -484,7 +575,7 @@ def cluster_numeric_columns(tokens: Sequence[_Token]) -> list[float]:
 
 
 def detect_unit(text: str) -> str:
-    m = _UNIT_RE.search(text)
+    m = _DECLARED_UNIT_RE.search(text) or _PARENTHETICAL_UNIT_RE.search(text)
     return m.group(1) if m else ""
 
 
@@ -515,10 +606,74 @@ def _header_positions(tokens: Sequence[_Token], table_type: TableType) -> dict[s
         canon = _canonical_header(t.text, table_type)
         if canon:
             out.setdefault(canon, []).append(t.xc)
+    if table_type == "annual_data":
+        # Designed reports often split ``2023年`` into a numeric span and a
+        # one-character 年 span. Recover the categorical header without
+        # merging bare neighboring numbers such as 12 and 31 in dates.
+        for token in tokens:
+            if not token.numeric or not re.fullmatch(r"20\d{2}", token.text):
+                continue
+            year_suffixes = [
+                other
+                for other in tokens
+                if other.page == token.page
+                and normalize_label(other.text) == "年"
+                and abs(other.yc - token.yc) <= max(2.0, token.height * 0.45)
+                and token.x1 - 1.0 <= other.x0 <= token.x1 + 8.0
+            ]
+            if year_suffixes:
+                out.setdefault(f"{token.text}年", []).append(token.xc)
+
+        # A restated comparative year has two distinct source columns. Keep
+        # both labels explicit so the Agent cannot silently answer with the
+        # pre-adjustment value when the report also provides an adjusted one.
+        year_positions = {
+            name: sum(values) / len(values)
+            for name, values in out.items()
+            if re.fullmatch(r"20\d{2}年", name)
+        }
+        adjusted: dict[str, list[float]] = {}
+        adjusted_years: set[str] = set()
+        adjustment_tokens = [
+            token for token in tokens if normalize_label(token.text) in {"调整前", "调整后"}
+        ]
+        # Only a year with an explicit 调整前 column can own a pair of
+        # restatement columns. This prevents a separate 同比/较年初变动 column
+        # labeled 调整后 from being attached to the oldest year header.
+        for token in adjustment_tokens:
+            if normalize_label(token.text) != "调整前" or not year_positions:
+                continue
+            year, distance = min(
+                ((name, abs(token.xc - position)) for name, position in year_positions.items()),
+                key=lambda item: item[1],
+            )
+            if distance <= 70.0:
+                adjusted_years.add(year)
+        for token in adjustment_tokens:
+            label = normalize_label(token.text)
+            if not adjusted_years:
+                continue
+            year, distance = min(
+                (
+                    (name, abs(token.xc - position))
+                    for name, position in year_positions.items()
+                    if name in adjusted_years
+                ),
+                key=lambda item: item[1],
+            )
+            if distance > 70.0:
+                continue
+            adjusted.setdefault(f"{year}{label}", []).append(token.xc)
+            adjusted_years.add(year)
+        for year in adjusted_years:
+            out.pop(year, None)
+        out.update(adjusted)
     # note_cost usually has two-level headers; infer by x order of the four
     # leaf words only when they are explicit spans.
     if table_type == "note_cost":
-        income_cost = [t for t in tokens if not t.numeric and normalize_label(t.text) in ("收入", "成本")]
+        income_cost = [
+            t for t in tokens if not t.numeric and normalize_label(t.text) in ("收入", "成本")
+        ]
         if len(income_cost) >= 4:
             ordered = sorted(income_cost, key=lambda t: t.xc)
             for name, tok in zip(_EXPECTED_COLUMNS["note_cost"], ordered[:4]):
@@ -528,12 +683,9 @@ def _header_positions(tokens: Sequence[_Token], table_type: TableType) -> dict[s
 
 def _annual_columns_from_text(text: str) -> tuple[str, ...]:
     """Return the first three distinct annual headers in document order."""
-    return tuple(
-        dict.fromkeys(
-            f"{year}年"
-            for year in re.findall(r"(20\d{2})\s*年(?:末)?", text)
-        )
-    )[:3]
+    return tuple(dict.fromkeys(f"{year}年" for year in re.findall(r"(20\d{2})\s*年(?:末)?", text)))[
+        :3
+    ]
 
 
 def _section_at_y(tokens: Sequence[_Token], page: int, y: float) -> str:
@@ -576,9 +728,7 @@ def _is_region_boundary(text: str, table_type: TableType) -> bool:
     return bool(_HEADING_START.match(s))
 
 
-def _is_split_heading_boundary(
-    tokens: Sequence[_Token], index: int, table_type: TableType
-) -> bool:
+def _is_split_heading_boundary(tokens: Sequence[_Token], index: int, table_type: TableType) -> bool:
     """Detect headings split into separate number and ')' spans."""
     token = tokens[index]
     if not token.numeric or not re.fullmatch(r"\d{1,3}", token.text):
@@ -588,9 +738,7 @@ def _is_split_heading_boundary(
             break
         if other.y0 > token.y1 + 2.0:
             break
-        if not other.numeric and normalize_label(other.text).startswith(
-            (")", "）")
-        ):
+        if not other.numeric and normalize_label(other.text).startswith((")", "）")):
             return True
     return False
 
@@ -615,8 +763,7 @@ def _localize_tokens(
         region_matches = [
             t
             for t in candidates
-            if norm_region in normalize_label(t.text)
-            and _is_anchor_candidate(t)
+            if norm_region in normalize_label(t.text) and _is_anchor_candidate(t)
         ]
         anchor = max(region_matches, key=lambda t: (t.y0, t.x0), default=None)
     if anchor is None:
@@ -625,12 +772,9 @@ def _localize_tokens(
             marker_matches = [
                 t
                 for t in candidates
-                if marker in normalize_label(t.text)
-                and _is_anchor_candidate(t)
+                if marker in normalize_label(t.text) and _is_anchor_candidate(t)
             ]
-            anchor = max(
-                marker_matches, key=lambda t: (t.y0, t.x0), default=None
-            )
+            anchor = max(marker_matches, key=lambda t: (t.y0, t.x0), default=None)
     if anchor is None:
         return list(tokens)
 
@@ -666,16 +810,15 @@ def _label_from_band(
     table_type: TableType,
 ) -> str:
     parts = [
-        t for t in band.text_tokens
+        t
+        for t in band.text_tokens
         if t.x0 < first_numeric_x and not _is_headerish(t.text, table_type)
     ]
     if not parts and len(band.numeric_tokens) >= 3:
         # Column names can double as row labels (e.g. 营业收入 in quarterly);
         # when the band clearly carries a numeric row, trust the geometry.
         parts = [
-            t
-            for t in band.text_tokens
-            if t.x0 < first_numeric_x and not _is_prose_label(t.text)
+            t for t in band.text_tokens if t.x0 < first_numeric_x and not _is_prose_label(t.text)
         ]
     if not parts:
         return ""
@@ -693,7 +836,7 @@ def _nearest_pending_label(
     pieces: list[str] = []
     current_y = bands[i].y0
     heights = [t.height for b in bands for t in b.tokens]
-    median_h = sorted(heights)[len(heights)//2] if heights else 9.0
+    median_h = sorted(heights)[len(heights) // 2] if heights else 9.0
     max_gap = max(3.0, median_h * 1.45)
     j = i - 1
     while j >= 0:
@@ -731,14 +874,14 @@ def _repair_quarterly_labels(cells: list[ExtractedCell]) -> list[ExtractedCell]:
         for canonical in _QUARTERLY_ROW_LABELS:
             if not canonical.startswith(compact) or canonical == compact:
                 continue
-            suffix = canonical[len(compact):]
+            suffix = canonical[len(compact) :]
             for other in order:
                 if other == row:
                     continue
                 other_compact = normalize_label(other)
                 if other_compact.startswith(suffix):
                     relabel[row] = canonical
-                    remainder = other[len(suffix):]
+                    remainder = other[len(suffix) :]
                     if remainder:
                         relabel[other] = remainder
                     else:
@@ -756,6 +899,8 @@ def _repair_quarterly_labels(cells: list[ExtractedCell]) -> list[ExtractedCell]:
                     column=cell.column,
                     value=cell.value,
                     section=cell.section,
+                    page_number=cell.page_number,
+                    value_bbox=cell.value_bbox,
                 )
             )
     return out
@@ -769,9 +914,7 @@ def _assign_columns(
 ) -> list[tuple[str, _Token]]:
     ordered = sorted(nums, key=lambda t: t.xc)
     expected = (
-        [name for name, _ in sorted(header_pos.items(), key=lambda item: item[1])][
-            :3
-        ]
+        [name for name, _ in sorted(header_pos.items(), key=lambda item: item[1])]
         if table_type == "annual_data"
         else list(_EXPECTED_COLUMNS[table_type])
     )
@@ -791,7 +934,11 @@ def _assign_columns(
         for col in expected:
             if col not in header_pos:
                 continue
-            candidates = [(abs(tok.xc - header_pos[col]), k, tok) for k, tok in enumerate(ordered) if k not in used]
+            candidates = [
+                (abs(tok.xc - header_pos[col]), k, tok)
+                for k, tok in enumerate(ordered)
+                if k not in used
+            ]
             if not candidates:
                 continue
             _, k, tok = min(candidates)
@@ -850,9 +997,10 @@ def reconstruct_cells(
     if not nums_all or not text_all:
         return extract_cells(text, table_type)
 
-    bands = cluster_row_bands(tokens)
-    header_pos = _header_positions(tokens, table_type)
-    global_cols = cluster_numeric_columns(tokens)
+    bands = cluster_row_bands(tokens, center_only=table_type == "annual_data")
+    coalesced_tokens = [token for band in bands for token in band.tokens]
+    header_pos = _header_positions(coalesced_tokens, table_type)
+    global_cols = cluster_numeric_columns(coalesced_tokens)
 
     out: list[ExtractedCell] = []
     for i, band in enumerate(bands):
@@ -867,13 +1015,21 @@ def reconstruct_cells(
         if not label:
             continue
 
+        if table_type == "annual_data" and label not in _STANDARD_FINANCE_LABELS:
+            continue
+        if table_type == "note_cost" and label not in {
+            "主营业务",
+            "其他业务",
+            "合计",
+        }:
+            continue
+
         # Reject sentence-like prose and growth annotations as row labels.
         if (
             len(label) > 80
             or _is_prose_label(label)
             or any(
-                k in label
-                for k in ("个百分点", "适用", "不适用", "年度销售总额", "年度采购总额")
+                k in label for k in ("个百分点", "适用", "不适用", "年度销售总额", "年度采购总额")
             )
         ):
             continue
@@ -883,14 +1039,23 @@ def reconstruct_cells(
             value = normalize_value(tok.text.rstrip("%"))
             if value:
                 section = (
-                    _section_at_y(tokens, band.page, band.y0)
-                    if table_type == "segment"
-                    else ""
+                    _section_at_y(tokens, band.page, band.y0) if table_type == "segment" else ""
                 )
-                out.append(ExtractedCell(row=label, column=column, value=value, section=section))
+                out.append(
+                    ExtractedCell(
+                        row=label,
+                        column=column,
+                        value=value,
+                        section=section,
+                        page_number=tok.page if tok.page >= 1 else None,
+                        value_bbox=tok.bbox if tok.page >= 1 else None,
+                    )
+                )
 
     # Geometry can be too sparse (e.g. block-level only or no row labels).
-    min_expected = {"quarterly": 2, "note_cost": 2, "segment": 2, "annual_data": 2}.get(table_type, 1)
+    min_expected = {"quarterly": 2, "note_cost": 2, "segment": 2, "annual_data": 2}.get(
+        table_type, 1
+    )
     if len(out) < min_expected:
         fallback = extract_cells(text, table_type)
         if fallback:
@@ -951,7 +1116,7 @@ def select_table_cells(
 
     reasons: list[str] = []
     expected_columns = (
-        set(_annual_columns_from_text(text))
+        {cell.column for cell in coordinate_cells}
         if table_type == "annual_data"
         else set(_EXPECTED_COLUMNS[table_type])
     )
@@ -969,9 +1134,7 @@ def select_table_cells(
             key for key, columns in columns_by_row.items() if expected_columns <= columns
         }
         filtered = [
-            cell
-            for cell in supported
-            if (cell.section, normalize_label(cell.row)) in complete_rows
+            cell for cell in supported if (cell.section, normalize_label(cell.row)) in complete_rows
         ]
         incomplete_count = len(supported) - len(filtered)
         if incomplete_count:
@@ -999,7 +1162,10 @@ def select_table_cells(
     structural_reasons: list[str] = []
     if not _has_table_header(text, table_type):
         structural_reasons.append("missing_table_header")
-    if table_type not in {"concentration"} and not detect_unit(text):
+    has_structural_unit = bool(_DECLARED_UNIT_RE.search(text)) or (
+        table_type == "annual_data" and bool(_PARENTHETICAL_UNIT_RE.search(text))
+    )
+    if table_type not in {"concentration"} and not has_structural_unit:
         structural_reasons.append("missing_unit")
     if not safe:
         structural_reasons.append("no_safe_coordinate_rows")
@@ -1043,6 +1209,7 @@ def merge_pages(tables: Sequence[Sequence[ExtractedCell]]) -> list[ExtractedCell
 # Conservative text fallback
 # ---------------------------
 
+
 def _clean_lines(text: str) -> list[str]:
     return [ln.strip() for ln in text.replace("\r", "\n").split("\n") if ln.strip()]
 
@@ -1064,6 +1231,8 @@ def _coerce_external_cells(cells: Iterable[object]) -> list[ExtractedCell]:
                 column=str(c.column),
                 value=str(c.value),
                 section=str(getattr(c, "section", "") or ""),
+                page_number=getattr(c, "page_number", None),
+                value_bbox=getattr(c, "value_bbox", None),
             )
         )
     return out
@@ -1077,7 +1246,7 @@ def _find_label_segments(text: str, labels: Sequence[str]) -> list[tuple[int, in
         for m in pattern.finditer(text):
             found.append((m.start(), m.end(), label))
     # Longest label wins at identical starts; discard overlaps from shorter aliases.
-    found.sort(key=lambda x: (x[0], -(x[1]-x[0])))
+    found.sort(key=lambda x: (x[0], -(x[1] - x[0])))
     chosen: list[tuple[int, int, str]] = []
     for f in found:
         if chosen and f[0] < chosen[-1][1]:
@@ -1096,7 +1265,7 @@ def _fallback_quarterly(text: str) -> list[ExtractedCell]:
     positions = _find_label_segments(text, labels)
     out: list[ExtractedCell] = []
     for i, (start, end, label) in enumerate(positions):
-        stop = positions[i+1][0] if i + 1 < len(positions) else len(text)
+        stop = positions[i + 1][0] if i + 1 < len(positions) else len(text)
         segment = text[end:stop]
         vals = [normalize_value(v.rstrip("%")) for v in _numbers_in_line(segment)]
         # Require exactly the row's quartet before the next known row label.
@@ -1128,7 +1297,9 @@ def _fallback_note_cost(text: str) -> list[ExtractedCell]:
             continue
         # Regulatory rows are a short label followed by four monetary values;
         # values can share a physical line in the linearized text.
-        if len(normalize_label(line)) > 20 or line.startswith(("注", "(", "√", "□", "单位", "币种")):
+        if len(normalize_label(line)) > 20 or line.startswith(
+            ("注", "(", "√", "□", "单位", "币种")
+        ):
             i += 1
             continue
         nums: list[str] = []
@@ -1158,8 +1329,8 @@ def _segment_sections(text: str) -> list[tuple[str, str]]:
     hits.sort(key=lambda x: x[0])
     out: list[tuple[str, str]] = []
     for i, (pos, name, m) in enumerate(hits):
-        end = hits[i+1][0] if i + 1 < len(hits) else len(text)
-        out.append((name, text[m.end():end]))
+        end = hits[i + 1][0] if i + 1 < len(hits) else len(text)
+        out.append((name, text[m.end() : end]))
     return out
 
 
@@ -1172,7 +1343,9 @@ def _fallback_segment(text: str) -> list[ExtractedCell]:
         while i < len(lines):
             line = lines[i]
             nums_here = _numbers_in_line(line)
-            if _is_number_line(line) or (nums_here and normalize_label(line) == normalize_label(nums_here[0])):
+            if _is_number_line(line) or (
+                nums_here and normalize_label(line) == normalize_label(nums_here[0])
+            ):
                 # A data row starts when at least three numeric values are
                 # available before the next prose label.
                 nums: list[str] = []
@@ -1189,7 +1362,11 @@ def _fallback_segment(text: str) -> list[ExtractedCell]:
                 label = normalize_label("".join(label_parts))
                 if label and len(nums) >= 3:
                     for col, raw in zip(_EXPECTED_COLUMNS["segment"], nums[:3]):
-                        out.append(ExtractedCell(label, col, normalize_value(raw.rstrip("%")), section=section))
+                        out.append(
+                            ExtractedCell(
+                                label, col, normalize_value(raw.rstrip("%")), section=section
+                            )
+                        )
                 pending = []
                 i = j
                 continue
@@ -1197,7 +1374,9 @@ def _fallback_segment(text: str) -> list[ExtractedCell]:
             s = normalize_label(line)
             if (
                 not _is_headerish(line, "segment")
-                and not s.startswith(("增加", "减少", "个百分点", "√", "□", "单位", "币种", "(", "（"))
+                and not s.startswith(
+                    ("增加", "减少", "个百分点", "√", "□", "单位", "币种", "(", "（")
+                )
                 and not _numbers_in_line(line)
                 and len(s) <= 24
             ):
@@ -1215,7 +1394,7 @@ def _fallback_annual(text: str) -> list[ExtractedCell]:
     positions = _find_label_segments(text, _STANDARD_FINANCE_LABELS)
     out: list[ExtractedCell] = []
     for i, (start, end, label) in enumerate(positions):
-        stop = positions[i+1][0] if i + 1 < len(positions) else len(text)
+        stop = positions[i + 1][0] if i + 1 < len(positions) else len(text)
         segment = text[end:stop]
         vals = [normalize_value(v.rstrip("%")) for v in _numbers_in_line(segment)]
         # Monetary values have decimals; the regulatory YoY percentage is

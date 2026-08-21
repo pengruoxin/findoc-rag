@@ -1,0 +1,143 @@
+{
+  "schema_version": "1",
+  "plan_id": "findoc-rag-benchmark-v3-corpus",
+  "created_at": "2026-08-19T08:39:02.467662+00:00",
+  "registry_document_count": 10,
+  "documents": [
+    {
+      "document_key": "cninfo:600519:annual:2024",
+      "split": "calibration",
+      "version_id": "37c5d9e7b783447402d6ca76",
+      "content_version_id": "8a5a6371c780d9d96cc1b8c9",
+      "content_sha256": "5299f4940e2ce4e91084b73dc457d558b9d335fa76fbfee6227e4254eb7f4a30",
+      "processing_fingerprint": "a69f24d6b923a804124869553747f1a1d12aa55aee98184083f2eab11c06ebf9",
+      "chunk_count": 349,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:600887:annual:2024",
+      "split": "calibration",
+      "version_id": "1e69fd54766e11050b8dbeff",
+      "content_version_id": "c99ddb0e56954b29366beed1",
+      "content_sha256": "a82a81e52f52da3cd1b7f38ded08625dc18e3d4522b15d3ef76bf921e54c1f43",
+      "processing_fingerprint": "a69f24d6b923a804124869553747f1a1d12aa55aee98184083f2eab11c06ebf9",
+      "chunk_count": 609,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:000333:annual:2023",
+      "split": "dev",
+      "version_id": "ccc99847269293697f0ff8ff",
+      "content_version_id": "054013be5c24afc3f4902749",
+      "content_sha256": "22f4915d91ada74a37eab8d074aef4c15420f3b1a8b5f5bd5777c00f97d58b86",
+      "processing_fingerprint": "a69f24d6b923a804124869553747f1a1d12aa55aee98184083f2eab11c06ebf9",
+      "chunk_count": 501,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:000333:annual:2024",
+      "split": "dev",
+      "version_id": "f9312a06c5a7cd042da7e5e9",
+      "content_version_id": "36e7158b12b69220f9ae4859",
+      "content_sha256": "b17a9b9b84bca1d2a4e4a3cadc5dd5ba5c85e3f1fd2d758acd3315b5b040ecd9",
+      "processing_fingerprint": "a69f24d6b923a804124869553747f1a1d12aa55aee98184083f2eab11c06ebf9",
+      "chunk_count": 497,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:601088:annual:2023",
+      "split": "dev",
+      "version_id": "122da9d3ea64451ed50c9872",
+      "content_version_id": "d762928f25f5649414c51eb1",
+      "content_sha256": "451aaacb1779c2572807a0f25985d8c18db355c2b40f3eef0a673210c9820bf9",
+      "processing_fingerprint": "a69f24d6b923a804124869553747f1a1d12aa55aee98184083f2eab11c06ebf9",
+      "chunk_count": 522,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:601088:annual:2024",
+      "split": "dev",
+      "version_id": "43a30ad567b6dd6bbcd14464",
+      "content_version_id": "7e1d9aeff34311da3a85eab0",
+      "content_sha256": "4b3a8db26ae2fb07083966fadea0f92535cfbe6d0791c3318c6511113b138e8f",
+      "processing_fingerprint": "a69f24d6b923a804124869553747f1a1d12aa55aee98184083f2eab11c06ebf9",
+      "chunk_count": 535,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:600690:annual:2023",
+      "split": "frozen_test",
+      "version_id": "3726a78ebd16b875e7f2cd5b",
+      "content_version_id": "d481de0ba545f300996009bd",
+      "content_sha256": "b6a8748c3a59722fd1dcd302d1ffa83dfdbe4230a1b727d8182699b7cc407570",
+      "processing_fingerprint": "a69f24d6b923a804124869553747f1a1d12aa55aee98184083f2eab11c06ebf9",
+      "chunk_count": 563,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:600690:annual:2024",
+      "split": "frozen_test",
+      "version_id": "dce0bad5e57d6b167a9aae0e",
+      "content_version_id": "96104c0478f447f3b2729dbf",
+      "content_sha256": "cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+      "processing_fingerprint": "a69f24d6b923a804124869553747f1a1d12aa55aee98184083f2eab11c06ebf9",
+      "chunk_count": 574,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:600900:annual:2023",
+      "split": "frozen_test",
+      "version_id": "780e80291f18e1cb469a184b",
+      "content_version_id": "ac6bd5fe0fc36de3ae2a808e",
+      "content_sha256": "a32aa92211f533bef9bd426a29158060d6bed4a31fca6c9f6805fd8659c90d38",
+      "processing_fingerprint": "a69f24d6b923a804124869553747f1a1d12aa55aee98184083f2eab11c06ebf9",
+      "chunk_count": 564,
+      "status": "active"
+    },
+    {
+      "document_key": "cninfo:600900:annual:2024",
+      "split": "frozen_test",
+      "version_id": "80db8e7c064d5539183b0b41",
+      "content_version_id": "668d49bdd2b1626c6dcda983",
+      "content_sha256": "556767ca1f7c06bb679c827aa6522ff9927d2a63dc2ab64b57194fdc57192048",
+      "processing_fingerprint": "a69f24d6b923a804124869553747f1a1d12aa55aee98184083f2eab11c06ebf9",
+      "chunk_count": 547,
+      "status": "active"
+    }
+  ],
+  "indexes": {
+    "calibration": {
+      "index_id": "a66f0caef7dd29101861",
+      "active_version_ids": [
+        "37c5d9e7b783447402d6ca76",
+        "1e69fd54766e11050b8dbeff"
+      ],
+      "chunk_count": 958,
+      "dense_model": null
+    },
+    "development": {
+      "index_id": "c5f61887df54d2be2ce1",
+      "active_version_ids": [
+        "ccc99847269293697f0ff8ff",
+        "f9312a06c5a7cd042da7e5e9",
+        "37c5d9e7b783447402d6ca76",
+        "1e69fd54766e11050b8dbeff",
+        "122da9d3ea64451ed50c9872",
+        "43a30ad567b6dd6bbcd14464"
+      ],
+      "chunk_count": 3013,
+      "dense_model": null
+    },
+    "frozen_test": {
+      "index_id": "7a06388a3bbd4f4c44db",
+      "active_version_ids": [
+        "3726a78ebd16b875e7f2cd5b",
+        "dce0bad5e57d6b167a9aae0e",
+        "780e80291f18e1cb469a184b",
+        "80db8e7c064d5539183b0b41"
+      ],
+      "chunk_count": 2248,
+      "dense_model": null
+    }
+  }
+}

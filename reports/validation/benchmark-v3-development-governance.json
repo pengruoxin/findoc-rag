@@ -1,0 +1,29 @@
+{
+  "policy_id": "agentic-rag-benchmark-v3",
+  "dataset_id": "benchmark-v3-development",
+  "split_strategy": "document_blind",
+  "ready_for_external_claims": false,
+  "blockers": [
+    "frozen_test size 0 is below required 24",
+    "double-reviewed items 0/36; 2 independent approvals are required",
+    "dataset declares independent_gold=false",
+    "dataset status is not human_frozen"
+  ],
+  "warnings": [],
+  "stats": {
+    "item_count": 36,
+    "company_count": 4,
+    "report_year_count": 2,
+    "frozen_test_item_count": 0,
+    "answerable_item_count": 30,
+    "fully_reviewed_item_count": 0,
+    "review_status_counts": {
+      "assistant_verified": 36
+    },
+    "unique_document_count": 6
+  },
+  "document_split_overlaps": [],
+  "company_split_overlaps": [],
+  "entity_period_split_overlaps": [],
+  "family_split_overlaps": []
+}

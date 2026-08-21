@@ -10,6 +10,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from findoc_rag.documents.models import DocumentPage, ParsedDocument
+from findoc_rag.documents.routing import ExtractionRoute, profile_page
 
 
 class PdfQualityConfig(BaseModel):
@@ -37,6 +38,15 @@ class PdfPageQuality(BaseModel):
     likely_image_only: bool
     needs_ocr: bool
     unresolved_ocr: bool
+    image_area_ratio: float = Field(default=0, ge=0, le=1)
+    suspicious_character_ratio: float = Field(default=0, ge=0, le=1)
+    duplicate_text_ratio: float = Field(default=0, ge=0, le=1)
+    extraction_route: ExtractionRoute = "native"
+    native_char_count: int = Field(default=0, ge=0)
+    ocr_char_count: int = Field(default=0, ge=0)
+    ocr_attempted: bool = False
+    ocr_succeeded: bool = False
+    ocr_backend: str | None = None
 
 
 class PdfQualityReport(BaseModel):
@@ -79,10 +89,13 @@ def _page_quality(page: DocumentPage, config: PdfQualityConfig) -> PdfPageQualit
     low_text = character_count < config.low_text_character_threshold
     empty = character_count == 0 and page.image_count == 0
     likely_image_only = low_text and page.image_count > 0
+    profile = profile_page(page)
 
     # A short title, signature, or divider page may retain the parser's legacy
     # needs_ocr=True signal, but is not unresolved unless it is blank or image-led.
-    unresolved_ocr = low_text and (empty or likely_image_only)
+    unresolved_ocr = (low_text and (empty or likely_image_only)) or (
+        page.needs_ocr and page.extraction_route in {"partial_ocr", "full_ocr"}
+    )
 
     return PdfPageQuality(
         page_number=page.page_number,
@@ -96,6 +109,19 @@ def _page_quality(page: DocumentPage, config: PdfQualityConfig) -> PdfPageQualit
         likely_image_only=likely_image_only,
         needs_ocr=page.needs_ocr,
         unresolved_ocr=unresolved_ocr,
+        image_area_ratio=profile.image_area_ratio,
+        suspicious_character_ratio=profile.suspicious_character_ratio,
+        duplicate_text_ratio=profile.duplicate_text_ratio,
+        extraction_route=page.extraction_route,
+        native_char_count=(
+            page.native_character_count
+            if page.native_character_count is not None
+            else character_count
+        ),
+        ocr_char_count=page.ocr_character_count,
+        ocr_attempted=page.ocr_attempted,
+        ocr_succeeded=page.ocr_succeeded,
+        ocr_backend=page.ocr_backend,
     )
 
 

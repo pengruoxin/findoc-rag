@@ -1,0 +1,766 @@
+{
+  "schema_version": "1",
+  "status": "complete",
+  "generated_at": "2026-08-21T03:07:20.840639+00:00",
+  "change_id": "p4d-high-overlap-contract-and-accounting-sign",
+  "change_scope": "Low-complexity extraction claims that diverge from their atomic requirement contract are routed to the verifier. Explicit negative or accounting-parenthesis signs absent from the contract fail closed locally. Required numeric omissions are routed for repair.",
+  "evaluation_scope": "normal calibration + post-hoc dev, corrected known-fault regression, P4-C open-risk regression, and 15 high-overlap label/relation/sign faults; frozen_test sealed",
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "requirement_contract_similarity_review_below": 0.99,
+  "risk_gate_revisions": [
+    "claim-risk-gate-p4d-contract-completeness-v5"
+  ],
+  "verifier_prompt_revisions": [
+    "evidence-verifier-p4d-contract-sign-v8"
+  ],
+  "splits": {
+    "calibration": {
+      "dataset_sha256": "2e6ce78e5acd87ec1e1c54dd6e7193f674ba8445aa7716f7fde5a6212dee2b56",
+      "index_id": "b1879a69987a53b283dc",
+      "before_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9230769230769231,
+        "supported_case_pass_rate": 0.9166666666666666,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "after_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9230769230769231,
+        "supported_case_pass_rate": 0.9166666666666666,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "strict_case_pass_count_before": 22,
+      "strict_case_pass_count_after": 22,
+      "strict_case_pass_count_delta": 0,
+      "risk_gate_statuses": {
+        "pass": 10,
+        "not_applicable": 4
+      },
+      "risk_gate_findings": {},
+      "verifier_decisions": {
+        "accept_original": 10,
+        "not_routed": 4
+      },
+      "incremental_verifier_cost": {
+        "model_requests": 10,
+        "model_input_tokens": 45576,
+        "model_output_tokens": 832,
+        "model_total_tokens": 46408
+      },
+      "composed_report": "reports/agent/agent-hard-v3-calibration-deepseek-p4d-composed.json",
+      "composed_report_sha256": "bf7aa80ab1e2f3721dd091743ef6ecb44ca489a9197c835b5b9bd3e41d8b600c"
+    },
+    "dev": {
+      "dataset_sha256": "fd15f3396fcceb3eb213251ea37ce7bea7decd00574b87c09720d607b1443933",
+      "index_id": "a4b314a9ff7e595a86bf",
+      "before_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9716981132075472,
+        "supported_case_pass_rate": 0.9583333333333334,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "after_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9716981132075472,
+        "supported_case_pass_rate": 0.9583333333333334,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "strict_case_pass_count_before": 23,
+      "strict_case_pass_count_after": 23,
+      "strict_case_pass_count_delta": 0,
+      "risk_gate_statuses": {
+        "review": 1,
+        "pass": 9,
+        "not_applicable": 4
+      },
+      "risk_gate_findings": {
+        "low_evidence_language_coverage": 1
+      },
+      "verifier_decisions": {
+        "accept_original": 8,
+        "not_routed": 6
+      },
+      "incremental_verifier_cost": {
+        "model_requests": 8,
+        "model_input_tokens": 37016,
+        "model_output_tokens": 774,
+        "model_total_tokens": 37790
+      },
+      "composed_report": "reports/agent/agent-hard-v3-dev-deepseek-p4d-composed.json",
+      "composed_report_sha256": "8ba73275db96bb6c08d54a9743c8ed9e489a75b53873d224d4d532bbb90b5ecd"
+    }
+  },
+  "combined": {
+    "case_count": 48,
+    "strict_case_pass_count_before": 45,
+    "strict_case_pass_rate_before": 0.9375,
+    "strict_case_pass_count_after": 45,
+    "strict_case_pass_rate_after": 0.9375,
+    "strict_case_pass_count_delta": 0,
+    "strict_case_pass_rate_delta": 0.0,
+    "risk_gate_statuses": {
+      "pass": 19,
+      "not_applicable": 8,
+      "review": 1
+    },
+    "risk_gate_findings": {
+      "low_evidence_language_coverage": 1
+    },
+    "normal_answer_verifier_decisions": {
+      "accept_original": 18,
+      "not_routed": 10
+    },
+    "p4c_incremental_verifier_cost": {
+      "model_requests": 18,
+      "model_input_tokens": 80076,
+      "model_output_tokens": 1736,
+      "model_total_tokens": 81812
+    },
+    "p4d_incremental_verifier_cost": {
+      "model_requests": 18,
+      "model_input_tokens": 82592,
+      "model_output_tokens": 1606,
+      "model_total_tokens": 84198
+    },
+    "normal_cost_delta": {
+      "model_requests": 0,
+      "model_total_tokens": 2386,
+      "model_total_token_change_rate": 0.02916442575661272
+    },
+    "additional_normal_model_requests": 0
+  },
+  "high_overlap_faults": {
+    "fault_types": [
+      "label_swap",
+      "relation_swap",
+      "accounting_sign_flip"
+    ],
+    "p4c_baseline_report": {
+      "path": "reports/agent/agent-hard-v3-deepseek-p4c-high-overlap-baseline-v1.json",
+      "sha256": "2be94221de0a113d3e3ef7722af2e317011793dfebaa42edadc377f463122dac"
+    },
+    "p4c_baseline_metrics": {
+      "mutation_count": 15,
+      "routed_rate": 0.6,
+      "safe_detection_rate": 0.3333333333333333,
+      "unsafe_accept_rate": 0.6,
+      "verifier_error_rate": 0.06666666666666667,
+      "breakdown": {
+        "accounting_sign_flip": {
+          "case_count": 5,
+          "routed_count": 3,
+          "safe_detection_count": 0,
+          "final_decisions": {
+            "not_routed": 2,
+            "error": 1,
+            "accept_original": 2
+          }
+        },
+        "label_swap": {
+          "case_count": 5,
+          "routed_count": 3,
+          "safe_detection_count": 3,
+          "final_decisions": {
+            "not_routed": 2,
+            "abstain": 3
+          }
+        },
+        "relation_swap": {
+          "case_count": 5,
+          "routed_count": 3,
+          "safe_detection_count": 2,
+          "final_decisions": {
+            "not_routed": 2,
+            "accept_original": 1,
+            "abstain": 2
+          }
+        }
+      }
+    },
+    "p4c_baseline_runtime_cost": {
+      "model_requests": 9,
+      "input_tokens": 36497,
+      "output_tokens": 1462,
+      "total_tokens": 37959
+    },
+    "final_report": {
+      "path": "reports/agent/agent-hard-v3-deepseek-p4d-high-overlap-final-v3.json",
+      "sha256": "47756828301b8214b41ebe9195df1b9f5b8c85dd4fa4aef8a7c085ee664a68b7"
+    },
+    "final_metrics": {
+      "mutation_count": 15,
+      "routed_rate": 0.8666666666666667,
+      "safe_detection_rate": 0.9333333333333333,
+      "unsafe_accept_rate": 0.06666666666666667,
+      "verifier_error_rate": 0.0,
+      "breakdown": {
+        "accounting_sign_flip": {
+          "case_count": 5,
+          "routed_count": 3,
+          "safe_detection_count": 5,
+          "final_decisions": {
+            "local_gate_rejected": 5
+          }
+        },
+        "label_swap": {
+          "case_count": 5,
+          "routed_count": 5,
+          "safe_detection_count": 5,
+          "final_decisions": {
+            "abstain": 5
+          }
+        },
+        "relation_swap": {
+          "case_count": 5,
+          "routed_count": 5,
+          "safe_detection_count": 4,
+          "final_decisions": {
+            "abstain": 4,
+            "accept_original": 1
+          }
+        }
+      }
+    },
+    "final_runtime_cost": {
+      "model_requests": 10,
+      "input_tokens": 39560,
+      "output_tokens": 2244,
+      "total_tokens": 41804
+    },
+    "remaining_unsafe_case_ids": [
+      "v3_601398_y23_asset_quality:relation_swap"
+    ]
+  },
+  "known_fault_regression": {
+    "report": {
+      "path": "reports/agent/agent-hard-v3-calibration-deepseek-p4d-known-faults-fixed-v3.json",
+      "sha256": "3db6bfee2ed3c783f431123cc0ca8b3bcca70e4840c2ac1f47a317d50dd058b7"
+    },
+    "metrics": {
+      "mutation_count": 15,
+      "safe_detection_rate": 1.0,
+      "unsafe_accept_rate": 0.0,
+      "verifier_error_rate": 0.0,
+      "omission_repair_rate": 1.0
+    },
+    "runtime_cost": {
+      "model_requests": 20,
+      "input_tokens": 80293,
+      "output_tokens": 4240,
+      "total_tokens": 84533
+    },
+    "harness_fix": "ASCII commas between digits are no longer treated as clause separators. Two prior omission mutations were actually truncated numbers and are excluded from omission-repair comparison.",
+    "iterations": [
+      {
+        "label": "legacy-comma-splitting-harness",
+        "report": {
+          "path": "reports/agent/agent-hard-v3-calibration-deepseek-p4d-known-faults-v1.json",
+          "sha256": "588b82a91f23f1f79219af59a8bd219c63e3b02c3707f22ab1cef45f18689f8f"
+        },
+        "metrics": {
+          "mutation_count": 15,
+          "safe_detection_rate": 1.0,
+          "unsafe_accept_rate": 0.0,
+          "verifier_error_rate": 0.0,
+          "omission_repair_rate": 0.6
+        },
+        "runtime_cost": {
+          "model_requests": 16,
+          "input_tokens": 63034,
+          "output_tokens": 3418,
+          "total_tokens": 66452
+        },
+        "comparable": false
+      },
+      {
+        "label": "corrected-harness-before-completeness-gate",
+        "report": {
+          "path": "reports/agent/agent-hard-v3-calibration-deepseek-p4d-known-faults-fixed-v2.json",
+          "sha256": "39ef5fbe84b1a791418070e948eaf3a63a4c26458b4746dd1baa2373ac4cbfdb"
+        },
+        "metrics": {
+          "mutation_count": 15,
+          "safe_detection_rate": 0.8666666666666667,
+          "unsafe_accept_rate": 0.13333333333333333,
+          "verifier_error_rate": 0.0,
+          "omission_repair_rate": 0.6
+        },
+        "runtime_cost": {
+          "model_requests": 16,
+          "input_tokens": 64042,
+          "output_tokens": 3081,
+          "total_tokens": 67123
+        },
+        "comparable": true
+      },
+      {
+        "label": "corrected-harness-with-completeness-gate",
+        "report": {
+          "path": "reports/agent/agent-hard-v3-calibration-deepseek-p4d-known-faults-fixed-v3.json",
+          "sha256": "3db6bfee2ed3c783f431123cc0ca8b3bcca70e4840c2ac1f47a317d50dd058b7"
+        },
+        "metrics": {
+          "mutation_count": 15,
+          "safe_detection_rate": 1.0,
+          "unsafe_accept_rate": 0.0,
+          "verifier_error_rate": 0.0,
+          "omission_repair_rate": 1.0
+        },
+        "runtime_cost": {
+          "model_requests": 20,
+          "input_tokens": 80293,
+          "output_tokens": 4240,
+          "total_tokens": 84533
+        },
+        "comparable": true
+      }
+    ]
+  },
+  "open_risk_regression": {
+    "report": {
+      "path": "reports/agent/agent-hard-v3-deepseek-p4d-open-risk-regression-v2.json",
+      "sha256": "94543dba09b2529bc7c804a12f19609f602cfcee9e57c9df4a9c151f5b49b1b4"
+    },
+    "metrics": {
+      "mutation_count": 15,
+      "routed_rate": 1.0,
+      "safe_detection_rate": 0.9333333333333333,
+      "unsafe_accept_rate": 0.06666666666666667,
+      "fail_closed_rate": 0.9333333333333333,
+      "verifier_error_rate": 0.0,
+      "breakdown": {
+        "semantic_negation": {
+          "case_count": 5,
+          "safe_detection_count": 4,
+          "routed_count": 5,
+          "final_decisions": {
+            "accept_original": 1,
+            "abstain": 4
+          }
+        },
+        "unsupported_causal_inference": {
+          "case_count": 5,
+          "safe_detection_count": 5,
+          "routed_count": 5,
+          "final_decisions": {
+            "abstain": 5
+          }
+        },
+        "scope_qualifier_corruption": {
+          "case_count": 5,
+          "safe_detection_count": 5,
+          "routed_count": 5,
+          "final_decisions": {
+            "abstain": 5
+          }
+        }
+      }
+    },
+    "runtime_cost": {
+      "model_requests": 15,
+      "input_tokens": 61554,
+      "output_tokens": 3359,
+      "total_tokens": 64913
+    },
+    "prior_report": {
+      "path": "reports/agent/agent-hard-v3-deepseek-p4d-open-risk-regression-v1.json",
+      "sha256": "7397d07271ecb23da7087187df70b0bc196dcaa028f4df5cb1515dc1131778e7"
+    },
+    "prior_metrics": {
+      "mutation_count": 15,
+      "routed_rate": 1.0,
+      "safe_detection_rate": 1.0,
+      "unsafe_accept_rate": 0.0,
+      "fail_closed_rate": 1.0,
+      "verifier_error_rate": 0.0,
+      "breakdown": {
+        "semantic_negation": {
+          "case_count": 5,
+          "safe_detection_count": 5,
+          "routed_count": 5,
+          "final_decisions": {
+            "abstain": 5
+          }
+        },
+        "unsupported_causal_inference": {
+          "case_count": 5,
+          "safe_detection_count": 5,
+          "routed_count": 5,
+          "final_decisions": {
+            "abstain": 5
+          }
+        },
+        "scope_qualifier_corruption": {
+          "case_count": 5,
+          "safe_detection_count": 5,
+          "routed_count": 5,
+          "final_decisions": {
+            "abstain": 5
+          }
+        }
+      }
+    },
+    "observed_safe_detection_count_range": [
+      14,
+      15
+    ],
+    "note": "Routing stayed 15/15 in both runs, but the same-provider verifier accepted one semantic-negation fault in the current code replication. Do not report the prior 15/15 as stable."
+  },
+  "iterations": [
+    {
+      "label": "p4c-high-overlap-baseline",
+      "report": {
+        "path": "reports/agent/agent-hard-v3-deepseek-p4c-high-overlap-baseline-v1.json",
+        "sha256": "2be94221de0a113d3e3ef7722af2e317011793dfebaa42edadc377f463122dac"
+      },
+      "metrics": {
+        "mutation_count": 15,
+        "routed_rate": 0.6,
+        "safe_detection_rate": 0.3333333333333333,
+        "unsafe_accept_rate": 0.6,
+        "verifier_error_rate": 0.06666666666666667,
+        "breakdown": {
+          "accounting_sign_flip": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 0,
+            "final_decisions": {
+              "not_routed": 2,
+              "error": 1,
+              "accept_original": 2
+            }
+          },
+          "label_swap": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 3,
+            "final_decisions": {
+              "not_routed": 2,
+              "abstain": 3
+            }
+          },
+          "relation_swap": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 2,
+            "final_decisions": {
+              "not_routed": 2,
+              "accept_original": 1,
+              "abstain": 2
+            }
+          }
+        }
+      },
+      "runtime_cost": {
+        "model_requests": 9,
+        "input_tokens": 36497,
+        "output_tokens": 1462,
+        "total_tokens": 37959
+      }
+    },
+    {
+      "label": "contract-signal-off",
+      "report": {
+        "path": "reports/agent/agent-hard-v3-deepseek-p4d-contract-ablation-off-v1.json",
+        "sha256": "9c86732283b22c261fef111519309acdf2002886a90f782c9ef14ef3232a799c"
+      },
+      "metrics": {
+        "mutation_count": 15,
+        "routed_rate": 0.6,
+        "safe_detection_rate": 0.4,
+        "unsafe_accept_rate": 0.6,
+        "verifier_error_rate": 0.0,
+        "breakdown": {
+          "accounting_sign_flip": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 1,
+            "final_decisions": {
+              "not_routed": 2,
+              "accept_original": 2,
+              "abstain": 1
+            }
+          },
+          "label_swap": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 3,
+            "final_decisions": {
+              "not_routed": 2,
+              "abstain": 3
+            }
+          },
+          "relation_swap": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 2,
+            "final_decisions": {
+              "not_routed": 2,
+              "accept_original": 1,
+              "abstain": 2
+            }
+          }
+        }
+      },
+      "runtime_cost": {
+        "model_requests": 9,
+        "input_tokens": 37694,
+        "output_tokens": 1638,
+        "total_tokens": 39332
+      }
+    },
+    {
+      "label": "contract-signal-on",
+      "report": {
+        "path": "reports/agent/agent-hard-v3-deepseek-p4d-contract-ablation-on-v1.json",
+        "sha256": "197c3fb5fcbf6bd3eb174f1cc22a3e79d7e33319193cdaf7db28d290b6ae1c91"
+      },
+      "metrics": {
+        "mutation_count": 15,
+        "routed_rate": 1.0,
+        "safe_detection_rate": 0.7333333333333333,
+        "unsafe_accept_rate": 0.26666666666666666,
+        "verifier_error_rate": 0.0,
+        "breakdown": {
+          "accounting_sign_flip": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 2,
+            "final_decisions": {
+              "abstain": 2,
+              "accept_original": 3
+            }
+          },
+          "label_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "abstain": 5
+            }
+          },
+          "relation_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 4,
+            "final_decisions": {
+              "abstain": 4,
+              "accept_original": 1
+            }
+          }
+        }
+      },
+      "runtime_cost": {
+        "model_requests": 15,
+        "input_tokens": 59353,
+        "output_tokens": 2936,
+        "total_tokens": 62289
+      }
+    },
+    {
+      "label": "focused-evidence-negative-cost-experiment",
+      "report": {
+        "path": "reports/agent/agent-hard-v3-deepseek-p4d-high-overlap-final-v1.json",
+        "sha256": "2a18c862e8bc8d2d9a913e145be108c2f9092640bc974acdc2ad1ab88072ef20"
+      },
+      "metrics": {
+        "mutation_count": 15,
+        "routed_rate": 0.8666666666666667,
+        "safe_detection_rate": 0.8666666666666667,
+        "unsafe_accept_rate": 0.13333333333333333,
+        "verifier_error_rate": 0.0,
+        "breakdown": {
+          "accounting_sign_flip": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "local_gate_rejected": 5
+            }
+          },
+          "label_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 4,
+            "final_decisions": {
+              "accept_original": 1,
+              "abstain": 4
+            }
+          },
+          "relation_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 4,
+            "final_decisions": {
+              "abstain": 4,
+              "accept_original": 1
+            }
+          }
+        }
+      },
+      "runtime_cost": {
+        "model_requests": 10,
+        "input_tokens": 80842,
+        "output_tokens": 2064,
+        "total_tokens": 82906
+      },
+      "normal_cost": {
+        "model_requests": 18,
+        "model_input_tokens": 164781,
+        "model_output_tokens": 1492,
+        "model_total_tokens": 166273
+      },
+      "adopted": false
+    },
+    {
+      "label": "lightweight-contract-and-sign-gate",
+      "report": {
+        "path": "reports/agent/agent-hard-v3-deepseek-p4d-high-overlap-final-v2.json",
+        "sha256": "4c2f9f58f73eb2d3c6db42b9132c6b57d94bce230e3ed02fa674f7ae2d3c752e"
+      },
+      "metrics": {
+        "mutation_count": 15,
+        "routed_rate": 0.8666666666666667,
+        "safe_detection_rate": 0.9333333333333333,
+        "unsafe_accept_rate": 0.06666666666666667,
+        "verifier_error_rate": 0.0,
+        "breakdown": {
+          "accounting_sign_flip": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "local_gate_rejected": 5
+            }
+          },
+          "label_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "abstain": 5
+            }
+          },
+          "relation_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 4,
+            "final_decisions": {
+              "abstain": 4,
+              "accept_original": 1
+            }
+          }
+        }
+      },
+      "runtime_cost": {
+        "model_requests": 10,
+        "input_tokens": 39560,
+        "output_tokens": 2279,
+        "total_tokens": 41839
+      },
+      "adopted": true
+    },
+    {
+      "label": "final-lightweight-contract-sign-completeness",
+      "report": {
+        "path": "reports/agent/agent-hard-v3-deepseek-p4d-high-overlap-final-v3.json",
+        "sha256": "47756828301b8214b41ebe9195df1b9f5b8c85dd4fa4aef8a7c085ee664a68b7"
+      },
+      "metrics": {
+        "mutation_count": 15,
+        "routed_rate": 0.8666666666666667,
+        "safe_detection_rate": 0.9333333333333333,
+        "unsafe_accept_rate": 0.06666666666666667,
+        "verifier_error_rate": 0.0,
+        "breakdown": {
+          "accounting_sign_flip": {
+            "case_count": 5,
+            "routed_count": 3,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "local_gate_rejected": 5
+            }
+          },
+          "label_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 5,
+            "final_decisions": {
+              "abstain": 5
+            }
+          },
+          "relation_swap": {
+            "case_count": 5,
+            "routed_count": 5,
+            "safe_detection_count": 4,
+            "final_decisions": {
+              "abstain": 4,
+              "accept_original": 1
+            }
+          }
+        }
+      },
+      "runtime_cost": {
+        "model_requests": 10,
+        "input_tokens": 39560,
+        "output_tokens": 2244,
+        "total_tokens": 41804
+      },
+      "adopted": true
+    }
+  ],
+  "paired_changed_cases": [],
+  "decision": {
+    "adopt_lightweight_contract_and_sign_gate": true,
+    "adopt_focused_evidence_duplication": false,
+    "add_more_relation_keyword_rules": false,
+    "automatic_high_risk_verifier_recommended": true,
+    "reason": "High-overlap safety improved from 5/15 to 14/15 while normal strict accuracy stayed 45/48 and normal requests stayed at 18. One direction swap still passed; adding a benchmark-specific direction rule is not justified."
+  },
+  "dev_governance": {
+    "final_dev_run_is_posthoc": true,
+    "unbiased_dev_confirmation": false,
+    "frozen_test_opened": false
+  }
+}
