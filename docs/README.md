@@ -107,11 +107,13 @@
 | [holdout-failures.html](./ui/holdout-failures.html) | 检索失败分类与样例 |
 | [experiment-dashboard.html](./ui/experiment-dashboard.html) | 实验注册表与结论边界 |
 
-`workspace-v4.html` 是证据优先双栏布局：左栏答案按 claim 拆分并绑定引用，右栏列出对应
-chunk 原文、页码与按 `index_id` 校验的 SHA-256，鼠标悬停 claim 会淡化它没有引用的证据。
-检索模式、`top_k`/`candidate_k` 上下限与口径路由/重排开关全部来自 `/v1/capabilities`，
-运行时未启用的能力显示为不可用而不是发出必然失败的请求。「检索设置」抽屉里可开启
-`/v1/search` 调试视图，查看融合分、lexical/dense 分量、rerank 前后位次与首元素 bbox。
-快捷键：`/` 聚焦输入、`R` 刷新状态、`T` 切换深浅色、`S` 打开设置、`Esc` 关闭。
+`workspace-v4.html` 是可部署的证据优先 Agent 工作台：可上传并解析 PDF，在当前标签页配置
+DeepSeek Key，运行问答、对比、精确抽取和计算任务，并处理高风险任务进入的人工审核队列。
+抽取任务默认按风险决定是否开启独立 Evidence Verifier，不是所有问题都固定消耗第二次模型调用。
+
+证据卡片优先展示公司、报告年份、页码、章节路径、支持的结论和可阅读原文；数字会自动强调，
+chunk ID 与 SHA-256 只放在折叠的防篡改详情中。回答中的引用可直接定位对应证据，页面还会通过
+`/v1/evidence:resolve` 校验证据是否仍属于当前索引。检索参数、Verifier 策略和运行时能力集中在
+工作台抽屉中。DeepSeek Key 不写入浏览器存储或服务器文件，刷新页面即清除。
 
 `workspace-v2.html`、`workspace-v3.html` 与 `workspace-wireframe.html` 是被 v4 取代的草稿，已删除。
