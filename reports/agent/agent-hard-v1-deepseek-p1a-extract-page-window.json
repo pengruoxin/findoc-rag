@@ -1,0 +1,3111 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v1",
+  "dataset_path": "D:/202607/raglab/data/evaluation/agent-hard-v1.json",
+  "dataset_sha256": "41e71522923cc08b58383cd62fc4acd9a376e06d72d5a9fa12f044b63522e6c4",
+  "index_scope": "benchmark-v3",
+  "index_path": "D:/202607/raglab/data/indexes/benchmark-v3",
+  "evaluated_at": "2026-08-20T03:51:34.524415+00:00",
+  "runtime": "deepseek",
+  "scoring": "local_exact_gold_and_citation_overlap",
+  "source_validation": {
+    "valid": true,
+    "referenced_document_count": 4,
+    "verified_document_count": 4,
+    "errors": []
+  },
+  "status": "complete",
+  "reason": null,
+  "provider": {
+    "name": "deepseek",
+    "model": "deepseek-v4-flash",
+    "endpoint": "https://api.deepseek.com/chat/completions"
+  },
+  "index_id": "01cdff73daca665e2985",
+  "metrics": {
+    "case_count": 8,
+    "executed_case_count": 6,
+    "unsupported_case_count": 2,
+    "task_coverage_rate": 0.75,
+    "plan_target_exact_rate": 1.0,
+    "behavior_accuracy": 0.8333333333333334,
+    "supported_fact_accuracy": 0.95,
+    "end_to_end_fact_accuracy": 0.6785714285714286,
+    "supported_case_pass_rate": 0.8333333333333334,
+    "end_to_end_case_pass_rate": 0.625,
+    "safe_abstention_accuracy": 1.0
+  },
+  "items": [
+    {
+      "case_id": "haier_lease_cross_page_reconciliation",
+      "task_type": "calculate",
+      "challenge_types": [
+        "cross_page_table",
+        "horizontal_continuation",
+        "section_state_carry",
+        "arithmetic_reconciliation"
+      ],
+      "status": "unsupported_task_type",
+      "expected_fact_count": 4,
+      "score": null,
+      "trace": null
+    },
+    {
+      "case_id": "haier_lease_depreciation_section_carry",
+      "task_type": "extract",
+      "challenge_types": [
+        "cross_page_table",
+        "repeated_row_label",
+        "section_state_carry",
+        "near_miss_value"
+      ],
+      "status": "executed",
+      "expected_fact_count": 1,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "depreciation_closing_total",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "55f54a69760b47fbac57f242e0d15709",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "invalid_model_output",
+        "query": "海尔智家2024年使用权资产表中，累计折旧的期末余额合计是多少？不要误取账面原值的同名行。",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T03:51:36.715713Z",
+        "completed_at": "2026-08-20T03:51:41.490243Z",
+        "rounds_completed": 3,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p1a-page-window",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": {
+            "document_keys": [],
+            "company_names": [
+              "海尔智家"
+            ],
+            "report_years": [
+              2024
+            ],
+            "document_types": []
+          },
+          "retrieval_hint": "使用权资产 二、累计折旧 5.期末余额 合计 房屋及建筑物 机器设备 运输工具 办公设备 其他",
+          "clarification": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "call_00_Pjq8YnG8tyX3YtH483jw5938",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "task:extract",
+            "query": "使用权资产 累计折旧 期末余额 合计 使用权资产 二、累计折旧 5.期末余额 合计 房屋及建筑物 机器设备 运输工具 办公设备 其他",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 554.7465999843553,
+            "retrieval_trace_id": "a98d68f05c6d438b9a008079afe9cb31",
+            "evidence_chunk_ids": [
+              "cb2830d04860:c424:0faef33f946ef49f",
+              "cb2830d04860:c413:cbf154720e066a6b",
+              "cb2830d04860:c428:050283f2d5e4930b"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_00_Z6uk0Tuhe76e4LtnjeeY0522",
+            "round_number": 2,
+            "tool": "get_page_window",
+            "target_id": "task:extract",
+            "query": "cb2830d04860:c428:050283f2d5e4930b",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 52.0211000693962,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "cb2830d04860:c422:91ed2ca030310486",
+              "cb2830d04860:c423:18f366052c6de763",
+              "cb2830d04860:c424:0faef33f946ef49f",
+              "cb2830d04860:c425:ffbb651c9523fa2b",
+              "cb2830d04860:c426:0726718b0dbf6f66",
+              "cb2830d04860:c427:a3d03e6d291c1a7a",
+              "cb2830d04860:c428:050283f2d5e4930b",
+              "cb2830d04860:c429:ca143ab290f33bc2",
+              "cb2830d04860:c430:bdc4e3701b2f3e67",
+              "cb2830d04860:c431:09b8741c576b54fc",
+              "cb2830d04860:c432:e5e4f7c3b6bf4bb4",
+              "cb2830d04860:c433:3e56a31d1a17fe41"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_01_7IIYBluhYbDSzvVrsOVh6284",
+            "round_number": 2,
+            "tool": "get_page_window",
+            "target_id": "task:extract",
+            "query": "cb2830d04860:c424:0faef33f946ef49f",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 47.59640002157539,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "cb2830d04860:c419:60994ba38d2a313a",
+              "cb2830d04860:c420:57899d81cfbfec59",
+              "cb2830d04860:c421:fc3d4d9ff3850214",
+              "cb2830d04860:c422:91ed2ca030310486",
+              "cb2830d04860:c423:18f366052c6de763",
+              "cb2830d04860:c424:0faef33f946ef49f",
+              "cb2830d04860:c425:ffbb651c9523fa2b",
+              "cb2830d04860:c426:0726718b0dbf6f66",
+              "cb2830d04860:c427:a3d03e6d291c1a7a",
+              "cb2830d04860:c428:050283f2d5e4930b",
+              "cb2830d04860:c429:ca143ab290f33bc2",
+              "cb2830d04860:c430:bdc4e3701b2f3e67"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_02_g42I0oUnCDOUrlSnc4O03827",
+            "round_number": 2,
+            "tool": "get_page_window",
+            "target_id": "task:extract",
+            "query": "cb2830d04860:c413:cbf154720e066a6b",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 49.432699917815626,
+            "retrieval_trace_id": null,
+            "evidence_chunk_ids": [
+              "cb2830d04860:c407:1b774f6e08ecc552",
+              "cb2830d04860:c408:7eaa8135a8e8f68f",
+              "cb2830d04860:c409:bd31ded588b63283",
+              "cb2830d04860:c410:806f0aa6aab787ec",
+              "cb2830d04860:c411:9d87a989198931bc",
+              "cb2830d04860:c412:d74ea8ed8c3de1a4",
+              "cb2830d04860:c413:cbf154720e066a6b",
+              "cb2830d04860:c414:7f11b3f6e1372f72",
+              "cb2830d04860:c415:552b5a643f448c03",
+              "cb2830d04860:c416:2e85bf7bea324ce2",
+              "cb2830d04860:c417:3b26ebfc1634ba24",
+              "cb2830d04860:c418:a3373832cf54f2f1"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": [
+            {
+              "chunk_id": "cb2830d04860:c424:0faef33f946ef49f",
+              "content_sha256": "620162171d38e5034be4c4f523aeff8e1d12acc5429ff9c1ae0e14945f1c7378",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 184,
+              "page_end": 185,
+              "section_path": [
+                "第十节 财务报告",
+                "二、累计折旧",
+                "2.本期增加金额"
+              ],
+              "excerpt": "（2）处置子公司\n\n4.汇率变动及其他\n-81,693,328.67\n5,127,561.64\n-20,949,675.04\n\n5.期末余额\n7,414,325,184.86\n424,335,480.27\n287,794,375.66\n\n项目\n房屋及建筑物\n生产设备\n运输设备\n\n二、累计折旧\n\n1.期初余额\n2,519,692,318.04\n37,365,343.09\n133,592,322.52\n\n2.本期增加金额\n\n（1）计提\n1,226,001,005.33\n44,251,638.74\n78,794,289.40"
+            },
+            {
+              "chunk_id": "cb2830d04860:c413:cbf154720e066a6b",
+              "content_sha256": "08997aa7e2d4108b12cfc7152531281d8be89832a9b2e6fa3138409f787a351d",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 180,
+              "page_end": 181,
+              "section_path": [
+                "第十节 财务报告",
+                "二、累计折旧",
+                "2.本期增加金额"
+              ],
+              "excerpt": "（3）转入持有待售\n\n项目\n房屋及建筑物\n生产设备\n运输设备\n\n4.汇率变动及其他\n-259,962,091.67\n-320,672,263.63\n-7,668,619.44\n\n5.期末余额\n23,564,285,092.42\n39,632,077,039.23\n279,826,721.24\n\n二、累计折旧\n\n1.期初余额\n6,136,755,668.17\n18,385,208,823.46\n153,620,804.45\n\n2.本期增加金额\n\n（1）计提\n1,019,753,910.40\n3,126,033,296.99\n26,730,335.25\n\n（2）投资性房地产转入\n8,516,659.18"
+            },
+            {
+              "chunk_id": "cb2830d04860:c428:050283f2d5e4930b",
+              "content_sha256": "c36e311f4dc9959617ce54b2d3ac6eff445fd4655ef44905bfd9d8e63bd8dcb9",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 185,
+              "page_end": 186,
+              "section_path": [
+                "第十节 财务报告",
+                "二、累计折旧",
+                "（2）处置子公司"
+              ],
+              "excerpt": "二、累计折旧\n\n项目\n办公设备\n其他\n合计\n\n1.期初余额\n50,526,926.52\n201,178,372.27\n2,942,355,282.44\n\n2.本期增加金额\n\n（1）计提\n43,328,435.62\n108,569,478.06\n1,500,944,847.15\n\n3.本期减少金额\n\n（1）处置\n2,664,029.09\n4,541,595.18\n1,066,212,912.83\n\n（2）处置子公司\n\n4.汇率变动及其他\n-25,289,689.19\n4,059,029.48\n-60,240,174.39\n\n5.期末余额\n65,901,643.86\n309,265,284.63\n3,316,847,042.37"
+            },
+            {
+              "chunk_id": "cb2830d04860:c422:91ed2ca030310486",
+              "content_sha256": "9a17a8ab139d322d970cb063d28690eccfa096429927fb015e7bcc817d5075cf",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 184,
+              "page_end": 184,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值",
+                "（3）在建工程减值准备"
+              ],
+              "excerpt": "（3）在建工程减值准备\n\n汇率变动\n\n工程名称\n期初余额\n本期增加\n转固定资产\n其他\n减少\n\n及其他\n期末余额\n\n22,622,250.04\n1,835,282.46\n356,831.99\n24,814,364.49\n\n美国GE\nAppliances 项\n目\n\n东欧项目\n2,204,865.05\n-314,101.67\n1,890,763.38\n\n乐家物联项\n目\n837,735.85\n837,735.85\n\n其他\n259,352.75\n261,714.98\n2,362.23\n\n合计\n23,719,338.64\n4,040,147.51\n261,714.98\n45,092.55\n27,542,863.72"
+            },
+            {
+              "chunk_id": "cb2830d04860:c423:18f366052c6de763",
+              "content_sha256": "49311a780b12f7b7f0e251a6639339806e9973a345eea0f3142894256a2c60d2",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 184,
+              "page_end": 184,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值",
+                "（3）在建工程减值准备",
+                "3.本期减少金额"
+              ],
+              "excerpt": "19、 使用权资产\n\n项目\n房屋及建筑物\n生产设备\n运输设备\n\n一、账面原值：\n\n1.期初余额\n6,193,009,150.65\n299,296,129.76\n272,631,734.00\n\n2.本期增加金额\n\n（1）购置\n2,262,181,085.11\n15,588,281.85\n94,347,135.09\n\n（2）企业合并增加\n261,329,285.46\n150,889,823.61\n\n3.本期减少金额\n\n（1）处置\n1,220,501,007.69\n46,566,316.59\n58,234,818.39"
+            },
+            {
+              "chunk_id": "cb2830d04860:c425:ffbb651c9523fa2b",
+              "content_sha256": "02704440ab2163c27814054626b205ecc15ae58f583164e4366cd827a4c08884",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 185,
+              "page_end": 185,
+              "section_path": [
+                "第十节 财务报告",
+                "三、减值准备",
+                "（1）处置"
+              ],
+              "excerpt": "3.本期减少金额\n\n（1）处置\n993,213,137.54\n9,343,956.75\n56,450,194.27\n\n（2）处置子公司\n\n4.汇率变动及其他\n-24,373,985.04\n27,534.22\n-14,663,063.86\n\n5.期末余额\n2,728,106,200.79\n72,300,559.30\n141,273,353.79\n\n三、减值准备\n\n1.期初余额\n\n2.本期增加金额\n\n（1）计提\n\n3.本期减少金额\n\n（1）处置"
+            },
+            {
+              "chunk_id": "cb2830d04860:c426:0726718b0dbf6f66",
+              "content_sha256": "c0701cff1103da32019a82cfa197c2fe00c567e64b77372e9dcf314d79445d65",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 185,
+              "page_end": 185,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值"
+              ],
+              "excerpt": "（2）处置子公司\n\n4.汇率变动及其他\n\n5.期末余额\n\n四、账面价值\n\n1.期末账面价值\n4,686,218,984.07\n352,034,920.97\n146,521,021.87\n\n2.期初账面价值\n3,673,316,832.61\n261,930,786.67\n139,039,411.48\n\n续表\n\n项目\n办公设备\n其他\n合计\n\n一、账面原值：\n\n1.期初余额\n415,131,711.53\n539,051,832.40\n7,719,120,558.34"
+            },
+            {
+              "chunk_id": "cb2830d04860:c427:a3d03e6d291c1a7a",
+              "content_sha256": "fa76109c6fe87fdf4d3f57b0f5c9d14fedc2f4a61125b85d09873137b83c8d9e",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 185,
+              "page_end": 185,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值",
+                "（2）处置子公司"
+              ],
+              "excerpt": "2.本期增加金额\n\n（1）购置\n14,723,124.93\n84,010,782.19\n2,470,850,409.17\n\n（2）企业合并增加\n412,219,109.07\n\n3.本期减少金额\n\n（1）处置\n2,664,029.09\n7,028,433.41\n1,334,994,605.17\n\n（2）处置子公司\n\n4.汇率变动及其他\n-19,770,673.33\n8,807,250.72\n-108,478,864.68\n\n5.期末余额\n407,420,134.04\n624,841,431.90\n9,158,716,606.73"
+            },
+            {
+              "chunk_id": "cb2830d04860:c429:ca143ab290f33bc2",
+              "content_sha256": "90080987c3560d0264c630557ede0bfab38e3deaf3a55a62b7ee720ef16ff393",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 186,
+              "page_end": 186,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值"
+              ],
+              "excerpt": "三、减值准备\n\n1.期初余额\n\n2.本期增加金额\n\n（1）计提\n\n3.本期减少金额\n\n（1）处置\n\n（2）处置子公司\n\n4.汇率变动及其他\n\n5.期末余额\n\n四、账面价值\n\n1.期末账面价值\n341,518,490.18\n315,576,147.27\n5,841,869,564.36\n\n2.期初账面价值\n364,604,785.01\n337,873,460.13\n4,776,765,275.90"
+            },
+            {
+              "chunk_id": "cb2830d04860:c430:bdc4e3701b2f3e67",
+              "content_sha256": "73c944f458b834cfa02c828745f68d4e075e5fb3f51493c987668769c2c7e81f",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 186,
+              "page_end": 186,
+              "section_path": [
+                "第十节 财务报告",
+                "一、账面原值",
+                "(3)企业合并增加",
+                "3.本期减少金额"
+              ],
+              "excerpt": "20、 无形资产\n\n（1）无形资产：\n\n项目\n专有技术\n特许使用权\n土地使用权\n\n一、账面原值\n\n1.期初余额\n2,212,581,138.65\n4,840,851,378.40\n3,824,946,518.91\n\n2.本期增加金额\n\n(1)购置\n22,164,271.12\n175,600,520.59\n\n(2)内部研发\n129,337,714.48\n\n(3)企业合并增加\n\n3.本期减少金额"
+            },
+            {
+              "chunk_id": "cb2830d04860:c431:09b8741c576b54fc",
+              "content_sha256": "538700d42f00c8c7ece986a71d3e7d3b3f50556a83d578fdc2c0c2742873cbd0",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 186,
+              "page_end": 187,
+              "section_path": [
+                "第十节 财务报告",
+                "二、累计摊销"
+              ],
+              "excerpt": "(1)处置\n\n(2)处置子公司\n\n(3)转入投资性房地产\n79,529,678.08\n\n4.汇率变动及其他\n-108,080,161.91\n182,274,481.71\n-24,266,983.66\n\n项目\n专有技术\n特许使用权\n土地使用权\n\n5.期末余额\n2,233,838,691.22\n5,045,290,131.23\n3,896,750,377.76\n\n二、累计摊销\n\n1.期初余额\n1,399,798,673.12\n1,199,637,889.22\n529,430,385.93"
+            },
+            {
+              "chunk_id": "cb2830d04860:c432:e5e4f7c3b6bf4bb4",
+              "content_sha256": "e4fe51952b9a8c36355e5d3fb8936b0da8ecf83eff7867d6dd91ece754e8f25e",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 187,
+              "page_end": 187,
+              "section_path": [
+                "第十节 财务报告",
+                "二、累计摊销",
+                "(2)处置子公司"
+              ],
+              "excerpt": "2.本期增加金额\n\n(1)计提\n201,869,853.26\n185,303,692.92\n83,274,750.93\n\n(2)企业合并增加\n\n3.本期减少金额\n\n(1)处置\n\n(2)处置子公司\n\n(3)转入投资性房地产\n1,058,132.70\n\n4.汇率变动及其他\n-57,156,754.05\n-5,141,961.25\n-142,496.95\n\n5.期末余额\n1,544,511,772.33\n1,379,799,620.89\n611,504,507.21"
+            },
+            {
+              "chunk_id": "cb2830d04860:c433:3e56a31d1a17fe41",
+              "content_sha256": "ef155aa58b5bac74eb1ed8fe7d279597338df566cd2ee6e5666f77eaf81a8abd",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 187,
+              "page_end": 187,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值"
+              ],
+              "excerpt": "三、减值准备\n\n1.期初余额\n66,630,354.13\n\n2.本期增加金额\n\n(1)计提\n\n(2)企业合并增加\n\n3.本期减少金额\n\n(1)处置\n\n(2)处置子公司\n\n(3)转入投资性房地产\n\n4.汇率变动及其他\n957,873.20\n\n5.期末余额\n67,588,227.33\n\n四、账面价值\n\n1.期末账面价值\n689,326,918.89\n3,597,902,283.01\n3,285,245,870.55\n\n2.期初账面价值\n812,782,465.53\n3,574,583,135.05\n3,295,516,132.98\n\n续表\n\n项目\n商标权\n客户关系\n应用管理软件及\n\n其他\n合计"
+            },
+            {
+              "chunk_id": "cb2830d04860:c419:60994ba38d2a313a",
+              "content_sha256": "a468838a9fb975148b361cd34f29eb16eff0245723e2796952b0ea2afb50077e",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 182,
+              "page_end": 183,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值"
+              ],
+              "excerpt": "2.本期增加金额\n\n（1）计提\n6,188,659.52\n\n（2）投资性房地产转入\n\n3.本期减少金额\n\n（1）处置或报废\n11,423.76\n5,480,855.50\n\n（2）处置子公司\n\n（3）转入持有待售\n\n4.汇率变动及其他\n-17,006.23\n-30,464.88\n-1,690,705.50\n\n5.期末余额\n209,527.14\n2,239,625.78\n46,519,134.38\n\n四、账面价值\n\n1.期末账面价值\n771,741,284.96\n1,363,976,630.13\n37,518,645,325.08\n\n2.期初账面价值\n577,344,005.29\n1,298,605,112.59\n33,425,684,876.90\n\n（2）本期由在建工程余额完工转入固定资产原值金额共计6,545,742,104.96 元（同期金额\n\n5,384,593,708.10 元）。\n\n（3）截至2024 年12 月31 日止，公司尚未办妥权属证明的房屋建筑物账面净值为3.96 亿元(期\n\n初金额4.08 亿元)，相关权属证明正在办理中。以上未取得权属证明的房屋建筑物公司可以合法\n\n有效地占有及日常运营。\n\n（4）本期末固定资产无抵押，本期初固定资产无抵押。"
+            },
+            {
+              "chunk_id": "cb2830d04860:c420:57899d81cfbfec59",
+              "content_sha256": "701010609192a8c78f4ee412f9d4f689e263feee9bdaf298fb2a2b92ee3def6f",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 183,
+              "page_end": 183,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值",
+                "(1).在建工程情况"
+              ],
+              "excerpt": "18、 在建工程\n\n√适用 □不适用\n\n单位：元  币种：人民币\n项目\n期末余额\n期初余额\n在建工程\n5,680,101,282.66\n5,951,859,455.98\n合计\n5,680,101,282.66\n5,951,859,455.98\n\n在建工程\n\n(1).在建工程情况\n\n√适用 □不适用\n\n单位：元  币种：人民币\n\n项目\n期末余额\n期初余额\n账面余额\n减值准备\n账面价值\n账面余额\n减值准备\n账面价值\n青岛水生态科\n技项目\n1,066,513,889.60\n1,066,513,889.60\n529,949,339.20\n529,949,339.20\n\n青岛暖通空调\n项目\n723,210,085.38\n723,210,085.38\n530,979,038.43\n530,979,038.43\n\n青岛制冷电器\n项目\n598,424,118.21\n598,424,118.21\n914,078,742.21\n914,078,742.21\n\n新西兰FPA 项\n目\n404,446,522.30\n404,446,522.30\n200,943,871.90\n200,943,871.90\n\n日日顺上海项\n目\n321,856,664.58\n321,856,664.58\n548,389,859.22\n548,389,859.22\n\n255,332,644.93 24,814,364.49\n230,518,280.44\n343,482,203.73\n22,622,250.04\n320,859,953.69\n\n美国GE\nAppliances 项\n目\n\n欧洲Candy 项\n目\n195,308,817.72\n195,308,817.72\n1,092,171,521.23\n1,092,171,521.23\n\n东欧项目\n134,970,342.86\n1,890,763.38\n133,079,579."
+            },
+            {
+              "chunk_id": "cb2830d04860:c421:fc3d4d9ff3850214",
+              "content_sha256": "976e6de5d6a11960647a6ac88304c4693dfbcb215ce5a990735e34ac7994d361",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 183,
+              "page_end": 184,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值",
+                "（2）重要在建工程项目本期变动情况"
+              ],
+              "excerpt": "（2）重要在建工程项目本期变动情况\n\n汇率变动\n\n工程名称\n期初余额\n本期增加\n转固定资产\n转投资性房地\n\n产\n\n529,949,339.20\n549,852,465.99\n13,287,915.59\n1,066,513,889.60\n自筹\n\n及其他\n期末余额\n资金\n来源\n青岛水生态\n科技项目\n\n汇率变动\n\n工程名称\n期初余额\n本期增加\n转固定资产\n转投资性房地\n\n产\n\n及其他\n期末余额\n资金\n来源\n青岛暖通空\n调项目\n530,979,038.43\n196,773,080.18\n4,542,033.23\n723,210,085.38\n自筹\n\n青岛制冷电\n器项目\n914,078,742.21\n1,386,740,227.69\n1,702,394,851.69\n598,424,118.21\n自筹\n\n新西兰FPA\n项目\n200,943,871.90\n434,764,213.29\n207,347,988.48\n-23,913,574.41\n404,446,522.30\n自筹\n\n548,389,859.22\n374,389,605.93\n600,922,800.57\n321,856,664.58\n自筹\n\n日日顺上海\n项目\n\n343,482,203.73\n492,531,006.22\n584,839,651.53\n4,159,086.51\n255,332,644.93\n自筹\n\n美国\nGE\nAppliances\n项目\n\n欧洲Candy\n项目\n1,092,171,521.23\n58,737,277.16\n1,013,136,719.46\n57,536,738.79\n195,308,817.72\n自筹\n\n东欧项目\n148,106,777.45\n392,076,195.03\n373,676,828.91\n-31,535,800.71\n134,970,342.86\n自筹\n\n其他\n1,667,47"
+            },
+            {
+              "chunk_id": "cb2830d04860:c407:1b774f6e08ecc552",
+              "content_sha256": "4d738b65f64f33c6644cb056e4f412760e600f4d3c86dc1664fe41a45b0333a2",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 179,
+              "page_end": 179,
+              "section_path": [
+                "第十节 财务报告",
+                "一、账面原值",
+                "（1）外购"
+              ],
+              "excerpt": "16、 投资性房地产\n\n（1）采用成本计量模式的投资性房地产本年增减变动如下：\n\n项目\n房屋、建筑物\n土地使用权\n合计\n\n一、账面原值\n\n1.期初余额\n93,701,271.11\n29,370,397.68\n123,071,668.79\n\n2.本期增加金额\n\n（1）外购\n\n（2）无形资产\\固定资产\\在建工程\n转入\n95,572,599.63\n79,529,678.08\n175,102,277.71"
+            },
+            {
+              "chunk_id": "cb2830d04860:c408:7eaa8135a8e8f68f",
+              "content_sha256": "ef2b8fcdb723a6bdae0f3523b30700b1be102ac42d0cd5466cf730bd4f36e836",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 179,
+              "page_end": 179,
+              "section_path": [
+                "第十节 财务报告",
+                "二、累计折旧和累计摊销",
+                "2.本期增加金额"
+              ],
+              "excerpt": "（3）企业合并增加\n\n3.本期减少金额\n\n（1）处置\n\n（2）处置子公司\n\n（3）其他转出\n26,634,424.87\n26,634,424.87\n\n4.汇率变动及其他\n61,273.04\n61,273.04\n\n5.期末余额\n162,700,718.91\n108,900,075.76\n271,600,794.67\n\n二、累计折旧和累计摊销\n\n1.期初余额\n21,095,536.78\n3,345,051.24\n24,440,588.02\n\n2.本期增加金额\n\n（1）计提或摊销\n6,659,895.88\n1,777,561.56\n8,437,457.44\n\n（2）无形资产\\固定资产\\在建工程\n转入\n1,058,132.70\n1,058,132.70"
+            },
+            {
+              "chunk_id": "cb2830d04860:c409:bd31ded588b63283",
+              "content_sha256": "7df6a2d7ad41f5d8da5baec4e82332c775f00c4881cc36457e4eeb49caee510e",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 179,
+              "page_end": 180,
+              "section_path": [
+                "第十节 财务报告",
+                "三、减值准备",
+                "（1）计提"
+              ],
+              "excerpt": "3.本期减少金额\n\n（1）处置\n\n（2）处置子公司\n\n（3）其他转出\n8,516,659.18\n8,516,659.18\n\n4.汇率变动及其他\n20,015.86\n20,015.86\n\n5.期末余额\n19,258,789.34\n6,180,745.50\n25,439,534.84\n\n三、减值准备\n\n项目\n房屋、建筑物\n土地使用权\n合计\n\n1.期初余额\n\n2.本期增加金额\n\n（1）计提"
+            },
+            {
+              "chunk_id": "cb2830d04860:c410:806f0aa6aab787ec",
+              "content_sha256": "650e7c462c1b52b2eec1eb828fc013cadcb82eff2ba8e480636e91fee611f435",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 180,
+              "page_end": 180,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值"
+              ],
+              "excerpt": "3、本期减少金额\n\n（1）处置\n\n（2）处置子公司\n\n（3）其他转出\n\n4.汇率变动及其他\n\n5.期末余额\n\n四、账面价值\n\n1.期末账面价值\n143,441,929.57\n102,719,330.26\n246,161,259.83\n\n2.期初账面价值\n72,605,734.33\n26,025,346.44\n98,631,080.77\n\n（2）本期计提的折旧和摊销额为8,437,457.44 元（同期金额4,654,288.22 元）。\n\n（3）本公司期末投资性房地产的可收回金额不低于其账面价值，故未计提减值准备。"
+            },
+            {
+              "chunk_id": "cb2830d04860:c411:9d87a989198931bc",
+              "content_sha256": "e30250a4d1b49d69cff4127cb08fd9a10e224d89876b1beb9615f433595dd0a6",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 180,
+              "page_end": 180,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值",
+                "17、 固定资产"
+              ],
+              "excerpt": "17、 固定资产\n\n√适用 □不适用\n\n单位：元  币种：人民币\n项目\n期末余额\n期初余额\n固定资产\n37,518,645,325.08\n33,425,684,876.90\n合计\n37,518,645,325.08\n33,425,684,876.90\n\n（1） 固定资产:\n\n项目\n房屋及建筑物\n生产设备\n运输设备\n\n一、账面原值：\n\n1.期初余额\n20,205,787,759.21\n35,819,966,814.36\n244,560,469.60"
+            },
+            {
+              "chunk_id": "cb2830d04860:c412:d74ea8ed8c3de1a4",
+              "content_sha256": "e893f364c6d3a9bef0400be0b87bcea74933fdc79b36929cccc2e0a2e867afdc",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 180,
+              "page_end": 180,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值",
+                "17、 固定资产",
+                "3.本期减少金额"
+              ],
+              "excerpt": "2.本期增加金额\n\n（1）购置\n294,716,925.19\n1,580,424,818.37\n28,049,735.69\n\n（2）在建工程转入\n2,776,425,780.96\n3,082,467,917.59\n24,215,098.11\n\n（3）企业合并增加\n595,230,466.94\n390,716,596.41\n14,997,168.18\n\n（4）投资性房地产转入\n26,634,424.87\n\n3.本期减少金额\n\n（1）处置或报废\n74,548,173.08\n920,826,843.87\n24,067,113.20\n\n（2）处置子公司\n260,017.70"
+            },
+            {
+              "chunk_id": "cb2830d04860:c414:7f11b3f6e1372f72",
+              "content_sha256": "f4c9b4ac810f0c58bf99d08feb24fc2feccbcd8794aaff068ec77fd0c001f115",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 181,
+              "page_end": 181,
+              "section_path": [
+                "第十节 财务报告",
+                "三、减值准备"
+              ],
+              "excerpt": "3.本期减少金额\n\n（1）处置或报废\n17,678,488.60\n725,976,914.43\n17,773,912.30\n\n（2）处置子公司\n82,335.70\n\n（3）转入持有待售\n\n4.汇率变动及其他\n-69,720,343.71\n26,909,533.73\n-3,105,575.45\n\n5.期末余额\n7,077,627,405.44\n20,812,174,739.75\n159,389,316.25\n\n三、减值准备\n\n1.期初余额\n27,599,976.42\n17,285,684.25\n108,327.40"
+            },
+            {
+              "chunk_id": "cb2830d04860:c415:552b5a643f448c03",
+              "content_sha256": "d3a8ead9728f2db24831c8a5a8610933f30df67c15806d35ba6a6f24de77bda7",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 181,
+              "page_end": 181,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值"
+              ],
+              "excerpt": "2.本期增加金额\n\n（1）计提\n294,934.43\n5,893,725.09\n\n（2）投资性房地产转入\n\n3.本期减少金额\n\n（1）处置或报废\n5,468,976.68\n455.06\n\n（2）处置子公司\n\n（3）转入持有待售\n\n4.汇率变动及其他\n-1,554,951.00\n-85,512.83\n-2,770.56\n\n5.期末余额\n26,339,959.85\n17,624,919.83\n105,101.78\n\n四、账面价值\n\n1.期末账面价值\n16,460,317,727.13\n18,802,277,379.65\n120,332,303.21\n\n2.期初账面价值\n14,041,432,114.62\n17,417,472,306.65\n90,831,337.75\n\n续表\n\n项目\n办公设备\n其他\n合计\n\n一、账面原值：\n\n1.期初余额\n1,529,695,668.35\n3,298,744,338.08\n61,098,755,049.60"
+            },
+            {
+              "chunk_id": "cb2830d04860:c416:2e85bf7bea324ce2",
+              "content_sha256": "4d9d6370dc1cf0b94127c93f064e54db6d3d540d6c89cf410f45b463c059e850",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 181,
+              "page_end": 182,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值",
+                "2.本期增加金额",
+                "3.本期减少金额"
+              ],
+              "excerpt": "2.本期增加金额\n\n（1）购置\n131,660,964.49\n34,441,004.10\n2,069,293,447.84\n\n（2）在建工程转入\n244,772,250.66\n417,861,057.64\n6,545,742,104.96\n\n项目\n办公设备\n其他\n合计\n\n（3）企业合并增加\n39,152,285.66\n5,213,698.99\n1,045,310,216.18\n\n（4）投资性房地产转入\n26,634,424.87\n\n3.本期减少金额\n\n（1）处置或报废\n109,473,196.84\n118,934,495.93\n1,247,849,822.92\n\n（2）处置子公司\n112,851.77\n269,174.26\n642,043.73"
+            },
+            {
+              "chunk_id": "cb2830d04860:c417:3b26ebfc1634ba24",
+              "content_sha256": "18bfce9a95137d5b2568e2bb9a5ea962e6ba1ab7a4ec422d566675a6bd41968a",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 182,
+              "page_end": 182,
+              "section_path": [
+                "第十节 财务报告",
+                "二、累计折旧",
+                "2.本期增加金额"
+              ],
+              "excerpt": "（3）转入持有待售\n\n4.汇率变动及其他\n21,755,734.00\n-72,296,826.75\n-638,844,067.49\n\n5.期末余额\n1,857,450,854.55\n3,564,759,601.87\n68,898,399,309.31\n\n二、累计折旧\n\n1.期初余额\n952,113,705.93\n1,997,869,134.83\n27,625,568,136.84\n\n2.本期增加金额\n\n（1）计提\n204,403,412.90\n324,681,985.25\n4,701,602,940.79\n\n（2）投资性房地产转入\n8,516,659.18"
+            },
+            {
+              "chunk_id": "cb2830d04860:c418:a3373832cf54f2f1",
+              "content_sha256": "6886350b05c98bdb227a7d57ef5cb0ceaf92fbc2ff8d5efd2a1003b638c9669f",
+              "target_ids": [
+                "task:extract"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 182,
+              "page_end": 182,
+              "section_path": [
+                "第十节 财务报告",
+                "三、减值准备"
+              ],
+              "excerpt": "3.本期减少金额\n\n（1）处置或报废\n100,232,268.99\n77,062,189.34\n938,723,773.66\n\n（2）处置子公司\n88,013.33\n122,374.63\n292,723.66\n\n（3）转入持有待售\n\n4.汇率变动及其他\n29,303,205.94\n-46,823,210.15\n-63,436,389.64\n\n5.期末余额\n1,085,500,042.45\n2,198,543,345.96\n31,333,234,849.85\n\n三、减值准备\n\n1.期初余额\n237,957.13\n2,270,090.66\n47,502,035.86"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {
+            "task:extract": 27
+          },
+          "gaps": [
+            "task:extract"
+          ]
+        },
+        "result": {
+          "outcome": "abstain",
+          "answer": {
+            "answer": "DeepSeek 未提交通过本地校验的抽取结果。",
+            "citations": [],
+            "provider": "deepseek-agent-invalid-output",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {}
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-extract-p1a-section-aware-page-window",
+          "prompt_sha256": "aa0f0bd3486b97feba8429c4e21b62c2c6953c62deb3db54074ad185f18810ad",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "search_evidence"
+              ],
+              "input_tokens": 524,
+              "output_tokens": 63,
+              "elapsed_ms": 960.0959999952465,
+              "validation_errors": []
+            },
+            {
+              "turn_number": 2,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "get_page_window",
+                "get_page_window",
+                "get_page_window"
+              ],
+              "input_tokens": 1512,
+              "output_tokens": 267,
+              "elapsed_ms": 1887.723800027743,
+              "validation_errors": []
+            },
+            {
+              "turn_number": 3,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "search_evidence"
+              ],
+              "input_tokens": 17083,
+              "output_tokens": 82,
+              "elapsed_ms": 1221.739000058733,
+              "validation_errors": [
+                "unexpected tool: search_evidence"
+              ]
+            }
+          ],
+          "request_count": 3,
+          "input_tokens": 19119,
+          "output_tokens": 412
+        }
+      }
+    },
+    {
+      "case_id": "shenhua_2023_equity_graph_relationships",
+      "task_type": "calculate",
+      "challenge_types": [
+        "visual_diagram",
+        "relationship_reconstruction",
+        "flattened_text_ambiguity",
+        "arithmetic_reconciliation"
+      ],
+      "status": "unsupported_task_type",
+      "expected_fact_count": 4,
+      "score": null,
+      "trace": null
+    },
+    {
+      "case_id": "haier_2024_scope_collision",
+      "task_type": "compare",
+      "challenge_types": [
+        "scope_collision",
+        "same_label_different_statement",
+        "long_document_retrieval",
+        "arithmetic_difference"
+      ],
+      "status": "executed",
+      "expected_fact_count": 3,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "consolidated_revenue",
+            "matched": true,
+            "matched_value": "285,981,225,203.93"
+          },
+          {
+            "fact_id": "parent_revenue",
+            "matched": true,
+            "matched_value": "494,626,718.01"
+          },
+          {
+            "fact_id": "scope_difference",
+            "matched": true,
+            "matched_value": "285,486,598,485.92"
+          }
+        ],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "8cd6d89b93094fffa39a02432e015586",
+        "task_type": "compare",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "sufficient_evidence",
+        "query": "比较海尔智家2024年合并口径营业收入与母公司口径营业收入，并计算两者差额。",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T03:51:41.490757Z",
+        "completed_at": "2026-08-20T03:51:45.832153Z",
+        "rounds_completed": 2,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p1a-page-window",
+          "task_type": "compare",
+          "targets": [
+            {
+              "target_id": "scope:海尔智家:consolidated:year:2024",
+              "label": "海尔智家-2024-合并口径",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "海尔智家"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2024,
+              "document_year": 2024,
+              "statement_scope": "consolidated",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 营业收入 2024年 单位 元",
+              "cross_target_group": "scope:海尔智家:year:2024"
+            },
+            {
+              "target_id": "scope:海尔智家:parent:year:2024",
+              "label": "海尔智家-2024-母公司口径",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "海尔智家"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2024,
+              "document_year": 2024,
+              "statement_scope": "parent",
+              "value_version": "current",
+              "retrieval_hint": "母公司财务报表主要项目注释 营业收入和营业成本 本期发生额 合计 单位 元",
+              "cross_target_group": "scope:海尔智家:year:2024"
+            }
+          ],
+          "document_scope": null,
+          "retrieval_hint": null,
+          "clarification": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "call_00_oDFFyWe4z3rLzs8vvlDE5503",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "scope:海尔智家:consolidated:year:2024",
+            "query": "近三年主要会计数据 营业收入 2024年 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 81.6441000206396,
+            "retrieval_trace_id": "2eeb903178d24043a34d6771fd1fd3e2",
+            "evidence_chunk_ids": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_01_EdWCiPaq1muYmXfmlr2D9812",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "scope:海尔智家:parent:year:2024",
+            "query": "母公司财务报表主要项目注释 营业收入和营业成本 本期发生额 合计 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 145.98429994657636,
+            "retrieval_trace_id": "38e75e4b487a4ca49d6ecfa21255dea5",
+            "evidence_chunk_ids": [
+              "cb2830d04860:c569:9ccaf35d0cd7e414",
+              "cb2830d04860:c570:258f777fa32c5091",
+              "cb2830d04860:c470:8a06c0bac6f7afb8"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": [
+            {
+              "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+              "content_sha256": "a5a1588ec98d37e4bf8d027c0ae168951e8bd462f6778684f7cfdb4b81a89c2b",
+              "target_ids": [
+                "scope:海尔智家:consolidated:year:2024",
+                "scope:海尔智家:parent:year:2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 10,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、 近三年主要会计数据和财务指标",
+                "(一) 主要会计数据"
+              ],
+              "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+            },
+            {
+              "chunk_id": "cb2830d04860:c21:ac709ba4004531b1",
+              "content_sha256": "e7d72fbad349e7724cf309d010fca4f9884715e4b252aa7a97a648b78ffe67b6",
+              "target_ids": [
+                "scope:海尔智家:consolidated:year:2024",
+                "scope:海尔智家:parent:year:2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 11,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、 近三年主要会计数据和财务指标",
+                "(二) 主要财务指标"
+              ],
+              "excerpt": "(二) 主要财务指标\n\n主要财务指标\n2024年\n2023年\n本期比上年\n2022年\n\n调整后\n调整前\n同期增减\n\n(%)\n基本每股收益（元／股）\n2.02\n1.79\n1.79\n12.85\n1.58\n稀释每股收益（元／股）\n2.02\n1.78\n1.78\n13.48\n1.57\n扣除非经常性损益后的基本每\n股收益（元／股）\n1.93\n1.71\n1.71\n12.87\n1.50\n\n加权平均净资产收益率（%）\n17.70\n17.24\n16.85 增加0.46个\n百分点\n16.80\n\n扣除非经常性损益后的加权平\n均净资产收益率（%）\n16.81\n16.06\n16.06 增加0.75个\n百分点\n15.95\n\n报告期末公司前三年主要会计数据和财务指标的说明\n\n□适用 √不适用"
+            },
+            {
+              "chunk_id": "cb2830d04860:c24:54e5be612ca8bd6b",
+              "content_sha256": "e8b45f555f602f84e1039d805f434645479f1fe8b29aed3b09a1e70447b012f3",
+              "target_ids": [
+                "scope:海尔智家:consolidated:year:2024",
+                "scope:海尔智家:parent:year:2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 11,
+              "page_end": 12,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "九、 2024 年分季度主要财务数据"
+              ],
+              "excerpt": "九、 2024 年分季度主要财务数据\n\n单位：元  币种：人民币\n\n第一季度\n（1-3 月份）\n\n第二季度\n（4-6 月份）\n\n第三季度\n（7-9 月份）\n\n第四季度\n（10-12 月份）\n营业收入\n71,866,159,446.57 70,060,324,906.71 70,811,687,817.19 73,243,053,033.46\n归属于上市公司\n股东的净利润\n4,772,967,900.81\n5,647,250,488.41\n4,734,229,394.77\n3,586,672,338.94\n\n4,639,880,144.13\n5,520,624,758.25\n4,524,653,457.51\n3,119,574,449.74\n\n归属于上市公司\n股东的扣除非经\n常性损益后的净\n利润\n\n经营活动产生的\n2,092,240,692.01\n6,474,726,848.67\n6,076,169,839.77 11,899,944,531.51\n\n现金流量净额\n季度数据与已披露定期报告数据差异说明\n\n√适用  □不适用\n\n报告期内（2024 年12 月），公司完成对于物流业务的并表（同一控制下企业合并），按照\n\n相关会计规定，对于前三季度财务数据进行了重述。"
+            },
+            {
+              "chunk_id": "cb2830d04860:c569:9ccaf35d0cd7e414",
+              "content_sha256": "b68a3718599e10dedf10c60d3a83a364ff93ff924ddd2a069bc693ac0e1abc23",
+              "target_ids": [
+                "scope:海尔智家:consolidated:year:2024",
+                "scope:海尔智家:parent:year:2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 246,
+              "page_end": 246,
+              "section_path": [
+                "第十节 财务报告",
+                "十九、 母公司财务报表主要项目注释",
+                "（3）对联营企业的长期股权投资",
+                "4、 营业收入和营业成本"
+              ],
+              "excerpt": "4、 营业收入和营业成本\n\n√适用  □不适用\n\n单位：元  币种：人民币\n\n项目\n本期发生额\n上期发生额\n收入\n成本\n收入\n成本\n主营业务\n415,969,097.84\n360,553,019.13 633,158,770.00 546,305,360.36\n其他业务\n78,657,620.17\n75,082,634.17\n87,833,714.07\n79,980,358.06\n合计\n494,626,718.01\n435,635,653.30 720,992,484.07 626,285,718.42"
+            },
+            {
+              "chunk_id": "cb2830d04860:c570:258f777fa32c5091",
+              "content_sha256": "f5b43e22714f2c21a517462a49a83a2cf95a9870aba3c8bba479b4932249559e",
+              "target_ids": [
+                "scope:海尔智家:consolidated:year:2024",
+                "scope:海尔智家:parent:year:2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 246,
+              "page_end": 246,
+              "section_path": [
+                "第十节 财务报告",
+                "十九、 母公司财务报表主要项目注释",
+                "（3）对联营企业的长期股权投资",
+                "5、 投资收益"
+              ],
+              "excerpt": "5、 投资收益\n\n√适用 □不适用\n\n单位：元  币种：人民币\n项目\n本期发生额\n上期发生额\n成本法核算的长期股权投资收益\n9,958,795,244.23\n8,458,124,538.41\n权益法核算的长期股权投资收益\n330,033,883.50\n147,523,868.11\n理财产品收益\n60,818,942.18\n45,058,372.14\n其他权益工具投资在持有期间的投资收益\n319,278.00\n317,575.18\n合计\n10,349,967,347.91\n8,651,024,353.84"
+            },
+            {
+              "chunk_id": "cb2830d04860:c470:8a06c0bac6f7afb8",
+              "content_sha256": "3f9116ef924c3f71e5b58c951c5b953f96bd726caea929cb1d563452c8d7b8b6",
+              "target_ids": [
+                "scope:海尔智家:consolidated:year:2024",
+                "scope:海尔智家:parent:year:2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 200,
+              "page_end": 200,
+              "section_path": [
+                "第十节 财务报告",
+                "一、有限售条件股份",
+                "（2）按产品类别列示主营业务收入和主营业务成本"
+              ],
+              "excerpt": "47、 营业收入及营业成本\n\n（1）营业收入\n\n项目\n本期发生额\n上期发生额\n\n主营业务\n284,582,637,563.47\n273,069,452,908.83\n\n其他业务\n1,398,587,640.46\n1,135,067,939.14\n\n合计\n285,981,225,203.93\n274,204,520,847.97\n\n（2）按产品类别列示主营业务收入和主营业务成本\n\n本期发生额\n上期发生额\n\n类别\n\n主营业务收入\n主营业务成本\n主营业务收入\n主营业务成本\n\n空调\n49,055,935,438.09\n37,346,454,702.38\n45,659,954,167.67\n34,882,379,289.82\n\n电冰箱\n83,240,760,926.03\n57,624,075,173.29\n81,640,696,197.18\n56,904,460,178.81\n\n厨电\n41,111,204,777.78\n29,051,095,842.50\n41,588,961,234.83\n29,538,184,860.47\n\n水家电\n15,750,526,855.24\n9,195,963,076.46\n15,010,842,426.77\n8,924,840,941.25\n\n洗衣机\n63,028,390,279.46\n43,252,584,256.77\n61,272,315,753.28\n42,396,315,265.09\n\n装备部品及渠道\n综合服务\n32,395,819,286.87\n29,608,221,683.28\n27,896,683,129.10\n25,795,447,427.14\n\n合计\n284,582,637,563.47\n206,078,394,734.68\n273,069,452,908.83\n198,441,627,962.58"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "sufficient",
+          "evidence_count_by_target": {
+            "scope:海尔智家:consolidated:year:2024": 6,
+            "scope:海尔智家:parent:year:2024": 6
+          },
+          "gaps": []
+        },
+        "result": {
+          "outcome": "answer",
+          "answer": {
+            "answer": "海尔智家-2024-合并口径：海尔智家2024年合并口径营业收入为285,981,225,203.93元。[1][2]\n海尔智家-2024-母公司口径：海尔智家2024年母公司口径营业收入（本期发生额合计）为494,626,718.01元。[3]\n海尔智家-2024-合并口径：合并口径营业收入与母公司口径营业收入的差额为285,981,225,203.93 - 494,626,718.01 = 285,486,598,485.92元。[1][3]",
+            "citations": [
+              {
+                "ordinal": 1,
+                "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+                "page_start": 10,
+                "page_end": 10,
+                "section_path": [
+                  "第二节 公司简介和主要财务指标",
+                  "七、 近三年主要会计数据和财务指标",
+                  "(一) 主要会计数据"
+                ],
+                "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+              },
+              {
+                "ordinal": 2,
+                "chunk_id": "cb2830d04860:c470:8a06c0bac6f7afb8",
+                "page_start": 200,
+                "page_end": 200,
+                "section_path": [
+                  "第十节 财务报告",
+                  "一、有限售条件股份",
+                  "（2）按产品类别列示主营业务收入和主营业务成本"
+                ],
+                "excerpt": "47、 营业收入及营业成本\n\n（1）营业收入\n\n项目\n本期发生额\n上期发生额\n\n主营业务\n284,582,637,563.47\n273,069,452,908.83\n\n其他业务\n1,398,587,640.46\n1,135,067,939.14\n\n合计\n285,981,225,203.93\n274,204,520,847.97\n\n（2）按产品类别列示主营业务收入和主营业务成本\n\n本期发生额\n上期发生额\n\n类别\n\n主营业务收入\n主营业务成本\n主营业务收入\n主营业务成本\n\n空调\n49,055,935,438.09\n37,346,454,702.38\n45,659,954,167.67\n34,882,379,289.82\n\n电冰箱\n83,240,760,926.03\n57,624,075,173.29\n81,640,696,197.18\n56,904,460,178.81\n\n厨电\n41,111,204,777.78\n29,051,095,842.50\n41,588,961,234.83\n29,538,184,860.47\n\n水家电\n15,750,526,855.24\n9,195,963,076.46\n15,010,842,426.77\n8,924,840,941.25\n\n洗衣机\n63,028,390,279.46\n43,252,584,256.77\n61,272,315,753.28\n42,396,315,265.09\n\n装备部品及渠道\n综合服务\n32,395,819,286.87\n29,608,221,683.28\n27,896,683,129.10\n25,795,447,427.14\n\n合计\n284,582,637,563.47\n206,078,394,734.68\n273,069,452,908.83\n198,441,627,962.58"
+              },
+              {
+                "ordinal": 3,
+                "chunk_id": "cb2830d04860:c569:9ccaf35d0cd7e414",
+                "page_start": 246,
+                "page_end": 246,
+                "section_path": [
+                  "第十节 财务报告",
+                  "十九、 母公司财务报表主要项目注释",
+                  "（3）对联营企业的长期股权投资",
+                  "4、 营业收入和营业成本"
+                ],
+                "excerpt": "4、 营业收入和营业成本\n\n√适用  □不适用\n\n单位：元  币种：人民币\n\n项目\n本期发生额\n上期发生额\n收入\n成本\n收入\n成本\n主营业务\n415,969,097.84\n360,553,019.13 633,158,770.00 546,305,360.36\n其他业务\n78,657,620.17\n75,082,634.17\n87,833,714.07\n79,980,358.06\n合计\n494,626,718.01\n435,635,653.30 720,992,484.07 626,285,718.42"
+              }
+            ],
+            "provider": "deepseek-tool-calling",
+            "grounded": true,
+            "claim_citations": [
+              {
+                "claim": "海尔智家-2024-合并口径：海尔智家2024年合并口径营业收入为285,981,225,203.93元。",
+                "citation_ordinals": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "claim": "海尔智家-2024-母公司口径：海尔智家2024年母公司口径营业收入（本期发生额合计）为494,626,718.01元。",
+                "citation_ordinals": [
+                  3
+                ]
+              },
+              {
+                "claim": "海尔智家-2024-合并口径：合并口径营业收入与母公司口径营业收入的差额为285,981,225,203.93 - 494,626,718.01 = 285,486,598,485.92元。",
+                "citation_ordinals": [
+                  1,
+                  3
+                ]
+              }
+            ]
+          },
+          "target_evidence": {
+            "scope:海尔智家:consolidated:year:2024": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b",
+              "cb2830d04860:c569:9ccaf35d0cd7e414",
+              "cb2830d04860:c570:258f777fa32c5091",
+              "cb2830d04860:c470:8a06c0bac6f7afb8"
+            ],
+            "scope:海尔智家:parent:year:2024": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b",
+              "cb2830d04860:c569:9ccaf35d0cd7e414",
+              "cb2830d04860:c570:258f777fa32c5091",
+              "cb2830d04860:c470:8a06c0bac6f7afb8"
+            ]
+          },
+          "target_answers": {
+            "scope:海尔智家:consolidated:year:2024": {
+              "answer": "海尔智家-2024-合并口径：合并口径营业收入与母公司口径营业收入的差额为285,981,225,203.93 - 494,626,718.01 = 285,486,598,485.92元。[1][3]",
+              "citations": [
+                {
+                  "ordinal": 1,
+                  "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+                  "page_start": 10,
+                  "page_end": 10,
+                  "section_path": [
+                    "第二节 公司简介和主要财务指标",
+                    "七、 近三年主要会计数据和财务指标",
+                    "(一) 主要会计数据"
+                  ],
+                  "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+                },
+                {
+                  "ordinal": 3,
+                  "chunk_id": "cb2830d04860:c569:9ccaf35d0cd7e414",
+                  "page_start": 246,
+                  "page_end": 246,
+                  "section_path": [
+                    "第十节 财务报告",
+                    "十九、 母公司财务报表主要项目注释",
+                    "（3）对联营企业的长期股权投资",
+                    "4、 营业收入和营业成本"
+                  ],
+                  "excerpt": "4、 营业收入和营业成本\n\n√适用  □不适用\n\n单位：元  币种：人民币\n\n项目\n本期发生额\n上期发生额\n收入\n成本\n收入\n成本\n主营业务\n415,969,097.84\n360,553,019.13 633,158,770.00 546,305,360.36\n其他业务\n78,657,620.17\n75,082,634.17\n87,833,714.07\n79,980,358.06\n合计\n494,626,718.01\n435,635,653.30 720,992,484.07 626,285,718.42"
+                }
+              ],
+              "provider": "deepseek-tool-calling",
+              "grounded": true,
+              "claim_citations": [
+                {
+                  "claim": "海尔智家-2024-合并口径：合并口径营业收入与母公司口径营业收入的差额为285,981,225,203.93 - 494,626,718.01 = 285,486,598,485.92元。",
+                  "citation_ordinals": [
+                    1,
+                    3
+                  ]
+                }
+              ]
+            },
+            "scope:海尔智家:parent:year:2024": {
+              "answer": "海尔智家-2024-母公司口径：海尔智家2024年母公司口径营业收入（本期发生额合计）为494,626,718.01元。[3]",
+              "citations": [
+                {
+                  "ordinal": 3,
+                  "chunk_id": "cb2830d04860:c569:9ccaf35d0cd7e414",
+                  "page_start": 246,
+                  "page_end": 246,
+                  "section_path": [
+                    "第十节 财务报告",
+                    "十九、 母公司财务报表主要项目注释",
+                    "（3）对联营企业的长期股权投资",
+                    "4、 营业收入和营业成本"
+                  ],
+                  "excerpt": "4、 营业收入和营业成本\n\n√适用  □不适用\n\n单位：元  币种：人民币\n\n项目\n本期发生额\n上期发生额\n收入\n成本\n收入\n成本\n主营业务\n415,969,097.84\n360,553,019.13 633,158,770.00 546,305,360.36\n其他业务\n78,657,620.17\n75,082,634.17\n87,833,714.07\n79,980,358.06\n合计\n494,626,718.01\n435,635,653.30 720,992,484.07 626,285,718.42"
+                }
+              ],
+              "provider": "deepseek-tool-calling",
+              "grounded": true,
+              "claim_citations": [
+                {
+                  "claim": "海尔智家-2024-母公司口径：海尔智家2024年母公司口径营业收入（本期发生额合计）为494,626,718.01元。",
+                  "citation_ordinals": [
+                    3
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-compare-tools-p0b8-provenance-citation-repair",
+          "prompt_sha256": "88d8e3111ab12b84048f8692d1fad45c664383a369a76b279ce0f1ef1042509f",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "search_evidence",
+                "search_evidence"
+              ],
+              "input_tokens": 1073,
+              "output_tokens": 193,
+              "elapsed_ms": 1548.058299929835,
+              "validation_errors": []
+            },
+            {
+              "turn_number": 2,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "submit_comparison"
+              ],
+              "input_tokens": 3374,
+              "output_tokens": 464,
+              "elapsed_ms": 2563.1104999920353,
+              "validation_errors": []
+            }
+          ],
+          "request_count": 2,
+          "input_tokens": 4447,
+          "output_tokens": 657
+        }
+      }
+    },
+    {
+      "case_id": "haier_2024_restatement_provenance",
+      "task_type": "compare",
+      "challenge_types": [
+        "restatement",
+        "fact_year_document_year_mismatch",
+        "same_period_multiple_values",
+        "provenance_constraint"
+      ],
+      "status": "executed",
+      "expected_fact_count": 3,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "revenue_2023_before",
+            "matched": true,
+            "matched_value": "261,427,783,050.10"
+          },
+          {
+            "fact_id": "revenue_2023_after",
+            "matched": true,
+            "matched_value": "274,204,520,847.97"
+          },
+          {
+            "fact_id": "revenue_restatement_increase",
+            "matched": true,
+            "matched_value": "12,776,737,797.87"
+          }
+        ],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "c1f3750975924812a3342e9f029ba950",
+        "task_type": "compare",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "sufficient_evidence",
+        "query": "海尔智家2024年报对2023年营业收入给出了调整前和调整后两个数。比较这两个数并计算调整增加额，证据必须来自2024年报。",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T03:51:45.833200Z",
+        "completed_at": "2026-08-20T03:51:50.105521Z",
+        "rounds_completed": 2,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p1a-page-window",
+          "task_type": "compare",
+          "targets": [
+            {
+              "target_id": "fact:海尔智家:revenue:year:2023:as_reported",
+              "label": "海尔智家-2023-调整前",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "海尔智家"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2023,
+              "document_year": 2024,
+              "statement_scope": "unspecified",
+              "value_version": "as_reported",
+              "retrieval_hint": "近三年主要会计数据 营业收入 2024年 2023年 调整后 调整前 单位 元",
+              "cross_target_group": "fact:海尔智家:revenue:year:2023:document:2024"
+            },
+            {
+              "target_id": "fact:海尔智家:revenue:year:2023:restated_in_2024",
+              "label": "海尔智家-2023-调整后（2024年报）",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "海尔智家"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2023,
+              "document_year": 2024,
+              "statement_scope": "unspecified",
+              "value_version": "restated",
+              "retrieval_hint": "近三年主要会计数据 营业收入 2024年 2023年 调整后 调整前 单位 元",
+              "cross_target_group": "fact:海尔智家:revenue:year:2023:document:2024"
+            }
+          ],
+          "document_scope": null,
+          "retrieval_hint": null,
+          "clarification": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "call_00_DDJcd4WS9YuevFBLucmJ2648",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "fact:海尔智家:revenue:year:2023:as_reported",
+            "query": "近三年主要会计数据 营业收入 2024年 2023年 调整后 调整前 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 89.24899995326996,
+            "retrieval_trace_id": "c2d71f51e6324da2a46d6fa47d3cd93e",
+            "evidence_chunk_ids": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_01_Cu3gFwf87WimDPpUmfVw1132",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "fact:海尔智家:revenue:year:2023:restated_in_2024",
+            "query": "近三年主要会计数据 营业收入 2024年 2023年 调整后 调整前 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 88.66040001157671,
+            "retrieval_trace_id": "a1c4b66d9d6f4b1d97272445455eb1d6",
+            "evidence_chunk_ids": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": [
+            {
+              "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+              "content_sha256": "a5a1588ec98d37e4bf8d027c0ae168951e8bd462f6778684f7cfdb4b81a89c2b",
+              "target_ids": [
+                "fact:海尔智家:revenue:year:2023:as_reported",
+                "fact:海尔智家:revenue:year:2023:restated_in_2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 10,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、 近三年主要会计数据和财务指标",
+                "(一) 主要会计数据"
+              ],
+              "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+            },
+            {
+              "chunk_id": "cb2830d04860:c21:ac709ba4004531b1",
+              "content_sha256": "e7d72fbad349e7724cf309d010fca4f9884715e4b252aa7a97a648b78ffe67b6",
+              "target_ids": [
+                "fact:海尔智家:revenue:year:2023:as_reported",
+                "fact:海尔智家:revenue:year:2023:restated_in_2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 11,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、 近三年主要会计数据和财务指标",
+                "(二) 主要财务指标"
+              ],
+              "excerpt": "(二) 主要财务指标\n\n主要财务指标\n2024年\n2023年\n本期比上年\n2022年\n\n调整后\n调整前\n同期增减\n\n(%)\n基本每股收益（元／股）\n2.02\n1.79\n1.79\n12.85\n1.58\n稀释每股收益（元／股）\n2.02\n1.78\n1.78\n13.48\n1.57\n扣除非经常性损益后的基本每\n股收益（元／股）\n1.93\n1.71\n1.71\n12.87\n1.50\n\n加权平均净资产收益率（%）\n17.70\n17.24\n16.85 增加0.46个\n百分点\n16.80\n\n扣除非经常性损益后的加权平\n均净资产收益率（%）\n16.81\n16.06\n16.06 增加0.75个\n百分点\n15.95\n\n报告期末公司前三年主要会计数据和财务指标的说明\n\n□适用 √不适用"
+            },
+            {
+              "chunk_id": "cb2830d04860:c24:54e5be612ca8bd6b",
+              "content_sha256": "e8b45f555f602f84e1039d805f434645479f1fe8b29aed3b09a1e70447b012f3",
+              "target_ids": [
+                "fact:海尔智家:revenue:year:2023:as_reported",
+                "fact:海尔智家:revenue:year:2023:restated_in_2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 11,
+              "page_end": 12,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "九、 2024 年分季度主要财务数据"
+              ],
+              "excerpt": "九、 2024 年分季度主要财务数据\n\n单位：元  币种：人民币\n\n第一季度\n（1-3 月份）\n\n第二季度\n（4-6 月份）\n\n第三季度\n（7-9 月份）\n\n第四季度\n（10-12 月份）\n营业收入\n71,866,159,446.57 70,060,324,906.71 70,811,687,817.19 73,243,053,033.46\n归属于上市公司\n股东的净利润\n4,772,967,900.81\n5,647,250,488.41\n4,734,229,394.77\n3,586,672,338.94\n\n4,639,880,144.13\n5,520,624,758.25\n4,524,653,457.51\n3,119,574,449.74\n\n归属于上市公司\n股东的扣除非经\n常性损益后的净\n利润\n\n经营活动产生的\n2,092,240,692.01\n6,474,726,848.67\n6,076,169,839.77 11,899,944,531.51\n\n现金流量净额\n季度数据与已披露定期报告数据差异说明\n\n√适用  □不适用\n\n报告期内（2024 年12 月），公司完成对于物流业务的并表（同一控制下企业合并），按照\n\n相关会计规定，对于前三季度财务数据进行了重述。"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "sufficient",
+          "evidence_count_by_target": {
+            "fact:海尔智家:revenue:year:2023:as_reported": 3,
+            "fact:海尔智家:revenue:year:2023:restated_in_2024": 3
+          },
+          "gaps": []
+        },
+        "result": {
+          "outcome": "answer",
+          "answer": {
+            "answer": "海尔智家-2023-调整前：海尔智家2024年报中2023年营业收入调整前为261,427,783,050.10元。[1]\n海尔智家-2023-调整后（2024年报）：海尔智家2024年报中2023年营业收入调整后为274,204,520,847.97元。[1]\n海尔智家-2023-调整后（2024年报）：调整增加额=274,204,520,847.97-261,427,783,050.10=12,776,737,797.87元。[1]",
+            "citations": [
+              {
+                "ordinal": 1,
+                "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+                "page_start": 10,
+                "page_end": 10,
+                "section_path": [
+                  "第二节 公司简介和主要财务指标",
+                  "七、 近三年主要会计数据和财务指标",
+                  "(一) 主要会计数据"
+                ],
+                "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+              }
+            ],
+            "provider": "deepseek-tool-calling",
+            "grounded": true,
+            "claim_citations": [
+              {
+                "claim": "海尔智家-2023-调整前：海尔智家2024年报中2023年营业收入调整前为261,427,783,050.10元。",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "海尔智家-2023-调整后（2024年报）：海尔智家2024年报中2023年营业收入调整后为274,204,520,847.97元。",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "海尔智家-2023-调整后（2024年报）：调整增加额=274,204,520,847.97-261,427,783,050.10=12,776,737,797.87元。",
+                "citation_ordinals": [
+                  1
+                ]
+              }
+            ]
+          },
+          "target_evidence": {
+            "fact:海尔智家:revenue:year:2023:as_reported": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b"
+            ],
+            "fact:海尔智家:revenue:year:2023:restated_in_2024": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b"
+            ]
+          },
+          "target_answers": {
+            "fact:海尔智家:revenue:year:2023:as_reported": {
+              "answer": "海尔智家-2023-调整前：海尔智家2024年报中2023年营业收入调整前为261,427,783,050.10元。[1]",
+              "citations": [
+                {
+                  "ordinal": 1,
+                  "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+                  "page_start": 10,
+                  "page_end": 10,
+                  "section_path": [
+                    "第二节 公司简介和主要财务指标",
+                    "七、 近三年主要会计数据和财务指标",
+                    "(一) 主要会计数据"
+                  ],
+                  "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+                }
+              ],
+              "provider": "deepseek-tool-calling",
+              "grounded": true,
+              "claim_citations": [
+                {
+                  "claim": "海尔智家-2023-调整前：海尔智家2024年报中2023年营业收入调整前为261,427,783,050.10元。",
+                  "citation_ordinals": [
+                    1
+                  ]
+                }
+              ]
+            },
+            "fact:海尔智家:revenue:year:2023:restated_in_2024": {
+              "answer": "海尔智家-2023-调整后（2024年报）：调整增加额=274,204,520,847.97-261,427,783,050.10=12,776,737,797.87元。[1]",
+              "citations": [
+                {
+                  "ordinal": 1,
+                  "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+                  "page_start": 10,
+                  "page_end": 10,
+                  "section_path": [
+                    "第二节 公司简介和主要财务指标",
+                    "七、 近三年主要会计数据和财务指标",
+                    "(一) 主要会计数据"
+                  ],
+                  "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+                }
+              ],
+              "provider": "deepseek-tool-calling",
+              "grounded": true,
+              "claim_citations": [
+                {
+                  "claim": "海尔智家-2023-调整后（2024年报）：调整增加额=274,204,520,847.97-261,427,783,050.10=12,776,737,797.87元。",
+                  "citation_ordinals": [
+                    1
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-compare-tools-p0b8-provenance-citation-repair",
+          "prompt_sha256": "90fa1f37dcb206a6d34366051c8de3db31390e7ea0320962f06703009b7d98b9",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "search_evidence",
+                "search_evidence"
+              ],
+              "input_tokens": 1172,
+              "output_tokens": 219,
+              "elapsed_ms": 1446.8303999165073,
+              "validation_errors": []
+            },
+            {
+              "turn_number": 2,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "submit_comparison"
+              ],
+              "input_tokens": 2370,
+              "output_tokens": 457,
+              "elapsed_ms": 2646.8836000422016,
+              "validation_errors": []
+            }
+          ],
+          "request_count": 2,
+          "input_tokens": 3542,
+          "output_tokens": 676
+        }
+      }
+    },
+    {
+      "case_id": "cypc_2024_restatement_growth_basis",
+      "task_type": "compare",
+      "challenge_types": [
+        "restatement",
+        "growth_basis",
+        "cross_document_conflict",
+        "false_premise_resistance"
+      ],
+      "status": "executed",
+      "expected_fact_count": 6,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "revenue_2024",
+            "matched": true,
+            "matched_value": "84,491,870,566.52"
+          },
+          {
+            "fact_id": "revenue_2023_after",
+            "matched": true,
+            "matched_value": "78,143,535,736.10"
+          },
+          {
+            "fact_id": "revenue_2023_before",
+            "matched": true,
+            "matched_value": "78,111,573,265.75"
+          },
+          {
+            "fact_id": "revenue_restatement_increase",
+            "matched": true,
+            "matched_value": "31,962,470.35"
+          },
+          {
+            "fact_id": "growth_rate",
+            "matched": true,
+            "matched_value": "8.12%"
+          },
+          {
+            "fact_id": "growth_basis",
+            "matched": true,
+            "matched_value": "调整后"
+          }
+        ],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "23581bf5a84f4177b209d552a36e046a",
+        "task_type": "compare",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "sufficient_evidence",
+        "query": "长江电力2024年营业收入同比增长8.12%的比较基数是2023年调整前还是调整后？列出2024数、两种2023数及调整差额。",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T03:51:50.107102Z",
+        "completed_at": "2026-08-20T03:51:54.961712Z",
+        "rounds_completed": 2,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p1a-page-window",
+          "task_type": "compare",
+          "targets": [
+            {
+              "target_id": "company:长江电力:year:2024",
+              "label": "长江电力-2024",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "长江电力"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2024,
+              "document_year": 2024,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 营业收入 2024年 调整后 调整前 单位 元",
+              "cross_target_group": "company:长江电力:comparative-table"
+            },
+            {
+              "target_id": "company:长江电力:year:2023",
+              "label": "长江电力-2023",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "长江电力"
+                ],
+                "report_years": [
+                  2023
+                ],
+                "document_types": []
+              },
+              "fact_year": 2023,
+              "document_year": 2023,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 营业收入 2023年 调整后 调整前 单位 元",
+              "cross_target_group": "company:长江电力:comparative-table"
+            }
+          ],
+          "document_scope": null,
+          "retrieval_hint": null,
+          "clarification": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "call_00_tksaHo9QH4BzNdaVPln94981",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:长江电力:year:2024",
+            "query": "近三年主要会计数据 营业收入 2024年 调整后 调整前 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "长江电力"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 86.09040000010282,
+            "retrieval_trace_id": "6f32ca6254534c85b51ca04469a538db",
+            "evidence_chunk_ids": [
+              "556767ca1f7c:c10:0892044f861b9f36",
+              "556767ca1f7c:c11:c866293c1c7e77a2",
+              "556767ca1f7c:c418:ba93f444d33350be"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_01_HdvgHPLVGQyg2C2ICQy03677",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:长江电力:year:2023",
+            "query": "近三年主要会计数据 营业收入 2023年 调整后 调整前 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "长江电力"
+              ],
+              "report_years": [
+                2023
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 98.96400000434369,
+            "retrieval_trace_id": "690d4b74525f4c8cb637f6fa51f6ff9a",
+            "evidence_chunk_ids": [
+              "a32aa92211f5:c10:be93fb614164561e",
+              "a32aa92211f5:c11:13e4032231935fc4",
+              "a32aa92211f5:c437:1c0f83a2d04b3768"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": [
+            {
+              "chunk_id": "556767ca1f7c:c10:0892044f861b9f36",
+              "content_sha256": "bbee232429e6bc4d33183093f535d5c76178aca84a2bc5f10b6a25ad8eba7107",
+              "target_ids": [
+                "company:长江电力:year:2024",
+                "company:长江电力:year:2023"
+              ],
+              "document_id": "sha256:556767ca1f7c06bb679c827aa6522ff9927d2a63dc2ab64b57194fdc57192048",
+              "document_key": "cninfo:600900:annual:2024",
+              "company_name": "长江电力",
+              "report_year": 2024,
+              "page_start": 5,
+              "page_end": 5,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、近三年主要会计数据和财务指标",
+                "(一) 主要会计数据"
+              ],
+              "excerpt": "六、其他相关资料\n\n公司聘请的会计师事\n务所（境内）\n\n名称\n大华会计师事务所（特殊普通合伙）\n办公地址\n北京市海淀区西四环中路16 号院7 号楼12 层\n签字会计师姓名\n郝丽江、杨倩\n\n七、近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元\n币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比上年\n\n同期增减\n\n(%)\n\n2022年\n调整后\n调整前\n营业收入\n84,491,870,566.52\n78,143,535,736.10\n78,111,573,265.75\n8.12\n68,863,128,424.25\n归属于上市公司股\n东的净利润\n32,496,172,808.65\n27,244,616,815.27\n27,238,970,860.70\n19.28\n23,725,915,960.71\n\n32,507,551,977.06\n27,508,231,223.76\n27,508,231,223.76\n18.17\n21,392,344,535.58\n\n归属于上市公司股\n东的扣除非经常性\n损益的净利润\n\n经营活动产生的现\n金流量净额\n59,648,468,284.22\n64,749,448,288.66\n64,718,720,441.75\n-7.88\n43,476,502,138.14\n\n2024年末\n2023年末\n本期末比上\n年同期末增\n\n减（%）\n\n2022年末\n调整后\n调整前\n归属于上市公司股\n东的净资产\n210,288,410,895.97\n201,453,338,461.43\n201,330,025,517.69\n4.39\n227,672,712,353.16\n\n总资产\n566,071,979,792.34\n572,938,869,543.08\n571,942,544,909.29\n-1.20\n578,453,569,418.28"
+            },
+            {
+              "chunk_id": "556767ca1f7c:c11:c866293c1c7e77a2",
+              "content_sha256": "0e4361f70bd5ab17ec19a598d93c3655a8c7ac6f3ab0697953cb942c02e700b0",
+              "target_ids": [
+                "company:长江电力:year:2024",
+                "company:长江电力:year:2023"
+              ],
+              "document_id": "sha256:556767ca1f7c06bb679c827aa6522ff9927d2a63dc2ab64b57194fdc57192048",
+              "document_key": "cninfo:600900:annual:2024",
+              "company_name": "长江电力",
+              "report_year": 2024,
+              "page_start": 6,
+              "page_end": 6,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、近三年主要会计数据和财务指标",
+                "(二) 主要财务指标"
+              ],
+              "excerpt": "(二) 主要财务指标\n\n主要财务指标\n2024年\n2023年\n本期比上年\n\n同期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n1.3286\n1.1242\n1.1242\n18.17\n0.9407\n\n基本每股收益（元／股）\n1.3281\n1.1135\n1.1132\n19.28\n0.9697\n稀释每股收益（元／股）\n1.3281\n1.1135\n1.1132\n19.28\n0.9697\n扣除非经常性损益后的基本每\n股收益（元／股）\n\n加权平均净资产收益率（%）\n15.71\n13.52\n13.52\n增加2.19个\n\n百分点\n9.32\n\n15.72\n14.13\n14.13\n增加1.59个\n\n百分点\n11.77\n\n扣除非经常性损益后的加权平\n均净资产收益率（%）\n\n报告期末公司前三年主要会计数据和财务指标的说明\n√适用□不适用\n\n本报告期公司发生同一控制下的企业合并，对比较期间财务数据进行相应追溯调整。"
+            },
+            {
+              "chunk_id": "556767ca1f7c:c418:ba93f444d33350be",
+              "content_sha256": "690e5dded7f97d656107d981c7a5e872463125ed84a47cd2bc6c98a5df8ed9ed",
+              "target_ids": [
+                "company:长江电力:year:2024",
+                "company:长江电力:year:2023"
+              ],
+              "document_id": "sha256:556767ca1f7c06bb679c827aa6522ff9927d2a63dc2ab64b57194fdc57192048",
+              "document_key": "cninfo:600900:annual:2024",
+              "company_name": "长江电力",
+              "report_year": 2024,
+              "page_start": 193,
+              "page_end": 194,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值",
+                "(2).期末发行在外的优先股、永续债等金融工具变动情况表",
+                "60、 未分配利润"
+              ],
+              "excerpt": "60、\n未分配利润\n\n√适用□不适用\n\n单位：元\n币种：人民币\n项目\n本期\n上期\n调整前上期末未分配利润\n86,404,877,655.08\n81,875,582,795.77\n调整期初未分配利润合计数（调增+，\n调减－）\n调整后期初未分配利润\n86,404,877,655.08\n81,875,582,795.77\n加：本期归属于母公司所有者的净利\n润\n32,496,172,808.65\n27,244,616,815.27\n\n其他\n56,426,592.52\n710,567.56\n减：提取法定盈余公积\n564,110.44\n应付普通股股利\n25,202,264,247.48\n22,715,468,413.08\n加：盈余公积弥补亏损\n其他综合收益结转留存收益\n56,366,566.14\n期末未分配利润\n93,811,579,374.91\n86,404,877,655.08\n\n根据本公司2023 年年度股东大会于2024 年5 月23 日审议通过的《公司2023 年度利润分\n\n配方案》，以总股本24,468,217,716 股为基数，每10 股派发现金股利8.20 元（含税），共计分配\n\n现金股利20,063,938,527.12 元（含税）。\n\n根据本公司2024 年第四次临时股东大会于2024 年12 月30 日审议通过的《公司2024 年中\n\n期利润分配方案》，以总股本24,468,217,716 股为基数，每10 股派发现金股利2.1 元（含税），\n\n共计分配现金股利5,138,325,720.36 元（含税）。\n\n调整期初未分配利润明细：\n\n由于同一控制导致的合并范围变更，影响期初未分配利润5,081,844.13 元。"
+            },
+            {
+              "chunk_id": "a32aa92211f5:c10:be93fb614164561e",
+              "content_sha256": "dd9ae5b4f9f2014920ec6eca218285fc61b2ec040b203513c9b9e1c4b1c792a6",
+              "target_ids": [
+                "company:长江电力:year:2024",
+                "company:长江电力:year:2023"
+              ],
+              "document_id": "sha256:a32aa92211f533bef9bd426a29158060d6bed4a31fca6c9f6805fd8659c90d38",
+              "document_key": "cninfo:600900:annual:2023",
+              "company_name": "长江电力",
+              "report_year": 2023,
+              "page_start": 6,
+              "page_end": 6,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、近三年主要会计数据和财务指标",
+                "(一) 主要会计数据"
+              ],
+              "excerpt": "六、其他相关资料\n\n公司聘请的会计师事务所\n（境内）\n\n名称\n大华会计师事务所（特殊普通合伙）\n办公地址\n北京市海淀区西四环中路16 号院7 号楼12 层\n签字会计师姓名\n郝丽江、沈彦波\n\n七、近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元\n币种：人民币\n\n主要会计数据\n2023年\n2022年\n本期比上年\n\n同期增减\n\n(%)\n\n2021年\n调整后\n调整前\n营业收入\n78,111,573,265.75\n68,863,128,424.25\n52,060,482,557.85\n13.43\n55,646,253,991.83\n归属于上市公司\n股东的净利润\n27,238,970,860.70\n23,725,915,960.71\n21,309,033,980.94\n14.81\n26,272,998,503.24\n\n27,508,231,223.76\n21,392,344,535.58\n21,392,344,535.58\n28.59\n24,141,419,619.03\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n64,718,720,441.75\n43,476,502,138.14\n30,912,732,230.12\n48.86\n35,732,461,733.26\n\n2023年末\n2022年末\n本期末比上\n年同期末增\n\n减（%）\n\n2021年末\n调整后\n调整前\n归属于上市公司\n股东的净资产\n201,330,025,517.69\n227,672,712,353.16\n185,488,250,616.82\n-11.57\n181,063,819,486.27\n\n总资产\n571,942,544,909.29\n578,453,569,418.28\n327,268,285,047.33\n-1.13\n328,563,281,639.20"
+            },
+            {
+              "chunk_id": "a32aa92211f5:c11:13e4032231935fc4",
+              "content_sha256": "28287cc4592feb488e17b9e8bb231ad34fd54920058eeb5d81a8ce45443948b9",
+              "target_ids": [
+                "company:长江电力:year:2024",
+                "company:长江电力:year:2023"
+              ],
+              "document_id": "sha256:a32aa92211f533bef9bd426a29158060d6bed4a31fca6c9f6805fd8659c90d38",
+              "document_key": "cninfo:600900:annual:2023",
+              "company_name": "长江电力",
+              "report_year": 2023,
+              "page_start": 7,
+              "page_end": 7,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、近三年主要会计数据和财务指标",
+                "(二) 主要财务指标"
+              ],
+              "excerpt": "(二) 主要财务指标\n\n主要财务指标\n2023年\n2022年\n本期比上年同期增\n\n减(%)\n2021年\n调整后\n调整前\n基本每股收益（元／股）\n1.1132\n0.9697\n0.9370\n14.81\n1.1553\n稀释每股收益（元／股）\n1.1132\n0.9697\n0.9370\n14.81\n1.1553\n扣除非经常性损益后的基本\n每股收益（元／股）\n1.1242\n0.9407\n0.9407\n19.52\n1.0615\n\n加权平均净资产收益率（%）\n13.52\n9.32\n11.73\n增加4.20 个百分点\n14.92\n扣除非经常性损益后的加权\n平均净资产收益率（%）\n14.13\n11.77\n11.77\n增加2.36 个百分点\n13.71\n\n报告期末公司前三年主要会计数据和财务指标的说明\n√适用□不适用\n本报告期公司发生同一控制下的企业合并，对比较期间财务数据进行相应追溯调整。"
+            },
+            {
+              "chunk_id": "a32aa92211f5:c437:1c0f83a2d04b3768",
+              "content_sha256": "f1b3479cd31b165df8db4e9d37e48843cbfdb1284bd5add98a0693d326abe8e1",
+              "target_ids": [
+                "company:长江电力:year:2024",
+                "company:长江电力:year:2023"
+              ],
+              "document_id": "sha256:a32aa92211f533bef9bd426a29158060d6bed4a31fca6c9f6805fd8659c90d38",
+              "document_key": "cninfo:600900:annual:2023",
+              "company_name": "长江电力",
+              "report_year": 2023,
+              "page_start": 198,
+              "page_end": 199,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值",
+                "(2). 期末发行在外的优先股、永续债等金融工具变动情况表",
+                "60、未分配利润"
+              ],
+              "excerpt": "60、未分配利润\n\n√适用□不适用\n\n单位：元\n币种：人民币\n项目\n本期\n上期\n调整前上期末未分配利润\n81,875,582,795.77\n76,768,181,760.95\n调整期初未分配利润合计数（调增\n+，调减－）\n3,659,221,869.79\n\n调整后期初未分配利润\n81,875,582,795.77\n80,427,403,630.74\n加：本期归属于母公司所有者的净利\n润\n27,238,970,860.70\n23,725,915,960.71\n\n其他\n710,567.56\n5,372,687.93\n减：提取法定盈余公积\n241,671,653.39\n应付普通股股利\n22,715,468,413.08\n22,041,437,830.22\n加：盈余公积弥补亏损\n设定受益计划变动额结转留存收益\n期末未分配利润\n86,399,795,810.95\n81,875,582,795.77\n根据公司股东大会于2023 年5 月23 日审议通过的《公司2022 年度利润分配方案》，对公司\n2022 年2 月1 日至2022 年12 月31 日实现的合并口径归属于母公司所有者的净利润\n20,092,277,840.10 元，按100%比例对享有分配权的股东进行分配。此外，云川公司根据过渡期\n（评估基准日至交割日）损益安排，计提对原股东股利3,747,415,104.26 元，其中中国三峡集团\n有限公司及长江三峡投资管理有限公司合计享有2,623,190,572.98 元。\n\n调整期初未分配利润明细：\n\n由于同一控制导致的合并范围变更，影响期初未分配利润3,659,221,869.79 元。"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "sufficient",
+          "evidence_count_by_target": {
+            "company:长江电力:year:2024": 6,
+            "company:长江电力:year:2023": 6
+          },
+          "gaps": []
+        },
+        "result": {
+          "outcome": "answer",
+          "answer": {
+            "answer": "长江电力-2024：长江电力2024年营业收入为84,491,870,566.52元。[1]\n长江电力-2023：长江电力2023年营业收入调整后为78,143,535,736.10元，调整前为78,111,573,265.75元。[1][2]\n长江电力-2023：长江电力2023年营业收入调整后与调整前的差额为31,962,470.35元（78,143,535,736.10 - 78,111,573,265.75）。[1]\n长江电力-2024：长江电力2024年营业收入同比增长8.12%的比较基数为2023年调整后营业收入78,143,535,736.10元（84,491,870,566.52 / 78,143,535,736.10 - 1 ≈ 8.12%），而非调整前数据。[1]",
+            "citations": [
+              {
+                "ordinal": 1,
+                "chunk_id": "556767ca1f7c:c10:0892044f861b9f36",
+                "page_start": 5,
+                "page_end": 5,
+                "section_path": [
+                  "第二节 公司简介和主要财务指标",
+                  "七、近三年主要会计数据和财务指标",
+                  "(一) 主要会计数据"
+                ],
+                "excerpt": "六、其他相关资料\n\n公司聘请的会计师事\n务所（境内）\n\n名称\n大华会计师事务所（特殊普通合伙）\n办公地址\n北京市海淀区西四环中路16 号院7 号楼12 层\n签字会计师姓名\n郝丽江、杨倩\n\n七、近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元\n币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比上年\n\n同期增减\n\n(%)\n\n2022年\n调整后\n调整前\n营业收入\n84,491,870,566.52\n78,143,535,736.10\n78,111,573,265.75\n8.12\n68,863,128,424.25\n归属于上市公司股\n东的净利润\n32,496,172,808.65\n27,244,616,815.27\n27,238,970,860.70\n19.28\n23,725,915,960.71\n\n32,507,551,977.06\n27,508,231,223.76\n27,508,231,223.76\n18.17\n21,392,344,535.58\n\n归属于上市公司股\n东的扣除非经常性\n损益的净利润\n\n经营活动产生的现\n金流量净额\n59,648,468,284.22\n64,749,448,288.66\n64,718,720,441.75\n-7.88\n43,476,502,138.14\n\n2024年末\n2023年末\n本期末比上\n年同期末增\n\n减（%）\n\n2022年末\n调整后\n调整前\n归属于上市公司股\n东的净资产\n210,288,410,895.97\n201,453,338,461.43\n201,330,025,517.69\n4.39\n227,672,712,353.16\n\n总资产\n566,071,979,792.34\n572,938,869,543.08\n571,942,544,909.29\n-1.20\n578,453,569,418.28"
+              },
+              {
+                "ordinal": 2,
+                "chunk_id": "a32aa92211f5:c10:be93fb614164561e",
+                "page_start": 6,
+                "page_end": 6,
+                "section_path": [
+                  "第二节 公司简介和主要财务指标",
+                  "七、近三年主要会计数据和财务指标",
+                  "(一) 主要会计数据"
+                ],
+                "excerpt": "六、其他相关资料\n\n公司聘请的会计师事务所\n（境内）\n\n名称\n大华会计师事务所（特殊普通合伙）\n办公地址\n北京市海淀区西四环中路16 号院7 号楼12 层\n签字会计师姓名\n郝丽江、沈彦波\n\n七、近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元\n币种：人民币\n\n主要会计数据\n2023年\n2022年\n本期比上年\n\n同期增减\n\n(%)\n\n2021年\n调整后\n调整前\n营业收入\n78,111,573,265.75\n68,863,128,424.25\n52,060,482,557.85\n13.43\n55,646,253,991.83\n归属于上市公司\n股东的净利润\n27,238,970,860.70\n23,725,915,960.71\n21,309,033,980.94\n14.81\n26,272,998,503.24\n\n27,508,231,223.76\n21,392,344,535.58\n21,392,344,535.58\n28.59\n24,141,419,619.03\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n64,718,720,441.75\n43,476,502,138.14\n30,912,732,230.12\n48.86\n35,732,461,733.26\n\n2023年末\n2022年末\n本期末比上\n年同期末增\n\n减（%）\n\n2021年末\n调整后\n调整前\n归属于上市公司\n股东的净资产\n201,330,025,517.69\n227,672,712,353.16\n185,488,250,616.82\n-11.57\n181,063,819,486.27\n\n总资产\n571,942,544,909.29\n578,453,569,418.28\n327,268,285,047.33\n-1.13\n328,563,281,639.20"
+              }
+            ],
+            "provider": "deepseek-tool-calling",
+            "grounded": true,
+            "claim_citations": [
+              {
+                "claim": "长江电力-2024：长江电力2024年营业收入为84,491,870,566.52元。",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "长江电力-2023：长江电力2023年营业收入调整后为78,143,535,736.10元，调整前为78,111,573,265.75元。",
+                "citation_ordinals": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "claim": "长江电力-2023：长江电力2023年营业收入调整后与调整前的差额为31,962,470.35元（78,143,535,736.10 - 78,111,573,265.75）。",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "长江电力-2024：长江电力2024年营业收入同比增长8.12%的比较基数为2023年调整后营业收入78,143,535,736.10元（84,491,870,566.52 / 78,143,535,736.10 - 1 ≈ 8.12%），而非调整前数据。",
+                "citation_ordinals": [
+                  1
+                ]
+              }
+            ]
+          },
+          "target_evidence": {
+            "company:长江电力:year:2024": [
+              "556767ca1f7c:c10:0892044f861b9f36",
+              "556767ca1f7c:c11:c866293c1c7e77a2",
+              "556767ca1f7c:c418:ba93f444d33350be",
+              "a32aa92211f5:c10:be93fb614164561e",
+              "a32aa92211f5:c11:13e4032231935fc4",
+              "a32aa92211f5:c437:1c0f83a2d04b3768"
+            ],
+            "company:长江电力:year:2023": [
+              "556767ca1f7c:c10:0892044f861b9f36",
+              "556767ca1f7c:c11:c866293c1c7e77a2",
+              "556767ca1f7c:c418:ba93f444d33350be",
+              "a32aa92211f5:c10:be93fb614164561e",
+              "a32aa92211f5:c11:13e4032231935fc4",
+              "a32aa92211f5:c437:1c0f83a2d04b3768"
+            ]
+          },
+          "target_answers": {
+            "company:长江电力:year:2024": {
+              "answer": "长江电力-2024：长江电力2024年营业收入同比增长8.12%的比较基数为2023年调整后营业收入78,143,535,736.10元（84,491,870,566.52 / 78,143,535,736.10 - 1 ≈ 8.12%），而非调整前数据。[1]",
+              "citations": [
+                {
+                  "ordinal": 1,
+                  "chunk_id": "556767ca1f7c:c10:0892044f861b9f36",
+                  "page_start": 5,
+                  "page_end": 5,
+                  "section_path": [
+                    "第二节 公司简介和主要财务指标",
+                    "七、近三年主要会计数据和财务指标",
+                    "(一) 主要会计数据"
+                  ],
+                  "excerpt": "六、其他相关资料\n\n公司聘请的会计师事\n务所（境内）\n\n名称\n大华会计师事务所（特殊普通合伙）\n办公地址\n北京市海淀区西四环中路16 号院7 号楼12 层\n签字会计师姓名\n郝丽江、杨倩\n\n七、近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元\n币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比上年\n\n同期增减\n\n(%)\n\n2022年\n调整后\n调整前\n营业收入\n84,491,870,566.52\n78,143,535,736.10\n78,111,573,265.75\n8.12\n68,863,128,424.25\n归属于上市公司股\n东的净利润\n32,496,172,808.65\n27,244,616,815.27\n27,238,970,860.70\n19.28\n23,725,915,960.71\n\n32,507,551,977.06\n27,508,231,223.76\n27,508,231,223.76\n18.17\n21,392,344,535.58\n\n归属于上市公司股\n东的扣除非经常性\n损益的净利润\n\n经营活动产生的现\n金流量净额\n59,648,468,284.22\n64,749,448,288.66\n64,718,720,441.75\n-7.88\n43,476,502,138.14\n\n2024年末\n2023年末\n本期末比上\n年同期末增\n\n减（%）\n\n2022年末\n调整后\n调整前\n归属于上市公司股\n东的净资产\n210,288,410,895.97\n201,453,338,461.43\n201,330,025,517.69\n4.39\n227,672,712,353.16\n\n总资产\n566,071,979,792.34\n572,938,869,543.08\n571,942,544,909.29\n-1.20\n578,453,569,418.28"
+                }
+              ],
+              "provider": "deepseek-tool-calling",
+              "grounded": true,
+              "claim_citations": [
+                {
+                  "claim": "长江电力-2024：长江电力2024年营业收入同比增长8.12%的比较基数为2023年调整后营业收入78,143,535,736.10元（84,491,870,566.52 / 78,143,535,736.10 - 1 ≈ 8.12%），而非调整前数据。",
+                  "citation_ordinals": [
+                    1
+                  ]
+                }
+              ]
+            },
+            "company:长江电力:year:2023": {
+              "answer": "长江电力-2023：长江电力2023年营业收入调整后与调整前的差额为31,962,470.35元（78,143,535,736.10 - 78,111,573,265.75）。[1]",
+              "citations": [
+                {
+                  "ordinal": 1,
+                  "chunk_id": "556767ca1f7c:c10:0892044f861b9f36",
+                  "page_start": 5,
+                  "page_end": 5,
+                  "section_path": [
+                    "第二节 公司简介和主要财务指标",
+                    "七、近三年主要会计数据和财务指标",
+                    "(一) 主要会计数据"
+                  ],
+                  "excerpt": "六、其他相关资料\n\n公司聘请的会计师事\n务所（境内）\n\n名称\n大华会计师事务所（特殊普通合伙）\n办公地址\n北京市海淀区西四环中路16 号院7 号楼12 层\n签字会计师姓名\n郝丽江、杨倩\n\n七、近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元\n币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比上年\n\n同期增减\n\n(%)\n\n2022年\n调整后\n调整前\n营业收入\n84,491,870,566.52\n78,143,535,736.10\n78,111,573,265.75\n8.12\n68,863,128,424.25\n归属于上市公司股\n东的净利润\n32,496,172,808.65\n27,244,616,815.27\n27,238,970,860.70\n19.28\n23,725,915,960.71\n\n32,507,551,977.06\n27,508,231,223.76\n27,508,231,223.76\n18.17\n21,392,344,535.58\n\n归属于上市公司股\n东的扣除非经常性\n损益的净利润\n\n经营活动产生的现\n金流量净额\n59,648,468,284.22\n64,749,448,288.66\n64,718,720,441.75\n-7.88\n43,476,502,138.14\n\n2024年末\n2023年末\n本期末比上\n年同期末增\n\n减（%）\n\n2022年末\n调整后\n调整前\n归属于上市公司股\n东的净资产\n210,288,410,895.97\n201,453,338,461.43\n201,330,025,517.69\n4.39\n227,672,712,353.16\n\n总资产\n566,071,979,792.34\n572,938,869,543.08\n571,942,544,909.29\n-1.20\n578,453,569,418.28"
+                }
+              ],
+              "provider": "deepseek-tool-calling",
+              "grounded": true,
+              "claim_citations": [
+                {
+                  "claim": "长江电力-2023：长江电力2023年营业收入调整后与调整前的差额为31,962,470.35元（78,143,535,736.10 - 78,111,573,265.75）。",
+                  "citation_ordinals": [
+                    1
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-compare-tools-p0b8-provenance-citation-repair",
+          "prompt_sha256": "60b63a781e87ddee698312eb80368a2bd531a3fb9932d829ac4be8ca3f3d9092",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "search_evidence",
+                "search_evidence"
+              ],
+              "input_tokens": 1050,
+              "output_tokens": 192,
+              "elapsed_ms": 1327.0405000075698,
+              "validation_errors": []
+            },
+            {
+              "turn_number": 2,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "submit_comparison"
+              ],
+              "input_tokens": 3977,
+              "output_tokens": 583,
+              "elapsed_ms": 3340.586100006476,
+              "validation_errors": []
+            }
+          ],
+          "request_count": 2,
+          "input_tokens": 5027,
+          "output_tokens": 775
+        }
+      }
+    },
+    {
+      "case_id": "four_target_adjusted_revenue_compare",
+      "task_type": "compare",
+      "challenge_types": [
+        "multi_company",
+        "multi_year",
+        "target_completeness",
+        "fact_year_document_year_mismatch",
+        "restated_comparative_policy"
+      ],
+      "status": "executed",
+      "expected_fact_count": 7,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "haier_2023_after",
+            "matched": true,
+            "matched_value": "274,204,520,847.97"
+          },
+          {
+            "fact_id": "haier_2024",
+            "matched": true,
+            "matched_value": "285,981,225,203.93"
+          },
+          {
+            "fact_id": "haier_growth",
+            "matched": true,
+            "matched_value": "4.29%"
+          },
+          {
+            "fact_id": "cypc_2023_after",
+            "matched": true,
+            "matched_value": "78,143,535,736.10"
+          },
+          {
+            "fact_id": "cypc_2024",
+            "matched": true,
+            "matched_value": "84,491,870,566.52"
+          },
+          {
+            "fact_id": "cypc_growth",
+            "matched": true,
+            "matched_value": "8.12%"
+          },
+          {
+            "fact_id": "higher_growth_company",
+            "matched": true,
+            "matched_value": "长江电力"
+          }
+        ],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "ff05e0298aa94a45916d3087c7391627",
+        "task_type": "compare",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "sufficient_evidence",
+        "query": "比较海尔智家和长江电力2023年、2024年营业收入；2023年统一采用各自2024年报披露的调整后比较数，并判断哪家公司2024年同比增幅更高。",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T03:51:54.962224Z",
+        "completed_at": "2026-08-20T03:52:00.905742Z",
+        "rounds_completed": 2,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p1a-page-window",
+          "task_type": "compare",
+          "targets": [
+            {
+              "target_id": "company:海尔智家:year:2023",
+              "label": "海尔智家-2023",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "海尔智家"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2023,
+              "document_year": 2024,
+              "statement_scope": "unspecified",
+              "value_version": "restated",
+              "retrieval_hint": "近三年主要会计数据 营业收入 2024年 2023年 调整后 调整前 单位 元",
+              "cross_target_group": "company:海尔智家:comparative-table"
+            },
+            {
+              "target_id": "company:海尔智家:year:2024",
+              "label": "海尔智家-2024",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "海尔智家"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2024,
+              "document_year": 2024,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 营业收入 2024年 调整后 调整前 单位 元",
+              "cross_target_group": "company:海尔智家:comparative-table"
+            },
+            {
+              "target_id": "company:长江电力:year:2023",
+              "label": "长江电力-2023",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "长江电力"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2023,
+              "document_year": 2024,
+              "statement_scope": "unspecified",
+              "value_version": "restated",
+              "retrieval_hint": "近三年主要会计数据 营业收入 2024年 2023年 调整后 调整前 单位 元",
+              "cross_target_group": "company:长江电力:comparative-table"
+            },
+            {
+              "target_id": "company:长江电力:year:2024",
+              "label": "长江电力-2024",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "长江电力"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2024,
+              "document_year": 2024,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 营业收入 2024年 调整后 调整前 单位 元",
+              "cross_target_group": "company:长江电力:comparative-table"
+            }
+          ],
+          "document_scope": null,
+          "retrieval_hint": null,
+          "clarification": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "call_00_CLAxVGTIkPCubkCNOZIk5729",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:海尔智家:year:2023",
+            "query": "近三年主要会计数据 营业收入 2024年 2023年 调整后 调整前 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 89.43739999085665,
+            "retrieval_trace_id": "67c98c6e987949a786da93ee77444635",
+            "evidence_chunk_ids": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_01_Thjc53eZNPV3XVDFiE0g8267",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:海尔智家:year:2024",
+            "query": "近三年主要会计数据 营业收入 2024年 调整后 调整前 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 81.2733001075685,
+            "retrieval_trace_id": "d93eaa09ac434f4d86ca10a888af9258",
+            "evidence_chunk_ids": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_02_chcADwTdcVEJBpy4yJ1B1758",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:长江电力:year:2023",
+            "query": "近三年主要会计数据 营业收入 2024年 2023年 调整后 调整前 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "长江电力"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 89.72329995594919,
+            "retrieval_trace_id": "7500254507a44004b8ccdea1756dd34e",
+            "evidence_chunk_ids": [
+              "556767ca1f7c:c10:0892044f861b9f36",
+              "556767ca1f7c:c11:c866293c1c7e77a2",
+              "556767ca1f7c:c418:ba93f444d33350be"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_03_Za4etFLFwqFZGDE1Tfrz7308",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:长江电力:year:2024",
+            "query": "近三年主要会计数据 营业收入 2024年 调整后 调整前 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "长江电力"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 80.24299994576722,
+            "retrieval_trace_id": "ad4b1be6c6094e3ba5c396089f347997",
+            "evidence_chunk_ids": [
+              "556767ca1f7c:c10:0892044f861b9f36",
+              "556767ca1f7c:c11:c866293c1c7e77a2",
+              "556767ca1f7c:c418:ba93f444d33350be"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": [
+            {
+              "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+              "content_sha256": "a5a1588ec98d37e4bf8d027c0ae168951e8bd462f6778684f7cfdb4b81a89c2b",
+              "target_ids": [
+                "company:海尔智家:year:2023",
+                "company:海尔智家:year:2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 10,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、 近三年主要会计数据和财务指标",
+                "(一) 主要会计数据"
+              ],
+              "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+            },
+            {
+              "chunk_id": "cb2830d04860:c21:ac709ba4004531b1",
+              "content_sha256": "e7d72fbad349e7724cf309d010fca4f9884715e4b252aa7a97a648b78ffe67b6",
+              "target_ids": [
+                "company:海尔智家:year:2023",
+                "company:海尔智家:year:2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 11,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、 近三年主要会计数据和财务指标",
+                "(二) 主要财务指标"
+              ],
+              "excerpt": "(二) 主要财务指标\n\n主要财务指标\n2024年\n2023年\n本期比上年\n2022年\n\n调整后\n调整前\n同期增减\n\n(%)\n基本每股收益（元／股）\n2.02\n1.79\n1.79\n12.85\n1.58\n稀释每股收益（元／股）\n2.02\n1.78\n1.78\n13.48\n1.57\n扣除非经常性损益后的基本每\n股收益（元／股）\n1.93\n1.71\n1.71\n12.87\n1.50\n\n加权平均净资产收益率（%）\n17.70\n17.24\n16.85 增加0.46个\n百分点\n16.80\n\n扣除非经常性损益后的加权平\n均净资产收益率（%）\n16.81\n16.06\n16.06 增加0.75个\n百分点\n15.95\n\n报告期末公司前三年主要会计数据和财务指标的说明\n\n□适用 √不适用"
+            },
+            {
+              "chunk_id": "cb2830d04860:c24:54e5be612ca8bd6b",
+              "content_sha256": "e8b45f555f602f84e1039d805f434645479f1fe8b29aed3b09a1e70447b012f3",
+              "target_ids": [
+                "company:海尔智家:year:2023",
+                "company:海尔智家:year:2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 11,
+              "page_end": 12,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "九、 2024 年分季度主要财务数据"
+              ],
+              "excerpt": "九、 2024 年分季度主要财务数据\n\n单位：元  币种：人民币\n\n第一季度\n（1-3 月份）\n\n第二季度\n（4-6 月份）\n\n第三季度\n（7-9 月份）\n\n第四季度\n（10-12 月份）\n营业收入\n71,866,159,446.57 70,060,324,906.71 70,811,687,817.19 73,243,053,033.46\n归属于上市公司\n股东的净利润\n4,772,967,900.81\n5,647,250,488.41\n4,734,229,394.77\n3,586,672,338.94\n\n4,639,880,144.13\n5,520,624,758.25\n4,524,653,457.51\n3,119,574,449.74\n\n归属于上市公司\n股东的扣除非经\n常性损益后的净\n利润\n\n经营活动产生的\n2,092,240,692.01\n6,474,726,848.67\n6,076,169,839.77 11,899,944,531.51\n\n现金流量净额\n季度数据与已披露定期报告数据差异说明\n\n√适用  □不适用\n\n报告期内（2024 年12 月），公司完成对于物流业务的并表（同一控制下企业合并），按照\n\n相关会计规定，对于前三季度财务数据进行了重述。"
+            },
+            {
+              "chunk_id": "556767ca1f7c:c10:0892044f861b9f36",
+              "content_sha256": "bbee232429e6bc4d33183093f535d5c76178aca84a2bc5f10b6a25ad8eba7107",
+              "target_ids": [
+                "company:长江电力:year:2023",
+                "company:长江电力:year:2024"
+              ],
+              "document_id": "sha256:556767ca1f7c06bb679c827aa6522ff9927d2a63dc2ab64b57194fdc57192048",
+              "document_key": "cninfo:600900:annual:2024",
+              "company_name": "长江电力",
+              "report_year": 2024,
+              "page_start": 5,
+              "page_end": 5,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、近三年主要会计数据和财务指标",
+                "(一) 主要会计数据"
+              ],
+              "excerpt": "六、其他相关资料\n\n公司聘请的会计师事\n务所（境内）\n\n名称\n大华会计师事务所（特殊普通合伙）\n办公地址\n北京市海淀区西四环中路16 号院7 号楼12 层\n签字会计师姓名\n郝丽江、杨倩\n\n七、近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元\n币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比上年\n\n同期增减\n\n(%)\n\n2022年\n调整后\n调整前\n营业收入\n84,491,870,566.52\n78,143,535,736.10\n78,111,573,265.75\n8.12\n68,863,128,424.25\n归属于上市公司股\n东的净利润\n32,496,172,808.65\n27,244,616,815.27\n27,238,970,860.70\n19.28\n23,725,915,960.71\n\n32,507,551,977.06\n27,508,231,223.76\n27,508,231,223.76\n18.17\n21,392,344,535.58\n\n归属于上市公司股\n东的扣除非经常性\n损益的净利润\n\n经营活动产生的现\n金流量净额\n59,648,468,284.22\n64,749,448,288.66\n64,718,720,441.75\n-7.88\n43,476,502,138.14\n\n2024年末\n2023年末\n本期末比上\n年同期末增\n\n减（%）\n\n2022年末\n调整后\n调整前\n归属于上市公司股\n东的净资产\n210,288,410,895.97\n201,453,338,461.43\n201,330,025,517.69\n4.39\n227,672,712,353.16\n\n总资产\n566,071,979,792.34\n572,938,869,543.08\n571,942,544,909.29\n-1.20\n578,453,569,418.28"
+            },
+            {
+              "chunk_id": "556767ca1f7c:c11:c866293c1c7e77a2",
+              "content_sha256": "0e4361f70bd5ab17ec19a598d93c3655a8c7ac6f3ab0697953cb942c02e700b0",
+              "target_ids": [
+                "company:长江电力:year:2023",
+                "company:长江电力:year:2024"
+              ],
+              "document_id": "sha256:556767ca1f7c06bb679c827aa6522ff9927d2a63dc2ab64b57194fdc57192048",
+              "document_key": "cninfo:600900:annual:2024",
+              "company_name": "长江电力",
+              "report_year": 2024,
+              "page_start": 6,
+              "page_end": 6,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、近三年主要会计数据和财务指标",
+                "(二) 主要财务指标"
+              ],
+              "excerpt": "(二) 主要财务指标\n\n主要财务指标\n2024年\n2023年\n本期比上年\n\n同期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n1.3286\n1.1242\n1.1242\n18.17\n0.9407\n\n基本每股收益（元／股）\n1.3281\n1.1135\n1.1132\n19.28\n0.9697\n稀释每股收益（元／股）\n1.3281\n1.1135\n1.1132\n19.28\n0.9697\n扣除非经常性损益后的基本每\n股收益（元／股）\n\n加权平均净资产收益率（%）\n15.71\n13.52\n13.52\n增加2.19个\n\n百分点\n9.32\n\n15.72\n14.13\n14.13\n增加1.59个\n\n百分点\n11.77\n\n扣除非经常性损益后的加权平\n均净资产收益率（%）\n\n报告期末公司前三年主要会计数据和财务指标的说明\n√适用□不适用\n\n本报告期公司发生同一控制下的企业合并，对比较期间财务数据进行相应追溯调整。"
+            },
+            {
+              "chunk_id": "556767ca1f7c:c418:ba93f444d33350be",
+              "content_sha256": "690e5dded7f97d656107d981c7a5e872463125ed84a47cd2bc6c98a5df8ed9ed",
+              "target_ids": [
+                "company:长江电力:year:2023",
+                "company:长江电力:year:2024"
+              ],
+              "document_id": "sha256:556767ca1f7c06bb679c827aa6522ff9927d2a63dc2ab64b57194fdc57192048",
+              "document_key": "cninfo:600900:annual:2024",
+              "company_name": "长江电力",
+              "report_year": 2024,
+              "page_start": 193,
+              "page_end": 194,
+              "section_path": [
+                "第十节 财务报告",
+                "四、账面价值",
+                "(2).期末发行在外的优先股、永续债等金融工具变动情况表",
+                "60、 未分配利润"
+              ],
+              "excerpt": "60、\n未分配利润\n\n√适用□不适用\n\n单位：元\n币种：人民币\n项目\n本期\n上期\n调整前上期末未分配利润\n86,404,877,655.08\n81,875,582,795.77\n调整期初未分配利润合计数（调增+，\n调减－）\n调整后期初未分配利润\n86,404,877,655.08\n81,875,582,795.77\n加：本期归属于母公司所有者的净利\n润\n32,496,172,808.65\n27,244,616,815.27\n\n其他\n56,426,592.52\n710,567.56\n减：提取法定盈余公积\n564,110.44\n应付普通股股利\n25,202,264,247.48\n22,715,468,413.08\n加：盈余公积弥补亏损\n其他综合收益结转留存收益\n56,366,566.14\n期末未分配利润\n93,811,579,374.91\n86,404,877,655.08\n\n根据本公司2023 年年度股东大会于2024 年5 月23 日审议通过的《公司2023 年度利润分\n\n配方案》，以总股本24,468,217,716 股为基数，每10 股派发现金股利8.20 元（含税），共计分配\n\n现金股利20,063,938,527.12 元（含税）。\n\n根据本公司2024 年第四次临时股东大会于2024 年12 月30 日审议通过的《公司2024 年中\n\n期利润分配方案》，以总股本24,468,217,716 股为基数，每10 股派发现金股利2.1 元（含税），\n\n共计分配现金股利5,138,325,720.36 元（含税）。\n\n调整期初未分配利润明细：\n\n由于同一控制导致的合并范围变更，影响期初未分配利润5,081,844.13 元。"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "sufficient",
+          "evidence_count_by_target": {
+            "company:海尔智家:year:2023": 3,
+            "company:海尔智家:year:2024": 3,
+            "company:长江电力:year:2023": 3,
+            "company:长江电力:year:2024": 3
+          },
+          "gaps": []
+        },
+        "result": {
+          "outcome": "answer",
+          "answer": {
+            "answer": "海尔智家-2023：海尔智家2023年营业收入（2024年报调整后比较数）为274,204,520,847.97元。[1]\n海尔智家-2024：海尔智家2024年营业收入为285,981,225,203.93元，较2023年调整后数增长4.29%。[1]\n长江电力-2023：长江电力2023年营业收入（2024年报调整后比较数）为78,143,535,736.10元。[2]\n长江电力-2024：长江电力2024年营业收入为84,491,870,566.52元，较2023年调整后数增长8.12%。[2]\n长江电力-2024：2024年同比增幅比较：长江电力营业收入同比增长8.12%，高于海尔智家的4.29%，因此长江电力2024年同比增幅更高。[1][2]",
+            "citations": [
+              {
+                "ordinal": 1,
+                "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+                "page_start": 10,
+                "page_end": 10,
+                "section_path": [
+                  "第二节 公司简介和主要财务指标",
+                  "七、 近三年主要会计数据和财务指标",
+                  "(一) 主要会计数据"
+                ],
+                "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+              },
+              {
+                "ordinal": 2,
+                "chunk_id": "556767ca1f7c:c10:0892044f861b9f36",
+                "page_start": 5,
+                "page_end": 5,
+                "section_path": [
+                  "第二节 公司简介和主要财务指标",
+                  "七、近三年主要会计数据和财务指标",
+                  "(一) 主要会计数据"
+                ],
+                "excerpt": "六、其他相关资料\n\n公司聘请的会计师事\n务所（境内）\n\n名称\n大华会计师事务所（特殊普通合伙）\n办公地址\n北京市海淀区西四环中路16 号院7 号楼12 层\n签字会计师姓名\n郝丽江、杨倩\n\n七、近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元\n币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比上年\n\n同期增减\n\n(%)\n\n2022年\n调整后\n调整前\n营业收入\n84,491,870,566.52\n78,143,535,736.10\n78,111,573,265.75\n8.12\n68,863,128,424.25\n归属于上市公司股\n东的净利润\n32,496,172,808.65\n27,244,616,815.27\n27,238,970,860.70\n19.28\n23,725,915,960.71\n\n32,507,551,977.06\n27,508,231,223.76\n27,508,231,223.76\n18.17\n21,392,344,535.58\n\n归属于上市公司股\n东的扣除非经常性\n损益的净利润\n\n经营活动产生的现\n金流量净额\n59,648,468,284.22\n64,749,448,288.66\n64,718,720,441.75\n-7.88\n43,476,502,138.14\n\n2024年末\n2023年末\n本期末比上\n年同期末增\n\n减（%）\n\n2022年末\n调整后\n调整前\n归属于上市公司股\n东的净资产\n210,288,410,895.97\n201,453,338,461.43\n201,330,025,517.69\n4.39\n227,672,712,353.16\n\n总资产\n566,071,979,792.34\n572,938,869,543.08\n571,942,544,909.29\n-1.20\n578,453,569,418.28"
+              }
+            ],
+            "provider": "deepseek-tool-calling",
+            "grounded": true,
+            "claim_citations": [
+              {
+                "claim": "海尔智家-2023：海尔智家2023年营业收入（2024年报调整后比较数）为274,204,520,847.97元。",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "海尔智家-2024：海尔智家2024年营业收入为285,981,225,203.93元，较2023年调整后数增长4.29%。",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "长江电力-2023：长江电力2023年营业收入（2024年报调整后比较数）为78,143,535,736.10元。",
+                "citation_ordinals": [
+                  2
+                ]
+              },
+              {
+                "claim": "长江电力-2024：长江电力2024年营业收入为84,491,870,566.52元，较2023年调整后数增长8.12%。",
+                "citation_ordinals": [
+                  2
+                ]
+              },
+              {
+                "claim": "长江电力-2024：2024年同比增幅比较：长江电力营业收入同比增长8.12%，高于海尔智家的4.29%，因此长江电力2024年同比增幅更高。",
+                "citation_ordinals": [
+                  1,
+                  2
+                ]
+              }
+            ]
+          },
+          "target_evidence": {
+            "company:海尔智家:year:2023": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b"
+            ],
+            "company:海尔智家:year:2024": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b"
+            ],
+            "company:长江电力:year:2023": [
+              "556767ca1f7c:c10:0892044f861b9f36",
+              "556767ca1f7c:c11:c866293c1c7e77a2",
+              "556767ca1f7c:c418:ba93f444d33350be"
+            ],
+            "company:长江电力:year:2024": [
+              "556767ca1f7c:c10:0892044f861b9f36",
+              "556767ca1f7c:c11:c866293c1c7e77a2",
+              "556767ca1f7c:c418:ba93f444d33350be"
+            ]
+          },
+          "target_answers": {
+            "company:海尔智家:year:2023": {
+              "answer": "海尔智家-2023：海尔智家2023年营业收入（2024年报调整后比较数）为274,204,520,847.97元。[1]",
+              "citations": [
+                {
+                  "ordinal": 1,
+                  "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+                  "page_start": 10,
+                  "page_end": 10,
+                  "section_path": [
+                    "第二节 公司简介和主要财务指标",
+                    "七、 近三年主要会计数据和财务指标",
+                    "(一) 主要会计数据"
+                  ],
+                  "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+                }
+              ],
+              "provider": "deepseek-tool-calling",
+              "grounded": true,
+              "claim_citations": [
+                {
+                  "claim": "海尔智家-2023：海尔智家2023年营业收入（2024年报调整后比较数）为274,204,520,847.97元。",
+                  "citation_ordinals": [
+                    1
+                  ]
+                }
+              ]
+            },
+            "company:海尔智家:year:2024": {
+              "answer": "海尔智家-2024：海尔智家2024年营业收入为285,981,225,203.93元，较2023年调整后数增长4.29%。[1]",
+              "citations": [
+                {
+                  "ordinal": 1,
+                  "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+                  "page_start": 10,
+                  "page_end": 10,
+                  "section_path": [
+                    "第二节 公司简介和主要财务指标",
+                    "七、 近三年主要会计数据和财务指标",
+                    "(一) 主要会计数据"
+                  ],
+                  "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+                }
+              ],
+              "provider": "deepseek-tool-calling",
+              "grounded": true,
+              "claim_citations": [
+                {
+                  "claim": "海尔智家-2024：海尔智家2024年营业收入为285,981,225,203.93元，较2023年调整后数增长4.29%。",
+                  "citation_ordinals": [
+                    1
+                  ]
+                }
+              ]
+            },
+            "company:长江电力:year:2023": {
+              "answer": "长江电力-2023：长江电力2023年营业收入（2024年报调整后比较数）为78,143,535,736.10元。[2]",
+              "citations": [
+                {
+                  "ordinal": 2,
+                  "chunk_id": "556767ca1f7c:c10:0892044f861b9f36",
+                  "page_start": 5,
+                  "page_end": 5,
+                  "section_path": [
+                    "第二节 公司简介和主要财务指标",
+                    "七、近三年主要会计数据和财务指标",
+                    "(一) 主要会计数据"
+                  ],
+                  "excerpt": "六、其他相关资料\n\n公司聘请的会计师事\n务所（境内）\n\n名称\n大华会计师事务所（特殊普通合伙）\n办公地址\n北京市海淀区西四环中路16 号院7 号楼12 层\n签字会计师姓名\n郝丽江、杨倩\n\n七、近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元\n币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比上年\n\n同期增减\n\n(%)\n\n2022年\n调整后\n调整前\n营业收入\n84,491,870,566.52\n78,143,535,736.10\n78,111,573,265.75\n8.12\n68,863,128,424.25\n归属于上市公司股\n东的净利润\n32,496,172,808.65\n27,244,616,815.27\n27,238,970,860.70\n19.28\n23,725,915,960.71\n\n32,507,551,977.06\n27,508,231,223.76\n27,508,231,223.76\n18.17\n21,392,344,535.58\n\n归属于上市公司股\n东的扣除非经常性\n损益的净利润\n\n经营活动产生的现\n金流量净额\n59,648,468,284.22\n64,749,448,288.66\n64,718,720,441.75\n-7.88\n43,476,502,138.14\n\n2024年末\n2023年末\n本期末比上\n年同期末增\n\n减（%）\n\n2022年末\n调整后\n调整前\n归属于上市公司股\n东的净资产\n210,288,410,895.97\n201,453,338,461.43\n201,330,025,517.69\n4.39\n227,672,712,353.16\n\n总资产\n566,071,979,792.34\n572,938,869,543.08\n571,942,544,909.29\n-1.20\n578,453,569,418.28"
+                }
+              ],
+              "provider": "deepseek-tool-calling",
+              "grounded": true,
+              "claim_citations": [
+                {
+                  "claim": "长江电力-2023：长江电力2023年营业收入（2024年报调整后比较数）为78,143,535,736.10元。",
+                  "citation_ordinals": [
+                    2
+                  ]
+                }
+              ]
+            },
+            "company:长江电力:year:2024": {
+              "answer": "长江电力-2024：2024年同比增幅比较：长江电力营业收入同比增长8.12%，高于海尔智家的4.29%，因此长江电力2024年同比增幅更高。[1][2]",
+              "citations": [
+                {
+                  "ordinal": 1,
+                  "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+                  "page_start": 10,
+                  "page_end": 10,
+                  "section_path": [
+                    "第二节 公司简介和主要财务指标",
+                    "七、 近三年主要会计数据和财务指标",
+                    "(一) 主要会计数据"
+                  ],
+                  "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+                },
+                {
+                  "ordinal": 2,
+                  "chunk_id": "556767ca1f7c:c10:0892044f861b9f36",
+                  "page_start": 5,
+                  "page_end": 5,
+                  "section_path": [
+                    "第二节 公司简介和主要财务指标",
+                    "七、近三年主要会计数据和财务指标",
+                    "(一) 主要会计数据"
+                  ],
+                  "excerpt": "六、其他相关资料\n\n公司聘请的会计师事\n务所（境内）\n\n名称\n大华会计师事务所（特殊普通合伙）\n办公地址\n北京市海淀区西四环中路16 号院7 号楼12 层\n签字会计师姓名\n郝丽江、杨倩\n\n七、近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元\n币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比上年\n\n同期增减\n\n(%)\n\n2022年\n调整后\n调整前\n营业收入\n84,491,870,566.52\n78,143,535,736.10\n78,111,573,265.75\n8.12\n68,863,128,424.25\n归属于上市公司股\n东的净利润\n32,496,172,808.65\n27,244,616,815.27\n27,238,970,860.70\n19.28\n23,725,915,960.71\n\n32,507,551,977.06\n27,508,231,223.76\n27,508,231,223.76\n18.17\n21,392,344,535.58\n\n归属于上市公司股\n东的扣除非经常性\n损益的净利润\n\n经营活动产生的现\n金流量净额\n59,648,468,284.22\n64,749,448,288.66\n64,718,720,441.75\n-7.88\n43,476,502,138.14\n\n2024年末\n2023年末\n本期末比上\n年同期末增\n\n减（%）\n\n2022年末\n调整后\n调整前\n归属于上市公司股\n东的净资产\n210,288,410,895.97\n201,453,338,461.43\n201,330,025,517.69\n4.39\n227,672,712,353.16\n\n总资产\n566,071,979,792.34\n572,938,869,543.08\n571,942,544,909.29\n-1.20\n578,453,569,418.28"
+                }
+              ],
+              "provider": "deepseek-tool-calling",
+              "grounded": true,
+              "claim_citations": [
+                {
+                  "claim": "长江电力-2024：2024年同比增幅比较：长江电力营业收入同比增长8.12%，高于海尔智家的4.29%，因此长江电力2024年同比增幅更高。",
+                  "citation_ordinals": [
+                    1,
+                    2
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-compare-tools-p0b8-provenance-citation-repair",
+          "prompt_sha256": "6c2506de4a77dcc821a30c4dbdb39a48a252a275c0adec780872f02014681b87",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "search_evidence",
+                "search_evidence",
+                "search_evidence",
+                "search_evidence"
+              ],
+              "input_tokens": 1384,
+              "output_tokens": 388,
+              "elapsed_ms": 2135.4052999522537,
+              "validation_errors": []
+            },
+            {
+              "turn_number": 2,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "submit_comparison"
+              ],
+              "input_tokens": 4058,
+              "output_tokens": 578,
+              "elapsed_ms": 3466.007799957879,
+              "validation_errors": []
+            }
+          ],
+          "request_count": 2,
+          "input_tokens": 5442,
+          "output_tokens": 966
+        }
+      }
+    },
+    {
+      "case_id": "haier_future_actual_refusal",
+      "task_type": "compare",
+      "challenge_types": [
+        "unanswerable",
+        "future_actual",
+        "false_premise",
+        "safe_abstention"
+      ],
+      "status": "executed",
+      "expected_fact_count": 0,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "9b745c65fb89498cb7adc92515bf6f5f",
+        "task_type": "compare",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "no_new_evidence",
+        "query": "只依据海尔智家2024年报，比较其2024年与2025年实际营业收入。若2025年实际数未披露，必须明确拒答，不能用目标、预测或外部知识代替。",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T03:52:00.906780Z",
+        "completed_at": "2026-08-20T03:52:03.140280Z",
+        "rounds_completed": 2,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p1a-page-window",
+          "task_type": "compare",
+          "targets": [
+            {
+              "target_id": "company:海尔智家:year:2024",
+              "label": "海尔智家-2024",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "海尔智家"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2024,
+              "document_year": 2024,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 营业收入 2024年 单位 元",
+              "cross_target_group": null
+            },
+            {
+              "target_id": "company:海尔智家:year:2025",
+              "label": "海尔智家-2025",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "海尔智家"
+                ],
+                "report_years": [
+                  2025
+                ],
+                "document_types": []
+              },
+              "fact_year": 2025,
+              "document_year": 2025,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 营业收入 2025年 单位 元",
+              "cross_target_group": null
+            }
+          ],
+          "document_scope": null,
+          "retrieval_hint": null,
+          "clarification": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "call_00_hagCnQAKq2D2BD9R2pBj3328",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:海尔智家:year:2024",
+            "query": "近三年主要会计数据 营业收入 2024年 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 84.72539996728301,
+            "retrieval_trace_id": "f088637f1cc148ef8addf2ceb4712d7a",
+            "evidence_chunk_ids": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_01_PsA3s8M3PH4mvWzSF8Zu1815",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:海尔智家:year:2025",
+            "query": "近三年主要会计数据 营业收入 2025年 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2025
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 2.3230999941006303,
+            "retrieval_trace_id": "950c1636a18442b9a3a97556ecbe4b57",
+            "evidence_chunk_ids": [],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_00_0yY0S9tVckSR0YvyFzzB5158",
+            "round_number": 2,
+            "tool": "search_evidence",
+            "target_id": "company:海尔智家:year:2025",
+            "query": "2025年 营业收入 实际数 近三年主要会计数据 营业收入 2025年 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "海尔智家"
+              ],
+              "report_years": [
+                2025
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 2.034400007687509,
+            "retrieval_trace_id": "bee3099c0b574e10b31419eb42a8bfd2",
+            "evidence_chunk_ids": [],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": [
+            {
+              "chunk_id": "cb2830d04860:c20:f307cbaaec02d069",
+              "content_sha256": "a5a1588ec98d37e4bf8d027c0ae168951e8bd462f6778684f7cfdb4b81a89c2b",
+              "target_ids": [
+                "company:海尔智家:year:2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 10,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、 近三年主要会计数据和财务指标",
+                "(一) 主要会计数据"
+              ],
+              "excerpt": "七、 近三年主要会计数据和财务指标\n\n(一) 主要会计数据\n\n单位：元  币种：人民币\n\n主要会计数据\n2024年\n2023年\n本期比\n上年同\n期增减\n\n2022年\n调整后\n调整前\n\n(%)\n\n营业收入\n285,981,225,203.93 274,204,520,847.97\n261,427,783,050.10\n4.29\n243,578,924,958.47\n归属于上市公司\n股东的净利润\n18,741,120,122.93\n16,596,615,045.87\n16,596,615,045.87\n12.92\n14,712,054,763.24\n\n17,804,732,809.63\n15,824,164,161.43\n15,824,164,161.43\n12.52\n13,962,931,853.78\n\n归属于上市公司\n股东的扣除非经\n常性损益的净利\n润\n\n经营活动产生的\n现金流量净额\n26,543,081,911.96\n26,535,780,568.36\n25,262,376,228.30\n0.03\n20,256,557,145.86\n\n2024年末\n\n2022年末\n调整后\n调整前\n\n2023年末\n本期末\n比上年\n同期末\n增减（\n\n%）\n\n归属于上市公司\n股东的净资产\n111,366,118,999.17 101,265,984,771.17\n103,514,153,535.04\n9.97\n93,459,437,602.44\n\n总资产\n290,113,822,824.61 261,067,684,897.49\n253,379,859,977.97\n11.13\n236,017,821,177.50"
+            },
+            {
+              "chunk_id": "cb2830d04860:c21:ac709ba4004531b1",
+              "content_sha256": "e7d72fbad349e7724cf309d010fca4f9884715e4b252aa7a97a648b78ffe67b6",
+              "target_ids": [
+                "company:海尔智家:year:2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 11,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "七、 近三年主要会计数据和财务指标",
+                "(二) 主要财务指标"
+              ],
+              "excerpt": "(二) 主要财务指标\n\n主要财务指标\n2024年\n2023年\n本期比上年\n2022年\n\n调整后\n调整前\n同期增减\n\n(%)\n基本每股收益（元／股）\n2.02\n1.79\n1.79\n12.85\n1.58\n稀释每股收益（元／股）\n2.02\n1.78\n1.78\n13.48\n1.57\n扣除非经常性损益后的基本每\n股收益（元／股）\n1.93\n1.71\n1.71\n12.87\n1.50\n\n加权平均净资产收益率（%）\n17.70\n17.24\n16.85 增加0.46个\n百分点\n16.80\n\n扣除非经常性损益后的加权平\n均净资产收益率（%）\n16.81\n16.06\n16.06 增加0.75个\n百分点\n15.95\n\n报告期末公司前三年主要会计数据和财务指标的说明\n\n□适用 √不适用"
+            },
+            {
+              "chunk_id": "cb2830d04860:c24:54e5be612ca8bd6b",
+              "content_sha256": "e8b45f555f602f84e1039d805f434645479f1fe8b29aed3b09a1e70447b012f3",
+              "target_ids": [
+                "company:海尔智家:year:2024"
+              ],
+              "document_id": "sha256:cb2830d04860a0c18a491b9998c0928d1b77e740f07824a34f7543d823f7b10b",
+              "document_key": "cninfo:600690:annual:2024",
+              "company_name": "海尔智家",
+              "report_year": 2024,
+              "page_start": 11,
+              "page_end": 12,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "九、 2024 年分季度主要财务数据"
+              ],
+              "excerpt": "九、 2024 年分季度主要财务数据\n\n单位：元  币种：人民币\n\n第一季度\n（1-3 月份）\n\n第二季度\n（4-6 月份）\n\n第三季度\n（7-9 月份）\n\n第四季度\n（10-12 月份）\n营业收入\n71,866,159,446.57 70,060,324,906.71 70,811,687,817.19 73,243,053,033.46\n归属于上市公司\n股东的净利润\n4,772,967,900.81\n5,647,250,488.41\n4,734,229,394.77\n3,586,672,338.94\n\n4,639,880,144.13\n5,520,624,758.25\n4,524,653,457.51\n3,119,574,449.74\n\n归属于上市公司\n股东的扣除非经\n常性损益后的净\n利润\n\n经营活动产生的\n2,092,240,692.01\n6,474,726,848.67\n6,076,169,839.77 11,899,944,531.51\n\n现金流量净额\n季度数据与已披露定期报告数据差异说明\n\n√适用  □不适用\n\n报告期内（2024 年12 月），公司完成对于物流业务的并表（同一控制下企业合并），按照\n\n相关会计规定，对于前三季度财务数据进行了重述。"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {
+            "company:海尔智家:year:2024": 3,
+            "company:海尔智家:year:2025": 0
+          },
+          "gaps": [
+            "company:海尔智家:year:2025"
+          ]
+        },
+        "result": {
+          "outcome": "abstain",
+          "answer": {
+            "answer": "未检索到以下目标的可验证证据：海尔智家-2025。系统拒绝生成不完整比较，不会用预测、目标或外部知识补全。",
+            "citations": [],
+            "provider": "agent-local-evidence-gate",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {
+            "company:海尔智家:year:2024": [
+              "cb2830d04860:c20:f307cbaaec02d069",
+              "cb2830d04860:c21:ac709ba4004531b1",
+              "cb2830d04860:c24:54e5be612ca8bd6b"
+            ],
+            "company:海尔智家:year:2025": []
+          },
+          "target_answers": {}
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-compare-tools-p0b8-provenance-citation-repair",
+          "prompt_sha256": "d5cae84913c608abe0b77b3d390381e4736e0971b9b9e945803160c19b35799a",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "search_evidence",
+                "search_evidence"
+              ],
+              "input_tokens": 1041,
+              "output_tokens": 182,
+              "elapsed_ms": 1211.731499992311,
+              "validation_errors": []
+            },
+            {
+              "turn_number": 2,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "search_evidence"
+              ],
+              "input_tokens": 2645,
+              "output_tokens": 87,
+              "elapsed_ms": 932.1398999309167,
+              "validation_errors": []
+            }
+          ],
+          "request_count": 2,
+          "input_tokens": 3686,
+          "output_tokens": 269
+        }
+      }
+    }
+  ]
+}

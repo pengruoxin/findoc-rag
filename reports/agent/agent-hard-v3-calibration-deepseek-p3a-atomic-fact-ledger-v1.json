@@ -1,0 +1,1559 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-provisional-gold-calibration-extract",
+  "dataset_path": "D:/202607/raglab/data/evaluation/agent-hard-v3-calibration-extract.json",
+  "dataset_sha256": "bbd4cea8dab89265e0e2e92463715a2ca76d73b24dc10a4732f49c723a792d73",
+  "index_scope": "calibration-extract",
+  "index_path": "D:/202607/raglab/data/indexes/benchmark-v3",
+  "evaluated_at": "2026-08-20T08:24:31.804061+00:00",
+  "runtime": "deepseek",
+  "scoring": "local_exact_gold_and_citation_overlap",
+  "source_validation": {
+    "valid": true,
+    "referenced_document_count": 4,
+    "verified_document_count": 4,
+    "errors": []
+  },
+  "status": "complete",
+  "reason": null,
+  "provider": {
+    "name": "deepseek",
+    "model": "deepseek-v4-flash",
+    "endpoint": "https://api.deepseek.com/chat/completions"
+  },
+  "index_id": "01cdff73daca665e2985",
+  "metrics": {
+    "case_count": 14,
+    "executed_case_count": 14,
+    "unsupported_case_count": 0,
+    "task_coverage_rate": 1.0,
+    "plan_target_exact_rate": 1.0,
+    "behavior_accuracy": 0.14285714285714285,
+    "supported_fact_accuracy": 0.0,
+    "end_to_end_fact_accuracy": 0.0,
+    "supported_case_pass_rate": 0.14285714285714285,
+    "end_to_end_case_pass_rate": 0.14285714285714285,
+    "safe_abstention_accuracy": 0.0,
+    "clarification_accuracy": 1.0,
+    "atomic_requirement_case_count": 0,
+    "task_requirement_coverage": null,
+    "requirement_evidence_coverage": null,
+    "scope_validation_rate": null,
+    "claim_citation_completeness": null
+  },
+  "items": [
+    {
+      "case_id": "v3_601398_y23_core",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "status": "executed",
+      "expected_fact_count": 4,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "net_profit",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "assets",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "loans",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "deposits",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "8ad0f15798fc4182b7c6a482cd26ca64",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "工商银行2023年净利润、资产总额、客户贷款及垫款总额和客户存款分别是多少？",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.382037Z",
+        "completed_at": "2026-08-20T08:24:36.382037Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_601398_y23_asset_quality",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "status": "executed",
+      "expected_fact_count": 4,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "npl",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "coverage",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "capital",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "cost_income",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "1880d6e0e93a4b5587da45ee967b4764",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "工商银行2023年不良贷款率、拨备覆盖率、资本充足率和成本收入比分别是多少？",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.382037Z",
+        "completed_at": "2026-08-20T08:24:36.382037Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_601398_y23_ecl_audit",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "status": "executed",
+      "expected_fact_count": 13,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "risk_significant_increase",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "risk_credit_impaired",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "risk_pd",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "risk_lgd",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "risk_ead",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "risk_forward_looking",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "risk_scenarios",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "audit_controls",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "audit_models",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "audit_it",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "audit_credit_samples",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "audit_collateral",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "audit_cashflow",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "120796cfc8e94e79a2ab55e3d7863546",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "工商银行2023年关于客户贷款及垫款预期信用损失的关键审计事项，风险点和审计应对分别是什么？",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.383043Z",
+        "completed_at": "2026-08-20T08:24:36.383043Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_601398_y24_core",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "status": "executed",
+      "expected_fact_count": 4,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "net_profit",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "assets",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "loans",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "deposits",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "a893f31e6d4a404fb39ba10044c49191",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "工商银行2024年净利润、资产总额、客户贷款及垫款总额和客户存款分别是多少？",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.383043Z",
+        "completed_at": "2026-08-20T08:24:36.383043Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_601398_y24_interest",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "status": "executed",
+      "expected_fact_count": 7,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "net_interest_income",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "income_change",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "nim",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "nim_change",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "reason_lpr",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "reason_mortgage",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "reason_deposit",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "d8cb4231c6304b2abb13f2621eedf35d",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "工商银行2024年净利息收入和净利息收益率如何变化，年报解释的主要原因是什么？",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.383043Z",
+        "completed_at": "2026-08-20T08:24:36.383043Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_601398_future_unavailable",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "status": "executed",
+      "expected_fact_count": 0,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": false
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "4ec75128423e477ba53b9420e7b92712",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "请给出工商银行2025年实际不良贷款率、拨备覆盖率和资本充足率，并引用当前语料中的年报页码。",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.384048Z",
+        "completed_at": "2026-08-20T08:24:36.384048Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_601398_ambiguous_scope",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "status": "executed",
+      "expected_fact_count": 0,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "16508fe6d4fe4d019153b058cbee546c",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "请比较这家银行两年的资产质量指标并解释变化，但先不要假定我指的是哪家银行或哪两个年度。",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.384048Z",
+        "completed_at": "2026-08-20T08:24:36.384048Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_002594_y23_core",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "status": "executed",
+      "expected_fact_count": 4,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "revenue",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "profit",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "deducted",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "cashflow",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "486a5da5926b4f3fbf2527b7e66b926a",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "比亚迪2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.384048Z",
+        "completed_at": "2026-08-20T08:24:36.384048Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_002594_y23_products",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "cross_page_table"
+      ],
+      "status": "executed",
+      "expected_fact_count": 4,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "auto_revenue",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "auto_margin",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "phone_revenue",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "phone_margin",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "f4c434dd1b87408ea93ffca8eb3f9081",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "比亚迪2023年汽车、汽车相关产品及其他产品与手机部件、组装及其他产品的营业收入和毛利率分别是多少？",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.384048Z",
+        "completed_at": "2026-08-20T08:24:36.384048Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_002594_y23_rd",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "status": "executed",
+      "expected_fact_count": 4,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "rd",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "rd_intensity",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "rd_people",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "rd_people_share",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "d15ab72114334ced9bf249e12e76ba5e",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "比亚迪2023年研发投入金额、占营业收入比例、研发人员数量及占比分别是多少？",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.385054Z",
+        "completed_at": "2026-08-20T08:24:36.385054Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_002594_y24_core",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "status": "executed",
+      "expected_fact_count": 4,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "revenue",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "profit",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "deducted",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "cashflow",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "f5265b040f214d0cb12b46d13f27ce30",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "比亚迪2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.385054Z",
+        "completed_at": "2026-08-20T08:24:36.385054Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_002594_y24_products",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "cross_page_table"
+      ],
+      "status": "executed",
+      "expected_fact_count": 6,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "auto_revenue",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "auto_yoy",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "auto_margin",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "phone_revenue",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "phone_yoy",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "phone_margin",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "84f5fd0a614e4c0b9f37cb4567da6873",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "比亚迪2024年两大产品类别的营业收入、同比变化和毛利率分别是多少？",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.386059Z",
+        "completed_at": "2026-08-20T08:24:36.386059Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_002594_future_unavailable",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "status": "executed",
+      "expected_fact_count": 0,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": false
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "bda263d0668c402ea3869eeb708b4e91",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "请给出比亚迪2025年全年汽车业务收入和毛利率，并引用当前语料中的年报页码。",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.386059Z",
+        "completed_at": "2026-08-20T08:24:36.386059Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    },
+    {
+      "case_id": "v3_002594_ambiguous_scope",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "status": "executed",
+      "expected_fact_count": 0,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "requirement_diagnostics": {
+        "applicable": false,
+        "planned_requirement_count": 0,
+        "covered_requirement_count": 0,
+        "evidence_bound_requirement_count": 0,
+        "scoped_requirement_count": 0,
+        "scope_validated_requirement_count": 0,
+        "task_requirement_coverage": null,
+        "requirement_evidence_coverage": null,
+        "scope_validation_rate": null,
+        "claim_citation_completeness": null
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "53fe1773c1744d109a442d707df282b2",
+        "task_type": "extract",
+        "runtime": "deepseek_tool_calling",
+        "status": "needs_clarification",
+        "stop_reason": "needs_clarification",
+        "query": "请比较这家新能源汽车公司的盈利能力变化，但先确认公司名称、比较年度和所指利润口径。",
+        "index_id": "01cdff73daca665e2985",
+        "created_at": "2026-08-20T08:24:36.386059Z",
+        "completed_at": "2026-08-20T08:24:36.386059Z",
+        "rounds_completed": 0,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p3a-atomic-fact-ledger",
+          "task_type": "extract",
+          "targets": [],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [],
+          "fact_requirements": [],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": "请明确一家公司和一个报告年度，以限定文档范围。",
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [],
+        "evidence_memory": {
+          "index_id": "01cdff73daca665e2985",
+          "items": []
+        },
+        "sufficiency": {
+          "status": "incomplete",
+          "evidence_count_by_target": {},
+          "gaps": [],
+          "metric_gaps_by_target": {},
+          "requirement_gaps": []
+        },
+        "result": {
+          "outcome": "clarify",
+          "answer": {
+            "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+            "citations": [],
+            "provider": "input-guard",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {},
+          "target_answers": {},
+          "requirement_claims": {},
+          "requirement_evidence": {},
+          "requirement_scope_validated": {}
+        },
+        "model_trace": null
+      }
+    }
+  ]
+}

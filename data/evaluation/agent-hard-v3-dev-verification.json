@@ -1,0 +1,143 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-provisional-gold-dev-verification",
+  "description": "Ninety-six company- and document-blind Agent tasks over sixteen official CNINFO annual reports. Facts and pages are source-verified provisional gold; independent double review remains pending. Split: dev. Challenge: claim verification.",
+  "index_scope": "dev-verification",
+  "source_manifest": "data/evaluation/agent-hard-v3-source-manifest.json",
+  "gold_policy": "Gold was transcribed before the first Agent run. No evaluated Agent, DeepSeek answer, or LLM judge was used to create it. Exact values, deterministic behavior checks, and page-bound citations are scored locally.",
+  "cases": [
+    {
+      "case_id": "v3_601318_verify_nbv",
+      "task_type": "compare",
+      "query": "按中国平安2024年年报的可比（调整后）口径核验说法：2024年寿险及健康险新业务价值较2023年增长，但内含价值没有增长。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中国平安:year:2023",
+        "company:中国平安:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "nbv_growth",
+          "description": "可比口径新业务价值增长",
+          "acceptable_values": [
+            "28.8%",
+            "28.78%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ev_2023",
+          "description": "可比口径2023年寿险及健康险内含价值",
+          "acceptable_values": [
+            "830974",
+            "8309.74"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "ev_2024",
+          "description": "可比口径2024年寿险及健康险内含价值",
+          "acceptable_values": [
+            "960608",
+            "9606.08"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "ev_growth",
+          "description": "可比口径内含价值增长",
+          "acceptable_values": [
+            "15.6%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "因内含价值也增长，原说法不成立",
+          "acceptable_values": [
+            "说法不成立",
+            "结论为假",
+            "内含价值也增长"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            39
+          ]
+        }
+      ],
+      "gold_rationale": "可比口径新业务价值增长28.8%，内含价值也增长15.6%，所以“内含价值没有增长”不成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_verify_divergence",
+      "task_type": "compare",
+      "query": "核验说法：宁德时代2024年营业收入较2023年下降，但归母净利润上升。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:宁德时代:year:2023",
+        "company:宁德时代:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_change",
+          "description": "营业收入同比下降",
+          "acceptable_values": [
+            "-9.70%",
+            "下降9.70%",
+            "下降9.7%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_change",
+          "description": "归母净利润同比上升",
+          "acceptable_values": [
+            "15.01%",
+            "上升15.01%",
+            "增长15.01%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "说法成立",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "核验通过"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "gold_rationale": "2024年营业收入下降9.70%，归母净利润增长15.01%，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

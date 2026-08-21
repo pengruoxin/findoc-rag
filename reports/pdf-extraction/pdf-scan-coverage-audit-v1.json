@@ -1,0 +1,70 @@
+{
+  "schema_version": "1",
+  "source_manifest": "D:/202607/raglab/data/evaluation/benchmark-v3-source-manifest.json",
+  "visual_review_source": "D:/202607/raglab/data/evaluation/pdf-scan-visual-review-v1.json",
+  "visual_review_status": "assistant_visual_review_provisional",
+  "thresholds": {
+    "max_native_characters": 250,
+    "min_image_coverage": 0.45
+  },
+  "document_count": 10,
+  "page_count": 2614,
+  "image_dominant_low_text_candidate_count": 3,
+  "visually_reviewed_candidate_count": 3,
+  "unreviewed_candidate_count": 0,
+  "eligible_genuine_scanned_table_count": 0,
+  "conclusion": "no_eligible_genuine_scanned_table_in_current_corpus",
+  "candidates": [
+    {
+      "document_key": "cninfo:000333:annual:2023",
+      "page_number": 1,
+      "native_characters": 27,
+      "numeric_token_count": 3,
+      "table_term_count": 0,
+      "image_count": 2,
+      "image_coverage_sum": 1.0549,
+      "image_coverage_max": 0.9993,
+      "visual_review": {
+        "document_key": "cninfo:000333:annual:2023",
+        "page_number": 1,
+        "classification": "cover",
+        "eligible_scanned_table": false,
+        "notes": "Annual-report cover with a full-page photograph and a small native title layer."
+      }
+    },
+    {
+      "document_key": "cninfo:000333:annual:2024",
+      "page_number": 1,
+      "native_characters": 26,
+      "numeric_token_count": 3,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 0.9996,
+      "image_coverage_max": 0.9996,
+      "visual_review": {
+        "document_key": "cninfo:000333:annual:2024",
+        "page_number": 1,
+        "classification": "cover",
+        "eligible_scanned_table": false,
+        "notes": "Annual-report cover with a full-page illustration and a small native title layer."
+      }
+    },
+    {
+      "document_key": "cninfo:601088:annual:2023",
+      "page_number": 306,
+      "native_characters": 244,
+      "numeric_token_count": 10,
+      "table_term_count": 0,
+      "image_count": 2,
+      "image_coverage_sum": 1.733,
+      "image_coverage_max": 1.0,
+      "visual_review": {
+        "document_key": "cninfo:601088:annual:2023",
+        "page_number": 306,
+        "classification": "diagram",
+        "eligible_scanned_table": false,
+        "notes": "Equity-structure diagram; not a scanned financial table."
+      }
+    }
+  ]
+}

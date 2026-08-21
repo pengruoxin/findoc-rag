@@ -1,0 +1,814 @@
+{
+  "schema_version": "1",
+  "security_code": "300760",
+  "annotation_status": "assistant_source_verified_provisional",
+  "independent_double_review_complete": false,
+  "cases": [
+    {
+      "case_id": "v3_300760_y23_core",
+      "task_type": "extract",
+      "query": "迈瑞医疗2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "34931900884",
+            "349.31900884",
+            "349.32"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "11582226085",
+            "115.82226085",
+            "115.82"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "11433734957",
+            "114.33734957",
+            "114.34"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "11062025295",
+            "110.62025295",
+            "110.62"
+          ],
+          "unit": "元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2023_1219856065.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主要会计数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_y23_products",
+      "task_type": "extract",
+      "query": "迈瑞医疗2023年生命信息与支持、体外诊断和医学影像三类产品的收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "life_revenue",
+          "description": "生命信息与支持收入",
+          "acceptable_values": [
+            "15251830753",
+            "152.51830753",
+            "152.52"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "life_margin",
+          "description": "生命信息与支持毛利率",
+          "acceptable_values": [
+            "66.78%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ivd_revenue",
+          "description": "体外诊断收入",
+          "acceptable_values": [
+            "12421453664",
+            "124.21453664",
+            "124.21"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "ivd_margin",
+          "description": "体外诊断毛利率",
+          "acceptable_values": [
+            "64.30%",
+            "64.3%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "image_revenue",
+          "description": "医学影像收入",
+          "acceptable_values": [
+            "7033541380",
+            "70.3354138",
+            "70.34"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "image_margin",
+          "description": "医学影像毛利率",
+          "acceptable_values": [
+            "69.10%",
+            "69.1%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2023_1219856065.pdf",
+          "pages": [
+            76,
+            77
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报分产品表列示三大产品线收入和当年报告口径毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_y23_rd",
+      "task_type": "extract",
+      "query": "迈瑞医疗2023年研发投入金额、占营业收入比例和研发人员数量分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd",
+          "description": "研发投入金额",
+          "acceptable_values": [
+            "3779010749",
+            "37.79010749",
+            "37.79"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "intensity",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "10.82%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "people",
+          "description": "研发人员数量",
+          "acceptable_values": [
+            "4425"
+          ],
+          "unit": "人"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2023_1219856065.pdf",
+          "pages": [
+            84,
+            85
+          ]
+        }
+      ],
+      "gold_rationale": "研发人员表与近三年研发投入表位于相邻页。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_y24_core",
+      "task_type": "extract",
+      "query": "迈瑞医疗2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "36725749548",
+            "367.25749548",
+            "367.26"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "11668487164",
+            "116.68487164",
+            "116.68"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2024年扣非归母净利润",
+          "acceptable_values": [
+            "11442036083",
+            "114.42036083",
+            "114.42"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2024年经营活动现金流量净额",
+          "acceptable_values": [
+            "12432041281",
+            "124.32041281",
+            "124.32"
+          ],
+          "unit": "元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            21,
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主要会计数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_y24_products",
+      "task_type": "extract",
+      "query": "迈瑞医疗2024年三大产品线的收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "life_revenue",
+          "description": "生命信息与支持收入",
+          "acceptable_values": [
+            "13557440254",
+            "135.57440254",
+            "135.57"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "life_yoy",
+          "description": "生命信息与支持收入同比",
+          "acceptable_values": [
+            "-11.11%",
+            "下降11.11%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "life_margin",
+          "description": "生命信息与支持毛利率",
+          "acceptable_values": [
+            "62.55%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ivd_revenue",
+          "description": "体外诊断收入",
+          "acceptable_values": [
+            "13764979775",
+            "137.64979775",
+            "137.65"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "ivd_yoy",
+          "description": "体外诊断收入同比",
+          "acceptable_values": [
+            "10.82%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ivd_margin",
+          "description": "体外诊断毛利率",
+          "acceptable_values": [
+            "62.01%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "image_revenue",
+          "description": "医学影像收入",
+          "acceptable_values": [
+            "7497547094",
+            "74.97547094",
+            "74.98"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "image_yoy",
+          "description": "医学影像收入同比",
+          "acceptable_values": [
+            "6.60%",
+            "6.6%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "image_margin",
+          "description": "医学影像毛利率",
+          "acceptable_values": [
+            "66.85%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            80,
+            81
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报分产品表列示三大产品线收入、同比和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_trend_core",
+      "task_type": "compare",
+      "query": "比较迈瑞医疗2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:迈瑞医疗:year:2023",
+        "company:迈瑞医疗:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "34931900884",
+            "349.32"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "36725749548",
+            "367.26"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "11582226085",
+            "115.82"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "11668487164",
+            "116.68"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "11062025295",
+            "110.62"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "12432041281",
+            "124.32"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "三项指标均上升",
+          "acceptable_values": [
+            "均上升",
+            "均增长",
+            "全部增长"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2023_1219856065.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        },
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            21,
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入增长5.14%，归母净利润增长0.74%，经营现金流增长12.38%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_trend_products",
+      "task_type": "compare",
+      "query": "按迈瑞医疗2024年年报追溯调整后的可比口径，比较2023年和2024年生命信息与支持、体外诊断、医学影像三大产品线的收入与毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:迈瑞医疗:year:2023",
+        "company:迈瑞医疗:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "life_revenue_2023",
+          "description": "2023年生命信息与支持收入",
+          "acceptable_values": [
+            "15251830753",
+            "152.52"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "life_revenue_2024",
+          "description": "2024年生命信息与支持收入",
+          "acceptable_values": [
+            "13557440254",
+            "135.57"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "life_margin_2023",
+          "description": "可比口径2023年生命信息与支持毛利率",
+          "acceptable_values": [
+            "64.15%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "life_margin_2024",
+          "description": "2024年生命信息与支持毛利率",
+          "acceptable_values": [
+            "62.55%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ivd_revenue_2023",
+          "description": "2023年体外诊断收入",
+          "acceptable_values": [
+            "12421453664",
+            "124.21"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "ivd_revenue_2024",
+          "description": "2024年体外诊断收入",
+          "acceptable_values": [
+            "13764979775",
+            "137.65"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "ivd_margin_2023",
+          "description": "可比口径2023年体外诊断毛利率",
+          "acceptable_values": [
+            "63.22%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ivd_margin_2024",
+          "description": "2024年体外诊断毛利率",
+          "acceptable_values": [
+            "62.01%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "image_revenue_2023",
+          "description": "2023年医学影像收入",
+          "acceptable_values": [
+            "7033541380",
+            "70.34"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "image_revenue_2024",
+          "description": "2024年医学影像收入",
+          "acceptable_values": [
+            "7497547094",
+            "74.98"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "image_margin_2023",
+          "description": "可比口径2023年医学影像毛利率",
+          "acceptable_values": [
+            "66.86%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "image_margin_2024",
+          "description": "2024年医学影像毛利率",
+          "acceptable_values": [
+            "66.85%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            80,
+            81
+          ]
+        }
+      ],
+      "gold_rationale": "按2024年报追溯口径，生命信息与支持收入下降且毛利率降1.60个百分点；体外诊断和医学影像收入增长但毛利率分别降1.21和0.01个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_calc_ivd_share",
+      "task_type": "calculate",
+      "query": "计算迈瑞医疗2024年体外诊断产品收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "ivd_revenue",
+          "description": "体外诊断收入",
+          "acceptable_values": [
+            "13764979775"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "total_revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "36725749548"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "share",
+          "description": "体外诊断收入占比",
+          "acceptable_values": [
+            "37.48%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            21,
+            80
+          ]
+        }
+      ],
+      "gold_rationale": "13764979775/36725749548=37.4805%，保留两位小数为37.48%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_calc_margin_spread",
+      "task_type": "calculate",
+      "query": "按迈瑞医疗2024年年报追溯调整后的可比口径，计算2024年三大产品线最高与最低毛利率之差，并与2023年的差值比较。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "spread_2023",
+          "description": "可比口径2023年三大产品线最高最低毛利率差",
+          "acceptable_values": [
+            "3.64个百分点"
+          ],
+          "unit": "百分点"
+        },
+        {
+          "fact_id": "spread_2024",
+          "description": "2024年三大产品线最高最低毛利率差",
+          "acceptable_values": [
+            "4.84个百分点"
+          ],
+          "unit": "百分点"
+        },
+        {
+          "fact_id": "change",
+          "description": "毛利率差扩大",
+          "acceptable_values": [
+            "扩大1.20个百分点",
+            "扩大1.2个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            81
+          ]
+        }
+      ],
+      "gold_rationale": "可比2023年最高66.86%、最低63.22%，差3.64个百分点；2024年差4.84个百分点，扩大1.20个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_verify_growth",
+      "task_type": "compare",
+      "query": "核验说法：迈瑞医疗2024年营业收入和归母净利润均高于2023年。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:迈瑞医疗:year:2023",
+        "company:迈瑞医疗:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_change",
+          "description": "营业收入增长",
+          "acceptable_values": [
+            "5.14%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_change",
+          "description": "归母净利润增长",
+          "acceptable_values": [
+            "0.74%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "说法成立",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "核验通过"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300760:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300760_2024_1223371173.pdf",
+          "pages": [
+            21,
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入和归母净利润均高于2023年，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出迈瑞医疗2025年体外诊断产品收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300760_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家医疗器械公司的产品结构变化，但先确认公司、年度和产品分类口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

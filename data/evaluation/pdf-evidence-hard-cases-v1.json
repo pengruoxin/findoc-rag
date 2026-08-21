@@ -1,0 +1,60 @@
+{
+  "schema_version": "1",
+  "description": "Manually verified calibration/dev PDF extraction hard cases; no frozen-test content.",
+  "allowed_splits": [
+    "calibration",
+    "dev"
+  ],
+  "false_positive_tables": [
+    {
+      "document_key": "cninfo:300750:annual:2023",
+      "chunk_id": "6081f0377617:c530:51aef77f72aaac8f",
+      "table_type": "note_cost",
+      "baseline_cell_count": 4,
+      "reason": "Investment-income note was mislabeled as a four-column revenue/cost table."
+    },
+    {
+      "document_key": "cninfo:300750:annual:2024",
+      "chunk_id": "b4f1713d7b82:c489:826738c119f0b3f1",
+      "table_type": "note_cost",
+      "baseline_cell_count": 4,
+      "reason": "Investment-income note was mislabeled as a four-column revenue/cost table."
+    },
+    {
+      "document_key": "cninfo:300750:annual:2024",
+      "chunk_id": "b4f1713d7b82:c561:0e722c53058efd48",
+      "table_type": "note_cost",
+      "baseline_cell_count": 4,
+      "reason": "Investment-income and non-recurring-gain tables were crossed at a page boundary."
+    }
+  ],
+  "expected_cells": [
+    ["cninfo:601318:annual:2023", "总资产", "2023年", "11583417"],
+    ["cninfo:601318:annual:2023", "总资产", "2022年调整前", "11137168"],
+    ["cninfo:601318:annual:2023", "总资产", "2022年调整后", "11009940"],
+    ["cninfo:601318:annual:2023", "总资产", "2021年", "10142026"],
+    ["cninfo:601318:annual:2023", "经营活动产生的现金流量净额", "2023年", "360403"],
+    ["cninfo:601318:annual:2023", "经营活动产生的现金流量净额", "2022年调整前", "485905"],
+    ["cninfo:601318:annual:2023", "经营活动产生的现金流量净额", "2022年调整后", "476776"],
+    ["cninfo:601318:annual:2023", "经营活动产生的现金流量净额", "2021年", "90116"],
+    ["cninfo:601318:annual:2024", "总资产", "2024年", "12957827"],
+    ["cninfo:601318:annual:2024", "总资产", "2023年", "11583417"],
+    ["cninfo:601318:annual:2024", "总资产", "2022年调整前", "11137168"],
+    ["cninfo:601318:annual:2024", "总资产", "2022年调整后", "11009940"],
+    ["cninfo:601318:annual:2024", "经营活动产生的现金流量净额", "2024年", "382474"],
+    ["cninfo:601318:annual:2024", "经营活动产生的现金流量净额", "2023年", "360403"],
+    ["cninfo:601318:annual:2024", "经营活动产生的现金流量净额", "2022年调整前", "485905"],
+    ["cninfo:601318:annual:2024", "经营活动产生的现金流量净额", "2022年调整后", "476776"]
+  ],
+  "region_proof_cases": [
+    ["cninfo:601318:annual:2023", "经营活动产生的现金流量净额", "2022年调整后", "476776"],
+    ["cninfo:601318:annual:2023", "经营活动产生的现金流量净额", "2021年", "90116"],
+    ["cninfo:601318:annual:2024", "总资产", "2024年", "12957827"],
+    ["cninfo:601318:annual:2024", "经营活动产生的现金流量净额", "2022年调整后", "476776"]
+  ],
+  "manual_review": {
+    "reviewed_on": "2026-08-21",
+    "method": "Rendered bounded source-PDF regions were visually checked against row labels, hierarchical year headers, adjusted-before/after subheaders, and values.",
+    "frozen_test_opened": false
+  }
+}

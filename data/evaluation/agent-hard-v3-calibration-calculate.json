@@ -1,0 +1,242 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-provisional-gold-calibration-calculate",
+  "description": "Ninety-six company- and document-blind Agent tasks over sixteen official CNINFO annual reports. Facts and pages are source-verified provisional gold; independent double review remains pending. Split: calibration. Task type: calculate.",
+  "index_scope": "calibration-calculate",
+  "source_manifest": "data/evaluation/agent-hard-v3-source-manifest.json",
+  "gold_policy": "Gold was transcribed before the first Agent run. No evaluated Agent, DeepSeek answer, or LLM judge was used to create it. Exact values, deterministic behavior checks, and page-bound citations are scored locally.",
+  "cases": [
+    {
+      "case_id": "v3_601398_calc_profit_growth",
+      "task_type": "calculate",
+      "query": "用年报披露的净利润计算工商银行2024年相对2023年的增长率，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年净利润",
+          "acceptable_values": [
+            "365116"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年净利润",
+          "acceptable_values": [
+            "366946"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "growth",
+          "description": "(366946-365116)/365116",
+          "acceptable_values": [
+            "0.50%",
+            "0.5%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            14
+          ]
+        }
+      ],
+      "gold_rationale": "按披露净利润计算：(366946-365116)/365116=0.5012%，保留两位小数为0.50%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_calc_loan_deposit_gap",
+      "task_type": "calculate",
+      "query": "分别计算工商银行2023年和2024年客户存款减客户贷款及垫款的差额，并判断差额是否扩大。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "gap_2023",
+          "description": "2023年存款减贷款差额",
+          "acceptable_values": [
+            "7434692",
+            "74346.92"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "gap_2024",
+          "description": "2024年存款减贷款差额",
+          "acceptable_values": [
+            "6464744",
+            "64647.44"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "gap_change",
+          "description": "差额缩小",
+          "acceptable_values": [
+            "缩小",
+            "收窄",
+            "969948",
+            "9699.48"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "2023年差额7,434,692百万元，2024年6,464,744百万元，缩小969,948百万元。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_calc_profit_margin",
+      "task_type": "calculate",
+      "query": "用营业收入和归母净利润计算比亚迪2023年、2024年的归母净利率，并计算变化百分点。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "margin_2023",
+          "description": "2023年归母净利率",
+          "acceptable_values": [
+            "4.99%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "margin_2024",
+          "description": "2024年归母净利率",
+          "acceptable_values": [
+            "5.18%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "margin_change",
+          "description": "归母净利率变化",
+          "acceptable_values": [
+            "0.19个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "30040811000/602315354000=4.99%；40254346000/777102455000=5.18%，提高0.19个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_calc_product_share",
+      "task_type": "calculate",
+      "query": "计算比亚迪2024年汽车、汽车相关产品及其他产品收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "dense_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "auto_revenue",
+          "description": "汽车等产品收入",
+          "acceptable_values": [
+            "617381935000"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "total_revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "777102455000"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "share",
+          "description": "汽车等产品收入占比",
+          "acceptable_values": [
+            "79.45%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            25
+          ]
+        }
+      ],
+      "gold_rationale": "617381935000/777102455000=79.4467%，保留两位小数为79.45%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

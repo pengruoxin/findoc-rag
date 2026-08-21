@@ -1,0 +1,187 @@
+{
+  "schema_version": "1",
+  "status": "complete",
+  "generated_at": "2026-08-20T08:08:11.315252+00:00",
+  "change_id": "p2b-multi-metric-gap-driven-retrieval",
+  "change_scope": "Comparison planning extracts non-overlapping metric requirements, includes all metrics in retrieval hints, judges evidence sufficiency per metric, exposes remaining metric gaps to DeepSeek, and safely repairs explicit-year claims assigned to the wrong same-company target.",
+  "evaluation_scope": "calibration + dev multi-year comparisons; frozen_test sealed",
+  "composition_policy": "Eight multi-year comparison traces were replaced; forty P2-A traces were reused.",
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "splits": {
+    "calibration": {
+      "dataset_sha256": "2e6ce78e5acd87ec1e1c54dd6e7193f674ba8445aa7716f7fde5a6212dee2b56",
+      "index_id": "b1879a69987a53b283dc",
+      "before_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.9166666666666666,
+        "supported_fact_accuracy": 0.7596153846153846,
+        "end_to_end_fact_accuracy": 0.7596153846153846,
+        "supported_case_pass_rate": 0.8333333333333334,
+        "end_to_end_case_pass_rate": 0.8333333333333334,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0
+      },
+      "after_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9230769230769231,
+        "end_to_end_fact_accuracy": 0.9230769230769231,
+        "supported_case_pass_rate": 0.9166666666666666,
+        "end_to_end_case_pass_rate": 0.9166666666666666,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0
+      },
+      "strict_case_pass_count_before": 20,
+      "strict_case_pass_count_after": 22,
+      "strict_case_pass_count_delta": 2,
+      "final_targeted_runtime_cost": {
+        "model_requests": 11,
+        "model_input_tokens": 40082,
+        "model_output_tokens": 7899,
+        "model_total_tokens": 47981,
+        "tool_calls": 8
+      },
+      "composed_report": "reports/agent/agent-hard-v3-calibration-deepseek-p2b-composed.json",
+      "composed_report_sha256": "02a844b8f947ad212a6d7807f7784cfbd4de66a17cd1568755c820a6d1951636"
+    },
+    "dev": {
+      "dataset_sha256": "fd15f3396fcceb3eb213251ea37ce7bea7decd00574b87c09720d607b1443933",
+      "index_id": "a4b314a9ff7e595a86bf",
+      "before_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.9583333333333334,
+        "supported_fact_accuracy": 0.8773584905660378,
+        "end_to_end_fact_accuracy": 0.8773584905660378,
+        "supported_case_pass_rate": 0.6666666666666666,
+        "end_to_end_case_pass_rate": 0.6666666666666666,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0
+      },
+      "after_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9245283018867925,
+        "end_to_end_fact_accuracy": 0.9245283018867925,
+        "supported_case_pass_rate": 0.7916666666666666,
+        "end_to_end_case_pass_rate": 0.7916666666666666,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0
+      },
+      "strict_case_pass_count_before": 16,
+      "strict_case_pass_count_after": 19,
+      "strict_case_pass_count_delta": 3,
+      "final_targeted_runtime_cost": {
+        "model_requests": 10,
+        "model_input_tokens": 31397,
+        "model_output_tokens": 5447,
+        "model_total_tokens": 36844,
+        "tool_calls": 10
+      },
+      "composed_report": "reports/agent/agent-hard-v3-dev-deepseek-p2b-composed.json",
+      "composed_report_sha256": "cdc77e9d44d89cef1d813c081027bf2ac951fdc231ccbfcbcae5d5727e2ec9af"
+    }
+  },
+  "combined": {
+    "case_count": 48,
+    "strict_case_pass_count_before": 36,
+    "strict_case_pass_rate_before": 0.75,
+    "strict_case_pass_count_after": 41,
+    "strict_case_pass_rate_after": 0.8541666666666666,
+    "strict_case_pass_count_delta": 5,
+    "strict_case_pass_rate_delta": 0.10416666666666667,
+    "final_targeted_runtime_cost": {
+      "model_requests": 21,
+      "model_input_tokens": 71479,
+      "model_output_tokens": 13346,
+      "model_total_tokens": 84825,
+      "tool_calls": 18
+    },
+    "all_experiment_runtime_cost": {
+      "model_requests": 40,
+      "model_input_tokens": 134053,
+      "model_output_tokens": 25178,
+      "model_total_tokens": 159231,
+      "tool_calls": 34
+    }
+  },
+  "iterations": [
+    {
+      "split": "calibration",
+      "iteration": 1,
+      "report": "reports/agent/agent-hard-v3-calibration-deepseek-p2b-metric-gap-retrieval.json",
+      "report_sha256": "e5cdb46a01f4584b9ad352bf066a925d97d4d054f343bc01870b9b5f9d27b02f",
+      "fact_accuracy": 0.9333333333333333,
+      "strict_case_pass_rate": 0.5,
+      "runtime_cost": {
+        "model_requests": 8,
+        "model_input_tokens": 22518,
+        "model_output_tokens": 3770,
+        "model_total_tokens": 26288,
+        "tool_calls": 8
+      }
+    },
+    {
+      "split": "calibration",
+      "iteration": 2,
+      "report": "reports/agent/agent-hard-v3-calibration-deepseek-p2b-metric-gap-retrieval-v2.json",
+      "report_sha256": "cb65cfc7f289d216d514174fccf25c46bdb9b072e6751eb069fbba42e6cdd660",
+      "fact_accuracy": 0.2,
+      "strict_case_pass_rate": 0.25,
+      "runtime_cost": {
+        "model_requests": 11,
+        "model_input_tokens": 40056,
+        "model_output_tokens": 8062,
+        "model_total_tokens": 48118,
+        "tool_calls": 8
+      }
+    },
+    {
+      "split": "calibration",
+      "iteration": 3,
+      "report": "reports/agent/agent-hard-v3-calibration-deepseek-p2b-metric-gap-retrieval-v3.json",
+      "report_sha256": "e3da07309429a95660e626a16309f058e57fd2c99fefef5afb6ce65c9d6b0eb2",
+      "fact_accuracy": 1.0,
+      "strict_case_pass_rate": 1.0,
+      "runtime_cost": {
+        "model_requests": 11,
+        "model_input_tokens": 40082,
+        "model_output_tokens": 7899,
+        "model_total_tokens": 47981,
+        "tool_calls": 8
+      }
+    },
+    {
+      "split": "dev",
+      "iteration": 1,
+      "report": "reports/agent/agent-hard-v3-dev-deepseek-p2b-metric-gap-retrieval.json",
+      "report_sha256": "a0592edf124262d3a889b59910bc2b2223e30956b21f95109a5fa0ab9dc6ec35",
+      "fact_accuracy": 1.0,
+      "strict_case_pass_rate": 1.0,
+      "runtime_cost": {
+        "model_requests": 10,
+        "model_input_tokens": 31397,
+        "model_output_tokens": 5447,
+        "model_total_tokens": 36844,
+        "tool_calls": 10
+      }
+    }
+  ],
+  "frozen_test_opened": false
+}

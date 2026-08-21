@@ -1,0 +1,735 @@
+{
+  "schema_version": "1",
+  "security_code": "002594",
+  "annotation_status": "assistant_source_verified_provisional",
+  "independent_double_review_complete": false,
+  "cases": [
+    {
+      "case_id": "v3_002594_y23_core",
+      "task_type": "extract",
+      "query": "比亚迪2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "602315354000",
+            "6023.15354",
+            "6023.15"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "30040811000",
+            "300.40811",
+            "300.41"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "28462432000",
+            "284.62432",
+            "284.62"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "169725025000",
+            "1697.25025",
+            "1697.25"
+          ],
+          "unit": "元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主要会计数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_y23_products",
+      "task_type": "extract",
+      "query": "比亚迪2023年汽车、汽车相关产品及其他产品与手机部件、组装及其他产品的营业收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "cross_page_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "auto_revenue",
+          "description": "汽车等产品收入",
+          "acceptable_values": [
+            "483453318000",
+            "4834.53318",
+            "4834.53"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "auto_margin",
+          "description": "汽车等产品毛利率",
+          "acceptable_values": [
+            "23.02%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "phone_revenue",
+          "description": "手机部件等产品收入",
+          "acceptable_values": [
+            "118576910000",
+            "1185.7691",
+            "1185.77"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "phone_margin",
+          "description": "手机部件等产品毛利率",
+          "acceptable_values": [
+            "8.78%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报分产品表列示两类产品收入和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_y23_rd",
+      "task_type": "extract",
+      "query": "比亚迪2023年研发投入金额、占营业收入比例、研发人员数量及占比分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd",
+          "description": "研发投入金额",
+          "acceptable_values": [
+            "39917743000",
+            "399.17743",
+            "399.18"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "rd_intensity",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "6.63%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "rd_people",
+          "description": "研发人员数量",
+          "acceptable_values": [
+            "102844"
+          ],
+          "unit": "人"
+        },
+        {
+          "fact_id": "rd_people_share",
+          "description": "研发人员占比",
+          "acceptable_values": [
+            "14.62%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            27,
+            28
+          ]
+        }
+      ],
+      "gold_rationale": "研发投入表和研发人员表位于相邻页。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_y24_core",
+      "task_type": "extract",
+      "query": "比亚迪2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "777102455000",
+            "7771.02455",
+            "7771.02"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "40254346000",
+            "402.54346",
+            "402.54"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2024年扣非归母净利润",
+          "acceptable_values": [
+            "36982887000",
+            "369.82887",
+            "369.83"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2024年经营活动现金流量净额",
+          "acceptable_values": [
+            "133453873000",
+            "1334.53873",
+            "1334.54"
+          ],
+          "unit": "元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主要会计数据表列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_y24_products",
+      "task_type": "extract",
+      "query": "比亚迪2024年两大产品类别的营业收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "cross_page_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "auto_revenue",
+          "description": "汽车等产品收入",
+          "acceptable_values": [
+            "617381935000",
+            "6173.81935",
+            "6173.82"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "auto_yoy",
+          "description": "汽车等产品收入同比",
+          "acceptable_values": [
+            "27.70%",
+            "27.7%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "auto_margin",
+          "description": "汽车等产品毛利率",
+          "acceptable_values": [
+            "22.31%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "phone_revenue",
+          "description": "手机部件等产品收入",
+          "acceptable_values": [
+            "159608576000",
+            "1596.08576",
+            "1596.09"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "phone_yoy",
+          "description": "手机部件等产品收入同比",
+          "acceptable_values": [
+            "34.60%",
+            "34.6%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "phone_margin",
+          "description": "手机部件等产品毛利率",
+          "acceptable_values": [
+            "8.34%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            24,
+            25
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报分产品表列示两类产品收入、同比和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_trend_core",
+      "task_type": "compare",
+      "query": "比较比亚迪2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:比亚迪:year:2023",
+        "company:比亚迪:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "602315354000",
+            "6023.15"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "777102455000",
+            "7771.02"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "30040811000",
+            "300.41"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "40254346000",
+            "402.54"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "169725025000",
+            "1697.25"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "133453873000",
+            "1334.54"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "收入和净利润上升、经营现金流下降",
+          "acceptable_values": [
+            "经营活动现金流量净额下降",
+            "经营现金流下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "收入和归母净利润上升，经营活动现金流量净额下降。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_trend_rd",
+      "task_type": "compare",
+      "query": "比较比亚迪2023年和2024年的研发投入金额、研发投入强度及研发人员数量。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:比亚迪:year:2023",
+        "company:比亚迪:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "rd_2023",
+          "description": "2023年研发投入",
+          "acceptable_values": [
+            "39917743000",
+            "399.18"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "rd_2024",
+          "description": "2024年研发投入",
+          "acceptable_values": [
+            "54160964000",
+            "541.61"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "intensity_2023",
+          "description": "2023年研发投入强度",
+          "acceptable_values": [
+            "6.63%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "intensity_2024",
+          "description": "2024年研发投入强度",
+          "acceptable_values": [
+            "6.97%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "people_2023",
+          "description": "2023年研发人员",
+          "acceptable_values": [
+            "102844"
+          ],
+          "unit": "人"
+        },
+        {
+          "fact_id": "people_2024",
+          "description": "2024年研发人员",
+          "acceptable_values": [
+            "121598"
+          ],
+          "unit": "人"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            27,
+            28
+          ]
+        },
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            33,
+            34
+          ]
+        }
+      ],
+      "gold_rationale": "研发金额、强度和人员数量均增加。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_calc_profit_margin",
+      "task_type": "calculate",
+      "query": "用营业收入和归母净利润计算比亚迪2023年、2024年的归母净利率，并计算变化百分点。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "margin_2023",
+          "description": "2023年归母净利率",
+          "acceptable_values": [
+            "4.99%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "margin_2024",
+          "description": "2024年归母净利率",
+          "acceptable_values": [
+            "5.18%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "margin_change",
+          "description": "归母净利率变化",
+          "acceptable_values": [
+            "0.19个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "30040811000/602315354000=4.99%；40254346000/777102455000=5.18%，提高0.19个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_calc_product_share",
+      "task_type": "calculate",
+      "query": "计算比亚迪2024年汽车、汽车相关产品及其他产品收入占营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "dense_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "auto_revenue",
+          "description": "汽车等产品收入",
+          "acceptable_values": [
+            "617381935000"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "total_revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "777102455000"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "share",
+          "description": "汽车等产品收入占比",
+          "acceptable_values": [
+            "79.45%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            25
+          ]
+        }
+      ],
+      "gold_rationale": "617381935000/777102455000=79.4467%，保留两位小数为79.45%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_verify_growth",
+      "task_type": "compare",
+      "query": "核验说法：比亚迪2024年营业收入和归母净利润均高于2023年，且净利润增速更快。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:比亚迪:year:2023",
+        "company:比亚迪:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_growth",
+          "description": "营业收入同比增长",
+          "acceptable_values": [
+            "29.02%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_growth",
+          "description": "归母净利润同比增长",
+          "acceptable_values": [
+            "34.00%",
+            "34%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "两项均增长且净利润增速更快",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "净利润增速更快"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "2024年营业收入增长29.02%，归母净利润增长34.00%，后者更快，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出比亚迪2025年全年汽车业务收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家新能源汽车公司的盈利能力变化，但先确认公司名称、比较年度和所指利润口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

@@ -14,6 +14,7 @@ from findoc_rag.config import (
     ScopeRoutingSettings,
 )
 from findoc_rag.corpus import resolve_current_index
+from findoc_rag.documents.models import DocumentChunk
 from findoc_rag.indexing import (
     IndexManifest,
     PersistentIndex,
@@ -132,6 +133,23 @@ class RetrievalService:
     @property
     def manifest(self) -> IndexManifest:
         return self.index.manifest
+
+    def page_window(
+        self,
+        anchor_chunk_id: str,
+        *,
+        before_pages: int = 1,
+        after_pages: int = 1,
+        max_chunks: int = 12,
+    ) -> list[DocumentChunk]:
+        """Expose a bounded, same-document page window to agent tools."""
+
+        return self.index.page_window(
+            anchor_chunk_id,
+            before_pages=before_pages,
+            after_pages=after_pages,
+            max_chunks=max_chunks,
+        )
 
     def _snapshot(self, hits: list[SearchHit]) -> list[RankedHitSnapshot]:
         return [

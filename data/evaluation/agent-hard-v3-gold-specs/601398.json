@@ -1,0 +1,879 @@
+{
+  "schema_version": "1",
+  "security_code": "601398",
+  "annotation_status": "assistant_source_verified_provisional",
+  "independent_double_review_complete": false,
+  "cases": [
+    {
+      "case_id": "v3_601398_y23_core",
+      "task_type": "extract",
+      "query": "工商银行2023年净利润、资产总额、客户贷款及垫款总额和客户存款分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "net_profit",
+          "description": "2023年净利润",
+          "acceptable_values": [
+            "365116",
+            "3651.16"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "assets",
+          "description": "2023年资产总额",
+          "acceptable_values": [
+            "44697079",
+            "446970.79"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "loans",
+          "description": "2023年客户贷款及垫款总额",
+          "acceptable_values": [
+            "26086482",
+            "260864.82"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deposits",
+          "description": "2023年客户存款",
+          "acceptable_values": [
+            "33521174",
+            "335211.74"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报财务摘要列示四项集团口径金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_y23_asset_quality",
+      "task_type": "extract",
+      "query": "工商银行2023年不良贷款率、拨备覆盖率、资本充足率和成本收入比分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "npl",
+          "description": "不良贷款率",
+          "acceptable_values": [
+            "1.36%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "coverage",
+          "description": "拨备覆盖率",
+          "acceptable_values": [
+            "213.97%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital",
+          "description": "资本充足率",
+          "acceptable_values": [
+            "19.10%",
+            "19.1%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cost_income",
+          "description": "成本收入比",
+          "acceptable_values": [
+            "26.96%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            16
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报经营摘要列示资产质量、资本和效率指标。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_y23_ecl_audit",
+      "task_type": "extract",
+      "query": "工商银行2023年关于客户贷款及垫款预期信用损失的关键审计事项，风险点和审计应对分别是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "risk_significant_increase",
+          "description": "风险包括信用风险是否显著增加的阶段判断",
+          "acceptable_values": [
+            "信用风险是否显著增加"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_credit_impaired",
+          "description": "风险包括是否已发生信用减值的阶段判断",
+          "acceptable_values": [
+            "已发生信用减值",
+            "信用减值贷款"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_pd",
+          "description": "模型参数包括违约概率",
+          "acceptable_values": [
+            "违约概率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_lgd",
+          "description": "模型参数包括违约损失率",
+          "acceptable_values": [
+            "违约损失率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_ead",
+          "description": "模型参数包括违约风险暴露",
+          "acceptable_values": [
+            "违约风险暴露"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_forward_looking",
+          "description": "风险包括前瞻性信息",
+          "acceptable_values": [
+            "前瞻性信息"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_scenarios",
+          "description": "风险包括经济情景及其权重",
+          "acceptable_values": [
+            "经济情景",
+            "情景权重"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_controls",
+          "description": "审计应对包括测试预期信用损失相关控制",
+          "acceptable_values": [
+            "测试相关控制",
+            "测试内部控制"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_models",
+          "description": "审计应对包括评价或测试模型和输入参数",
+          "acceptable_values": [
+            "模型和参数",
+            "模型及参数"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_it",
+          "description": "审计应对包括测试相关信息系统",
+          "acceptable_values": [
+            "信息系统"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_credit_samples",
+          "description": "审计应对包括风险导向信贷审阅",
+          "acceptable_values": [
+            "风险为导向",
+            "风险导向"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_collateral",
+          "description": "第三阶段样本检查包括抵押物评估",
+          "acceptable_values": [
+            "抵押物的评估价值",
+            "抵押物"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_cashflow",
+          "description": "第三阶段样本检查包括预计可收回现金流",
+          "acceptable_values": [
+            "预计可收回的现金流",
+            "现金流"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            196,
+            198,
+            199
+          ]
+        }
+      ],
+      "gold_rationale": "关键审计事项跨页说明阶段划分、模型参数和前瞻性判断，并列示控制、模型及信贷样本测试程序。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_y24_core",
+      "task_type": "extract",
+      "query": "工商银行2024年净利润、资产总额、客户贷款及垫款总额和客户存款分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "net_profit",
+          "description": "2024年净利润",
+          "acceptable_values": [
+            "366946",
+            "3669.46"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "assets",
+          "description": "2024年资产总额",
+          "acceptable_values": [
+            "48821746",
+            "488217.46"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "loans",
+          "description": "2024年客户贷款及垫款总额",
+          "acceptable_values": [
+            "28372229",
+            "283722.29"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deposits",
+          "description": "2024年客户存款",
+          "acceptable_values": [
+            "34836973",
+            "348369.73"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报财务摘要列示四项集团口径金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_y24_interest",
+      "task_type": "extract",
+      "query": "工商银行2024年净利息收入和净利息收益率如何变化，年报解释的主要原因是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "net_interest_income",
+          "description": "净利息收入",
+          "acceptable_values": [
+            "637405",
+            "6374.05"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "income_change",
+          "description": "净利息收入同比下降",
+          "acceptable_values": [
+            "2.7%",
+            "17608"
+          ],
+          "unit": "%/百万元"
+        },
+        {
+          "fact_id": "nim",
+          "description": "净利息收益率",
+          "acceptable_values": [
+            "1.42%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "nim_change",
+          "description": "净利息收益率同比下降",
+          "acceptable_values": [
+            "19个基点",
+            "0.19个百分点"
+          ],
+          "unit": "基点"
+        },
+        {
+          "fact_id": "reason_lpr",
+          "description": "主要原因包括贷款市场报价利率下调",
+          "acceptable_values": [
+            "贷款市场报价利率下调",
+            "LPR下调"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "reason_mortgage",
+          "description": "主要原因包括存量房贷利率调整",
+          "acceptable_values": [
+            "存量房贷利率调整"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "reason_deposit",
+          "description": "主要原因包括存款期限结构变化",
+          "acceptable_values": [
+            "存款期限结构变化",
+            "存款定期化"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            26,
+            27
+          ]
+        }
+      ],
+      "gold_rationale": "净利息收入下降2.7%，净利息收益率下降19个基点；年报解释涉及资产端利率下行和负债端存款结构。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_trend_core",
+      "task_type": "compare",
+      "query": "比较工商银行2023年和2024年的净利润、资产总额、客户贷款及垫款总额和客户存款，分别判断增减。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:工商银行:year:2023",
+        "company:工商银行:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年净利润",
+          "acceptable_values": [
+            "365116",
+            "3651.16"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年净利润",
+          "acceptable_values": [
+            "366946",
+            "3669.46"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "assets_2023",
+          "description": "2023年资产总额",
+          "acceptable_values": [
+            "44697079",
+            "446970.79"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "assets_2024",
+          "description": "2024年资产总额",
+          "acceptable_values": [
+            "48821746",
+            "488217.46"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "loans_2023",
+          "description": "2023年贷款总额",
+          "acceptable_values": [
+            "26086482",
+            "260864.82"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "loans_2024",
+          "description": "2024年贷款总额",
+          "acceptable_values": [
+            "28372229",
+            "283722.29"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deposits_2023",
+          "description": "2023年存款",
+          "acceptable_values": [
+            "33521174",
+            "335211.74"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deposits_2024",
+          "description": "2024年存款",
+          "acceptable_values": [
+            "34836973",
+            "348369.73"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "trend",
+          "description": "四项指标均增加",
+          "acceptable_values": [
+            "均增加",
+            "均增长",
+            "全部上升"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "两份年报同口径数值显示净利润、资产、贷款和存款均增加。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_trend_asset_quality",
+      "task_type": "compare",
+      "query": "比较工商银行2023年和2024年的不良贷款率、拨备覆盖率、资本充足率和成本收入比。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:工商银行:year:2023",
+        "company:工商银行:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "npl_2023",
+          "description": "2023年不良贷款率",
+          "acceptable_values": [
+            "1.36%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "npl_2024",
+          "description": "2024年不良贷款率",
+          "acceptable_values": [
+            "1.34%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "coverage_2023",
+          "description": "2023年拨备覆盖率",
+          "acceptable_values": [
+            "213.97%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "coverage_2024",
+          "description": "2024年拨备覆盖率",
+          "acceptable_values": [
+            "214.91%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital_2023",
+          "description": "2023年资本充足率",
+          "acceptable_values": [
+            "19.10%",
+            "19.1%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital_2024",
+          "description": "2024年资本充足率",
+          "acceptable_values": [
+            "19.39%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cost_2023",
+          "description": "2023年成本收入比",
+          "acceptable_values": [
+            "26.96%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cost_2024",
+          "description": "2024年成本收入比",
+          "acceptable_values": [
+            "28.04%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            16
+          ]
+        }
+      ],
+      "gold_rationale": "不良率下降0.02个百分点；拨备覆盖率、资本充足率和成本收入比上升。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_calc_profit_growth",
+      "task_type": "calculate",
+      "query": "用年报披露的净利润计算工商银行2024年相对2023年的增长率，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年净利润",
+          "acceptable_values": [
+            "365116"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年净利润",
+          "acceptable_values": [
+            "366946"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "growth",
+          "description": "(366946-365116)/365116",
+          "acceptable_values": [
+            "0.50%",
+            "0.5%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            14
+          ]
+        }
+      ],
+      "gold_rationale": "按披露净利润计算：(366946-365116)/365116=0.5012%，保留两位小数为0.50%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_calc_loan_deposit_gap",
+      "task_type": "calculate",
+      "query": "分别计算工商银行2023年和2024年客户存款减客户贷款及垫款的差额，并判断差额是否扩大。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "gap_2023",
+          "description": "2023年存款减贷款差额",
+          "acceptable_values": [
+            "7434692",
+            "74346.92"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "gap_2024",
+          "description": "2024年存款减贷款差额",
+          "acceptable_values": [
+            "6464744",
+            "64647.44"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "gap_change",
+          "description": "差额缩小",
+          "acceptable_values": [
+            "缩小",
+            "收窄",
+            "969948",
+            "9699.48"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "2023年差额7,434,692百万元，2024年6,464,744百万元，缩小969,948百万元。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_verify_quality",
+      "task_type": "compare",
+      "query": "核验说法：工商银行2024年较2023年不良贷款率下降，同时资本充足率上升。请给出证据和结论。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:工商银行:year:2023",
+        "company:工商银行:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "npl_2023",
+          "description": "2023年不良贷款率",
+          "acceptable_values": [
+            "1.36%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "npl_2024",
+          "description": "2024年不良贷款率",
+          "acceptable_values": [
+            "1.34%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital_2023",
+          "description": "2023年资本充足率",
+          "acceptable_values": [
+            "19.10%",
+            "19.1%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital_2024",
+          "description": "2024年资本充足率",
+          "acceptable_values": [
+            "19.39%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "说法成立",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "核验通过"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            16
+          ]
+        }
+      ],
+      "gold_rationale": "不良贷款率由1.36%降至1.34%，资本充足率由19.10%升至19.39%，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出工商银行2025年实际不良贷款率、拨备覆盖率和资本充足率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家银行两年的资产质量指标并解释变化，但先不要假定我指的是哪家银行或哪两个年度。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

@@ -63,8 +63,11 @@ def _parse_announcement(payload: dict) -> Announcement:
 def select_chinese_annual_report(
     announcements: list[Announcement], company: str, report_year: int
 ) -> Announcement:
-    expected_title = f"{company}{report_year}年年度报告"
-    matches = [item for item in announcements if item.title == expected_title]
+    expected_titles = (
+        f"{company}{report_year}年年度报告",
+        f"{company}{report_year}年度报告",
+    )
+    matches = [item for item in announcements if item.title in expected_titles]
     if len(matches) > 1:
         raise LookupError(f"Multiple exact annual reports found for {company} {report_year}")
     if matches:
@@ -77,11 +80,15 @@ def select_chinese_annual_report(
     # terms of the short name, so accept the unique full Chinese annual report
     # belonging to the matching security.  Keep the exact suffix deliberately:
     # summaries, English editions and correction notices must not be selected.
-    annual_report_suffix = f"{report_year}年年度报告"
+    annual_report_suffixes = (
+        f"{report_year}年年度报告",
+        f"{report_year}年度报告",
+    )
     security_matches = [
         item
         for item in announcements
-        if item.security_name == company and item.title.endswith(annual_report_suffix)
+        if item.security_name == company
+        and item.title.endswith(annual_report_suffixes)
     ]
     if len(security_matches) == 1:
         return security_matches[0]
@@ -93,7 +100,7 @@ def select_chinese_annual_report(
     available = ", ".join(item.title for item in announcements[:10]) or "none"
     raise LookupError(
         f"No Chinese annual report for security {company!r} in {report_year}; "
-        f"expected {expected_title!r}; found: {available}"
+        f"expected one of {expected_titles!r}; found: {available}"
     )
 
 

@@ -1,0 +1,23 @@
+.git
+.github
+.venv
+.pytest_cache
+.ruff_cache
+__pycache__
+*.pyc
+
+# Large local artifacts; the image builds its own demo index from
+# data/evaluation, which is the only data directory the Dockerfile copies.
+data/artifacts
+data/cache
+data/catalog
+data/indexes
+data/processed
+data/raw
+data/traces
+data/uploads
+reports
+tests
+
+local-keys.env
+.env.local

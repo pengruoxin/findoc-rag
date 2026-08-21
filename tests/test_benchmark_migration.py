@@ -11,16 +11,15 @@ from findoc_rag.benchmark_migration import (
     resolve_evaluation_index_id,
     validate_migration_manifest,
 )
+from findoc_rag.io import write_text_lf
 
 
 def _write_json(path: Path, payload: dict) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload) + "\n", encoding="utf-8")
+    write_text_lf(path, json.dumps(payload) + "\n")
 
 
 def _write_jsonl(path: Path, rows: list[dict]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text("".join(json.dumps(row) + "\n" for row in rows), encoding="utf-8")
+    write_text_lf(path, "".join(json.dumps(row) + "\n" for row in rows))
 
 
 def _fixture(tmp_path: Path) -> tuple[Path, Path, Path]:
@@ -66,7 +65,7 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path]:
     _write_json(view_path, view)
     _write_jsonl(evidence_path, [source_chunk])
     snapshot_path.parent.mkdir(parents=True, exist_ok=True)
-    snapshot_path.write_text(snapshot_payload, encoding="utf-8")
+    write_text_lf(snapshot_path, snapshot_payload)
     index_manifest = {
         "index_id": "new-index",
         "index_format_version": 3,
@@ -76,7 +75,7 @@ def _fixture(tmp_path: Path) -> tuple[Path, Path, Path]:
         "embedding_dimension": 3,
     }
     _write_json(generation / "manifest.json", index_manifest)
-    (generation / "dense_chunk_ids.json").write_text('["c1"]\n', encoding="utf-8")
+    write_text_lf(generation / "dense_chunk_ids.json", '["c1"]\n')
     _write_json(
         index_root / "current.json",
         {
@@ -126,7 +125,7 @@ def test_migration_fails_when_judged_text_changes(tmp_path: Path) -> None:
     snapshot_path = index_root / "snapshots" / f"{snapshot_sha}.jsonl"
     target = json.loads(snapshot_path.read_text(encoding="utf-8"))
     target["text"] = "被篡改"
-    snapshot_path.write_text(json.dumps(target) + "\n", encoding="utf-8")
+    write_text_lf(snapshot_path, json.dumps(target) + "\n")
 
     result = validate_migration_manifest(
         manifest,

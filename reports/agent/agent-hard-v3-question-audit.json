@@ -1,0 +1,110 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-questions",
+  "question_payload_sha256": "a8650156ea0377b15955636d72208b77b9f582d1a5c57a52745eba2740595cb4",
+  "ready_for_gold_annotation": true,
+  "ready_for_agent_evaluation": false,
+  "agent_evaluation_blockers": [
+    "independent gold facts are not frozen",
+    "exact evidence pages are not frozen",
+    "two independent human approvals are not complete",
+    "clarify command scoring is not implemented"
+  ],
+  "blockers": [],
+  "warnings": [],
+  "checks": {
+    "question_count_is_96": true,
+    "case_ids_are_unique": true,
+    "question_text_is_unique": true,
+    "blind_questions_contain_no_gold_fields": true,
+    "question_hash_matches": true,
+    "review_packet_matches_question_hash": true,
+    "review_packet_case_membership_matches": true,
+    "task_type_distribution_matches": true,
+    "agent_command_distribution_matches": true,
+    "answerability_distribution_matches": true,
+    "split_distribution_matches": true,
+    "company_count_is_8": true,
+    "sealed_plan_passes_governance": true,
+    "prepared_corpus_passes_governance": true,
+    "source_documents_do_not_overlap_old_benchmark": true,
+    "companies_do_not_overlap_old_benchmark": true,
+    "source_pdf_hashes_match": true,
+    "source_pdf_hashes_are_unique": true,
+    "all_answerable_questions_have_valid_candidate_pages": true,
+    "question_structure_checks_complete": true,
+    "pdf_page_audit_covers_4690_pages": true,
+    "pdf_audit_has_no_replacement_character_pages": true,
+    "scanned_table_claim_is_not_overstated": true,
+    "all_scan_candidates_were_visually_reviewed": true,
+    "questions_do_not_exactly_overlap_prior_agent_sets": true
+  },
+  "statistics": {
+    "question_count": 96,
+    "company_count": 8,
+    "source_document_count": 16,
+    "pdf_page_count": 4690,
+    "task_type_counts": {
+      "calculate": 16,
+      "compare": 24,
+      "extract": 56
+    },
+    "agent_command_counts": {
+      "calculate": 16,
+      "clarify": 8,
+      "compare": 16,
+      "extract": 48,
+      "verify": 8
+    },
+    "expected_behavior_counts": {
+      "abstain": 16,
+      "answer": 80
+    },
+    "split_counts": {
+      "calibration": 24,
+      "dev": 24,
+      "frozen_test": 48
+    },
+    "scan_candidate_count": 24,
+    "eligible_genuine_scanned_table_count": 0
+  },
+  "prior_question_sources_checked": [
+    "data/evaluation/agent-hard-v1.json",
+    "data/evaluation/agent-hard-v2.json"
+  ],
+  "exact_prior_query_overlap_count": 0,
+  "corpus_plan_audit": {
+    "policy_id": "agentic-rag-p0-v1",
+    "plan_id": "findoc-rag-agent-hard-v3-external-corpus",
+    "ready_for_acquisition": true,
+    "blockers": [],
+    "stats": {
+      "document_count": 16,
+      "company_count": 8,
+      "report_year_count": 2,
+      "split_document_counts": {
+        "calibration": 4,
+        "dev": 4,
+        "frozen_test": 8
+      },
+      "split_question_targets": {
+        "calibration": 24,
+        "dev": 24,
+        "frozen_test": 48
+      }
+    },
+    "company_split_overlaps": []
+  },
+  "prepared_corpus_audit": {
+    "plan_id": "findoc-rag-agent-hard-v3-external-corpus",
+    "ready_for_annotation": true,
+    "blockers": [],
+    "document_count": 16,
+    "source_hash_count": 16,
+    "index_document_counts": {
+      "calibration": 4,
+      "development": 8,
+      "frozen_test": 8
+    }
+  }
+}

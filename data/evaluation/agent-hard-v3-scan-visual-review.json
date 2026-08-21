@@ -1,0 +1,32 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external",
+  "review_status": "complete",
+  "reviewer": "assistant_visual_review_2026-08-20",
+  "items": [
+    {"document_key": "cninfo:601398:annual:2023", "page_number": 8, "eligible_scanned_table": false, "classification": "ranking_infographic"},
+    {"document_key": "cninfo:601398:annual:2023", "page_number": 13, "eligible_scanned_table": false, "classification": "financial_summary_charts"},
+    {"document_key": "cninfo:601398:annual:2023", "page_number": 69, "eligible_scanned_table": false, "classification": "overseas_network_infographic"},
+    {"document_key": "cninfo:601398:annual:2024", "page_number": 13, "eligible_scanned_table": false, "classification": "financial_summary_charts"},
+    {"document_key": "cninfo:601318:annual:2023", "page_number": 1, "eligible_scanned_table": false, "classification": "cover"},
+    {"document_key": "cninfo:601318:annual:2023", "page_number": 104, "eligible_scanned_table": false, "classification": "management_portrait_page"},
+    {"document_key": "cninfo:601318:annual:2023", "page_number": 105, "eligible_scanned_table": false, "classification": "management_portrait_page"},
+    {"document_key": "cninfo:601318:annual:2023", "page_number": 334, "eligible_scanned_table": false, "classification": "decorative_end_page"},
+    {"document_key": "cninfo:601318:annual:2024", "page_number": 1, "eligible_scanned_table": false, "classification": "cover"},
+    {"document_key": "cninfo:601318:annual:2024", "page_number": 5, "eligible_scanned_table": false, "classification": "company_profile_photo_page"},
+    {"document_key": "cninfo:601318:annual:2024", "page_number": 114, "eligible_scanned_table": false, "classification": "management_portrait_page"},
+    {"document_key": "cninfo:601318:annual:2024", "page_number": 115, "eligible_scanned_table": false, "classification": "management_portrait_page"},
+    {"document_key": "cninfo:601318:annual:2024", "page_number": 346, "eligible_scanned_table": false, "classification": "decorative_end_page"},
+    {"document_key": "cninfo:002352:annual:2023", "page_number": 1, "eligible_scanned_table": false, "classification": "cover"},
+    {"document_key": "cninfo:002352:annual:2023", "page_number": 2, "eligible_scanned_table": false, "classification": "strategy_photo_spread"},
+    {"document_key": "cninfo:002352:annual:2023", "page_number": 226, "eligible_scanned_table": false, "classification": "contact_end_page"},
+    {"document_key": "cninfo:002352:annual:2024", "page_number": 1, "eligible_scanned_table": false, "classification": "cover"},
+    {"document_key": "cninfo:002352:annual:2024", "page_number": 2, "eligible_scanned_table": false, "classification": "vision_photo_page"},
+    {"document_key": "cninfo:002352:annual:2024", "page_number": 4, "eligible_scanned_table": false, "classification": "table_of_contents"},
+    {"document_key": "cninfo:002352:annual:2024", "page_number": 12, "eligible_scanned_table": false, "classification": "financial_summary_infographic"},
+    {"document_key": "cninfo:002352:annual:2024", "page_number": 31, "eligible_scanned_table": false, "classification": "global_network_infographic"},
+    {"document_key": "cninfo:002352:annual:2024", "page_number": 33, "eligible_scanned_table": false, "classification": "transport_capacity_infographic"},
+    {"document_key": "cninfo:002352:annual:2024", "page_number": 120, "eligible_scanned_table": false, "classification": "not_applicable_disclosure_page"},
+    {"document_key": "cninfo:002352:annual:2024", "page_number": 250, "eligible_scanned_table": false, "classification": "contact_end_page"}
+  ]
+}

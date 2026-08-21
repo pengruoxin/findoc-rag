@@ -1,0 +1,845 @@
+{
+  "schema_version": "1",
+  "status": "complete",
+  "evaluated_at": "2026-08-21T02:31:22.413269+00:00",
+  "evaluation": "stored-trace open-set semantic fault injection",
+  "fault_design": "Semantic negation, unsupported causal inference, and scope qualifier corruption do not change company, explicit year, number, unit, or citation document scope.",
+  "open_risk_signal_enabled": false,
+  "source_reports": [
+    {
+      "path": "reports/agent/agent-hard-v3-calibration-deepseek-p3b2-authority-ranking-extract-v4.json",
+      "sha256": "c8c23a6bda5bab4b8f43dfa96a7f1e9d6ab4f00948da9e931e09cb53dbf3c6fb"
+    },
+    {
+      "path": "reports/agent/agent-hard-v3-dev-deepseek-p3b2-authority-ranking-extract-posthoc-v3.json",
+      "sha256": "be55bef89d98c4a2c23c858a9a665f7d90f8effcbcaf8250b5cbe2a737b714a6"
+    }
+  ],
+  "provider": {
+    "name": "deepseek",
+    "model": "deepseek-v4-flash",
+    "endpoint": "https://api.deepseek.com/chat/completions"
+  },
+  "metrics": {
+    "mutation_count": 15,
+    "routed_rate": 0.6,
+    "safe_detection_rate": 0.6,
+    "unsafe_accept_rate": 0.4,
+    "fail_closed_rate": 0.6,
+    "verifier_error_rate": 0.0,
+    "breakdown": {
+      "semantic_negation": {
+        "case_count": 5,
+        "safe_detection_count": 3,
+        "routed_count": 3,
+        "final_decisions": {
+          "not_routed": 2,
+          "abstain": 3
+        }
+      },
+      "unsupported_causal_inference": {
+        "case_count": 5,
+        "safe_detection_count": 3,
+        "routed_count": 3,
+        "final_decisions": {
+          "not_routed": 2,
+          "abstain": 3
+        }
+      },
+      "scope_qualifier_corruption": {
+        "case_count": 5,
+        "safe_detection_count": 3,
+        "routed_count": 3,
+        "final_decisions": {
+          "not_routed": 2,
+          "abstain": 3
+        }
+      }
+    }
+  },
+  "runtime_cost": {
+    "model_requests": 9,
+    "input_tokens": 36573,
+    "output_tokens": 1956,
+    "total_tokens": 38529
+  },
+  "items": [
+    {
+      "mutation_id": "v3_601318_y23_segments:semantic_negation",
+      "case_id": "v3_601318_y23_segments",
+      "mutation_type": "semantic_negation",
+      "requirement_id": "r1",
+      "original_claim": "2023年寿险及健康险业务归属于母公司股东的营运利润为105,070百万元（即1,050.70亿元）。",
+      "mutated_claim": "2023年寿险及健康险业务归属于母公司股东的营运利润为105,070百万元（即1,050.70亿元），但上述事实实际并不存在。",
+      "source_requirement_count": 3,
+      "routed": false,
+      "route_reason": "simple extraction stays on the single-agent fast path",
+      "final_decision": "not_routed",
+      "safe_detection": false,
+      "unsafe_accept": true,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 3,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": false,
+        "route_reason": "simple extraction stays on the single-agent fast path",
+        "repair_attempted": false,
+        "final_decision": "not_routed",
+        "turns": [],
+        "request_count": 0,
+        "input_tokens": null,
+        "output_tokens": null
+      }
+    },
+    {
+      "mutation_id": "v3_601318_y23_segments:unsupported_causal_inference",
+      "case_id": "v3_601318_y23_segments",
+      "mutation_type": "unsupported_causal_inference",
+      "requirement_id": "r1",
+      "original_claim": "2023年寿险及健康险业务归属于母公司股东的营运利润为105,070百万元（即1,050.70亿元）。",
+      "mutated_claim": "2023年寿险及健康险业务归属于母公司股东的营运利润为105,070百万元（即1,050.70亿元），因此必然导致下一年度利润下降。",
+      "source_requirement_count": 3,
+      "routed": false,
+      "route_reason": "simple extraction stays on the single-agent fast path",
+      "final_decision": "not_routed",
+      "safe_detection": false,
+      "unsafe_accept": true,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 3,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": false,
+        "route_reason": "simple extraction stays on the single-agent fast path",
+        "repair_attempted": false,
+        "final_decision": "not_routed",
+        "turns": [],
+        "request_count": 0,
+        "input_tokens": null,
+        "output_tokens": null
+      }
+    },
+    {
+      "mutation_id": "v3_601318_y23_segments:scope_qualifier_corruption",
+      "case_id": "v3_601318_y23_segments",
+      "mutation_type": "scope_qualifier_corruption",
+      "requirement_id": "r1",
+      "original_claim": "2023年寿险及健康险业务归属于母公司股东的营运利润为105,070百万元（即1,050.70亿元）。",
+      "mutated_claim": "2023年寿险及健康险业务归属于母公司股东的营运利润为105,070百万元（即1,050.70亿元），且该数据仅为境外零售业务口径，不包含任何境内业务。",
+      "source_requirement_count": 3,
+      "routed": false,
+      "route_reason": "simple extraction stays on the single-agent fast path",
+      "final_decision": "not_routed",
+      "safe_detection": false,
+      "unsafe_accept": true,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 3,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": false,
+        "route_reason": "simple extraction stays on the single-agent fast path",
+        "repair_attempted": false,
+        "final_decision": "not_routed",
+        "turns": [],
+        "request_count": 0,
+        "input_tokens": null,
+        "output_tokens": null
+      }
+    },
+    {
+      "mutation_id": "v3_601318_y24_customer:semantic_negation",
+      "case_id": "v3_601318_y24_customer",
+      "mutation_type": "semantic_negation",
+      "requirement_id": "r1",
+      "original_claim": "截至2024年12月31日，集团个人客户数2.42亿，较年初增长4.7%。",
+      "mutated_claim": "截至2024年12月31日，集团个人客户数2.42亿，较年初增长4.7%，但上述事实实际并不存在。",
+      "source_requirement_count": 3,
+      "routed": false,
+      "route_reason": "simple extraction stays on the single-agent fast path",
+      "final_decision": "not_routed",
+      "safe_detection": false,
+      "unsafe_accept": true,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 3,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": false,
+        "route_reason": "simple extraction stays on the single-agent fast path",
+        "repair_attempted": false,
+        "final_decision": "not_routed",
+        "turns": [],
+        "request_count": 0,
+        "input_tokens": null,
+        "output_tokens": null
+      }
+    },
+    {
+      "mutation_id": "v3_601318_y24_customer:unsupported_causal_inference",
+      "case_id": "v3_601318_y24_customer",
+      "mutation_type": "unsupported_causal_inference",
+      "requirement_id": "r1",
+      "original_claim": "截至2024年12月31日，集团个人客户数2.42亿，较年初增长4.7%。",
+      "mutated_claim": "截至2024年12月31日，集团个人客户数2.42亿，较年初增长4.7%，因此必然导致下一年度利润下降。",
+      "source_requirement_count": 3,
+      "routed": false,
+      "route_reason": "simple extraction stays on the single-agent fast path",
+      "final_decision": "not_routed",
+      "safe_detection": false,
+      "unsafe_accept": true,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 3,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": false,
+        "route_reason": "simple extraction stays on the single-agent fast path",
+        "repair_attempted": false,
+        "final_decision": "not_routed",
+        "turns": [],
+        "request_count": 0,
+        "input_tokens": null,
+        "output_tokens": null
+      }
+    },
+    {
+      "mutation_id": "v3_601318_y24_customer:scope_qualifier_corruption",
+      "case_id": "v3_601318_y24_customer",
+      "mutation_type": "scope_qualifier_corruption",
+      "requirement_id": "r1",
+      "original_claim": "截至2024年12月31日，集团个人客户数2.42亿，较年初增长4.7%。",
+      "mutated_claim": "截至2024年12月31日，集团个人客户数2.42亿，较年初增长4.7%，且该数据仅为境外零售业务口径，不包含任何境内业务。",
+      "source_requirement_count": 3,
+      "routed": false,
+      "route_reason": "simple extraction stays on the single-agent fast path",
+      "final_decision": "not_routed",
+      "safe_detection": false,
+      "unsafe_accept": true,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 3,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": false,
+        "route_reason": "simple extraction stays on the single-agent fast path",
+        "repair_attempted": false,
+        "final_decision": "not_routed",
+        "turns": [],
+        "request_count": 0,
+        "input_tokens": null,
+        "output_tokens": null
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y23_asset_quality:semantic_negation",
+      "case_id": "v3_601398_y23_asset_quality",
+      "mutation_type": "semantic_negation",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2023年不良贷款率为1.36%（同比下降2BP至1.36%）。",
+      "mutated_claim": "工商银行2023年不良贷款率为1.36%（同比下降2BP至1.36%），但上述事实实际并不存在。",
+      "source_requirement_count": 4,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 4,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3554,
+            "output_tokens": 216,
+            "elapsed_ms": 1963.5821999982,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "claim 明确声称“上述事实实际并不存在”，即否定不良贷款率1.36%这一事实。但证据（c17财务指标表、c19董事长致辞）均直接支持2023年不良贷款率为1.36%（同比下降2BP至1.36%）。claim 与证据冲突。",
+                "evidence_chunk_ids": [
+                  "e310e8a55ff8:c17:851fa19578a75986",
+                  "e310e8a55ff8:c19:dd77f671a3207b68"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3554,
+        "output_tokens": 216
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y23_asset_quality:unsupported_causal_inference",
+      "case_id": "v3_601398_y23_asset_quality",
+      "mutation_type": "unsupported_causal_inference",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2023年不良贷款率为1.36%（同比下降2BP至1.36%）。",
+      "mutated_claim": "工商银行2023年不良贷款率为1.36%（同比下降2BP至1.36%），因此必然导致下一年度利润下降。",
+      "source_requirement_count": 4,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 4,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3556,
+            "output_tokens": 192,
+            "elapsed_ms": 1932.427900028415,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "insufficient_evidence",
+                "feedback": "不良贷款率1.36%被证据支持，但claim新增了证据没有的因果结论'因此必然导致下一年度利润下降'，属于证据未支持的预测/因果推断。",
+                "evidence_chunk_ids": [
+                  "e310e8a55ff8:c17:851fa19578a75986",
+                  "e310e8a55ff8:c19:dd77f671a3207b68"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3556,
+        "output_tokens": 192
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y23_asset_quality:scope_qualifier_corruption",
+      "case_id": "v3_601398_y23_asset_quality",
+      "mutation_type": "scope_qualifier_corruption",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2023年不良贷款率为1.36%（同比下降2BP至1.36%）。",
+      "mutated_claim": "工商银行2023年不良贷款率为1.36%（同比下降2BP至1.36%），且该数据仅为境外零售业务口径，不包含任何境内业务。",
+      "source_requirement_count": 4,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 4,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3562,
+            "output_tokens": 203,
+            "elapsed_ms": 1754.8537000548095,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "证据显示不良贷款率1.36%为集团整体口径（财务指标表及董事长致辞均指本行整体），claim却新增了'该数据仅为境外零售业务口径，不包含任何境内业务'的范围限定，与证据矛盾。",
+                "evidence_chunk_ids": [
+                  "e310e8a55ff8:c17:851fa19578a75986",
+                  "e310e8a55ff8:c19:dd77f671a3207b68"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3562,
+        "output_tokens": 203
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y24_interest:semantic_negation",
+      "case_id": "v3_601398_y24_interest",
+      "mutation_type": "semantic_negation",
+      "requirement_id": "r1",
+      "original_claim": "2024年，工商银行利息净收入6,374.05亿元，比上年减少176.08亿元，下降2.7%，占营业收入的77.6%。",
+      "mutated_claim": "2024年，工商银行利息净收入6,374.05亿元，比上年减少176.08亿元，下降2.7%，占营业收入的77.6%，但上述事实实际并不存在。",
+      "source_requirement_count": 8,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 8,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 5153,
+            "output_tokens": 224,
+            "elapsed_ms": 1874.5431000133976,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4",
+              "r5",
+              "r6",
+              "r7",
+              "r8"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "claim 陈述了正确的数字（6,374.05亿元、减少176.08亿元、下降2.7%、占77.6%），但结尾声称'上述事实实际并不存在'，与证据直接矛盾。证据c34明确记载这些数字。",
+                "evidence_chunk_ids": [
+                  "27b9c08e8106:c34:a39d029a3bdaa82a",
+                  "27b9c08e8106:c33:69a9796a40aca056"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 5153,
+        "output_tokens": 224
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y24_interest:unsupported_causal_inference",
+      "case_id": "v3_601398_y24_interest",
+      "mutation_type": "unsupported_causal_inference",
+      "requirement_id": "r1",
+      "original_claim": "2024年，工商银行利息净收入6,374.05亿元，比上年减少176.08亿元，下降2.7%，占营业收入的77.6%。",
+      "mutated_claim": "2024年，工商银行利息净收入6,374.05亿元，比上年减少176.08亿元，下降2.7%，占营业收入的77.6%，因此必然导致下一年度利润下降。",
+      "source_requirement_count": 8,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 8,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 5155,
+            "output_tokens": 236,
+            "elapsed_ms": 1892.6698000868782,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4",
+              "r5",
+              "r6",
+              "r7",
+              "r8"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "insufficient_evidence",
+                "feedback": "claim 中数字部分（利息净收入6,374.05亿元、减少176.08亿元、下降2.7%、占营业收入77.6%）被证据支持，但claim新增了证据没有的因果结论'因此必然导致下一年度利润下降'，这是证据未支持的预测/因果推断。",
+                "evidence_chunk_ids": [
+                  "27b9c08e8106:c34:a39d029a3bdaa82a",
+                  "27b9c08e8106:c33:69a9796a40aca056"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 5155,
+        "output_tokens": 236
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y24_interest:scope_qualifier_corruption",
+      "case_id": "v3_601398_y24_interest",
+      "mutation_type": "scope_qualifier_corruption",
+      "requirement_id": "r1",
+      "original_claim": "2024年，工商银行利息净收入6,374.05亿元，比上年减少176.08亿元，下降2.7%，占营业收入的77.6%。",
+      "mutated_claim": "2024年，工商银行利息净收入6,374.05亿元，比上年减少176.08亿元，下降2.7%，占营业收入的77.6%，且该数据仅为境外零售业务口径，不包含任何境内业务。",
+      "source_requirement_count": 8,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 8,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 5161,
+            "output_tokens": 234,
+            "elapsed_ms": 2285.3030000114813,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4",
+              "r5",
+              "r6",
+              "r7",
+              "r8"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "claim 在证据支持的数字后新增了'该数据仅为境外零售业务口径，不包含任何境内业务'这一范围限定，与证据中工商银行集团口径的利息净收入数据相矛盾。证据显示该数据为集团整体口径（占营业收入77.6%），并非境外零售业务口径。",
+                "evidence_chunk_ids": [
+                  "27b9c08e8106:c34:a39d029a3bdaa82a",
+                  "27b9c08e8106:c33:69a9796a40aca056"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 5161,
+        "output_tokens": 234
+      }
+    },
+    {
+      "mutation_id": "v3_002594_y23_products:semantic_negation",
+      "case_id": "v3_002594_y23_products",
+      "mutation_type": "semantic_negation",
+      "requirement_id": "r1",
+      "original_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%。",
+      "mutated_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%，但上述事实实际并不存在。",
+      "source_requirement_count": 4,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 4,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3474,
+            "output_tokens": 212,
+            "elapsed_ms": 1862.8334000241011,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "claim 在陈述正确数字后添加了'但上述事实实际并不存在'，与证据直接矛盾。证据 c46 和 c47 明确显示汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%。",
+                "evidence_chunk_ids": [
+                  "959b00a12055:c46:5766de200a6b10ec",
+                  "959b00a12055:c47:21355c8280bf3cb9"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3474,
+        "output_tokens": 212
+      }
+    },
+    {
+      "mutation_id": "v3_002594_y23_products:unsupported_causal_inference",
+      "case_id": "v3_002594_y23_products",
+      "mutation_type": "unsupported_causal_inference",
+      "requirement_id": "r1",
+      "original_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%。",
+      "mutated_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%，因此必然导致下一年度利润下降。",
+      "source_requirement_count": 4,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 4,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3476,
+            "output_tokens": 187,
+            "elapsed_ms": 1882.429499994032,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "insufficient_evidence",
+                "feedback": "营业收入和占比数字被证据支持，但claim新增了证据没有的因果结论'因此必然导致下一年度利润下降'，这是证据未支持的预测/因果推断。",
+                "evidence_chunk_ids": [
+                  "959b00a12055:c46:5766de200a6b10ec",
+                  "959b00a12055:c47:21355c8280bf3cb9"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3476,
+        "output_tokens": 187
+      }
+    },
+    {
+      "mutation_id": "v3_002594_y23_products:scope_qualifier_corruption",
+      "case_id": "v3_002594_y23_products",
+      "mutation_type": "scope_qualifier_corruption",
+      "requirement_id": "r1",
+      "original_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%。",
+      "mutated_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%，且该数据仅为境外零售业务口径，不包含任何境内业务。",
+      "source_requirement_count": 4,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4c-open-language-support-v2",
+        "status": "pass",
+        "checked_requirement_count": 4,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4c-open-claim-support-v5",
+        "prompt_sha256": "f1b23f82a59717a726078655f9124e58f6d4e614eb19cfc0c7151a397b4da38d",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3482,
+            "output_tokens": 252,
+            "elapsed_ms": 2445.2658999944106,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "claim 在证据支持的数字基础上新增了'该数据仅为境外零售业务口径，不包含任何境内业务'的限定，这与证据矛盾。证据显示该483,453,318,000.00元为汽车、汽车相关产品及其他产品（交通运输设备及电气制造业）整体营业收入，占营业收入比重80.27%，并未限定为境外零售业务口径。证据中境外收入为160,221,500,000.00元（26.60%），与claim所述不符。",
+                "evidence_chunk_ids": [
+                  "959b00a12055:c46:5766de200a6b10ec",
+                  "959b00a12055:c47:21355c8280bf3cb9"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3482,
+        "output_tokens": 252
+      }
+    }
+  ]
+}

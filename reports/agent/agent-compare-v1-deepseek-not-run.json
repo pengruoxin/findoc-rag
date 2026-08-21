@@ -1,0 +1,20 @@
+{
+  "schema_version": "2",
+  "dataset_id": "agent-compare-v1",
+  "dataset_path": "D:/202607/raglab/data/evaluation/agent-compare-v1.json",
+  "dataset_sha256": "f48a59dfcbbc5c04264742a12b90491771607b559fa8782891c7c3f14b7569a8",
+  "index_scope": "benchmark-v3/frozen_test",
+  "index_path": "D:/202607/raglab/data/indexes/benchmark-v3/frozen_test",
+  "evaluated_at": "2026-08-20T02:13:23.233817+00:00",
+  "runtime": "deepseek",
+  "status": "not_run",
+  "reason": "missing_provider_api_key",
+  "provider": {
+    "name": "deepseek",
+    "model": "deepseek-v4-flash",
+    "endpoint": "https://api.deepseek.com/chat/completions"
+  },
+  "metrics": null,
+  "hard_gates_pass": null,
+  "items": []
+}

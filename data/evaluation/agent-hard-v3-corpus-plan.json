@@ -1,0 +1,154 @@
+{
+  "schema_version": "1",
+  "plan_id": "findoc-rag-agent-hard-v3-external-corpus",
+  "sealed_at": "2026-08-20T00:00:00+08:00",
+  "split_strategy": "document_blind",
+  "allocation_unit": "company",
+  "selection_protocol": "allocated_before_question_authoring_or_rule_tuning",
+  "documents": [
+    {
+      "document_key": "cninfo:601398:annual:2023",
+      "security_code": "601398",
+      "company_name": "工商银行",
+      "report_year": 2023,
+      "split": "calibration",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:601398:annual:2024",
+      "security_code": "601398",
+      "company_name": "工商银行",
+      "report_year": 2024,
+      "split": "calibration",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:002594:annual:2023",
+      "security_code": "002594",
+      "company_name": "比亚迪",
+      "report_year": 2023,
+      "split": "calibration",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:002594:annual:2024",
+      "security_code": "002594",
+      "company_name": "比亚迪",
+      "report_year": 2024,
+      "split": "calibration",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:601318:annual:2023",
+      "security_code": "601318",
+      "company_name": "中国平安",
+      "report_year": 2023,
+      "split": "dev",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:601318:annual:2024",
+      "security_code": "601318",
+      "company_name": "中国平安",
+      "report_year": 2024,
+      "split": "dev",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:300750:annual:2023",
+      "security_code": "300750",
+      "company_name": "宁德时代",
+      "report_year": 2023,
+      "split": "dev",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:300750:annual:2024",
+      "security_code": "300750",
+      "company_name": "宁德时代",
+      "report_year": 2024,
+      "split": "dev",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:600309:annual:2023",
+      "security_code": "600309",
+      "company_name": "万华化学",
+      "report_year": 2023,
+      "split": "frozen_test",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:600309:annual:2024",
+      "security_code": "600309",
+      "company_name": "万华化学",
+      "report_year": 2024,
+      "split": "frozen_test",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:002352:annual:2023",
+      "security_code": "002352",
+      "company_name": "顺丰控股",
+      "report_year": 2023,
+      "split": "frozen_test",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:002352:annual:2024",
+      "security_code": "002352",
+      "company_name": "顺丰控股",
+      "report_year": 2024,
+      "split": "frozen_test",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:300760:annual:2023",
+      "security_code": "300760",
+      "company_name": "迈瑞医疗",
+      "report_year": 2023,
+      "split": "frozen_test",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:300760:annual:2024",
+      "security_code": "300760",
+      "company_name": "迈瑞医疗",
+      "report_year": 2024,
+      "split": "frozen_test",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:000063:annual:2023",
+      "security_code": "000063",
+      "company_name": "中兴通讯",
+      "report_year": 2023,
+      "split": "frozen_test",
+      "source": "cninfo",
+      "question_target": 6
+    },
+    {
+      "document_key": "cninfo:000063:annual:2024",
+      "security_code": "000063",
+      "company_name": "中兴通讯",
+      "report_year": 2024,
+      "split": "frozen_test",
+      "source": "cninfo",
+      "question_target": 6
+    }
+  ]
+}

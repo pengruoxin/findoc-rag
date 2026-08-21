@@ -24,3 +24,6 @@ reports/**/*.csv
 docs/ui/workspace-wireframe.html
 docs/ui/workspace-v2.html
 docs/interview/interview-capability-map.md
+
+# One-off local PDF probes.
+tmp_*.py

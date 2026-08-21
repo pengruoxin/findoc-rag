@@ -30,6 +30,17 @@ def test_selects_exact_chinese_full_annual_report() -> None:
     assert selected.title == "贵州茅台2024年年度报告"
 
 
+def test_selects_annual_report_title_without_repeated_year_character() -> None:
+    candidates = [
+        announcement("中国神华2023年度报告摘要", security_name="中国神华"),
+        announcement("中国神华2023年度报告", security_name="中国神华"),
+    ]
+
+    selected = select_chinese_annual_report(candidates, "中国神华", 2023)
+
+    assert selected.title == "中国神华2023年度报告"
+
+
 def test_selects_unique_legal_name_report_from_security_short_name() -> None:
     candidates = [
         announcement(

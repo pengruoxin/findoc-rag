@@ -1,0 +1,11 @@
+{
+  "policy_id": "agentic-rag-benchmark-v3",
+  "split_strategy": "document_blind",
+  "document_blind_required": true,
+  "company_blind_required": true,
+  "required_human_reviewers": 2,
+  "minimum_companies": 4,
+  "minimum_report_years": 2,
+  "minimum_frozen_test_items": 24,
+  "require_variant_review": true
+}

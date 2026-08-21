@@ -1,0 +1,400 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-provisional-gold-dev-multi-metric-compare",
+  "description": "Ninety-six company- and document-blind Agent tasks over sixteen official CNINFO annual reports. Facts and pages are source-verified provisional gold; independent double review remains pending. Split: dev. Multi-year comparison tasks.",
+  "index_scope": "dev-multi-metric-compare",
+  "source_manifest": "data/evaluation/agent-hard-v3-source-manifest.json",
+  "gold_policy": "Gold was transcribed before the first Agent run. No evaluated Agent, DeepSeek answer, or LLM judge was used to create it. Exact values, deterministic behavior checks, and page-bound citations are scored locally.",
+  "cases": [
+    {
+      "case_id": "v3_601318_trend_core",
+      "task_type": "compare",
+      "query": "按中国平安2024年年报的可比口径（其中2023年归母营运利润为追溯调整后），比较2023年和2024年的归母营运利润、归母净利润及寿险新业务价值。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中国平安:year:2023",
+        "company:中国平安:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "op_2023",
+          "description": "追溯调整后2023年归母营运利润",
+          "acceptable_values": [
+            "111728",
+            "1117.28"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "op_2024",
+          "description": "2024年归母营运利润",
+          "acceptable_values": [
+            "121862",
+            "1218.62"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "net_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "85665",
+            "856.65"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "net_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "126607",
+            "1266.07"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv_2023",
+          "description": "可比口径2023年新业务价值",
+          "acceptable_values": [
+            "31080",
+            "310.80",
+            "310.8"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv_2024",
+          "description": "可比口径2024年新业务价值",
+          "acceptable_values": [
+            "40024",
+            "400.24"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            39,
+            71
+          ]
+        }
+      ],
+      "gold_rationale": "按2024年报可比口径，归母营运利润增长9.1%、归母净利润增长47.8%、新业务价值增长28.8%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_trend_customer",
+      "task_type": "compare",
+      "query": "比较中国平安2023年和2024年的个人客户数、客均合同数以及持有集团内4个及以上合同客户的留存率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中国平安:year:2023",
+        "company:中国平安:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "customers_2023",
+          "description": "2023年个人客户数",
+          "acceptable_values": [
+            "2.32亿",
+            "23157"
+          ],
+          "unit": "亿人/万人"
+        },
+        {
+          "fact_id": "customers_2024",
+          "description": "2024年个人客户数",
+          "acceptable_values": [
+            "2.42亿",
+            "24200",
+            "24235"
+          ],
+          "unit": "亿人/万人"
+        },
+        {
+          "fact_id": "contracts_2023",
+          "description": "2023年客均合同数",
+          "acceptable_values": [
+            "2.95"
+          ],
+          "unit": "个"
+        },
+        {
+          "fact_id": "contracts_2024",
+          "description": "2024年客均合同数",
+          "acceptable_values": [
+            "2.92"
+          ],
+          "unit": "个"
+        },
+        {
+          "fact_id": "retention_2023",
+          "description": "2023年四个及以上合同客户留存率",
+          "acceptable_values": [
+            "97.7%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "retention_2024",
+          "description": "2024年四个及以上合同客户留存率",
+          "acceptable_values": [
+            "98.0%",
+            "98%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "direction",
+          "description": "客户数和留存率上升但客均合同数下降",
+          "acceptable_values": [
+            "客均合同数下降",
+            "客均合同数减少"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2023_1219376072.pdf",
+          "pages": [
+            7,
+            41
+          ]
+        },
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            13,
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "个人客户数增加约0.10亿，客均合同数下降0.03，四个及以上合同客户留存率提高0.3个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_trend_core",
+      "task_type": "compare",
+      "query": "比较宁德时代2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:宁德时代:year:2023",
+        "company:宁德时代:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "4009.17",
+            "40091704.49"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "3620.13",
+            "362012554"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "441.21",
+            "4412124.83"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "507.45",
+            "50744682"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "928.26",
+            "9282612.44"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "969.90",
+            "96990345"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "收入下降而净利润和经营现金流上升",
+          "acceptable_values": [
+            "营业收入下降",
+            "营收下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入下降9.70%，归母净利润上升15.01%，经营现金流上升4.49%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_trend_products",
+      "task_type": "compare",
+      "query": "比较宁德时代2023年和2024年动力电池系统与储能电池系统的收入和毛利率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:宁德时代:year:2023",
+        "company:宁德时代:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "power_revenue_2023",
+          "description": "2023年动力电池收入",
+          "acceptable_values": [
+            "2852.53",
+            "28525291.73"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "power_revenue_2024",
+          "description": "2024年动力电池收入",
+          "acceptable_values": [
+            "2530.41",
+            "253041337"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "power_margin_2023",
+          "description": "2023年动力电池毛利率",
+          "acceptable_values": [
+            "22.27%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "power_margin_2024",
+          "description": "2024年动力电池毛利率",
+          "acceptable_values": [
+            "23.94%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_revenue_2023",
+          "description": "2023年储能电池收入",
+          "acceptable_values": [
+            "599.01",
+            "5990052.19"
+          ],
+          "unit": "亿元/万元"
+        },
+        {
+          "fact_id": "storage_revenue_2024",
+          "description": "2024年储能电池收入",
+          "acceptable_values": [
+            "572.90",
+            "57290460"
+          ],
+          "unit": "亿元/千元"
+        },
+        {
+          "fact_id": "storage_margin_2023",
+          "description": "2023年储能电池毛利率",
+          "acceptable_values": [
+            "23.79%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_margin_2024",
+          "description": "2024年储能电池毛利率",
+          "acceptable_values": [
+            "26.84%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        },
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        }
+      ],
+      "gold_rationale": "两类业务收入均下降，毛利率均上升。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

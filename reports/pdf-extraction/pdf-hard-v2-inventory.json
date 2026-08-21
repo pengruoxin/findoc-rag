@@ -1,0 +1,284 @@
+{
+  "dataset_id": "pdf-hard-v2",
+  "schema_version": "1",
+  "manifest_status": "seed_inventory",
+  "source_integrity": true,
+  "case_integrity": true,
+  "ready_for_formal_freeze": false,
+  "gold_loaded": false,
+  "frozen_gold_boundary": "manifest_only_no_frozen_gold_access",
+  "legacy_case_count": 5,
+  "controlled_raster_case_count": 2,
+  "genuine_scan_case_count": 4,
+  "remaining_formal_table_slots": 70,
+  "quota_report": {
+    "native_control": {
+      "calibration_target": 3,
+      "calibration_actual": 0,
+      "calibration_remaining": 3,
+      "development_target": 3,
+      "development_actual": 0,
+      "development_remaining": 3,
+      "frozen_target": 4,
+      "frozen_actual": 0,
+      "frozen_remaining": 4
+    },
+    "genuine_scan": {
+      "calibration_target": 3,
+      "calibration_actual": 0,
+      "calibration_remaining": 3,
+      "development_target": 3,
+      "development_actual": 0,
+      "development_remaining": 3,
+      "frozen_target": 4,
+      "frozen_actual": 0,
+      "frozen_remaining": 4
+    },
+    "degraded_text_layer": {
+      "calibration_target": 3,
+      "calibration_actual": 0,
+      "calibration_remaining": 3,
+      "development_target": 3,
+      "development_actual": 0,
+      "development_remaining": 3,
+      "frozen_target": 4,
+      "frozen_actual": 0,
+      "frozen_remaining": 4
+    },
+    "borderless_table": {
+      "calibration_target": 3,
+      "calibration_actual": 0,
+      "calibration_remaining": 3,
+      "development_target": 3,
+      "development_actual": 0,
+      "development_remaining": 3,
+      "frozen_target": 4,
+      "frozen_actual": 0,
+      "frozen_remaining": 4
+    },
+    "merged_hierarchical_header": {
+      "calibration_target": 3,
+      "calibration_actual": 0,
+      "calibration_remaining": 3,
+      "development_target": 3,
+      "development_actual": 0,
+      "development_remaining": 3,
+      "frozen_target": 4,
+      "frozen_actual": 0,
+      "frozen_remaining": 4
+    },
+    "cross_page_continuation": {
+      "calibration_target": 3,
+      "calibration_actual": 0,
+      "calibration_remaining": 3,
+      "development_target": 3,
+      "development_actual": 0,
+      "development_remaining": 3,
+      "frozen_target": 4,
+      "frozen_actual": 0,
+      "frozen_remaining": 4
+    },
+    "rotated_or_mixed_layout": {
+      "calibration_target": 3,
+      "calibration_actual": 0,
+      "calibration_remaining": 3,
+      "development_target": 3,
+      "development_actual": 0,
+      "development_remaining": 3,
+      "frozen_target": 4,
+      "frozen_actual": 0,
+      "frozen_remaining": 4
+    }
+  },
+  "sources": [
+    {
+      "source_id": "pdf-extraction-v1",
+      "source_format": "legacy_extraction_benchmark",
+      "source_valid": true,
+      "benchmark_path": "data/evaluation/pdf-extraction-v1/benchmark.json",
+      "benchmark_sha256": "9a16f9ee9e191e8c41643cb7435af43070310dd15ffc9630bad0247cc2c7b581",
+      "pdf_path": "data/evaluation/pdf-extraction-v1/challenge-pages.pdf",
+      "pdf_sha256": "74ee92d7e6e3607adcf06ecf9baeb19241f37849106e614126c74dcd3ec578cc",
+      "page_count": 3,
+      "question_count": 6
+    },
+    {
+      "source_id": "pdf-cross-page-v1",
+      "source_format": "legacy_extraction_benchmark",
+      "source_valid": true,
+      "benchmark_path": "data/evaluation/pdf-cross-page-v1/benchmark.json",
+      "benchmark_sha256": "1c21e059d12bdcd10c25432d2d8f70dec1d8e64ed96ffb297e15da5b14101fc5",
+      "pdf_path": "data/evaluation/pdf-cross-page-v1/challenge-pages.pdf",
+      "pdf_sha256": "20b67ea787abd83a93988edcfda711d153a1d30619bbe4c0a127946a8144cc72",
+      "page_count": 6,
+      "question_count": 7
+    },
+    {
+      "source_id": "pdf-hard-v2-development-candidates",
+      "source_format": "development_candidate_manifest",
+      "source_valid": true,
+      "benchmark_path": "data/evaluation/pdf-hard-v2/development-candidates.json",
+      "benchmark_sha256": "42cf8545316557090434bb6b5cacf4874a8b7fff94493d78bdeb625807bf19bd",
+      "pdf_path": "data/evaluation/pdf-hard-v2/development-candidates.pdf",
+      "pdf_sha256": "2cb87c428f1c6b7d428d53913f438e49e4461682c0f85843188f6a2aedfee36e",
+      "page_count": 4,
+      "question_count": 0
+    },
+    {
+      "source_id": "pdf-hard-v2-genuine-scan-development-candidates",
+      "source_format": "development_candidate_manifest",
+      "source_valid": true,
+      "benchmark_path": "data/evaluation/pdf-hard-v2/genuine-scan-development-candidates.json",
+      "benchmark_sha256": "319e2206e15645a6702dfb9b4f94abe9342d0909ead240d8c06b7c599ed2a3d1",
+      "pdf_path": "data/evaluation/pdf-hard-v2/genuine-scan-development-candidates.pdf",
+      "pdf_sha256": "068cf99e5502ef5da8c1fce2da8f22e03e3314be6a3fc97a6e106aa16862c29f",
+      "page_count": 4,
+      "question_count": 0
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "legacy-native-control",
+      "source_id": "pdf-extraction-v1",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "official_native_pdf",
+      "primary_stratum": "native_control",
+      "split": "legacy_regression",
+      "table_count": 1,
+      "counts_toward_target": false
+    },
+    {
+      "case_id": "legacy-rasterized-single-page",
+      "source_id": "pdf-extraction-v1",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "controlled_rasterization",
+      "primary_stratum": "degraded_text_layer",
+      "split": "legacy_regression",
+      "table_count": 1,
+      "counts_toward_target": false
+    },
+    {
+      "case_id": "legacy-mixed-single-page",
+      "source_id": "pdf-extraction-v1",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "controlled_mixed_overlay",
+      "primary_stratum": "degraded_text_layer",
+      "split": "legacy_regression",
+      "table_count": 1,
+      "counts_toward_target": false
+    },
+    {
+      "case_id": "legacy-native-cross-page",
+      "source_id": "pdf-cross-page-v1",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "official_native_pdf",
+      "primary_stratum": "cross_page_continuation",
+      "split": "legacy_regression",
+      "table_count": 1,
+      "counts_toward_target": false
+    },
+    {
+      "case_id": "legacy-rasterized-cross-page",
+      "source_id": "pdf-cross-page-v1",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "controlled_rasterization",
+      "primary_stratum": "cross_page_continuation",
+      "split": "legacy_regression",
+      "table_count": 1,
+      "counts_toward_target": false
+    },
+    {
+      "case_id": "candidate-moutai-2024-p108-merged-header",
+      "source_id": "pdf-hard-v2-development-candidates",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "official_native_pdf",
+      "primary_stratum": "merged_hierarchical_header",
+      "split": "calibration",
+      "table_count": 1,
+      "counts_toward_target": false
+    },
+    {
+      "case_id": "candidate-shenhua-2023-p203-borderless",
+      "source_id": "pdf-hard-v2-development-candidates",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "official_native_pdf",
+      "primary_stratum": "borderless_table",
+      "split": "development",
+      "table_count": 1,
+      "counts_toward_target": false
+    },
+    {
+      "case_id": "candidate-shenhua-2023-p302-dense-layout",
+      "source_id": "pdf-hard-v2-development-candidates",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "official_native_pdf",
+      "primary_stratum": "native_control",
+      "split": "development",
+      "table_count": 1,
+      "counts_toward_target": false
+    },
+    {
+      "case_id": "candidate-shenhua-2024-p260-landscape",
+      "source_id": "pdf-hard-v2-development-candidates",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "official_native_pdf",
+      "primary_stratum": "rotated_or_mixed_layout",
+      "split": "development",
+      "table_count": 1,
+      "counts_toward_target": false
+    },
+    {
+      "case_id": "candidate-haining-leather-2025-p1-related-funds-scan",
+      "source_id": "pdf-hard-v2-genuine-scan-development-candidates",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "genuine_scanned_pdf",
+      "primary_stratum": "genuine_scan",
+      "split": "calibration",
+      "table_count": 1,
+      "counts_toward_target": false
+    },
+    {
+      "case_id": "candidate-xinong-2020-p7-balance-sheet-scan",
+      "source_id": "pdf-hard-v2-genuine-scan-development-candidates",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "genuine_scanned_pdf",
+      "primary_stratum": "genuine_scan",
+      "split": "calibration",
+      "table_count": 1,
+      "counts_toward_target": false
+    },
+    {
+      "case_id": "candidate-xinong-2020-p11-income-statement-scan",
+      "source_id": "pdf-hard-v2-genuine-scan-development-candidates",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "genuine_scanned_pdf",
+      "primary_stratum": "genuine_scan",
+      "split": "calibration",
+      "table_count": 1,
+      "counts_toward_target": false
+    },
+    {
+      "case_id": "candidate-xinong-2020-p15-equity-change-scan",
+      "source_id": "pdf-hard-v2-genuine-scan-development-candidates",
+      "source_reference_valid": true,
+      "pages_valid": true,
+      "source_kind": "genuine_scanned_pdf",
+      "primary_stratum": "genuine_scan",
+      "split": "development",
+      "table_count": 1,
+      "counts_toward_target": false
+    }
+  ]
+}

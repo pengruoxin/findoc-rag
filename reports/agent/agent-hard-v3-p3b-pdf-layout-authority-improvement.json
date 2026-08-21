@@ -1,0 +1,331 @@
+{
+  "schema_version": "1",
+  "status": "complete",
+  "generated_at": "2026-08-20T10:01:47.029020+00:00",
+  "change_id": "p3b-rendered-two-column-layout-and-source-authority-ranking",
+  "change_scope": "Audit pages are rendered and OCRed one column at a time under a manifest/hash boundary; multi-metric and verification tasks expand candidates, rank financial summaries/key-indicator sections, and append a higher-authority citation only when that page contains the submitted fact value.",
+  "evaluation_scope": "calibration + post-hoc dev affected subsets; frozen_test sealed",
+  "composition_policy": "Thirty-two extract/verification traces were replaced; sixteen P3-A traces were reused unchanged. Gold, scorer, indexes, and frozen test were unchanged.",
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "splits": {
+    "calibration": {
+      "dataset_sha256": "2e6ce78e5acd87ec1e1c54dd6e7193f674ba8445aa7716f7fde5a6212dee2b56",
+      "index_id": "b1879a69987a53b283dc",
+      "before_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9134615384615384,
+        "supported_case_pass_rate": 0.9166666666666666,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "after_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9230769230769231,
+        "supported_case_pass_rate": 0.9166666666666666,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "strict_case_pass_count_before": 22,
+      "strict_case_pass_count_after": 22,
+      "strict_case_pass_count_delta": 0,
+      "composed_report": "reports/agent/agent-hard-v3-calibration-deepseek-p3b-composed.json",
+      "composed_report_sha256": "d18538882094296a17d2031e6885fcc704d43e26c435f63450959c336e06fd2e"
+    },
+    "dev": {
+      "dataset_sha256": "fd15f3396fcceb3eb213251ea37ce7bea7decd00574b87c09720d607b1443933",
+      "index_id": "a4b314a9ff7e595a86bf",
+      "before_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9716981132075472,
+        "supported_case_pass_rate": 0.875,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "after_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 1.0,
+        "supported_fact_accuracy": 0.9716981132075472,
+        "supported_case_pass_rate": 0.9583333333333334,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0,
+        "atomic_requirement_case_count": 10,
+        "task_requirement_coverage": 1.0,
+        "requirement_evidence_coverage": 1.0,
+        "scope_validation_rate": 1.0,
+        "claim_citation_completeness": 1.0
+      },
+      "strict_case_pass_count_before": 21,
+      "strict_case_pass_count_after": 23,
+      "strict_case_pass_count_delta": 2,
+      "composed_report": "reports/agent/agent-hard-v3-dev-deepseek-p3b-composed.json",
+      "composed_report_sha256": "b947e4117f95fc5c21589ea0d0aff340425601a4530eab302483c37456147c48"
+    }
+  },
+  "combined": {
+    "case_count": 48,
+    "strict_case_pass_count_before": 43,
+    "strict_case_pass_rate_before": 0.8958333333333334,
+    "strict_case_pass_count_after": 45,
+    "strict_case_pass_rate_after": 0.9375,
+    "strict_case_pass_count_delta": 2,
+    "strict_case_pass_rate_delta": 0.041666666666666664,
+    "final_targeted_runtime_cost": {
+      "model_requests": 89,
+      "model_input_tokens": 301570,
+      "model_output_tokens": 33735,
+      "model_total_tokens": 335305,
+      "tool_calls": 110
+    },
+    "all_experiment_runtime_cost": {
+      "model_requests": 446,
+      "model_input_tokens": 1543943,
+      "model_output_tokens": 166286,
+      "model_total_tokens": 1710229,
+      "tool_calls": 541
+    }
+  },
+  "fixed_cases": [
+    "v3_601318_y23_core",
+    "v3_601318_verify_nbv"
+  ],
+  "manual_pdf_review": {
+    "case_id": "v3_601398_y23_ecl_audit",
+    "machine_exact_before": "6/13",
+    "machine_exact_after": "7/13",
+    "manual_grounded_fact_coverage_after": "13/13",
+    "review_note": "The six remaining exact misses are supported by cited pages but use source wording/synonyms: 敞口/暴露, 多宏观情景及权重/经济情景及情景权重, 测试...内部控制/测试内部控制, 模型...参数/模型及参数, 信息技术系统/信息系统, 抵质押物/抵押物."
+  },
+  "dev_governance": {
+    "final_dev_runs_are_posthoc": true,
+    "unbiased_dev_confirmation": false,
+    "frozen_test_opened": false
+  },
+  "iterations": [
+    {
+      "label": "p3b1-calibration-v1-ledger-truncated",
+      "report": "reports/agent/agent-hard-v3-calibration-deepseek-p3b1-two-column-layout-v1.json",
+      "report_sha256": "f9b6e95530afbb263175d4236ec7ed1daf0280daa9e6a7f3901a384c5f50d6bc",
+      "fact_accuracy": 0.7222222222222222,
+      "strict_case_pass_rate": 0.8571428571428571,
+      "behavior_accuracy": 0.9285714285714286,
+      "runtime_cost": {
+        "model_requests": 39,
+        "model_input_tokens": 133023,
+        "model_output_tokens": 14933,
+        "model_total_tokens": 147956,
+        "tool_calls": 42
+      }
+    },
+    {
+      "label": "p3b1-calibration-v2-ledger-truncated",
+      "report": "reports/agent/agent-hard-v3-calibration-deepseek-p3b1-two-column-layout-v2.json",
+      "report_sha256": "dc9f2e7a4842805d57799d44371196ab80b2cd85c0ab4acaf5d28931da1891e7",
+      "fact_accuracy": 0.7222222222222222,
+      "strict_case_pass_rate": 0.8571428571428571,
+      "behavior_accuracy": 0.9285714285714286,
+      "runtime_cost": {
+        "model_requests": 39,
+        "model_input_tokens": 134061,
+        "model_output_tokens": 13671,
+        "model_total_tokens": 147732,
+        "tool_calls": 42
+      }
+    },
+    {
+      "label": "p3b1-calibration-v3",
+      "report": "reports/agent/agent-hard-v3-calibration-deepseek-p3b1-two-column-layout-v3.json",
+      "report_sha256": "bc458e89c78daf4f9c3a14cc538e13665950b1909b54c0847ea4baf03f32d567",
+      "fact_accuracy": 0.8518518518518519,
+      "strict_case_pass_rate": 0.8571428571428571,
+      "behavior_accuracy": 1.0,
+      "runtime_cost": {
+        "model_requests": 40,
+        "model_input_tokens": 140707,
+        "model_output_tokens": 15214,
+        "model_total_tokens": 155921,
+        "tool_calls": 42
+      }
+    },
+    {
+      "label": "p3b1-dev-posthoc-v1",
+      "report": "reports/agent/agent-hard-v3-dev-deepseek-p3b1-two-column-layout-posthoc-v1.json",
+      "report_sha256": "5355e36fe89071be128e186c182adf0e12dc4d139696ced5f6268c2b93364b0e",
+      "fact_accuracy": 0.8771929824561403,
+      "strict_case_pass_rate": 0.8571428571428571,
+      "behavior_accuracy": 0.9285714285714286,
+      "runtime_cost": {
+        "model_requests": 40,
+        "model_input_tokens": 137690,
+        "model_output_tokens": 14401,
+        "model_total_tokens": 152091,
+        "tool_calls": 47
+      }
+    },
+    {
+      "label": "p3b2-calibration-extract-v1",
+      "report": "reports/agent/agent-hard-v3-calibration-deepseek-p3b2-authority-ranking-extract-v1.json",
+      "report_sha256": "053ec4af453ce2a077d83f05eac2680ca0216137bcf08ac862d77c565b1a69a5",
+      "fact_accuracy": 0.8518518518518519,
+      "strict_case_pass_rate": 0.8571428571428571,
+      "behavior_accuracy": 1.0,
+      "runtime_cost": {
+        "model_requests": 40,
+        "model_input_tokens": 142318,
+        "model_output_tokens": 15571,
+        "model_total_tokens": 157889,
+        "tool_calls": 51
+      }
+    },
+    {
+      "label": "p3b2-calibration-extract-v2",
+      "report": "reports/agent/agent-hard-v3-calibration-deepseek-p3b2-authority-ranking-extract-v2.json",
+      "report_sha256": "f617ccf0f6f268055aa57992f79306f478b5854979a0539295ad7313ec2d73d8",
+      "fact_accuracy": 0.8518518518518519,
+      "strict_case_pass_rate": 0.8571428571428571,
+      "behavior_accuracy": 1.0,
+      "runtime_cost": {
+        "model_requests": 40,
+        "model_input_tokens": 140970,
+        "model_output_tokens": 15320,
+        "model_total_tokens": 156290,
+        "tool_calls": 51
+      }
+    },
+    {
+      "label": "p3b2-calibration-extract-v3-redundant-field",
+      "report": "reports/agent/agent-hard-v3-calibration-deepseek-p3b2-authority-ranking-extract-v3.json",
+      "report_sha256": "ad50f3519572d1a005fd69185a0fcecdc21e1df06daaee319d218a5a70514bf1",
+      "fact_accuracy": 0.7592592592592593,
+      "strict_case_pass_rate": 0.8571428571428571,
+      "behavior_accuracy": 0.9285714285714286,
+      "runtime_cost": {
+        "model_requests": 40,
+        "model_input_tokens": 144719,
+        "model_output_tokens": 15566,
+        "model_total_tokens": 160285,
+        "tool_calls": 51
+      }
+    },
+    {
+      "label": "p3b2-calibration-extract-v4-final",
+      "report": "reports/agent/agent-hard-v3-calibration-deepseek-p3b2-authority-ranking-extract-v4.json",
+      "report_sha256": "c8c23a6bda5bab4b8f43dfa96a7f1e9d6ab4f00948da9e931e09cb53dbf3c6fb",
+      "fact_accuracy": 0.8518518518518519,
+      "strict_case_pass_rate": 0.8571428571428571,
+      "behavior_accuracy": 1.0,
+      "runtime_cost": {
+        "model_requests": 40,
+        "model_input_tokens": 143366,
+        "model_output_tokens": 15598,
+        "model_total_tokens": 158964,
+        "tool_calls": 51
+      }
+    },
+    {
+      "label": "p3b2-calibration-verification-final",
+      "report": "reports/agent/agent-hard-v3-calibration-deepseek-p3b2-authority-ranking-verification-v1.json",
+      "report_sha256": "08bdf235256c50fe16479af009957921ce18c9b6d7410924a77845e5af0bcd88",
+      "fact_accuracy": 1.0,
+      "strict_case_pass_rate": 1.0,
+      "behavior_accuracy": 1.0,
+      "runtime_cost": {
+        "model_requests": 4,
+        "model_input_tokens": 10969,
+        "model_output_tokens": 1782,
+        "model_total_tokens": 12751,
+        "tool_calls": 4
+      }
+    },
+    {
+      "label": "p3b2-dev-verification-posthoc-final",
+      "report": "reports/agent/agent-hard-v3-dev-deepseek-p3b2-authority-ranking-verification-posthoc-v1.json",
+      "report_sha256": "229a0c5e5b272f71eef5a0311b19bdddedd38fb6a284934b3926fc57a0a55ee7",
+      "fact_accuracy": 1.0,
+      "strict_case_pass_rate": 1.0,
+      "behavior_accuracy": 1.0,
+      "runtime_cost": {
+        "model_requests": 5,
+        "model_input_tokens": 12605,
+        "model_output_tokens": 2227,
+        "model_total_tokens": 14832,
+        "tool_calls": 4
+      }
+    },
+    {
+      "label": "p3b2-dev-extract-posthoc-v1-unknown-candidate",
+      "report": "reports/agent/agent-hard-v3-dev-deepseek-p3b2-authority-ranking-extract-posthoc-v1.json",
+      "report_sha256": "f870e434844ca18b2deb993cc4e12ef02050a66711152658b41f6c1cdc372e19",
+      "fact_accuracy": 0.8771929824561403,
+      "strict_case_pass_rate": 0.8571428571428571,
+      "behavior_accuracy": 0.9285714285714286,
+      "runtime_cost": {
+        "model_requests": 39,
+        "model_input_tokens": 130411,
+        "model_output_tokens": 13750,
+        "model_total_tokens": 144161,
+        "tool_calls": 51
+      }
+    },
+    {
+      "label": "p3b2-dev-extract-posthoc-v2-scope-failure",
+      "report": "reports/agent/agent-hard-v3-dev-deepseek-p3b2-authority-ranking-extract-posthoc-v2.json",
+      "report_sha256": "d863fd7723200f8a7bf21d5e36099c4f38cc2bfd4f2d703ab1b6a7e7ff30779c",
+      "fact_accuracy": 0.8771929824561403,
+      "strict_case_pass_rate": 0.8571428571428571,
+      "behavior_accuracy": 0.9285714285714286,
+      "runtime_cost": {
+        "model_requests": 40,
+        "model_input_tokens": 138474,
+        "model_output_tokens": 14125,
+        "model_total_tokens": 152599,
+        "tool_calls": 54
+      }
+    },
+    {
+      "label": "p3b2-dev-extract-posthoc-v3-final",
+      "report": "reports/agent/agent-hard-v3-dev-deepseek-p3b2-authority-ranking-extract-posthoc-v3.json",
+      "report_sha256": "be55bef89d98c4a2c23c858a9a665f7d90f8effcbcaf8250b5cbe2a737b714a6",
+      "fact_accuracy": 0.9473684210526315,
+      "strict_case_pass_rate": 0.9285714285714286,
+      "behavior_accuracy": 1.0,
+      "runtime_cost": {
+        "model_requests": 40,
+        "model_input_tokens": 134630,
+        "model_output_tokens": 14128,
+        "model_total_tokens": 148758,
+        "tool_calls": 51
+      }
+    }
+  ]
+}

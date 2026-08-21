@@ -1,0 +1,914 @@
+{
+  "schema_version": "1",
+  "security_code": "002352",
+  "annotation_status": "assistant_source_verified_provisional",
+  "independent_double_review_complete": false,
+  "cases": [
+    {
+      "case_id": "v3_002352_y23_core",
+      "task_type": "extract",
+      "query": "顺丰控股2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "258409403",
+            "2584.09403",
+            "2584.09"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "8234493",
+            "82.34493",
+            "82.34"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "7133730",
+            "71.3373",
+            "71.34"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "26569819",
+            "265.69819",
+            "265.70"
+          ],
+          "unit": "千元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2023_1219410699.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报财务摘要列示四项金额。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_y23_businesses",
+      "task_type": "extract",
+      "query": "顺丰控股2023年各主要物流分部的营业收入及同比变化分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table",
+        "cross_page_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "timely_revenue",
+          "description": "时效快递收入",
+          "acceptable_values": [
+            "1154.6"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "timely_yoy",
+          "description": "时效快递收入同比",
+          "acceptable_values": [
+            "9.2%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "economy_revenue",
+          "description": "经济快递收入",
+          "acceptable_values": [
+            "250.5"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "economy_yoy",
+          "description": "经济快递收入同比",
+          "acceptable_values": [
+            "-2.0%",
+            "下降2.0%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "freight_revenue",
+          "description": "快运收入",
+          "acceptable_values": [
+            "330.8"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "freight_yoy",
+          "description": "快运收入同比",
+          "acceptable_values": [
+            "18.5%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cold_revenue",
+          "description": "冷运及医药收入",
+          "acceptable_values": [
+            "103.1"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "cold_yoy",
+          "description": "冷运及医药收入同比",
+          "acceptable_values": [
+            "19.7%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "city_revenue",
+          "description": "同城即时配送收入",
+          "acceptable_values": [
+            "72.5"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "city_yoy",
+          "description": "同城即时配送收入同比",
+          "acceptable_values": [
+            "12.6%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "supply_revenue",
+          "description": "供应链及国际收入",
+          "acceptable_values": [
+            "599.8"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "supply_yoy",
+          "description": "供应链及国际收入同比",
+          "acceptable_values": [
+            "-31.7%",
+            "下降31.7%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "other_revenue",
+          "description": "其他非物流业务收入",
+          "acceptable_values": [
+            "72.8"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "other_yoy",
+          "description": "其他非物流业务收入同比",
+          "acceptable_values": [
+            "34.6%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2023_1219410699.pdf",
+          "pages": [
+            11,
+            12
+          ]
+        }
+      ],
+      "gold_rationale": "2023年业绩信息图列示七个业务板块收入及同比。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_y23_audit",
+      "task_type": "extract",
+      "query": "顺丰控股2023年收入确认相关关键审计事项的主要风险和审计应对是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "materiality",
+          "description": "物流及货运代理收入约占主营业务收入97.34%",
+          "acceptable_values": [
+            "97.34%"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "transaction_volume",
+          "description": "相关交易数量庞大",
+          "acceptable_values": [
+            "交易数量庞大"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "system_risk",
+          "description": "收入确认高度依赖复杂信息系统和相关内部控制",
+          "acceptable_values": [
+            "依赖于与信息系统相关的内部控制",
+            "涉及复杂的信息系统"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "business_response",
+          "description": "审计了解业务模式和流程",
+          "acceptable_values": [
+            "业务模式和流程"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "contract_response",
+          "description": "审计获取并评估收入合同条款",
+          "acceptable_values": [
+            "合同条款"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "policy_response",
+          "description": "审计评估收入确认政策",
+          "acceptable_values": [
+            "收入确认政策"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "control_response",
+          "description": "审计测试收入确认相关内部控制",
+          "acceptable_values": [
+            "收入确认相关的内部控制"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "it_response",
+          "description": "审计测试信息系统一般控制和应用控制",
+          "acceptable_values": [
+            "信息系统一般控制和应用控制"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "sample_response",
+          "description": "抽样检查合同、客户确认单据或路由记录",
+          "acceptable_values": [
+            "路由信息记录",
+            "经客户确认的相关单据"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "billing_response",
+          "description": "抽样检查发票及收款或对账记录",
+          "acceptable_values": [
+            "发票及收款记录",
+            "对账记录"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "cutoff_response",
+          "description": "对资产负债表日前后收入执行截止抽样测试",
+          "acceptable_values": [
+            "资产负债表日前后",
+            "恰当的期间确认"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2023_1219410699.pdf",
+          "pages": [
+            124,
+            125
+          ]
+        }
+      ],
+      "gold_rationale": "关键审计事项说明海量交易和复杂系统风险，并列示政策、控制、凭证和截止性测试。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_y24_core",
+      "task_type": "extract",
+      "query": "顺丰控股2024年营业收入、归母净利润、息税折旧摊销前利润和净资产收益率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "284420059",
+            "2844.20059",
+            "2844.20"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "10170427",
+            "101.70427",
+            "101.70"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "ebitda",
+          "description": "2024年息税折旧摊销前利润",
+          "acceptable_values": [
+            "32695124",
+            "326.95124",
+            "326.95"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "roe",
+          "description": "2024年加权平均净资产收益率",
+          "acceptable_values": [
+            "11.16%",
+            "11.2%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            11,
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "2024年财务摘要给出精确金额和加权平均净资产收益率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_y24_network",
+      "task_type": "extract",
+      "query": "顺丰控股2024年国际快递、货代及供应链业务覆盖国家及地区数、全球运营管理干支线货车数、运营全货机数、全球累计运营航空线路数、铁路普列线路数和海运线路数分别是多少？请保留信息图中的大于号下限口径。",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "country_coverage",
+          "description": "国际快递、货代及供应链业务覆盖国家及地区",
+          "acceptable_values": [
+            "100"
+          ],
+          "unit": "个"
+        },
+        {
+          "fact_id": "trucks",
+          "description": "全球运营管理干支线货车",
+          "acceptable_values": [
+            "超过100000",
+            ">100000",
+            "大于100000"
+          ],
+          "unit": "辆"
+        },
+        {
+          "fact_id": "cargo_aircraft",
+          "description": "运营全货机",
+          "acceptable_values": [
+            "110"
+          ],
+          "unit": "架"
+        },
+        {
+          "fact_id": "air_routes",
+          "description": "全球累计运营航空线路",
+          "acceptable_values": [
+            "173"
+          ],
+          "unit": "条"
+        },
+        {
+          "fact_id": "rail_routes",
+          "description": "铁路普列线路",
+          "acceptable_values": [
+            "240"
+          ],
+          "unit": "条"
+        },
+        {
+          "fact_id": "sea_routes",
+          "description": "海运线路",
+          "acceptable_values": [
+            "超过18000",
+            ">18000",
+            "大于18000"
+          ],
+          "unit": "条"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            31,
+            32,
+            33
+          ]
+        }
+      ],
+      "gold_rationale": "跨三页运力信息图分别列示全球覆盖、陆运、航空、铁路和海运指标。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_trend_core",
+      "task_type": "compare",
+      "query": "比较顺丰控股2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:顺丰控股:year:2023",
+        "company:顺丰控股:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "258409403",
+            "2584.09"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "284420059",
+            "2844.20"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "8234493",
+            "82.34"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "10170427",
+            "101.70"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "26569819",
+            "265.70"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "32186373",
+            "321.86373",
+            "321.86"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "三项指标均上升",
+          "acceptable_values": [
+            "均上升",
+            "均增长",
+            "全部增长"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2023_1219410699.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        },
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "营业收入、归母净利润和经营现金流量净额均上升。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_trend_businesses",
+      "task_type": "compare",
+      "query": "比较顺丰控股2023年和2024年时效快递、经济快递、快运及冷运医药业务的收入变化。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:顺丰控股:year:2023",
+        "company:顺丰控股:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "timely_2023",
+          "description": "2023年时效快递收入",
+          "acceptable_values": [
+            "1154.6"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "timely_2024",
+          "description": "2024年时效快递收入",
+          "acceptable_values": [
+            "1222.1"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "economy_2023",
+          "description": "2023年经济快递收入",
+          "acceptable_values": [
+            "250.5"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "economy_2024",
+          "description": "2024年经济快递收入",
+          "acceptable_values": [
+            "272.5"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "freight_2023",
+          "description": "2023年快运收入",
+          "acceptable_values": [
+            "330.8"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "freight_2024",
+          "description": "2024年快运收入",
+          "acceptable_values": [
+            "376.4"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "cold_2023",
+          "description": "2023年冷运及医药收入",
+          "acceptable_values": [
+            "103.1"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "cold_2024",
+          "description": "2024年冷运及医药收入",
+          "acceptable_values": [
+            "98.1"
+          ],
+          "unit": "亿元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "前三项增长而冷运及医药下降",
+          "acceptable_values": [
+            "冷运及医药下降",
+            "冷运医药下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2023_1219410699.pdf",
+          "pages": [
+            11,
+            12
+          ]
+        },
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            12,
+            13
+          ]
+        }
+      ],
+      "gold_rationale": "时效、经济和快运收入增加，冷运及医药收入减少4.9%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_calc_profit_margin",
+      "task_type": "calculate",
+      "query": "计算顺丰控股2023年和2024年的归母净利率，并给出变化百分点。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "margin_2023",
+          "description": "2023年归母净利率",
+          "acceptable_values": [
+            "3.19%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "margin_2024",
+          "description": "2024年归母净利率",
+          "acceptable_values": [
+            "3.58%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "change",
+          "description": "归母净利率变化",
+          "acceptable_values": [
+            "0.39个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2023_1219410699.pdf",
+          "pages": [
+            14
+          ]
+        },
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "8234493/258409403=3.19%；10170427/284420059=3.58%，提高0.39个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_calc_vehicle_rail_ratio",
+      "task_type": "calculate",
+      "query": "根据顺丰控股2024年运力信息图披露的下限，计算全球运营管理干支线货车数量与铁路普列线路数量之比的下限，保留两位小数并保留大于号。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "trucks",
+          "description": "全球运营管理干支线货车",
+          "acceptable_values": [
+            "超过100000",
+            ">100000",
+            "大于100000"
+          ],
+          "unit": "辆"
+        },
+        {
+          "fact_id": "rail",
+          "description": "铁路普列线路",
+          "acceptable_values": [
+            "240"
+          ],
+          "unit": "条"
+        },
+        {
+          "fact_id": "ratio",
+          "description": "货车数量与铁路普列线路数之比的下限",
+          "acceptable_values": [
+            ">416.67",
+            "大于416.67",
+            "超过416.67"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            33
+          ]
+        }
+      ],
+      "gold_rationale": "信息图披露货车数>100000辆，因此比值>100000/240=416.6667，保留两位小数仍应写作>416.67辆/条。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_verify_summary",
+      "task_type": "compare",
+      "query": "核验说法：顺丰控股2024年营业收入上升、归母净利润上升，但总资产下降。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:顺丰控股:year:2023",
+        "company:顺丰控股:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_change",
+          "description": "营业收入上升",
+          "acceptable_values": [
+            "10.07%",
+            "增长10.07%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "profit_change",
+          "description": "归母净利润上升",
+          "acceptable_values": [
+            "23.51%",
+            "增长23.51%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "assets_change",
+          "description": "总资产下降",
+          "acceptable_values": [
+            "-3.46%",
+            "下降3.46%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "说法成立",
+          "acceptable_values": [
+            "说法成立",
+            "结论为真",
+            "核验通过"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002352:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002352_2024_1222943385.pdf",
+          "pages": [
+            14
+          ]
+        }
+      ],
+      "gold_rationale": "2024年营业收入和归母净利润上升，总资产下降3.46%，说法成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出顺丰控股2025年全球运营全货机数量和全年营业收入，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002352_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家物流公司的网络能力变化，但先确认公司、年度和要比较的运输方式。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

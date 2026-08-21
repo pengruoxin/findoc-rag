@@ -1,0 +1,111 @@
+{
+  "dataset_id": "benchmark-v3-development",
+  "item_count": 36,
+  "answerability_counts": {
+    "answerable": 30,
+    "unanswerable": 6
+  },
+  "split_counts": {
+    "calibration": 12,
+    "dev": 24
+  },
+  "category_counts": {
+    "single_fact": 5,
+    "narrative": 5,
+    "multi_fact_table": 12,
+    "accounting_policy": 3,
+    "calculation": 5,
+    "unanswerable": 6
+  },
+  "difficulty_counts": {
+    "easy": 9,
+    "medium": 19,
+    "hard": 8
+  },
+  "company_counts": {
+    "贵州茅台": 6,
+    "伊利股份": 6,
+    "美的集团": 12,
+    "中国神华": 12
+  },
+  "tag_counts": {
+    "numeric": 4,
+    "annual": 1,
+    "causal": 3,
+    "multi_fact": 3,
+    "table_linearization": 4,
+    "scope_disambiguation": 2,
+    "unit": 1,
+    "accounting_policy": 1,
+    "narrative": 1,
+    "time_boundary": 2,
+    "calculation": 1,
+    "multi_evidence": 1,
+    "corrected_legacy_gold": 1,
+    "out_of_period": 1,
+    "missing_granularity": 1,
+    "benchmark_v3": 24,
+    "assistant_curated": 24,
+    "cninfo:000333:annual:2023": 6,
+    "cninfo:000333:annual:2024": 6,
+    "cninfo:601088:annual:2023": 6,
+    "cninfo:601088:annual:2024": 6
+  },
+  "family_count": 36,
+  "unique_gold_chunk_count": 31,
+  "fact_count": 80,
+  "evidence_count": 37,
+  "multi_evidence_item_count": 6,
+  "derived_fact_count": 5,
+  "robustness_item_count": 6,
+  "robustness_split_counts": {
+    "calibration": 6
+  },
+  "hard_negative_count": 10,
+  "hard_negative_type_counts": {
+    "wrong_scope": 1,
+    "wrong_company": 4,
+    "wrong_period": 3,
+    "partial_evidence": 2
+  },
+  "warning_count": 37,
+  "warnings": [
+    "PDF visual review pending: moutai_revenue_yoy:e1",
+    "PDF visual review pending: moutai_cashflow_change:e1",
+    "PDF visual review pending: moutai_cashflow_change:e2",
+    "PDF visual review pending: moutai_rd_composition:e1",
+    "PDF visual review pending: moutai_rd_composition:e2",
+    "PDF visual review pending: moutai_product_margin:e1",
+    "PDF visual review pending: yili_product_margin:e1",
+    "PDF visual review pending: moutai_production_sales_inventory:e1",
+    "PDF visual review pending: yili_inventory_policy:e1",
+    "PDF visual review pending: yili_inventory_policy:e2",
+    "PDF visual review pending: yili_inventory_policy:e3",
+    "PDF visual review pending: yili_cashflow_change:e1",
+    "PDF visual review pending: yili_cashflow_change:e2",
+    "PDF visual review pending: yili_liquid_milk_inventory:e1",
+    "PDF visual review pending: yili_liquid_milk_inventory:e2",
+    "PDF visual review pending: yili_annual_deducted_profit:e1",
+    "PDF visual review pending: yili_annual_deducted_profit:e2",
+    "PDF visual review pending: midea_2023_revenue_yoy:e1",
+    "PDF visual review pending: midea_2023_product_mix:e1",
+    "PDF visual review pending: midea_2023_rd_profile:e1",
+    "PDF visual review pending: midea_2023_inventory_increase:e1",
+    "PDF visual review pending: midea_2023_key_audit_matter:e1",
+    "PDF visual review pending: midea_2024_revenue_yoy:e1",
+    "PDF visual review pending: midea_2024_product_mix:e1",
+    "PDF visual review pending: midea_2024_rd_profile:e1",
+    "PDF visual review pending: midea_2024_inventory_increase:e1",
+    "PDF visual review pending: midea_2024_key_audit_matter:e1",
+    "PDF visual review pending: shenhua_2023_revenue_yoy:e1",
+    "PDF visual review pending: shenhua_2023_coal_source_margin:e1",
+    "PDF visual review pending: shenhua_2023_rd_profile:e1",
+    "PDF visual review pending: shenhua_2023_coal_sales_production_gap:e1",
+    "PDF visual review pending: shenhua_2023_coal_revenue_recognition:e1",
+    "PDF visual review pending: shenhua_2024_revenue_yoy:e1",
+    "PDF visual review pending: shenhua_2024_coal_source_margin:e1",
+    "PDF visual review pending: shenhua_2024_rd_profile:e1",
+    "PDF visual review pending: shenhua_2024_coal_sales_production_gap:e1",
+    "PDF visual review pending: shenhua_2024_coal_revenue_recognition:e1"
+  ]
+}

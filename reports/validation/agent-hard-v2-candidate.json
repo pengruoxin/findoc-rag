@@ -1,0 +1,61 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v2-document-blind-candidate",
+  "validated_at": "2026-08-20T04:53:13.592900+00:00",
+  "valid": true,
+  "ready_for_external_claims": false,
+  "external_claim_blockers": [
+    "gold is assistant-verified provisional",
+    "independent human double review is incomplete",
+    "no true scanned annual-report source is present in the five-document set"
+  ],
+  "case_count": 34,
+  "document_count": 5,
+  "referenced_documents": [
+    "cninfo:000333:annual:2023",
+    "cninfo:000333:annual:2024",
+    "cninfo:600519:annual:2024",
+    "cninfo:600887:annual:2024",
+    "cninfo:601088:annual:2024"
+  ],
+  "p0_p1_document_overlap": [],
+  "task_counts": {
+    "calculate": 4,
+    "compare": 4,
+    "extract": 26
+  },
+  "behavior_counts": {
+    "abstain": 5,
+    "answer": 29
+  },
+  "challenge_counts": {
+    "accounting_scope": 2,
+    "arithmetic_reconciliation": 4,
+    "cross_company": 2,
+    "cross_document": 2,
+    "cross_page_evidence": 14,
+    "dense_table": 11,
+    "document_blind": 30,
+    "exact_value": 4,
+    "multi_fact": 18,
+    "multi_period": 2,
+    "narrative_evidence": 8,
+    "safe_abstention": 5,
+    "temporal_scope": 5,
+    "unit_mismatch": 1
+  },
+  "source_validation": {
+    "valid": true,
+    "referenced_document_count": 5,
+    "verified_document_count": 5,
+    "errors": []
+  },
+  "page_count_by_document": {
+    "cninfo:600519:annual:2024": 143,
+    "cninfo:600887:annual:2024": 270,
+    "cninfo:000333:annual:2023": 291,
+    "cninfo:000333:annual:2024": 295,
+    "cninfo:601088:annual:2024": 291
+  },
+  "errors": []
+}

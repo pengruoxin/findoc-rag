@@ -1,10 +1,9 @@
-"""Deterministic relative-time resolution anchored to an explicit as_of_date.
+"""Deterministic relative-time resolution with separate query/document clocks.
 
-The benchmark freezes ``as_of_date`` per relative-time query variant so that
-expressions like "去年" have exactly one target year regardless of when the
-evaluation is executed. Production code must pass an explicit anchor instead
-of relying on the system clock; ``datetime.now()`` is forbidden in evaluation
-paths.
+User-deictic expressions such as ``去年`` are anchored to ``as_of_date``. When
+the expression follows an explicit annual-report reference in the same clause,
+it is instead anchored to that report year. This prevents a 2022 annual report's
+``去年`` from silently becoming 2025 merely because the query runs in 2026.
 """
 
 from __future__ import annotations
@@ -17,6 +16,46 @@ RELATIVE_TIME_PATTERNS: tuple[tuple[re.Pattern[str], int], ...] = (
     (re.compile(r"前年"), -2),
     (re.compile(r"今年|本年|本年度"), 0),
 )
+DOCUMENT_TIME_ANCHOR_PATTERN = re.compile(
+    r"(?P<year>20\d{2})\s*年?\s*(?:年报|年度报告|报告期|报告年度)"
+)
+CLAUSE_BOUNDARY_PATTERN = re.compile(r"[。！？!?；;]")
+MAX_DOCUMENT_ANCHOR_DISTANCE = 64
+
+
+def _preceding_document_year(query: str, cue_start: int) -> int | None:
+    """Return a nearby preceding report year for a document-internal cue."""
+
+    anchors = list(DOCUMENT_TIME_ANCHOR_PATTERN.finditer(query, 0, cue_start))
+    if not anchors:
+        return None
+    anchor = anchors[-1]
+    between = query[anchor.end() : cue_start]
+    if (
+        len(between) > MAX_DOCUMENT_ANCHOR_DISTANCE
+        or CLAUSE_BOUNDARY_PATTERN.search(between)
+    ):
+        return None
+    return int(anchor.group("year"))
+
+
+def _relative_time_replacer(
+    query: str,
+    delta: int,
+    as_of_date: date | None,
+):
+    def replace(match: re.Match[str]) -> str:
+        document_year = _preceding_document_year(query, match.start())
+        if document_year is not None:
+            return f"{document_year + delta}年"
+        if as_of_date is None:
+            raise ValueError(
+                "Relative-time query requires an as_of_date anchor; "
+                "evaluation must never use the system clock"
+            )
+        return f"{as_of_date.year + delta}年"
+
+    return replace
 
 
 def resolve_relative_time(
@@ -25,25 +64,20 @@ def resolve_relative_time(
 ) -> tuple[str, list[str]]:
     """Replace relative time expressions with explicit years.
 
-    Returns ``(resolved_query, matched_cues)``. Raises ``ValueError`` when the
-    query contains relative time expressions but no anchor is provided, because
-    the resolution would otherwise depend on the runtime clock.
+    Returns ``(resolved_query, matched_cues)``. A nearby explicit annual-report
+    year takes precedence for cues that follow it. Raises ``ValueError`` only
+    when a user-deictic cue remains and no ``as_of_date`` is provided.
     """
-    if as_of_date is None:
-        if any(pattern.search(query) for pattern, _ in RELATIVE_TIME_PATTERNS):
-            raise ValueError(
-                "Relative-time query requires an as_of_date anchor; "
-                "evaluation must never use the system clock"
-            )
-        return query, []
-
     resolved = query
     cues: list[str] = []
     for pattern, delta in RELATIVE_TIME_PATTERNS:
-        year = as_of_date.year + delta
-        if pattern.search(resolved):
-            cues.append(pattern.pattern)
-            resolved = pattern.sub(f"{year}年", resolved)
+        if not pattern.search(resolved):
+            continue
+        cues.append(pattern.pattern)
+
+        resolved = pattern.sub(
+            _relative_time_replacer(resolved, delta, as_of_date), resolved
+        )
     return resolved, cues
 
 

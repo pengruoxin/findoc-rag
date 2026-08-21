@@ -1,0 +1,420 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-provisional-gold-calibration-multi-metric-compare",
+  "description": "Ninety-six company- and document-blind Agent tasks over sixteen official CNINFO annual reports. Facts and pages are source-verified provisional gold; independent double review remains pending. Split: calibration. Multi-year comparison tasks.",
+  "index_scope": "calibration-multi-metric-compare",
+  "source_manifest": "data/evaluation/agent-hard-v3-source-manifest.json",
+  "gold_policy": "Gold was transcribed before the first Agent run. No evaluated Agent, DeepSeek answer, or LLM judge was used to create it. Exact values, deterministic behavior checks, and page-bound citations are scored locally.",
+  "cases": [
+    {
+      "case_id": "v3_601398_trend_core",
+      "task_type": "compare",
+      "query": "比较工商银行2023年和2024年的净利润、资产总额、客户贷款及垫款总额和客户存款，分别判断增减。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:工商银行:year:2023",
+        "company:工商银行:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年净利润",
+          "acceptable_values": [
+            "365116",
+            "3651.16"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年净利润",
+          "acceptable_values": [
+            "366946",
+            "3669.46"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "assets_2023",
+          "description": "2023年资产总额",
+          "acceptable_values": [
+            "44697079",
+            "446970.79"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "assets_2024",
+          "description": "2024年资产总额",
+          "acceptable_values": [
+            "48821746",
+            "488217.46"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "loans_2023",
+          "description": "2023年贷款总额",
+          "acceptable_values": [
+            "26086482",
+            "260864.82"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "loans_2024",
+          "description": "2024年贷款总额",
+          "acceptable_values": [
+            "28372229",
+            "283722.29"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deposits_2023",
+          "description": "2023年存款",
+          "acceptable_values": [
+            "33521174",
+            "335211.74"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "deposits_2024",
+          "description": "2024年存款",
+          "acceptable_values": [
+            "34836973",
+            "348369.73"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "trend",
+          "description": "四项指标均增加",
+          "acceptable_values": [
+            "均增加",
+            "均增长",
+            "全部上升"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "两份年报同口径数值显示净利润、资产、贷款和存款均增加。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601398_trend_asset_quality",
+      "task_type": "compare",
+      "query": "比较工商银行2023年和2024年的不良贷款率、拨备覆盖率、资本充足率和成本收入比。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:工商银行:year:2023",
+        "company:工商银行:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "npl_2023",
+          "description": "2023年不良贷款率",
+          "acceptable_values": [
+            "1.36%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "npl_2024",
+          "description": "2024年不良贷款率",
+          "acceptable_values": [
+            "1.34%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "coverage_2023",
+          "description": "2023年拨备覆盖率",
+          "acceptable_values": [
+            "213.97%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "coverage_2024",
+          "description": "2024年拨备覆盖率",
+          "acceptable_values": [
+            "214.91%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital_2023",
+          "description": "2023年资本充足率",
+          "acceptable_values": [
+            "19.10%",
+            "19.1%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "capital_2024",
+          "description": "2024年资本充足率",
+          "acceptable_values": [
+            "19.39%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cost_2023",
+          "description": "2023年成本收入比",
+          "acceptable_values": [
+            "26.96%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cost_2024",
+          "description": "2024年成本收入比",
+          "acceptable_values": [
+            "28.04%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601398:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2023_1219429144.pdf",
+          "pages": [
+            16
+          ]
+        },
+        {
+          "document_key": "cninfo:601398:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601398_2024_1222948914.pdf",
+          "pages": [
+            16
+          ]
+        }
+      ],
+      "gold_rationale": "不良率下降0.02个百分点；拨备覆盖率、资本充足率和成本收入比上升。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_trend_core",
+      "task_type": "compare",
+      "query": "比较比亚迪2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:比亚迪:year:2023",
+        "company:比亚迪:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "revenue_2023",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "602315354000",
+            "6023.15"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "revenue_2024",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "777102455000",
+            "7771.02"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "30040811000",
+            "300.41"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "profit_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "40254346000",
+            "402.54"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cash_2023",
+          "description": "2023年经营现金流",
+          "acceptable_values": [
+            "169725025000",
+            "1697.25"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "cash_2024",
+          "description": "2024年经营现金流",
+          "acceptable_values": [
+            "133453873000",
+            "1334.54"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "direction",
+          "description": "收入和净利润上升、经营现金流下降",
+          "acceptable_values": [
+            "经营活动现金流量净额下降",
+            "经营现金流下降"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            11
+          ]
+        },
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "收入和归母净利润上升，经营活动现金流量净额下降。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_002594_trend_rd",
+      "task_type": "compare",
+      "query": "比较比亚迪2023年和2024年的研发投入金额、研发投入强度及研发人员数量。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:比亚迪:year:2023",
+        "company:比亚迪:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "rd_2023",
+          "description": "2023年研发投入",
+          "acceptable_values": [
+            "39917743000",
+            "399.18"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "rd_2024",
+          "description": "2024年研发投入",
+          "acceptable_values": [
+            "54160964000",
+            "541.61"
+          ],
+          "unit": "元/亿元"
+        },
+        {
+          "fact_id": "intensity_2023",
+          "description": "2023年研发投入强度",
+          "acceptable_values": [
+            "6.63%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "intensity_2024",
+          "description": "2024年研发投入强度",
+          "acceptable_values": [
+            "6.97%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "people_2023",
+          "description": "2023年研发人员",
+          "acceptable_values": [
+            "102844"
+          ],
+          "unit": "人"
+        },
+        {
+          "fact_id": "people_2024",
+          "description": "2024年研发人员",
+          "acceptable_values": [
+            "121598"
+          ],
+          "unit": "人"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:002594:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2023_1219412018.pdf",
+          "pages": [
+            27,
+            28
+          ]
+        },
+        {
+          "document_key": "cninfo:002594:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/002594_2024_1222881496.pdf",
+          "pages": [
+            33,
+            34
+          ]
+        }
+      ],
+      "gold_rationale": "研发金额、强度和人员数量均增加。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "schema_version": "1",
+  "status": "complete",
+  "generated_at": "2026-08-20T07:39:07.381555+00:00",
+  "change_id": "p1-local-corpus-year-coverage-abstention",
+  "single_variable": "Future actual-period requests beyond the newest indexed annual-report year are rejected by a deterministic local coverage gate. Forecast wording is routed to the newest indexed report instead of being rejected.",
+  "time_semantics_invariant": "Truth and corpus availability never use the runtime year. User-deictic time uses an explicit as_of date; document-relative time uses report_year.",
+  "evaluation_scope": "calibration + dev; frozen_test remains sealed",
+  "composition_policy": "Four abstention cases were rerun after the coverage-gate change. The other forty-four stored P0 traces are reused unchanged.",
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "splits": {
+    "calibration": {
+      "dataset_sha256": "2e6ce78e5acd87ec1e1c54dd6e7193f674ba8445aa7716f7fde5a6212dee2b56",
+      "index_id": "b1879a69987a53b283dc",
+      "before_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.8333333333333334,
+        "supported_fact_accuracy": 0.7403846153846154,
+        "end_to_end_fact_accuracy": 0.7403846153846154,
+        "supported_case_pass_rate": 0.6666666666666666,
+        "end_to_end_case_pass_rate": 0.6666666666666666,
+        "safe_abstention_accuracy": 0.0,
+        "clarification_accuracy": 1.0
+      },
+      "after_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.9166666666666666,
+        "supported_fact_accuracy": 0.7403846153846154,
+        "end_to_end_fact_accuracy": 0.7403846153846154,
+        "supported_case_pass_rate": 0.75,
+        "end_to_end_case_pass_rate": 0.75,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0
+      },
+      "strict_case_pass_count_before": 16,
+      "strict_case_pass_count_after": 18,
+      "strict_case_pass_count_delta": 2,
+      "targeted_runtime_cost": {
+        "model_requests": 0,
+        "model_input_tokens": 0,
+        "model_output_tokens": 0,
+        "model_total_tokens": 0,
+        "tool_calls": 0
+      },
+      "composed_report": "reports/agent/agent-hard-v3-calibration-deepseek-p1-composed.json",
+      "composed_report_sha256": "b63934a68397eb390030d8949fdb9de8d668bfeb3645c27d653fa9c7f0afb539"
+    },
+    "dev": {
+      "dataset_sha256": "fd15f3396fcceb3eb213251ea37ce7bea7decd00574b87c09720d607b1443933",
+      "index_id": "a4b314a9ff7e595a86bf",
+      "before_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.875,
+        "supported_fact_accuracy": 0.8679245283018868,
+        "end_to_end_fact_accuracy": 0.8679245283018868,
+        "supported_case_pass_rate": 0.5833333333333334,
+        "end_to_end_case_pass_rate": 0.5833333333333334,
+        "safe_abstention_accuracy": 0.0,
+        "clarification_accuracy": 1.0
+      },
+      "after_metrics": {
+        "case_count": 24,
+        "executed_case_count": 24,
+        "unsupported_case_count": 0,
+        "task_coverage_rate": 1.0,
+        "plan_target_exact_rate": 1.0,
+        "behavior_accuracy": 0.9583333333333334,
+        "supported_fact_accuracy": 0.8679245283018868,
+        "end_to_end_fact_accuracy": 0.8679245283018868,
+        "supported_case_pass_rate": 0.6666666666666666,
+        "end_to_end_case_pass_rate": 0.6666666666666666,
+        "safe_abstention_accuracy": 1.0,
+        "clarification_accuracy": 1.0
+      },
+      "strict_case_pass_count_before": 14,
+      "strict_case_pass_count_after": 16,
+      "strict_case_pass_count_delta": 2,
+      "targeted_runtime_cost": {
+        "model_requests": 0,
+        "model_input_tokens": 0,
+        "model_output_tokens": 0,
+        "model_total_tokens": 0,
+        "tool_calls": 0
+      },
+      "composed_report": "reports/agent/agent-hard-v3-dev-deepseek-p1-composed.json",
+      "composed_report_sha256": "28ebea98dfffa06799caf8d9bb2827cc0b3b5951782908bb1aee4de39166fc6b"
+    }
+  },
+  "combined": {
+    "case_count": 48,
+    "strict_case_pass_count_before": 30,
+    "strict_case_pass_rate_before": 0.625,
+    "strict_case_pass_count_after": 34,
+    "strict_case_pass_rate_after": 0.7083333333333334,
+    "strict_case_pass_count_delta": 4,
+    "strict_case_pass_rate_delta": 0.08333333333333333,
+    "targeted_runtime_cost": {
+      "model_requests": 0,
+      "model_input_tokens": 0,
+      "model_output_tokens": 0,
+      "model_total_tokens": 0,
+      "tool_calls": 0
+    }
+  },
+  "frozen_test_opened": false
+}

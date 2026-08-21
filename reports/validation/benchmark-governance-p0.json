@@ -1,0 +1,249 @@
+{
+  "policy_id": "agentic-rag-p0-v1",
+  "dataset_id": "benchmark-v2",
+  "split_strategy": "question_level_provisional",
+  "ready_for_external_claims": false,
+  "blockers": [
+    "split_strategy 'question_level_provisional' is not document_blind",
+    "2 source documents occur in multiple splits",
+    "2 companies occur in multiple splits",
+    "2 company/report-year units occur in multiple splits",
+    "company coverage 2 is below required 4",
+    "report-year coverage 1 is below required 2",
+    "frozen_test size 12 is below required 24",
+    "double-reviewed items 0/48; 2 independent approvals are required",
+    "dataset declares independent_gold=false",
+    "dataset status is not human_frozen"
+  ],
+  "warnings": [],
+  "stats": {
+    "item_count": 48,
+    "company_count": 2,
+    "report_year_count": 1,
+    "frozen_test_item_count": 12,
+    "answerable_item_count": 37,
+    "fully_reviewed_item_count": 0,
+    "review_status_counts": {
+      "assistant_verified": 48
+    },
+    "unique_document_count": 2
+  },
+  "document_split_overlaps": [
+    {
+      "unit_id": "7961508deeffb5e66ae88808",
+      "splits": [
+        "calibration",
+        "dev",
+        "frozen_test"
+      ],
+      "query_ids": [
+        "audit_opinion_comparison",
+        "customer_concentration_comparison",
+        "key_audit_matters_comparison",
+        "moutai_annual_deducted_profit",
+        "moutai_business_chain",
+        "moutai_cashflow_change",
+        "moutai_channel_margin",
+        "moutai_concentration",
+        "moutai_cost_components",
+        "moutai_cost_reconciliation",
+        "moutai_disclosed_risks",
+        "moutai_product_margin",
+        "moutai_production_sales_inventory",
+        "moutai_quarterly_cashflow",
+        "moutai_rd_composition",
+        "moutai_revenue_yoy",
+        "moutai_roe",
+        "rd_cross_company",
+        "revenue_cross_company",
+        "supplier_concentration_comparison"
+      ]
+    },
+    {
+      "unit_id": "e96cf669106c99e4e283ca45",
+      "splits": [
+        "calibration",
+        "dev",
+        "frozen_test"
+      ],
+      "query_ids": [
+        "audit_opinion_comparison",
+        "customer_concentration_comparison",
+        "key_audit_matters_comparison",
+        "rd_cross_company",
+        "revenue_cross_company",
+        "supplier_concentration_comparison",
+        "yili_2025_plan_bounded",
+        "yili_annual_deducted_profit",
+        "yili_cashflow_change",
+        "yili_concentration",
+        "yili_consolidated_parent_revenue",
+        "yili_cost_reconciliation",
+        "yili_disclosed_risks",
+        "yili_dividend_timing",
+        "yili_inventory_policy",
+        "yili_liquid_milk_inventory",
+        "yili_note_cost_scope",
+        "yili_product_margin",
+        "yili_quarterly_cashflow_reconcile",
+        "yili_quarterly_net_profit",
+        "yili_quarterly_profit_reconcile",
+        "yili_rd_staff",
+        "yili_sales_channels"
+      ]
+    }
+  ],
+  "company_split_overlaps": [
+    {
+      "unit_id": "600519",
+      "splits": [
+        "calibration",
+        "dev",
+        "frozen_test"
+      ],
+      "query_ids": [
+        "audit_opinion_comparison",
+        "customer_concentration_comparison",
+        "key_audit_matters_comparison",
+        "moutai_annual_deducted_profit",
+        "moutai_business_chain",
+        "moutai_cashflow_change",
+        "moutai_channel_margin",
+        "moutai_concentration",
+        "moutai_cost_components",
+        "moutai_cost_reconciliation",
+        "moutai_disclosed_risks",
+        "moutai_product_margin",
+        "moutai_production_sales_inventory",
+        "moutai_quarterly_cashflow",
+        "moutai_rd_composition",
+        "moutai_revenue_yoy",
+        "moutai_roe",
+        "rd_cross_company",
+        "revenue_cross_company",
+        "supplier_concentration_comparison",
+        "u_compare_audit_quality",
+        "u_investment_advice",
+        "u_moutai_2025_actual_revenue",
+        "u_moutai_liquid_milk",
+        "u_moutai_profit_ambiguous",
+        "u_moutai_stock_cause"
+      ]
+    },
+    {
+      "unit_id": "600887",
+      "splits": [
+        "calibration",
+        "dev",
+        "frozen_test"
+      ],
+      "query_ids": [
+        "audit_opinion_comparison",
+        "customer_concentration_comparison",
+        "key_audit_matters_comparison",
+        "rd_cross_company",
+        "revenue_cross_company",
+        "supplier_concentration_comparison",
+        "u_compare_audit_quality",
+        "u_investment_advice",
+        "u_yili_cost_scope_ambiguous",
+        "u_yili_moutai_wine",
+        "u_yili_profit_causality",
+        "u_yili_q4_loss_cause",
+        "u_yili_top_customer_names",
+        "yili_2025_plan_bounded",
+        "yili_annual_deducted_profit",
+        "yili_cashflow_change",
+        "yili_concentration",
+        "yili_consolidated_parent_revenue",
+        "yili_cost_reconciliation",
+        "yili_disclosed_risks",
+        "yili_dividend_timing",
+        "yili_inventory_policy",
+        "yili_liquid_milk_inventory",
+        "yili_note_cost_scope",
+        "yili_product_margin",
+        "yili_quarterly_cashflow_reconcile",
+        "yili_quarterly_net_profit",
+        "yili_quarterly_profit_reconcile",
+        "yili_rd_staff",
+        "yili_sales_channels"
+      ]
+    }
+  ],
+  "entity_period_split_overlaps": [
+    {
+      "unit_id": "600519:2024",
+      "splits": [
+        "calibration",
+        "dev",
+        "frozen_test"
+      ],
+      "query_ids": [
+        "audit_opinion_comparison",
+        "customer_concentration_comparison",
+        "key_audit_matters_comparison",
+        "moutai_annual_deducted_profit",
+        "moutai_business_chain",
+        "moutai_cashflow_change",
+        "moutai_channel_margin",
+        "moutai_concentration",
+        "moutai_cost_components",
+        "moutai_cost_reconciliation",
+        "moutai_disclosed_risks",
+        "moutai_product_margin",
+        "moutai_production_sales_inventory",
+        "moutai_quarterly_cashflow",
+        "moutai_rd_composition",
+        "moutai_revenue_yoy",
+        "moutai_roe",
+        "rd_cross_company",
+        "revenue_cross_company",
+        "supplier_concentration_comparison",
+        "u_compare_audit_quality",
+        "u_moutai_liquid_milk",
+        "u_moutai_stock_cause"
+      ]
+    },
+    {
+      "unit_id": "600887:2024",
+      "splits": [
+        "calibration",
+        "dev",
+        "frozen_test"
+      ],
+      "query_ids": [
+        "audit_opinion_comparison",
+        "customer_concentration_comparison",
+        "key_audit_matters_comparison",
+        "rd_cross_company",
+        "revenue_cross_company",
+        "supplier_concentration_comparison",
+        "u_compare_audit_quality",
+        "u_yili_cost_scope_ambiguous",
+        "u_yili_moutai_wine",
+        "u_yili_profit_causality",
+        "u_yili_q4_loss_cause",
+        "u_yili_top_customer_names",
+        "yili_2025_plan_bounded",
+        "yili_annual_deducted_profit",
+        "yili_cashflow_change",
+        "yili_concentration",
+        "yili_consolidated_parent_revenue",
+        "yili_cost_reconciliation",
+        "yili_disclosed_risks",
+        "yili_dividend_timing",
+        "yili_inventory_policy",
+        "yili_liquid_milk_inventory",
+        "yili_note_cost_scope",
+        "yili_product_margin",
+        "yili_quarterly_cashflow_reconcile",
+        "yili_quarterly_net_profit",
+        "yili_quarterly_profit_reconcile",
+        "yili_rd_staff",
+        "yili_sales_channels"
+      ]
+    }
+  ],
+  "family_split_overlaps": []
+}

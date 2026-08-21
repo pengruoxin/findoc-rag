@@ -1,0 +1,1617 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v2-document-blind-candidate",
+  "description": "Thirty document-local and four cross-document tasks from five annual reports not used to develop the P0/P1 Agent tools. Gold is inherited from benchmark-v3 assistant-verified source evidence and remains provisional pending independent review.",
+  "index_scope": "benchmark-v3 full immutable index; five Agent-unseen source documents",
+  "source_manifest": "data/evaluation/benchmark-v3-source-manifest.json",
+  "gold_policy": "Gold values and source pages are inherited before this Agent baseline from benchmark-v3; no model judge and no hard-v2 gold enters Agent prompts.",
+  "cases": [
+    {
+      "case_id": "blind_moutai_revenue_yoy",
+      "task_type": "extract",
+      "query": "贵州茅台2024年营业收入及同比增幅是多少？",
+      "challenge_types": [
+        "document_blind",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "170899152276.34"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "yoy",
+          "description": "营业收入同比增幅",
+          "acceptable_values": [
+            "15.71"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600519:annual:2024",
+          "local_file": "data/artifacts/cninfo/600519_2024_1222993920.pdf",
+          "pages": [
+            5
+          ]
+        }
+      ],
+      "gold_rationale": "贵州茅台2024年营业收入为170,899,152,276.34元，同比增长15.71%[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_moutai_cashflow_change",
+      "task_type": "extract",
+      "query": "贵州茅台2024年经营活动现金流量净额、同比增幅及增长原因分别是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "cashflow",
+          "description": "经营活动现金流量净额",
+          "acceptable_values": [
+            "92463692168.43"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "cashflow_yoy",
+          "description": "经营现金流同比增幅",
+          "acceptable_values": [
+            "38.85"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cashflow_reason",
+          "description": "经营现金流变动原因",
+          "acceptable_values": [
+            "销售商品收到的现金增加及财务公司归集集团其他成员单位资金增加"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600519:annual:2024",
+          "local_file": "data/artifacts/cninfo/600519_2024_1222993920.pdf",
+          "pages": [
+            8,
+            9
+          ]
+        }
+      ],
+      "gold_rationale": "经营活动现金流量净额为92,463,692,168.43元，同比增长38.85%；主要因销售商品收到的现金增加，以及财务公司归集集团其他成员单位资金增加[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_moutai_rd_composition",
+      "task_type": "extract",
+      "query": "贵州茅台2024年研发投入由哪些部分构成，合计及占营收比例是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "total",
+          "description": "研发投入合计",
+          "acceptable_values": [
+            "695376735.81"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "expensed",
+          "description": "费用化研发投入",
+          "acceptable_values": [
+            "593779816.96"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "capitalized",
+          "description": "资本化研发投入",
+          "acceptable_values": [
+            "101596918.85"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "ratio",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "0.41"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600519:annual:2024",
+          "local_file": "data/artifacts/cninfo/600519_2024_1222993920.pdf",
+          "pages": [
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "费用化研发投入593,779,816.96元，资本化研发投入101,596,918.85元，合计695,376,735.81元，占营业收入0.41%[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_moutai_product_margin",
+      "task_type": "extract",
+      "query": "贵州茅台2024年茅台酒和其他系列酒的毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "moutai",
+          "description": "茅台酒毛利率",
+          "acceptable_values": [
+            "94.06"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "series",
+          "description": "其他系列酒毛利率",
+          "acceptable_values": [
+            "79.87"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600519:annual:2024",
+          "local_file": "data/artifacts/cninfo/600519_2024_1222993920.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "gold_rationale": "茅台酒毛利率为94.06%，其他系列酒为79.87%[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_yili_product_margin",
+      "task_type": "extract",
+      "query": "伊利股份2024年各产品毛利率分别是多少，哪类最高？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "liquid",
+          "description": "液体乳毛利率",
+          "acceptable_values": [
+            "30.98"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "powder",
+          "description": "奶粉及奶制品毛利率",
+          "acceptable_values": [
+            "41.02"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "cold",
+          "description": "冷饮产品毛利率",
+          "acceptable_values": [
+            "37.42"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "other",
+          "description": "其他产品毛利率",
+          "acceptable_values": [
+            "23.55"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "highest",
+          "description": "毛利率最高产品",
+          "acceptable_values": [
+            "奶粉及奶制品"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600887:annual:2024",
+          "local_file": "data/artifacts/cninfo/600887_2024_1223421123.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        }
+      ],
+      "gold_rationale": "液体乳30.98%、奶粉及奶制品41.02%、冷饮产品37.42%、其他产品23.55%；其中奶粉及奶制品最高[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_moutai_production_sales_inventory",
+      "task_type": "extract",
+      "query": "贵州茅台2024年酒类生产量、销售量和库存量分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "production",
+          "description": "酒类生产量",
+          "acceptable_values": [
+            "104384.50"
+          ],
+          "unit": "吨"
+        },
+        {
+          "fact_id": "sales",
+          "description": "酒类销售量",
+          "acceptable_values": [
+            "83332.76"
+          ],
+          "unit": "吨"
+        },
+        {
+          "fact_id": "inventory",
+          "description": "酒类库存量",
+          "acceptable_values": [
+            "310008.02"
+          ],
+          "unit": "吨"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600519:annual:2024",
+          "local_file": "data/artifacts/cninfo/600519_2024_1222993920.pdf",
+          "pages": [
+            9,
+            10
+          ]
+        }
+      ],
+      "gold_rationale": "酒类生产量104,384.50吨、销售量83,332.76吨、库存量310,008.02吨[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_yili_inventory_policy",
+      "task_type": "extract",
+      "query": "伊利股份存货发出采用什么计价方法，盘存制度和低值易耗品摊销方法是什么？",
+      "challenge_types": [
+        "document_blind",
+        "accounting_scope",
+        "narrative_evidence",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "valuation",
+          "description": "存货发出计价方法",
+          "acceptable_values": [
+            "加权平均法"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "inventory_system",
+          "description": "存货盘存制度",
+          "acceptable_values": [
+            "永续盘存制"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "consumables",
+          "description": "低值易耗品摊销",
+          "acceptable_values": [
+            "一次转销法"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600887:annual:2024",
+          "local_file": "data/artifacts/cninfo/600887_2024_1223421123.pdf",
+          "pages": [
+            123,
+            124
+          ]
+        }
+      ],
+      "gold_rationale": "存货发出按加权平均法计价，采用永续盘存制；低值易耗品采用一次转销法[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_yili_cashflow_change",
+      "task_type": "extract",
+      "query": "伊利股份2024年经营活动现金流量净额、同比增幅和变动原因是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "cashflow",
+          "description": "经营活动现金流量净额",
+          "acceptable_values": [
+            "21739740393.38"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "growth",
+          "description": "同比增幅",
+          "acceptable_values": [
+            "18.86"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "reason",
+          "description": "变动原因",
+          "acceptable_values": [
+            "2025年春节备货导致预收经销商货款增加"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600887:annual:2024",
+          "local_file": "data/artifacts/cninfo/600887_2024_1223421123.pdf",
+          "pages": [
+            18,
+            19
+          ]
+        }
+      ],
+      "gold_rationale": "经营活动现金流量净额为21,739,740,393.38元，同比增长18.86%；增加主要因2025年春节备货带来预收经销商货款增加[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_yili_liquid_milk_inventory",
+      "task_type": "extract",
+      "query": "伊利股份2024年液体乳产量、销量、库存量及库存增加原因是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "production",
+          "description": "液体乳生产量",
+          "acceptable_values": [
+            "9034835"
+          ],
+          "unit": "吨"
+        },
+        {
+          "fact_id": "sales",
+          "description": "液体乳销售量",
+          "acceptable_values": [
+            "8926606"
+          ],
+          "unit": "吨"
+        },
+        {
+          "fact_id": "inventory",
+          "description": "液体乳库存量",
+          "acceptable_values": [
+            "333555"
+          ],
+          "unit": "吨"
+        },
+        {
+          "fact_id": "reason",
+          "description": "库存增加原因",
+          "acceptable_values": [
+            "2025年春节备货导致期末库存量较大"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600887:annual:2024",
+          "local_file": "data/artifacts/cninfo/600887_2024_1223421123.pdf",
+          "pages": [
+            20
+          ]
+        }
+      ],
+      "gold_rationale": "液体乳产量9,034,835吨、销量8,926,606吨、库存量333,555吨；库存增加主要因2025年春节备货使期末库存量较大[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_yili_annual_deducted_profit",
+      "task_type": "calculate",
+      "query": "伊利股份2024年归母净利润与扣非归母净利润分别是多少？结合非经常性损益合计核对两者差额。",
+      "challenge_types": [
+        "document_blind",
+        "arithmetic_reconciliation",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "reported",
+          "description": "年度归母净利润",
+          "acceptable_values": [
+            "8452859993.18"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "年度扣非归母净利润",
+          "acceptable_values": [
+            "6011274945.92"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "nonrecurring",
+          "description": "非经常性损益合计",
+          "acceptable_values": [
+            "2441585047.26"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "difference",
+          "description": "归母净利润高出金额",
+          "acceptable_values": [
+            "2441585047.26"
+          ],
+          "unit": "元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600887:annual:2024",
+          "local_file": "data/artifacts/cninfo/600887_2024_1223421123.pdf",
+          "pages": [
+            7,
+            8,
+            9
+          ]
+        }
+      ],
+      "gold_rationale": "归母净利润为8,452,859,993.18元，扣非归母净利润为6,011,274,945.92元[1]；归母口径高2,441,585,047.26元，与非经常性损益合计2,441,585,047.26元一致[2]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_u_moutai_2025_actual_revenue",
+      "task_type": "extract",
+      "query": "贵州茅台2025年实际营业收入是多少？",
+      "challenge_types": [
+        "document_blind",
+        "safe_abstention",
+        "temporal_scope"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600519:annual:2024",
+          "local_file": "data/artifacts/cninfo/600519_2024_1222993920.pdf",
+          "pages": []
+        }
+      ],
+      "gold_rationale": "应拒绝回答：当前语料只有2024年报，无法确认2025年实际营业收入。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_u_yili_top_customer_names",
+      "task_type": "extract",
+      "query": "伊利股份2024年前五大客户分别叫什么名字？",
+      "challenge_types": [
+        "document_blind",
+        "safe_abstention",
+        "temporal_scope"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600887:annual:2024",
+          "local_file": "data/artifacts/cninfo/600887_2024_1223421123.pdf",
+          "pages": []
+        }
+      ],
+      "gold_rationale": "应拒绝回答：年报仅披露前五名客户合计金额及占比，当前证据未披露具体名称。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2023_revenue_yoy",
+      "task_type": "extract",
+      "query": "美的集团2023年营业收入及同比增幅是多少？",
+      "challenge_types": [
+        "document_blind",
+        "exact_value",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "372037280"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "yoy",
+          "description": "营业收入同比增幅",
+          "acceptable_values": [
+            "8.18"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2023",
+          "local_file": "data/artifacts/cninfo/000333_2023_1219429374.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        }
+      ],
+      "gold_rationale": "美的集团2023年营业收入为372,037,280千元，同比增长8.18%[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2023_product_mix",
+      "task_type": "extract",
+      "query": "美的集团2023年暖通空调和消费电器收入及收入占比分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "hvac_revenue",
+          "description": "暖通空调收入",
+          "acceptable_values": [
+            "161110843"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "hvac_share",
+          "description": "暖通空调收入占比",
+          "acceptable_values": [
+            "43.31"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "appliance_revenue",
+          "description": "消费电器收入",
+          "acceptable_values": [
+            "134691669"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "appliance_share",
+          "description": "消费电器收入占比",
+          "acceptable_values": [
+            "36.20"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2023",
+          "local_file": "data/artifacts/cninfo/000333_2023_1219429374.pdf",
+          "pages": [
+            51,
+            52
+          ]
+        }
+      ],
+      "gold_rationale": "2023年暖通空调收入161,110,843千元、占43.31%；消费电器收入134,691,669千元、占36.20%[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2023_rd_profile",
+      "task_type": "extract",
+      "query": "美的集团2023年研发投入、研发投入占营收比例和研发人员数量是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd_spend",
+          "description": "研发投入",
+          "acceptable_values": [
+            "14583311"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "rd_ratio",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "3.92"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "rd_people",
+          "description": "研发人员数量",
+          "acceptable_values": [
+            "23242"
+          ],
+          "unit": "人"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2023",
+          "local_file": "data/artifacts/cninfo/000333_2023_1219429374.pdf",
+          "pages": [
+            54,
+            55
+          ]
+        }
+      ],
+      "gold_rationale": "2023年研发投入14,583,311千元，占营业收入3.92%，研发人员23,242人[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2023_inventory_increase",
+      "task_type": "calculate",
+      "query": "美的集团家用电器行业2023年末库存量较2022年末增加了多少万台/套？",
+      "challenge_types": [
+        "document_blind",
+        "arithmetic_reconciliation"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "inventory_increase",
+          "description": "库存量增加额",
+          "acceptable_values": [
+            "544.51"
+          ],
+          "unit": "万台/套"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2023",
+          "local_file": "data/artifacts/cninfo/000333_2023_1219429374.pdf",
+          "pages": [
+            52
+          ]
+        }
+      ],
+      "gold_rationale": "2023年末库存量较2022年末增加544.51万台/套（9,251.29－8,706.78）[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2023_key_audit_matter",
+      "task_type": "extract",
+      "query": "美的集团2023年为何将暖通空调及消费电器收入确认列为关键审计事项？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "kam_reason",
+          "description": "关键审计事项原因",
+          "acceptable_values": [
+            "销售渠道多、境内外客户众多、销量巨大且相关收入金额重大，需要投入大量审计资源"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2023",
+          "local_file": "data/artifacts/cninfo/000333_2023_1219429374.pdf",
+          "pages": [
+            154
+          ]
+        }
+      ],
+      "gold_rationale": "由于销售渠道多、境内外客户众多、销量巨大，且暖通空调及消费电器收入金额重大，审计需要投入大量资源，因此被列为关键审计事项[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2023_future_actual",
+      "task_type": "extract",
+      "query": "仅依据美的集团2023年年报，2024年实际营业收入是多少？",
+      "challenge_types": [
+        "document_blind",
+        "safe_abstention",
+        "temporal_scope"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2023",
+          "local_file": "data/artifacts/cninfo/000333_2023_1219429374.pdf",
+          "pages": []
+        }
+      ],
+      "gold_rationale": "年报未披露该未来实际数据，应拒绝回答。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2024_revenue_yoy",
+      "task_type": "extract",
+      "query": "美的集团2024年营业收入及同比增幅是多少？",
+      "challenge_types": [
+        "document_blind",
+        "exact_value",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "407149600"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "yoy",
+          "description": "营业收入同比增幅",
+          "acceptable_values": [
+            "9.44"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2024",
+          "local_file": "data/artifacts/cninfo/000333_2024_1222951181.pdf",
+          "pages": [
+            9,
+            10
+          ]
+        }
+      ],
+      "gold_rationale": "美的集团2024年营业收入为407,149,600千元，同比增长9.44%[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2024_product_mix",
+      "task_type": "extract",
+      "query": "美的集团2024年智能家居业务和商业及工业解决方案收入及占比分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "smart_home_revenue",
+          "description": "智能家居业务收入",
+          "acceptable_values": [
+            "269532353"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "smart_home_share",
+          "description": "智能家居业务收入占比",
+          "acceptable_values": [
+            "66.20"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "bi_revenue",
+          "description": "商业及工业解决方案收入",
+          "acceptable_values": [
+            "104496253"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "bi_share",
+          "description": "商业及工业解决方案收入占比",
+          "acceptable_values": [
+            "25.67"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2024",
+          "local_file": "data/artifacts/cninfo/000333_2024_1222951181.pdf",
+          "pages": [
+            49,
+            50
+          ]
+        }
+      ],
+      "gold_rationale": "2024年智能家居业务收入269,532,353千元、占66.20%；商业及工业解决方案收入104,496,253千元、占25.67%[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2024_rd_profile",
+      "task_type": "extract",
+      "query": "美的集团2024年研发投入、研发投入占营收比例和研发人员数量是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd_spend",
+          "description": "研发投入",
+          "acceptable_values": [
+            "16232771"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "rd_ratio",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "3.99"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "rd_people",
+          "description": "研发人员数量",
+          "acceptable_values": [
+            "23693"
+          ],
+          "unit": "人"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2024",
+          "local_file": "data/artifacts/cninfo/000333_2024_1222951181.pdf",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "gold_rationale": "2024年研发投入16,232,771千元，占营业收入3.99%，研发人员23,693人[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2024_inventory_increase",
+      "task_type": "calculate",
+      "query": "美的集团家用电器行业2024年末库存量较2023年末增加了多少万台/套，披露的原因是什么？",
+      "challenge_types": [
+        "document_blind",
+        "arithmetic_reconciliation"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "inventory_increase",
+          "description": "库存量增加额",
+          "acceptable_values": [
+            "3899.67"
+          ],
+          "unit": "万台/套"
+        },
+        {
+          "fact_id": "inventory_reason",
+          "description": "库存增长原因",
+          "acceptable_values": [
+            "临近春节假期提前备货"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2024",
+          "local_file": "data/artifacts/cninfo/000333_2024_1222951181.pdf",
+          "pages": [
+            50
+          ]
+        }
+      ],
+      "gold_rationale": "库存量增加3,899.67万台/套（13,150.96－9,251.29）；公司称主要因为临近春节假期提前备货[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2024_key_audit_matter",
+      "task_type": "extract",
+      "query": "美的集团2024年为何将智能家居业务收入确认列为关键审计事项？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "kam_reason",
+          "description": "关键审计事项原因",
+          "acceptable_values": [
+            "销售渠道多、境内外客户众多、销量巨大且智能家居业务收入金额重大，需要投入大量审计资源"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2024",
+          "local_file": "data/artifacts/cninfo/000333_2024_1222951181.pdf",
+          "pages": [
+            151
+          ]
+        }
+      ],
+      "gold_rationale": "由于销售渠道多、境内外客户众多、销量巨大，且智能家居业务收入金额重大，需要投入大量审计资源，因此被列为关键审计事项[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2024_future_actual",
+      "task_type": "extract",
+      "query": "仅依据美的集团2024年年报，2025年实际净利润是多少？",
+      "challenge_types": [
+        "document_blind",
+        "safe_abstention",
+        "temporal_scope"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2024",
+          "local_file": "data/artifacts/cninfo/000333_2024_1222951181.pdf",
+          "pages": []
+        }
+      ],
+      "gold_rationale": "年报未披露该未来实际数据，应拒绝回答。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_shenhua_2024_revenue_yoy",
+      "task_type": "extract",
+      "query": "中国神华2024年营业收入及同比变动是多少？",
+      "challenge_types": [
+        "document_blind",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "338375"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "yoy",
+          "description": "营业收入同比降幅",
+          "acceptable_values": [
+            "1.4"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601088:annual:2024",
+          "local_file": "data/artifacts/cninfo/601088_2024_1222870380.pdf",
+          "pages": [
+            7
+          ]
+        }
+      ],
+      "gold_rationale": "中国神华2024年营业收入为338,375百万元，同比下降1.4%[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_shenhua_2024_coal_source_margin",
+      "task_type": "extract",
+      "query": "中国神华2024年自产煤和外购煤销售收入及毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "own_revenue",
+          "description": "自产煤销售收入",
+          "acceptable_values": [
+            "172442"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "own_margin",
+          "description": "自产煤毛利率",
+          "acceptable_values": [
+            "44.5"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "purchased_revenue",
+          "description": "外购煤销售收入",
+          "acceptable_values": [
+            "86373"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "purchased_margin",
+          "description": "外购煤毛利率",
+          "acceptable_values": [
+            "1.8"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601088:annual:2024",
+          "local_file": "data/artifacts/cninfo/601088_2024_1222870380.pdf",
+          "pages": [
+            29,
+            30
+          ]
+        }
+      ],
+      "gold_rationale": "2024年自产煤销售收入172,442百万元、毛利率44.5%；外购煤销售收入86,373百万元、毛利率1.8%[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_shenhua_2024_rd_profile",
+      "task_type": "extract",
+      "query": "中国神华2024年研发投入、占营收比例和研发人员数量是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd_spend",
+          "description": "研发投入",
+          "acceptable_values": [
+            "4148"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "rd_ratio",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "1.2"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "rd_people",
+          "description": "研发人员数量",
+          "acceptable_values": [
+            "3628"
+          ],
+          "unit": "人"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601088:annual:2024",
+          "local_file": "data/artifacts/cninfo/601088_2024_1222870380.pdf",
+          "pages": [
+            22,
+            23
+          ]
+        }
+      ],
+      "gold_rationale": "2024年研发投入4,148百万元，占营业收入1.2%，研发人员3,628人[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_shenhua_2024_coal_sales_production_gap",
+      "task_type": "calculate",
+      "query": "中国神华2024年煤炭销售量比生产量多多少百万吨？",
+      "challenge_types": [
+        "document_blind",
+        "arithmetic_reconciliation"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "sales_production_gap",
+          "description": "煤炭销售量与生产量之差",
+          "acceptable_values": [
+            "132.2"
+          ],
+          "unit": "百万吨"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601088:annual:2024",
+          "local_file": "data/artifacts/cninfo/601088_2024_1222870380.pdf",
+          "pages": [
+            21
+          ]
+        }
+      ],
+      "gold_rationale": "煤炭销售量比生产量多132.2百万吨（459.3－327.1）[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_shenhua_2024_coal_revenue_recognition",
+      "task_type": "extract",
+      "query": "中国神华2024年煤炭销售收入何时确认，该收入约占营业收入多少？",
+      "challenge_types": [
+        "document_blind",
+        "accounting_scope",
+        "narrative_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "recognition",
+          "description": "煤炭销售收入确认时点",
+          "acceptable_values": [
+            "客户取得煤炭商品控制权时"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "revenue_share",
+          "description": "煤炭销售收入占营业收入比例",
+          "acceptable_values": [
+            "65"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601088:annual:2024",
+          "local_file": "data/artifacts/cninfo/601088_2024_1222870380.pdf",
+          "pages": [
+            132
+          ]
+        }
+      ],
+      "gold_rationale": "煤炭销售收入在客户取得煤炭商品控制权时确认；2024年度该收入约占营业收入65%[1]。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_shenhua_2024_future_actual",
+      "task_type": "extract",
+      "query": "仅依据中国神华2024年年报，2025年实际营业收入是多少？",
+      "challenge_types": [
+        "document_blind",
+        "safe_abstention",
+        "temporal_scope"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601088:annual:2024",
+          "local_file": "data/artifacts/cninfo/601088_2024_1222870380.pdf",
+          "pages": []
+        }
+      ],
+      "gold_rationale": "年报未披露该未来实际数据，应拒绝回答。",
+      "annotation_status": "assistant_verified_provisional"
+    },
+    {
+      "case_id": "blind_midea_2023_2024_revenue_compare",
+      "task_type": "compare",
+      "query": "比较美的集团2023年和2024年营业收入及同比增幅。",
+      "challenge_types": [
+        "cross_document",
+        "multi_period",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:美的集团:year:2023",
+        "company:美的集团:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "midea_2023_revenue_yoy:revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "372037280"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "midea_2023_revenue_yoy:yoy",
+          "description": "营业收入同比增幅",
+          "acceptable_values": [
+            "8.18"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "midea_2024_revenue_yoy:revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "407149600"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "midea_2024_revenue_yoy:yoy",
+          "description": "营业收入同比增幅",
+          "acceptable_values": [
+            "9.44"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2023",
+          "local_file": "data/artifacts/cninfo/000333_2023_1219429374.pdf",
+          "pages": [
+            10,
+            11
+          ]
+        },
+        {
+          "document_key": "cninfo:000333:annual:2024",
+          "local_file": "data/artifacts/cninfo/000333_2024_1222951181.pdf",
+          "pages": [
+            9,
+            10
+          ]
+        }
+      ],
+      "gold_rationale": "美的集团2023年营业收入为372,037,280千元，同比增长8.18%[1]。；美的集团2024年营业收入为407,149,600千元，同比增长9.44%[1]。",
+      "annotation_status": "assistant_verified_provisional_composite"
+    },
+    {
+      "case_id": "blind_midea_2023_2024_rd_compare",
+      "task_type": "compare",
+      "query": "比较美的集团2023年和2024年研发投入、研发投入占营收比例及研发人员数量。",
+      "challenge_types": [
+        "cross_document",
+        "multi_period",
+        "dense_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:美的集团:year:2023",
+        "company:美的集团:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "midea_2023_rd_profile:rd_spend",
+          "description": "研发投入",
+          "acceptable_values": [
+            "14583311"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "midea_2023_rd_profile:rd_ratio",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "3.92"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "midea_2023_rd_profile:rd_people",
+          "description": "研发人员数量",
+          "acceptable_values": [
+            "23242"
+          ],
+          "unit": "人"
+        },
+        {
+          "fact_id": "midea_2024_rd_profile:rd_spend",
+          "description": "研发投入",
+          "acceptable_values": [
+            "16232771"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "midea_2024_rd_profile:rd_ratio",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "3.99"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "midea_2024_rd_profile:rd_people",
+          "description": "研发人员数量",
+          "acceptable_values": [
+            "23693"
+          ],
+          "unit": "人"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2023",
+          "local_file": "data/artifacts/cninfo/000333_2023_1219429374.pdf",
+          "pages": [
+            54,
+            55
+          ]
+        },
+        {
+          "document_key": "cninfo:000333:annual:2024",
+          "local_file": "data/artifacts/cninfo/000333_2024_1222951181.pdf",
+          "pages": [
+            52,
+            53
+          ]
+        }
+      ],
+      "gold_rationale": "2023年研发投入14,583,311千元，占营业收入3.92%，研发人员23,242人[1]。；2024年研发投入16,232,771千元，占营业收入3.99%，研发人员23,693人[1]。",
+      "annotation_status": "assistant_verified_provisional_composite"
+    },
+    {
+      "case_id": "blind_moutai_yili_cashflow_compare",
+      "task_type": "compare",
+      "query": "比较贵州茅台和伊利股份2024年经营活动现金流量净额、同比增幅及各自变动原因。",
+      "challenge_types": [
+        "cross_company",
+        "multi_fact",
+        "narrative_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:贵州茅台:year:2024",
+        "company:伊利股份:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "moutai_cashflow_change:cashflow",
+          "description": "经营活动现金流量净额",
+          "acceptable_values": [
+            "92463692168.43"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "moutai_cashflow_change:cashflow_yoy",
+          "description": "经营现金流同比增幅",
+          "acceptable_values": [
+            "38.85"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "moutai_cashflow_change:cashflow_reason",
+          "description": "经营现金流变动原因",
+          "acceptable_values": [
+            "销售商品收到的现金增加及财务公司归集集团其他成员单位资金增加"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "yili_cashflow_change:cashflow",
+          "description": "经营活动现金流量净额",
+          "acceptable_values": [
+            "21739740393.38"
+          ],
+          "unit": "元"
+        },
+        {
+          "fact_id": "yili_cashflow_change:growth",
+          "description": "同比增幅",
+          "acceptable_values": [
+            "18.86"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "yili_cashflow_change:reason",
+          "description": "变动原因",
+          "acceptable_values": [
+            "2025年春节备货导致预收经销商货款增加"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:600519:annual:2024",
+          "local_file": "data/artifacts/cninfo/600519_2024_1222993920.pdf",
+          "pages": [
+            8,
+            9
+          ]
+        },
+        {
+          "document_key": "cninfo:600887:annual:2024",
+          "local_file": "data/artifacts/cninfo/600887_2024_1223421123.pdf",
+          "pages": [
+            18,
+            19
+          ]
+        }
+      ],
+      "gold_rationale": "经营活动现金流量净额为92,463,692,168.43元，同比增长38.85%；主要因销售商品收到的现金增加，以及财务公司归集集团其他成员单位资金增加[1]。；经营活动现金流量净额为21,739,740,393.38元，同比增长18.86%；增加主要因2025年春节备货带来预收经销商货款增加[1]。",
+      "annotation_status": "assistant_verified_provisional_composite"
+    },
+    {
+      "case_id": "blind_midea_shenhua_2024_revenue_compare",
+      "task_type": "compare",
+      "query": "比较美的集团和中国神华2024年营业收入及同比变动。",
+      "challenge_types": [
+        "cross_company",
+        "unit_mismatch",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:美的集团:year:2024",
+        "company:中国神华:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "midea_2024_revenue_yoy:revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "407149600"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "midea_2024_revenue_yoy:yoy",
+          "description": "营业收入同比增幅",
+          "acceptable_values": [
+            "9.44"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "shenhua_2024_revenue_yoy:revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "338375"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "shenhua_2024_revenue_yoy:yoy",
+          "description": "营业收入同比降幅",
+          "acceptable_values": [
+            "1.4"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:000333:annual:2024",
+          "local_file": "data/artifacts/cninfo/000333_2024_1222951181.pdf",
+          "pages": [
+            9,
+            10
+          ]
+        },
+        {
+          "document_key": "cninfo:601088:annual:2024",
+          "local_file": "data/artifacts/cninfo/601088_2024_1222870380.pdf",
+          "pages": [
+            7
+          ]
+        }
+      ],
+      "gold_rationale": "美的集团2024年营业收入为407,149,600千元，同比增长9.44%[1]。；中国神华2024年营业收入为338,375百万元，同比下降1.4%[1]。",
+      "annotation_status": "assistant_verified_provisional_composite"
+    }
+  ]
+}

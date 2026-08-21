@@ -1,0 +1,12 @@
+{
+  "plan_id": "findoc-rag-benchmark-v3-corpus",
+  "ready_for_annotation": true,
+  "blockers": [],
+  "document_count": 10,
+  "source_hash_count": 10,
+  "index_document_counts": {
+    "calibration": 2,
+    "development": 6,
+    "frozen_test": 4
+  }
+}

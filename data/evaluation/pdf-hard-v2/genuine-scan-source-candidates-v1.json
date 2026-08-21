@@ -1,0 +1,114 @@
+{
+  "schema_version": "1",
+  "dataset_id": "pdf-hard-v2-genuine-scan-source-candidates-v1",
+  "review_status": "assistant_visual_review_provisional",
+  "thresholds": {
+    "max_native_characters": 5,
+    "min_image_coverage": 0.85,
+    "text_layer_rejection_min_characters": 200
+  },
+  "sources": [
+    {
+      "source_id": "cninfo:002344:related-funds:2025:1225108704",
+      "security_code": "002344",
+      "company_name": "海宁中国皮革城股份有限公司",
+      "announcement_id": "1225108704",
+      "announcement_title": "2025年度非经营性资金占用及其他关联资金往来情况表签字盖章扫描件",
+      "official_url": "https://static.cninfo.com.cn/finalpage/2026-04-16/1225108704.PDF",
+      "local_file": "data/artifacts/cninfo/002344_2025_1225108704_related_funds_scan.pdf",
+      "expected_sha256": "f4281e6d6599fb3df00da1703c50dd53505fa85685e5dca069a47a50b35dff0c",
+      "expected_size_bytes": 89879,
+      "disposition": "accepted_genuine_scan",
+      "disposition_reason": "整页图像、原生字符为零；视觉确认存在十列关联资金往来表、合并分类单元格和签章。",
+      "selections": [
+        {
+          "candidate_id": "haining-leather-2025-p1-related-funds-scan",
+          "source_page_number": 1,
+          "assigned_split": "calibration",
+          "primary_stratum": "genuine_scan",
+          "additional_strata": [
+            "merged_hierarchical_header",
+            "rotated_or_mixed_layout"
+          ],
+          "table_title": "其他关联资金往来情况表",
+          "visual_review_notes": [
+            "十列宽表，含多行表头、类别纵向合并和签字盖章。",
+            "表内有负数、短横线、脚注标记和多种往来形成原因。"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "cninfo:600359:audit:2020:1209669339",
+      "security_code": "600359",
+      "company_name": "新疆塔里木农业综合开发股份有限公司",
+      "announcement_id": "1209669339",
+      "announcement_title": "2020年度合并财务审计报告扫描版",
+      "official_url": "https://static.cninfo.com.cn/finalpage/2021-04-10/1209669339.PDF",
+      "local_file": "data/artifacts/cninfo/600359_2020_1209669339_audit_scan.pdf",
+      "expected_sha256": "5d44b8e8457c950a5673529c888cd2b2a148867e09e15ac7ad41e845ee7f3a94",
+      "expected_size_bytes": 10154928,
+      "disposition": "accepted_genuine_scan",
+      "disposition_reason": "87页均为图像页且原生字符为零；逐页接触表确认第7、11、15页为不同难度的财务报表。",
+      "selections": [
+        {
+          "candidate_id": "xinong-2020-p7-balance-sheet-scan",
+          "source_page_number": 7,
+          "assigned_split": "calibration",
+          "primary_stratum": "genuine_scan",
+          "additional_strata": [
+            "rotated_or_mixed_layout"
+          ],
+          "table_title": "合并资产负债表",
+          "visual_review_notes": [
+            "四列常规财务报表，印章遮挡公司名称和部分表头区域。",
+            "含附注编号、空白单元格、千分位金额和签字。"
+          ]
+        },
+        {
+          "candidate_id": "xinong-2020-p11-income-statement-scan",
+          "source_page_number": 11,
+          "assigned_split": "calibration",
+          "primary_stratum": "genuine_scan",
+          "additional_strata": [
+            "rotated_or_mixed_layout"
+          ],
+          "table_title": "合并利润表",
+          "visual_review_notes": [
+            "密集长行名称、负数和分层利润项目并存。",
+            "印章覆盖单位名称，底部含签字和页码。"
+          ]
+        },
+        {
+          "candidate_id": "xinong-2020-p15-equity-change-scan",
+          "source_page_number": 15,
+          "assigned_split": "development",
+          "primary_stratum": "genuine_scan",
+          "additional_strata": [
+            "merged_hierarchical_header",
+            "rotated_or_mixed_layout"
+          ],
+          "table_title": "合并股东权益变动表",
+          "visual_review_notes": [
+            "超宽横向表，包含归属于母公司股东权益多级表头。",
+            "列数多、字号小、空单元格多，适合作为结构恢复压力样本。"
+          ]
+        }
+      ]
+    },
+    {
+      "source_id": "cninfo:002144:financial-statements:2024:1223311319",
+      "security_code": "002144",
+      "company_name": "宏达高科控股股份有限公司",
+      "announcement_id": "1223311319",
+      "announcement_title": "2024年年度报告财务报表扫描件",
+      "official_url": "https://static.cninfo.com.cn/finalpage/2025-04-26/1223311319.PDF",
+      "local_file": "data/artifacts/cninfo/002144_2024_1223311319_financial_statements_scan.pdf",
+      "expected_sha256": "e30d48e1926c1decbe8b12542399dd1f21e9c2affb1ab19f0e527c0568b98329",
+      "expected_size_bytes": 7561012,
+      "disposition": "rejected_usable_text_layer",
+      "disposition_reason": "标题含扫描件且页面有整页图像，但每页仍有259至1733个可用原生字符；不应用来证明零文本层OCR能力。",
+      "selections": []
+    }
+  ]
+}

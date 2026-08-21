@@ -1,0 +1,231 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-provisional-gold-dev-calculate",
+  "description": "Ninety-six company- and document-blind Agent tasks over sixteen official CNINFO annual reports. Facts and pages are source-verified provisional gold; independent double review remains pending. Split: dev. Task type: calculate.",
+  "index_scope": "dev-calculate",
+  "source_manifest": "data/evaluation/agent-hard-v3-source-manifest.json",
+  "gold_policy": "Gold was transcribed before the first Agent run. No evaluated Agent, DeepSeek answer, or LLM judge was used to create it. Exact values, deterministic behavior checks, and page-bound citations are scored locally.",
+  "cases": [
+    {
+      "case_id": "v3_601318_calc_nbv_growth",
+      "task_type": "calculate",
+      "query": "按中国平安2024年年报的可比口径，用披露值计算2024年寿险及健康险新业务价值相对2023年的增长率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "nbv_2023",
+          "description": "可比口径2023年新业务价值",
+          "acceptable_values": [
+            "31080",
+            "310.80"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv_2024",
+          "description": "可比口径2024年新业务价值",
+          "acceptable_values": [
+            "40024",
+            "400.24"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "growth",
+          "description": "可比口径新业务价值增长率",
+          "acceptable_values": [
+            "28.78%",
+            "28.8%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            39
+          ]
+        }
+      ],
+      "gold_rationale": "(40024-31080)/31080=28.7773%，计算值为28.78%，年报披露四舍五入为28.8%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_calc_segment_share",
+      "task_type": "calculate",
+      "query": "计算中国平安2024年寿险及健康险业务归母营运利润占寿险及健康险、财产保险、银行三项核心业务归母营运利润合计的比例。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "life",
+          "description": "寿险及健康险归母营运利润",
+          "acceptable_values": [
+            "96975"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "property",
+          "description": "财产保险归母营运利润",
+          "acceptable_values": [
+            "14952"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "bank",
+          "description": "银行归母营运利润",
+          "acceptable_values": [
+            "25796"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "share",
+          "description": "寿险及健康险占三项合计比例",
+          "acceptable_values": [
+            "70.41%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            71
+          ]
+        }
+      ],
+      "gold_rationale": "96975/(96975+14952+25796)=70.4131%，保留两位小数为70.41%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_calc_storage_share",
+      "task_type": "calculate",
+      "query": "计算宁德时代2024年储能电池系统收入占公司营业收入的比例，保留两位小数。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "storage_revenue",
+          "description": "储能电池收入",
+          "acceptable_values": [
+            "57290460"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "total_revenue",
+          "description": "营业收入",
+          "acceptable_values": [
+            "362012554"
+          ],
+          "unit": "千元"
+        },
+        {
+          "fact_id": "share",
+          "description": "储能电池收入占比",
+          "acceptable_values": [
+            "15.83%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9,
+            19
+          ]
+        }
+      ],
+      "gold_rationale": "57290460/362012554=15.8255%，保留两位小数为15.83%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_calc_net_margin",
+      "task_type": "calculate",
+      "query": "计算宁德时代2023年和2024年的归母净利率，并给出变化百分点。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "margin_2023",
+          "description": "2023年归母净利率",
+          "acceptable_values": [
+            "11.01%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "margin_2024",
+          "description": "2024年归母净利率",
+          "acceptable_values": [
+            "14.02%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "change",
+          "description": "归母净利率变化",
+          "acceptable_values": [
+            "3.01个百分点"
+          ],
+          "unit": "百分点"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            7
+          ]
+        },
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9
+          ]
+        }
+      ],
+      "gold_rationale": "归母净利率由11.01%升至14.02%，提高3.01个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

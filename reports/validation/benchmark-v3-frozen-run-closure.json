@@ -1,0 +1,41 @@
+{
+  "schema_version": "1",
+  "freeze_id": "benchmark-v3-p0-freeze-2026-08-19",
+  "dataset_id": "benchmark-v3",
+  "dataset_sha256": "b785fbffce0267d72b1aed15a34aa58886a2ca3985c145a04e881b5e293c301b",
+  "runtime_fingerprint": "941ea7827fd41fd9c16749ae5ed7f6d2358d8b5f7cbf46d92f5e1d4024f9b2e7",
+  "frozen_index_id": "7a06388a3bbd4f4c44db",
+  "run_count": 1,
+  "runs": {
+    "oracle_context": {
+      "summary_sha256": "05647f4eff6f2a163557a55d893a9a94bfb8c56cb63031abb702289027e8b951",
+      "item_count": 24,
+      "strict_success_eligible_count": 21,
+      "strict_success_count": 4,
+      "strict_success_rate": 0.19047619047619047,
+      "expected_behavior_correct_count": 8,
+      "expected_behavior_accuracy": 0.3333333333333333,
+      "run_error_count": 0
+    },
+    "retrieved_context": {
+      "summary_sha256": "74a75ab6d8118e33c79c60d5525c9bb8b29089a2849442bac303b82ffb31bce1",
+      "item_count": 24,
+      "strict_success_eligible_count": 21,
+      "strict_success_count": 4,
+      "strict_success_rate": 0.19047619047619047,
+      "expected_behavior_correct_count": 8,
+      "expected_behavior_accuracy": 0.3333333333333333,
+      "answerable_item_count": 20,
+      "any_gold_retrieved_count": 20,
+      "all_gold_retrieved_count": 20,
+      "all_gold_retrieval_rate": 1.0,
+      "run_error_count": 0
+    }
+  },
+  "diagnosis": {
+    "primary_bottleneck": "answer_generation_coverage",
+    "evidence": "Retrieved context contained every gold chunk for all 20 answerable frozen items, while strict answer success remained 4/21 and matched the oracle-context result.",
+    "known_reporting_issue": "The run summary source_index_id field contains the combined dataset default index ID; split binding and every run item used frozen_index_id 7a06388a3bbd4f4c44db.",
+    "post_run_tuning_performed": false
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "dataset_id": "benchmark-v3-frozen",
+  "item_count": 24,
+  "answerability_counts": {
+    "answerable": 20,
+    "unanswerable": 4
+  },
+  "split_counts": {
+    "frozen_test": 24
+  },
+  "category_counts": {
+    "single_fact": 4,
+    "multi_fact_table": 8,
+    "calculation": 4,
+    "narrative": 4,
+    "unanswerable": 4
+  },
+  "difficulty_counts": {
+    "easy": 8,
+    "medium": 12,
+    "hard": 4
+  },
+  "company_counts": {
+    "海尔智家": 12,
+    "长江电力": 12
+  },
+  "tag_counts": {
+    "benchmark_v3": 24,
+    "assistant_curated": 24,
+    "cninfo:600690:annual:2023": 6,
+    "cninfo:600690:annual:2024": 6,
+    "cninfo:600900:annual:2023": 6,
+    "cninfo:600900:annual:2024": 6
+  },
+  "family_count": 24,
+  "unique_gold_chunk_count": 22,
+  "fact_count": 49,
+  "evidence_count": 22,
+  "multi_evidence_item_count": 2,
+  "derived_fact_count": 4,
+  "robustness_item_count": 0,
+  "robustness_split_counts": {},
+  "hard_negative_count": 0,
+  "hard_negative_type_counts": {},
+  "warning_count": 22,
+  "warnings": [
+    "PDF visual review pending: haier_2023_revenue_yoy:e1",
+    "PDF visual review pending: haier_2023_product_margin:e1",
+    "PDF visual review pending: haier_2023_rd_profile:e1",
+    "PDF visual review pending: haier_2023_rd_profile:e2",
+    "PDF visual review pending: haier_2023_sales_production_gap:e1",
+    "PDF visual review pending: haier_2023_warranty_kam:e1",
+    "PDF visual review pending: haier_2024_revenue_yoy:e1",
+    "PDF visual review pending: haier_2024_product_margin:e1",
+    "PDF visual review pending: haier_2024_rd_profile:e1",
+    "PDF visual review pending: haier_2024_sales_production_gap:e1",
+    "PDF visual review pending: haier_2024_inventory_kam:e1",
+    "PDF visual review pending: cypc_2023_revenue_yoy:e1",
+    "PDF visual review pending: cypc_2023_hydropower_margin:e1",
+    "PDF visual review pending: cypc_2023_rd_profile:e1",
+    "PDF visual review pending: cypc_2023_rd_profile:e2",
+    "PDF visual review pending: cypc_2023_generation_grid_gap:e1",
+    "PDF visual review pending: cypc_2023_operating_cost_kam:e1",
+    "PDF visual review pending: cypc_2024_revenue_yoy:e1",
+    "PDF visual review pending: cypc_2024_hydropower_margin:e1",
+    "PDF visual review pending: cypc_2024_rd_profile:e1",
+    "PDF visual review pending: cypc_2024_generation_grid_gap:e1",
+    "PDF visual review pending: cypc_2024_operating_cost_kam:e1"
+  ]
+}

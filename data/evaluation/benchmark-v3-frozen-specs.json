@@ -1,0 +1,329 @@
+{
+  "schema_version": "1",
+  "freeze_id": "benchmark-v3-p0-freeze-2026-08-19",
+  "groups": [
+    {
+      "prefix": "haier_2023",
+      "company_id": "600690",
+      "company_name": "海尔智家",
+      "year": 2023,
+      "document_key": "cninfo:600690:annual:2023",
+      "split": "frozen_test",
+      "items": [
+        {
+          "suffix": "revenue_yoy",
+          "query": "海尔智家2023年营业收入及同比增幅是多少？",
+          "category": "single_fact",
+          "difficulty": "easy",
+          "chunk_ids": ["b6a8748c3a59:c17:ceb4e3f664ca17a3"],
+          "facts": [
+            ["revenue", "营业收入", "261427783050.10", "number", "元", null],
+            ["yoy", "营业收入同比增幅", "7.33", "percentage", "%", null]
+          ],
+          "answer": "海尔智家2023年营业收入为261,427,783,050.10元，同比增长7.33%[1]。"
+        },
+        {
+          "suffix": "product_margin",
+          "query": "海尔智家2023年空调和电冰箱的营业收入及毛利率分别是多少？",
+          "category": "multi_fact_table",
+          "difficulty": "medium",
+          "chunk_ids": ["b6a8748c3a59:c77:2792674baa28fb9f"],
+          "facts": [
+            ["ac_revenue", "空调营业收入", "45659954167.67", "number", "元", null],
+            ["ac_margin", "空调毛利率", "29.37", "percentage", "%", null],
+            ["fridge_revenue", "电冰箱营业收入", "81640696197.18", "number", "元", null],
+            ["fridge_margin", "电冰箱毛利率", "32.22", "percentage", "%", null]
+          ],
+          "answer": "2023年空调营业收入45,659,954,167.67元、毛利率29.37%；电冰箱营业收入81,640,696,197.18元、毛利率32.22%[1]。"
+        },
+        {
+          "suffix": "rd_profile",
+          "query": "海尔智家2023年研发投入、占营收比例和研发人员数量是多少？",
+          "category": "multi_fact_table",
+          "difficulty": "medium",
+          "chunk_ids": [
+            "b6a8748c3a59:c80:2cc3c3134c9ff54c",
+            "b6a8748c3a59:c81:cdce636fa4931630"
+          ],
+          "facts": [
+            ["rd_spend", "研发投入", "10821245340", "number", "元", null],
+            ["rd_ratio", "研发投入占营业收入比例", "4.14", "percentage", "%", null],
+            ["rd_people", "研发人员数量", "23889", "number", "人", null]
+          ],
+          "answer": "2023年研发投入10,821,245,340元，占营业收入4.14%，研发人员23,889人[1][2]。"
+        },
+        {
+          "suffix": "sales_production_gap",
+          "query": "海尔智家2023年家用电器销售量比生产量多多少万台/套？",
+          "category": "calculation",
+          "difficulty": "medium",
+          "chunk_ids": ["b6a8748c3a59:c78:7cf4f6924d66b8b7"],
+          "facts": [
+            ["sales_production_gap", "销售量与生产量之差", "51", "number", "万台/套", "11978 - 11927 = 51"]
+          ],
+          "answer": "家用电器销售量比生产量多51万台/套（11,978－11,927）[1]。"
+        },
+        {
+          "suffix": "warranty_kam",
+          "query": "海尔智家2023年为何将产品质量保证预计负债列为关键审计事项，相关余额是多少？",
+          "category": "narrative",
+          "difficulty": "hard",
+          "chunk_ids": ["b6a8748c3a59:c237:e4197a4673d8e4de"],
+          "facts": [
+            ["warranty_balance", "产品质量保证相关负债余额", "38.09", "number", "亿元", null],
+            ["kam_reason", "关键审计事项原因", "金额较大且退换率、返修率、拆废损失等参数需要管理层作出重大判断", "text", null, null]
+          ],
+          "answer": "相关余额为38.09亿元；由于金额较大，且退换率、返修率、拆废损失等参数需要管理层作出重大判断，因此被列为关键审计事项[1]。"
+        },
+        {
+          "suffix": "future_actual",
+          "query": "仅依据海尔智家2023年年报，2024年实际营业收入是多少？",
+          "category": "unanswerable",
+          "difficulty": "easy",
+          "abstention_reason": "2023年年报没有披露2024年实际营业收入。"
+        }
+      ]
+    },
+    {
+      "prefix": "haier_2024",
+      "company_id": "600690",
+      "company_name": "海尔智家",
+      "year": 2024,
+      "document_key": "cninfo:600690:annual:2024",
+      "split": "frozen_test",
+      "items": [
+        {
+          "suffix": "revenue_yoy",
+          "query": "海尔智家2024年营业收入及同比增幅是多少？",
+          "category": "single_fact",
+          "difficulty": "easy",
+          "chunk_ids": ["cb2830d04860:c20:f307cbaaec02d069"],
+          "facts": [
+            ["revenue", "营业收入", "285981225203.93", "number", "元", null],
+            ["yoy", "营业收入同比增幅", "4.29", "percentage", "%", null]
+          ],
+          "answer": "海尔智家2024年营业收入为285,981,225,203.93元，同比增长4.29%[1]。"
+        },
+        {
+          "suffix": "product_margin",
+          "query": "海尔智家2024年空调和电冰箱的营业收入及毛利率分别是多少？",
+          "category": "multi_fact_table",
+          "difficulty": "medium",
+          "chunk_ids": ["cb2830d04860:c94:4e4432c14c91f7b3"],
+          "facts": [
+            ["ac_revenue", "空调营业收入", "49055935438.09", "number", "元", null],
+            ["ac_margin", "空调毛利率", "23.87", "percentage", "%", null],
+            ["fridge_revenue", "电冰箱营业收入", "83240760926.03", "number", "元", null],
+            ["fridge_margin", "电冰箱毛利率", "30.77", "percentage", "%", null]
+          ],
+          "answer": "2024年空调营业收入49,055,935,438.09元、毛利率23.87%；电冰箱营业收入83,240,760,926.03元、毛利率30.77%[1]。"
+        },
+        {
+          "suffix": "rd_profile",
+          "query": "海尔智家2024年研发投入、占营收比例和研发人员数量是多少？",
+          "category": "multi_fact_table",
+          "difficulty": "medium",
+          "chunk_ids": ["cb2830d04860:c98:a41808b68e43f325"],
+          "facts": [
+            ["rd_spend", "研发投入", "11288444271.91", "number", "元", null],
+            ["rd_ratio", "研发投入占营业收入比例", "3.95", "percentage", "%", null],
+            ["rd_people", "研发人员数量", "22925", "number", "人", null]
+          ],
+          "answer": "2024年研发投入11,288,444,271.91元，占营业收入3.95%，研发人员22,925人[1]。"
+        },
+        {
+          "suffix": "sales_production_gap",
+          "query": "海尔智家2024年家用电器销售量比生产量多多少万台/套？",
+          "category": "calculation",
+          "difficulty": "medium",
+          "chunk_ids": ["cb2830d04860:c96:aac1ef0f04e3a23b"],
+          "facts": [
+            ["sales_production_gap", "销售量与生产量之差", "57", "number", "万台/套", "12693 - 12636 = 57"]
+          ],
+          "answer": "家用电器销售量比生产量多57万台/套（12,693－12,636）[1]。"
+        },
+        {
+          "suffix": "inventory_kam",
+          "query": "海尔智家2024年存货跌价准备关键审计事项涉及的存货余额、跌价准备和账面价值分别是多少？",
+          "category": "narrative",
+          "difficulty": "hard",
+          "chunk_ids": ["cb2830d04860:c248:0c7e89d61f608221"],
+          "facts": [
+            ["inventory_balance", "存货余额", "447.17", "number", "亿元", null],
+            ["write_down", "存货跌价准备", "16.73", "number", "亿元", null],
+            ["carrying_value", "存货账面价值", "430.44", "number", "亿元", null]
+          ],
+          "answer": "截至2024年末，存货余额447.17亿元，存货跌价准备16.73亿元，账面价值430.44亿元[1]。"
+        },
+        {
+          "suffix": "future_actual",
+          "query": "仅依据海尔智家2024年年报，2025年实际营业收入是多少？",
+          "category": "unanswerable",
+          "difficulty": "easy",
+          "abstention_reason": "2024年年报没有披露2025年实际营业收入。"
+        }
+      ]
+    },
+    {
+      "prefix": "cypc_2023",
+      "company_id": "600900",
+      "company_name": "长江电力",
+      "year": 2023,
+      "document_key": "cninfo:600900:annual:2023",
+      "split": "frozen_test",
+      "items": [
+        {
+          "suffix": "revenue_yoy",
+          "query": "长江电力2023年营业收入及同比增幅是多少？",
+          "category": "single_fact",
+          "difficulty": "easy",
+          "chunk_ids": ["a32aa92211f5:c10:be93fb614164561e"],
+          "facts": [
+            ["revenue", "营业收入", "78111573265.75", "number", "元", null],
+            ["yoy", "营业收入同比增幅", "13.43", "percentage", "%", null]
+          ],
+          "answer": "长江电力2023年营业收入为78,111,573,265.75元，同比增长13.43%[1]。"
+        },
+        {
+          "suffix": "hydropower_margin",
+          "query": "长江电力2023年境内水电行业营业收入、营业成本和毛利率是多少？",
+          "category": "multi_fact_table",
+          "difficulty": "medium",
+          "chunk_ids": ["a32aa92211f5:c30:769c630882b6db49"],
+          "facts": [
+            ["revenue", "境内水电行业营业收入", "69045614156.02", "number", "元", null],
+            ["cost", "境内水电行业营业成本", "26947851396.42", "number", "元", null],
+            ["margin", "境内水电行业毛利率", "60.97", "percentage", "%", null]
+          ],
+          "answer": "2023年境内水电行业营业收入69,045,614,156.02元，营业成本26,947,851,396.42元，毛利率60.97%[1]。"
+        },
+        {
+          "suffix": "rd_profile",
+          "query": "长江电力2023年研发投入、占营收比例以及全时和非全时研发人员数量是多少？",
+          "category": "multi_fact_table",
+          "difficulty": "medium",
+          "chunk_ids": [
+            "a32aa92211f5:c33:b48eb54559edf4bc",
+            "a32aa92211f5:c34:c0eeb89b46e572cd"
+          ],
+          "facts": [
+            ["rd_spend", "研发投入", "206765.55", "number", "万元", null],
+            ["rd_ratio", "研发投入占营业收入比例", "2.65", "percentage", "%", null],
+            ["full_time", "全时研发人员", "139", "number", "人", null],
+            ["part_time", "非全时研发人员", "1865", "number", "人", null]
+          ],
+          "answer": "2023年研发投入206,765.55万元，占营业收入2.65%；全时研发人员139人，非全时研发人员1,865人[1][2]。"
+        },
+        {
+          "suffix": "generation_grid_gap",
+          "query": "长江电力2023年境内水电发电量比上网电量多多少万千瓦时？",
+          "category": "calculation",
+          "difficulty": "medium",
+          "chunk_ids": ["a32aa92211f5:c39:ef17d16304bf3957"],
+          "facts": [
+            ["generation_grid_gap", "发电量与上网电量之差", "148295", "number", "万千瓦时", "27626322 - 27478027 = 148295"]
+          ],
+          "answer": "发电量比上网电量多148,295万千瓦时（27,626,322－27,478,027）[1]。"
+        },
+        {
+          "suffix": "operating_cost_kam",
+          "query": "长江电力2023年为何将营业成本准确性列为关键审计事项，相关营业成本是多少？",
+          "category": "narrative",
+          "difficulty": "hard",
+          "chunk_ids": ["a32aa92211f5:c181:f5413a0e6bbe6d17"],
+          "facts": [
+            ["operating_cost", "营业成本", "329.43", "number", "亿元", null],
+            ["kam_reason", "关键审计事项原因", "营业成本主要由生产用固定资产折旧和财政规费等构成且金额重大", "text", null, null]
+          ],
+          "answer": "2023年度营业成本为329.43亿元，主要由生产用固定资产折旧、财政规费等构成且金额重大，因此其准确性被列为关键审计事项[1]。"
+        },
+        {
+          "suffix": "future_actual",
+          "query": "仅依据长江电力2023年年报，2024年实际营业收入是多少？",
+          "category": "unanswerable",
+          "difficulty": "easy",
+          "abstention_reason": "2023年年报没有披露2024年实际营业收入。"
+        }
+      ]
+    },
+    {
+      "prefix": "cypc_2024",
+      "company_id": "600900",
+      "company_name": "长江电力",
+      "year": 2024,
+      "document_key": "cninfo:600900:annual:2024",
+      "split": "frozen_test",
+      "items": [
+        {
+          "suffix": "revenue_yoy",
+          "query": "长江电力2024年营业收入及同比增幅是多少？",
+          "category": "single_fact",
+          "difficulty": "easy",
+          "chunk_ids": ["556767ca1f7c:c10:0892044f861b9f36"],
+          "facts": [
+            ["revenue", "营业收入", "84491870566.52", "number", "元", null],
+            ["yoy", "营业收入同比增幅", "8.12", "percentage", "%", null]
+          ],
+          "answer": "长江电力2024年营业收入为84,491,870,566.52元，同比增长8.12%[1]。"
+        },
+        {
+          "suffix": "hydropower_margin",
+          "query": "长江电力2024年境内水电行业营业收入、营业成本和毛利率是多少？",
+          "category": "multi_fact_table",
+          "difficulty": "medium",
+          "chunk_ids": ["556767ca1f7c:c30:469c9fceaa07fe44"],
+          "facts": [
+            ["revenue", "境内水电行业营业收入", "74478717584.20", "number", "元", null],
+            ["cost", "境内水电行业营业成本", "27921026583.55", "number", "元", null],
+            ["margin", "境内水电行业毛利率", "62.51", "percentage", "%", null]
+          ],
+          "answer": "2024年境内水电行业营业收入74,478,717,584.20元，营业成本27,921,026,583.55元，毛利率62.51%[1]。"
+        },
+        {
+          "suffix": "rd_profile",
+          "query": "长江电力2024年研发投入、占营收比例以及全时和非全时研发人员数量是多少？",
+          "category": "multi_fact_table",
+          "difficulty": "medium",
+          "chunk_ids": ["556767ca1f7c:c33:fd6cf389a4117bfa"],
+          "facts": [
+            ["rd_spend", "研发投入", "231127.77", "number", "万元", null],
+            ["rd_ratio", "研发投入占营业收入比例", "2.74", "percentage", "%", null],
+            ["full_time", "全时研发人员", "178", "number", "人", null],
+            ["part_time", "非全时研发人员", "1585", "number", "人", null]
+          ],
+          "answer": "2024年研发投入231,127.77万元，占营业收入2.74%；全时研发人员178人，非全时研发人员1,585人[1]。"
+        },
+        {
+          "suffix": "generation_grid_gap",
+          "query": "长江电力2024年境内水电发电量比上网电量多多少万千瓦时？",
+          "category": "calculation",
+          "difficulty": "medium",
+          "chunk_ids": ["556767ca1f7c:c36:bed2c866c57f7b14"],
+          "facts": [
+            ["generation_grid_gap", "发电量与上网电量之差", "161746", "number", "万千瓦时", "29590412 - 29428666 = 161746"]
+          ],
+          "answer": "发电量比上网电量多161,746万千瓦时（29,590,412－29,428,666）[1]。"
+        },
+        {
+          "suffix": "operating_cost_kam",
+          "query": "长江电力2024年为何将营业成本准确性列为关键审计事项，相关营业成本是多少？",
+          "category": "narrative",
+          "difficulty": "hard",
+          "chunk_ids": ["556767ca1f7c:c178:77253291da7cf2ed"],
+          "facts": [
+            ["operating_cost", "营业成本", "345.28", "number", "亿元", null],
+            ["kam_reason", "关键审计事项原因", "营业成本主要由生产用固定资产折旧和财政规费等构成且金额重大", "text", null, null]
+          ],
+          "answer": "2024年度营业成本为345.28亿元，主要由生产用固定资产折旧、财政规费等构成且金额重大，因此其准确性被列为关键审计事项[1]。"
+        },
+        {
+          "suffix": "future_actual",
+          "query": "仅依据长江电力2024年年报，2025年实际营业收入是多少？",
+          "category": "unanswerable",
+          "difficulty": "easy",
+          "abstention_reason": "2024年年报没有披露2025年实际营业收入。"
+        }
+      ]
+    }
+  ]
+}

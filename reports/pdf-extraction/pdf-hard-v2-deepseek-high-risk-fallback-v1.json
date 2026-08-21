@@ -1,0 +1,63 @@
+{
+  "schema_version": "1",
+  "run_id": "pdf-hard-v2-deepseek-high-risk-fallback-v1",
+  "created_at": "2026-08-21T08:39:40.628348+00:00",
+  "evaluation_status": "provisional_development_not_formal_gold",
+  "benchmark_path": "data/evaluation/pdf-hard-v2/genuine-scan-provisional-probes-v1.json",
+  "benchmark_sha256": "c50d113b9f073cd5464020f7a0b05f898045403b13b19e2fbaa78182b54a0fd9",
+  "pdf_path": "data/evaluation/pdf-hard-v2/genuine-scan-development-candidates.pdf",
+  "pdf_sha256": "068cf99e5502ef5da8c1fce2da8f22e03e3314be6a3fc97a6e106aa16862c29f",
+  "policy": {
+    "trigger": "local_structured_cell_recoverable_false",
+    "scope": "unresolved_cells_only",
+    "fallback_provider": "deepseek-text",
+    "fallback_model": "deepseek-chat",
+    "fallback_prompt_revision": "layout-table-json-v1",
+    "fallback_auto_accept_allowed": false,
+    "reason": "model output cannot replace missing local row-column proof"
+  },
+  "metrics": {
+    "page_count": 4,
+    "fallback_page_count": 1,
+    "fallback_page_rate": 0.25,
+    "cell_probe_count": 17,
+    "local_structured_recoverable_count": 16,
+    "local_structured_recall": 0.9411764705882353,
+    "fallback_question_count": 1,
+    "fallback_cell_rate": 0.058823529411764705,
+    "fallback_answer_rate": 0.0,
+    "fallback_candidate_value_accuracy": 0.0,
+    "fallback_evidence_value_support_rate": 0.0,
+    "candidate_coverage_if_human_confirms": 0.9411764705882353,
+    "unsafe_auto_accept_rate": 0.0,
+    "manual_review_count": 0,
+    "total_input_tokens": 1216,
+    "total_output_tokens": 84
+  },
+  "pages": [
+    {
+      "page_number": 4,
+      "candidate_id": "xinong-2020-p15-equity-change-scan",
+      "local_unresolved_count": 1,
+      "question_count": 1,
+      "prompt_sha256": "c995b88228a10a156e5464897d9b0cd20e76815aa1e9715e89f51e0321c9bb50",
+      "input_tokens": 1216,
+      "output_tokens": 84,
+      "elapsed_ms": 1797.9260999709368,
+      "results": [
+        {
+          "probe_id": "p4-cell-prior-close-capital",
+          "row_label": "上年年末余额",
+          "column_label": "股本",
+          "expected_value": "381,512,820.00",
+          "status": "insufficient_evidence",
+          "returned_value": "",
+          "value_correct": false,
+          "evidence_value_supported": false,
+          "decision": "insufficient_evidence",
+          "auto_accepted": false
+        }
+      ]
+    }
+  ]
+}

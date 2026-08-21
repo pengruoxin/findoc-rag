@@ -1,0 +1,111 @@
+{
+  "schema_version": "1",
+  "dataset_id": "pdf-hard-v2-genuine-scan-source-candidates-v1",
+  "review_status": "assistant_visual_review_provisional",
+  "source_registry": "D:/202607/raglab/data/evaluation/pdf-hard-v2/genuine-scan-source-candidates-v1.json",
+  "source_registry_sha256": "f2588aa430520d7037ee9a1a5059d1a0d725ea40d267963526d010f12d829a42",
+  "thresholds": {
+    "max_native_characters": 5,
+    "min_image_coverage": 0.85,
+    "text_layer_rejection_min_characters": 200
+  },
+  "all_sources_valid": true,
+  "accepted_source_count": 2,
+  "rejected_text_layer_source_count": 1,
+  "selected_page_count": 4,
+  "sources": [
+    {
+      "source_id": "cninfo:002344:related-funds:2025:1225108704",
+      "official_url": "https://static.cninfo.com.cn/finalpage/2026-04-16/1225108704.PDF",
+      "local_file": "data/artifacts/cninfo/002344_2025_1225108704_related_funds_scan.pdf",
+      "expected_sha256": "f4281e6d6599fb3df00da1703c50dd53505fa85685e5dca069a47a50b35dff0c",
+      "actual_sha256": "f4281e6d6599fb3df00da1703c50dd53505fa85685e5dca069a47a50b35dff0c",
+      "expected_size_bytes": 89879,
+      "actual_size_bytes": 89879,
+      "page_count": 1,
+      "minimum_native_character_count": 0,
+      "maximum_native_character_count": 0,
+      "disposition": "accepted_genuine_scan",
+      "disposition_valid": true,
+      "selected_pages_eligible": true,
+      "selected_page_profiles": [
+        {
+          "page_number": 1,
+          "native_character_count": 0,
+          "image_count": 12,
+          "image_coverage_sum": 1.0,
+          "image_coverage_max": 1.0,
+          "width": 841.6799926757812,
+          "height": 595.2000122070312,
+          "rotation": 270
+        }
+      ],
+      "source_valid": true
+    },
+    {
+      "source_id": "cninfo:600359:audit:2020:1209669339",
+      "official_url": "https://static.cninfo.com.cn/finalpage/2021-04-10/1209669339.PDF",
+      "local_file": "data/artifacts/cninfo/600359_2020_1209669339_audit_scan.pdf",
+      "expected_sha256": "5d44b8e8457c950a5673529c888cd2b2a148867e09e15ac7ad41e845ee7f3a94",
+      "actual_sha256": "5d44b8e8457c950a5673529c888cd2b2a148867e09e15ac7ad41e845ee7f3a94",
+      "expected_size_bytes": 10154928,
+      "actual_size_bytes": 10154928,
+      "page_count": 87,
+      "minimum_native_character_count": 0,
+      "maximum_native_character_count": 0,
+      "disposition": "accepted_genuine_scan",
+      "disposition_valid": true,
+      "selected_pages_eligible": true,
+      "selected_page_profiles": [
+        {
+          "page_number": 7,
+          "native_character_count": 0,
+          "image_count": 1,
+          "image_coverage_sum": 0.994513,
+          "image_coverage_max": 0.994513,
+          "width": 595.0,
+          "height": 842.0,
+          "rotation": 0
+        },
+        {
+          "page_number": 11,
+          "native_character_count": 0,
+          "image_count": 1,
+          "image_coverage_sum": 0.986975,
+          "image_coverage_max": 0.986975,
+          "width": 595.0,
+          "height": 842.0,
+          "rotation": 0
+        },
+        {
+          "page_number": 15,
+          "native_character_count": 0,
+          "image_count": 1,
+          "image_coverage_sum": 0.991473,
+          "image_coverage_max": 0.991473,
+          "width": 842.0,
+          "height": 595.0,
+          "rotation": 90
+        }
+      ],
+      "source_valid": true
+    },
+    {
+      "source_id": "cninfo:002144:financial-statements:2024:1223311319",
+      "official_url": "https://static.cninfo.com.cn/finalpage/2025-04-26/1223311319.PDF",
+      "local_file": "data/artifacts/cninfo/002144_2024_1223311319_financial_statements_scan.pdf",
+      "expected_sha256": "e30d48e1926c1decbe8b12542399dd1f21e9c2affb1ab19f0e527c0568b98329",
+      "actual_sha256": "e30d48e1926c1decbe8b12542399dd1f21e9c2affb1ab19f0e527c0568b98329",
+      "expected_size_bytes": 7561012,
+      "actual_size_bytes": 7561012,
+      "page_count": 8,
+      "minimum_native_character_count": 259,
+      "maximum_native_character_count": 1733,
+      "disposition": "rejected_usable_text_layer",
+      "disposition_valid": true,
+      "selected_pages_eligible": false,
+      "selected_page_profiles": [],
+      "source_valid": true
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "schema_version": "1",
+  "dataset_id": "pdf-hard-v2-stage7-summary",
+  "evaluation_status": "provisional_development_not_formal_gold",
+  "fixed_scan_pdf_sha256": "068cf99e5502ef5da8c1fce2da8f22e03e3314be6a3fc97a6e106aa16862c29f",
+  "fixed_benchmark_sha256": "c50d113b9f073cd5464020f7a0b05f898045403b13b19e2fbaa78182b54a0fd9",
+  "probe_count": 30,
+  "cell_probe_count": 17,
+  "formal_quota_count": 0,
+  "stages": [
+    {
+      "stage": "S0_native_text_only",
+      "strict_probe_recall": 0.0,
+      "same_row_association_recall": 0.0,
+      "notes": "零文本层扫描页无法从原生 PDF 文本恢复。"
+    },
+    {
+      "stage": "S1_rapidocr_baseline",
+      "strict_probe_recall": 0.6666666666666666,
+      "same_row_association_recall": 0.5882352941176471,
+      "ocr_coordinate_bounds_rate": 0.7793594306049823,
+      "notes": "数值召回已达100%，旋转页坐标和同行关联失败。"
+    },
+    {
+      "stage": "S2_rotation_coordinate_contract",
+      "strict_probe_recall": 0.8333333333333334,
+      "same_row_association_recall": 0.8823529411764706,
+      "ocr_coordinate_bounds_rate": 1.0,
+      "strict_probe_recall_delta": 0.16666666666666674,
+      "notes": "页面宽高与元素坐标统一为未旋转空间，结构分析转回显示空间。"
+    },
+    {
+      "stage": "S3_direct_row_column_structure",
+      "structured_cell_recall": 0.7058823529411765,
+      "notes": "只接受单行表头与直接行列对齐。"
+    },
+    {
+      "stage": "S4_hierarchical_header",
+      "structured_cell_recall": 0.8823529411764706,
+      "structured_cell_recall_delta": 0.17647058823529405,
+      "notes": "合并同列垂直表头片段，不跨列拼接。"
+    },
+    {
+      "stage": "S5_wrapped_row_label",
+      "structured_cell_recall": 0.9411764705882353,
+      "structured_cell_recall_delta": 0.05882352941176472,
+      "notes": "仅合并数值行附近、左侧且属于目标行名的换行片段。"
+    },
+    {
+      "stage": "S6_deepseek_high_risk_only",
+      "fallback_page_rate": 0.25,
+      "fallback_cell_rate": 0.058823529411764705,
+      "fallback_candidate_value_accuracy": 0.0,
+      "candidate_coverage_if_human_confirms": 0.9411764705882353,
+      "unsafe_auto_accept_rate": 0.0,
+      "input_tokens": 1216,
+      "output_tokens": 84,
+      "notes": "只审计本地无法证明的1格；模型证据不足时拒答，不替代行列证据。"
+    },
+    {
+      "stage": "S7_adaptive_red_channel_ocr",
+      "structured_cell_recall": 1.0,
+      "structured_cell_recall_delta": 0.05882352941176472,
+      "retry_page_rate": 0.25,
+      "retry_page_numbers": [
+        4
+      ],
+      "notes": "只对失败页做红色印章抑制和240 DPI重识别，补齐最后1格。"
+    }
+  ],
+  "cross_page_regression": {
+    "numeric_recall": 1.0,
+    "table_recoverable_rate": 1.0,
+    "route_accuracy": 1.0
+  },
+  "whole_page_dpi_sweep": {
+    "180": {
+      "structured_cell_recall": 0.9411764705882353,
+      "elapsed_ms": 16901.855800068006
+    },
+    "240": {
+      "structured_cell_recall": 0.9411764705882353,
+      "elapsed_ms": 18346.96679993067
+    },
+    "300": {
+      "structured_cell_recall": 0.9411764705882353,
+      "elapsed_ms": 21221.581000019796
+    }
+  },
+  "source_reports": {
+    "rapidocr_pre_rotation": {
+      "path": "reports/pdf-extraction/pdf-hard-v2-genuine-scan-pre-rotation-fix-v1.json",
+      "sha256": "48faa1722234f88fdfc572474394dc4a68c993f36b272232ca96dcbde2056a3e"
+    },
+    "post_rotation": {
+      "path": "reports/pdf-extraction/pdf-hard-v2-genuine-scan-post-rotation-fix-v1.json",
+      "sha256": "438fc2a255a7c796e7c1110766b25b70d3b8893b9b9fc0a1224c7f0a94742848"
+    },
+    "pre_hierarchy": {
+      "path": "reports/pdf-extraction/pdf-hard-v2-genuine-scan-pre-hierarchical-header-v1.json",
+      "sha256": "da170bb10bdae6f8b8ab653475a3c704c44c5eacd93cd1edcf42b0899da19e25"
+    },
+    "pre_wrapped": {
+      "path": "reports/pdf-extraction/pdf-hard-v2-genuine-scan-pre-wrapped-label-v1.json",
+      "sha256": "7c269c191697c099b1fdfbb3f032929c6c0190040e50ba83ca78b838f5e0e74c"
+    },
+    "current": {
+      "path": "reports/pdf-extraction/pdf-hard-v2-genuine-scan-baseline-v1.json",
+      "sha256": "4406aa25ff0be7a46f70b4e509e09f6a5ae923cf15468e531d9fb546de924fed"
+    },
+    "deepseek": {
+      "path": "reports/pdf-extraction/pdf-hard-v2-deepseek-high-risk-fallback-v1.json",
+      "sha256": "decd80bbfbf14070c7d668fd2626240151e324c4b49717386a30af0aa0a582b8"
+    },
+    "adaptive_ocr": {
+      "path": "reports/pdf-extraction/pdf-hard-v2-adaptive-red-channel-ocr-v1.json",
+      "sha256": "fd4cd511e38710f4355179a7059c13d94fb216df6796f55c7fbbb0f341348ace"
+    },
+    "dpi_240": {
+      "path": "reports/pdf-extraction/pdf-hard-v2-genuine-scan-dpi240-v1.json",
+      "sha256": "54cb12218d52f79244b56f27579848fd331e26c38d785ffef74a36f2e1a5446c"
+    },
+    "dpi_300": {
+      "path": "reports/pdf-extraction/pdf-hard-v2-genuine-scan-dpi300-v1.json",
+      "sha256": "91a81b8d7d59f59987b5e0a546e1d028f8733a0884a04976ecc28e41a71c620f"
+    },
+    "cross_page": {
+      "path": "reports/pdf-extraction/pdf-cross-page-v1-post-structure-regression.json",
+      "sha256": "a5c540428e65ad3bcb18e7b074a45cf181ce8af671e5a4f9f12322e89f6443cd"
+    }
+  }
+}

@@ -1,10 +1,34 @@
-# FinDocRAG 评测基线（更新于 2026-08-14）
+# FinDocRAG 评测基线（更新于 2026-08-21）
 
 > 本文档只写**数字**：当前规模、当前分数、当前薄弱点。每轮实验后更新此处，是所有优化对比的唯一权威来源。
 > 规则（指标定义、数据集构造、门禁、评分策略）见 [benchmark-and-metrics-zh.md](./benchmark-and-metrics-zh.md)；改进计划见 [improvement-list-zh.md](./improvement-list-zh.md)。
 > 看不懂的词见 [术语表](../glossary-zh.md)。
 
-## 版本钉（复现这些数字需要的三个版本号）
+## 0. 当前统一口径
+
+首页和后续报告按“主 Agent 集 → 通用 RAG 集 → PDF/表格专项 → 历史回归”排序，不再把
+旧的 2 家公司、1 个年度 benchmark-v2 称为当前主基线。
+
+| 层级 | 完整范围 | 当前已执行范围 | 当前结果 | Gold 状态 |
+|---|---|---|---|---|
+| 主 Agent：`agent-hard-v3` | 96 题、8 家公司、16 份 2023–2024 年报 | calibration + dev，48 题 | 严格自动通过率 94%；行为准确率 100% | 来源与页码已核对的 provisional gold；独立双审待完成 |
+| 通用 RAG：`benchmark-v3` | 60 题、6 家公司、10 份 2023–2024 年报 | frozen test，24 题，离线确定性基线 | strict 19%；行为准确率 33%；未启用远程模型 | `independent_gold=false`；PDF 视觉复核待完成 |
+| 真实扫描 PDF | 4 页、30 个视觉探针、17 个结构单元格 | 全部开发探针 | 自适应结构召回 100% | 开发集；正式独立复核 gold 完成率 0%（目标 70 个） |
+| 历史回归：`benchmark-v2` | 48 题、2 家公司、2 份 2024 年报 | 全部旧集 | DeepSeek 三轨 strict/行为 100%；检索 Recall@5 81% | `independent_gold=false`；只用于回归 |
+
+`agent-hard-v3` 的另外 48 题 frozen test 尚未运行，当前 94% 不能外推成 96 题全量成绩。
+`benchmark-v3` frozen 的 19% 是扩大公司与年度覆盖后的离线起始基线，不是 DeepSeek 最终
+成绩。对应产物分别为：
+
+- `reports/agent/agent-hard-v3-calibration-deepseek-p4e-composed.json`；
+- `reports/agent/agent-hard-v3-dev-deepseek-p4e-composed.json`；
+- `reports/generation/benchmark-v3-frozen-run/retrieved_context-benchmark-v3-deterministic-p0-freeze-frozen_test/summary.json`；
+- `reports/pdf-extraction/pdf-hard-v2-stage7-summary.json`。
+
+以下第 1–6 节保留 benchmark-v2 的完整历史实验明细，用于解释旧索引和旧指标，不再代表
+项目当前最大评测覆盖。
+
+## 历史 benchmark-v2 版本钉（复现旧数字需要的三个版本号）
 
 | 项 | 值 |
 |---|---|
@@ -254,6 +278,7 @@ RAGAS 完整覆盖结果：
 | ~~融合~~ | 已定论：混合检索确实是负优化，默认已改成纯关键词检索 | fusion-sweep-v1，见 §2.1 |
 | 语义检索 | 只在"股票代码 / 简称"这类短问句上有用；**换中文专用小模型（bge-small-zh-v1.5）全面退化**，证明主因是问句形态 + **上游 PDF 表格线性化**（数字密集无结构文本放大表面误导）。决策：暂用关键词检索 + LLM 查询改写，表格结构化后与更强模型（如 bge-m3）一起重验 | E5 0.216 / 0.703 / 0.189 vs bge-zh 0.162 / 0.568 / 0.162；OOV dense 0.083 |
 | 查询路由 | 已支持全名、别名、股票代码、相对时间、事实期间/预测目标年份分离，并在 `/v1/query` 返回 route 与 applied filters；当前路由小集 18/18，薄弱点是公司/年度覆盖太窄 | query-routing-v1；Agent contract tests |
+| **Agent 文档盲测** | P1 定向小集 8/8；5 份未见年报的 34 题冻结基线严格 17/34、来源复核 24/34。P2-B1 只修文档年份/事实期间规划后严格 21/34（4 fixed / 0 regressed）、来源复核 28/34，行为和安全拒答 100%；剩余 4 个计算未支持和 2 个多事实遗漏 | `agent-hard-v2-p2b1-summary.json`；[P2-A](./agent-p2a-document-blind-baseline-zh.md)；[P2-B1](./agent-p2b1-document-scope-log-zh.md) |
 | 生成 | 最终三轨 strict / 行为均 1.0，错误率 0，Retrieved 37/37 gold context；RAGAS 完整覆盖但为 DeepSeek 自评。当前薄弱点已从冻结集正确性转为外部有效性、独立裁判和更难行为覆盖 | §3.3；`runs-e5-migration-remote-final`；`ragas-index-bound-final-*` |
 | 行为 | 拒答 / 追问只有 11 题，且偏"因果推断、投资建议"这类明显该拒的，缺"数字确实存在但口径或期间不对"的近失拒答 | |
 | 覆盖 | 37 道该答的题里只有 13 道需要拼多段证据，跨段推理的覆盖偏低 | |
@@ -289,7 +314,9 @@ PDF 解析的源元素覆盖率 100%，958 个切片，切片长度中位数约 
 - [x] 48 题 DeepSeek 三赛道 + 语义评测已有历史正式基线和表格改造配对结果
 - [x] `10fb...` 不可恢复后建立显式 `9898...` migration manifest；迁移检索矩阵与 paired review 已完成，旧 benchmark 身份未改写
 - [x] 在迁移索引上完成同 migration / index / code fingerprint 的 DeepSeek 三轨与 RAGAS，远程错误率 0、coverage 100%
-- [ ] 引入不同 provider 的独立 judge，并增加第二人 gold 复核、多公司多年度 document-blind 与置信区间
+- [x] 建立 5 份 Agent 未见年报、34 题的 `agent-hard-v2` 候选盲测并冻结首次 DeepSeek 运行
+- [ ] 给 `agent-hard-v2` 增加第二人 gold/语义复核、真实扫描年报和文档聚类置信区间后再升级为对外正式集
+- [ ] 引入不同 provider 的独立 judge
 
 ## 7. 面试怎么讲这套评测集
 
@@ -315,4 +342,6 @@ PDF 解析的源元素覆盖率 100%，958 个切片，切片长度中位数约 
 
 ### 边界要主动说
 
-只有两家公司、一个年度；标准答案是助手自审的（`independent_gold: false`），没有第二人独立复核。指标用于工程迭代，不宣称通用 SOTA 或跨文档泛化能力。
+本节讲的是历史 benchmark-v2，因此只有两家公司、一个年度；标准答案是助手自审的
+（`independent_gold: false`），没有第二人独立复核。它只用于历史回归，不代表当前最大
+评测覆盖，也不支持通用 SOTA 或跨文档泛化主张。

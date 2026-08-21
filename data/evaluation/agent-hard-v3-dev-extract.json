@@ -1,0 +1,857 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-provisional-gold-dev-extract",
+  "description": "Ninety-six company- and document-blind Agent tasks over sixteen official CNINFO annual reports. Facts and pages are source-verified provisional gold; independent double review remains pending. Split: dev. Task type: extract.",
+  "index_scope": "dev-extract",
+  "source_manifest": "data/evaluation/agent-hard-v3-source-manifest.json",
+  "gold_policy": "Gold was transcribed before the first Agent run. No evaluated Agent, DeepSeek answer, or LLM judge was used to create it. Exact values, deterministic behavior checks, and page-bound citations are scored locally.",
+  "cases": [
+    {
+      "case_id": "v3_601318_y23_core",
+      "task_type": "extract",
+      "query": "中国平安2023年归母营运利润、归母净利润，以及按2023年末最新投资回报率和风险贴现率等假设计算的寿险及健康险新业务价值和内含价值分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "operating_profit",
+          "description": "2023年归母营运利润",
+          "acceptable_values": [
+            "117989",
+            "1179.89"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "net_profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "85665",
+            "856.65"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv",
+          "description": "按2023年末最新假设的新业务价值",
+          "acceptable_values": [
+            "31080",
+            "310.80",
+            "310.8"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "ev",
+          "description": "按2023年末最新假设的寿险及健康险内含价值",
+          "acceptable_values": [
+            "830974",
+            "8309.74"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2023_1219376072.pdf",
+          "pages": [
+            12,
+            55
+          ]
+        }
+      ],
+      "gold_rationale": "归母营运利润和净利润取财务摘要；新业务价值和内含价值取2023年末最新假设的基准值。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y23_segments",
+      "task_type": "extract",
+      "query": "中国平安2023年寿险及健康险、财产保险、银行三项业务归属于母公司股东的营运利润分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "life",
+          "description": "寿险及健康险归母营运利润",
+          "acceptable_values": [
+            "105070",
+            "1050.70",
+            "1050.7"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "property",
+          "description": "财产保险归母营运利润",
+          "acceptable_values": [
+            "8918",
+            "89.18"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "bank",
+          "description": "银行归母营运利润",
+          "acceptable_values": [
+            "26925",
+            "269.25"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2023_1219376072.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "三项均取归属于母公司股东的营运利润，而非含少数股东的业务营运利润。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y23_audit",
+      "task_type": "extract",
+      "query": "中国平安2023年保险合同负债计量相关关键审计事项的主要风险和审计应对是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "risk_method",
+          "description": "风险包括计量方法的适用性",
+          "acceptable_values": [
+            "计量方法的适用性",
+            "计量方法"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_unit",
+          "description": "风险包括计量单元的确定",
+          "acceptable_values": [
+            "计量单元"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_cashflow",
+          "description": "风险包括未来不确定现金流估计",
+          "acceptable_values": [
+            "未来不确定的现金流",
+            "未来现金流"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_mortality",
+          "description": "精算假设包括死亡率",
+          "acceptable_values": [
+            "死亡率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_morbidity",
+          "description": "精算假设包括发病率",
+          "acceptable_values": [
+            "发病率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_lapse",
+          "description": "精算假设包括退保率",
+          "acceptable_values": [
+            "退保率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_discount",
+          "description": "精算假设包括折现率",
+          "acceptable_values": [
+            "折现率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_expense",
+          "description": "精算假设包括费用假设",
+          "acceptable_values": [
+            "费用假设",
+            "费用率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_claim",
+          "description": "精算假设包括赔付率",
+          "acceptable_values": [
+            "赔付率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_dividend",
+          "description": "精算假设包括保单红利",
+          "acceptable_values": [
+            "保单红利"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_adjustment",
+          "description": "精算假设包括非金融风险调整",
+          "acceptable_values": [
+            "非金融风险调整"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_controls",
+          "description": "审计应对包括测试关键控制",
+          "acceptable_values": [
+            "关键控制"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_it",
+          "description": "审计应对包括测试相关信息系统",
+          "acceptable_values": [
+            "信息系统"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_transfer",
+          "description": "审计应对包括测试系统间数据传输",
+          "acceptable_values": [
+            "系统间数据传输",
+            "数据传输"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_assumptions",
+          "description": "审计应对包括评价关键精算假设",
+          "acceptable_values": [
+            "评价关键精算假设",
+            "评估关键精算假设"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_recalculation",
+          "description": "审计应对包括独立重算代表性产品或合同组",
+          "acceptable_values": [
+            "独立重新计算",
+            "代表性产品"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_data",
+          "description": "审计应对包括测试基础数据的完整性和准确性",
+          "acceptable_values": [
+            "完整性和准确性"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2023_1219376072.pdf",
+          "pages": [
+            141,
+            142
+          ]
+        }
+      ],
+      "gold_rationale": "关键审计事项说明复杂模型和重大精算假设，并列示控制、IT、假设评价、重算及数据测试。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y24_core",
+      "task_type": "extract",
+      "query": "中国平安2024年归母营运利润、归母净利润，以及按2024年末最新假设计算的寿险及健康险新业务价值和内含价值分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "operating_profit",
+          "description": "2024年归母营运利润",
+          "acceptable_values": [
+            "121862",
+            "1218.62"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "net_profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "126607",
+            "1266.07"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv",
+          "description": "按2024年末最新假设的新业务价值",
+          "acceptable_values": [
+            "28534",
+            "285.34"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "ev",
+          "description": "按2024年末最新假设的寿险及健康险内含价值",
+          "acceptable_values": [
+            "835093",
+            "8350.93"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            64,
+            71
+          ]
+        }
+      ],
+      "gold_rationale": "营运利润和净利润取集团数据；新业务价值和内含价值取2024年末最新假设的原始披露值。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y24_customer",
+      "task_type": "extract",
+      "query": "中国平安2024年个人客户数、客均合同数以及持有四个及以上合同的客户留存率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "customers",
+          "description": "个人客户数",
+          "acceptable_values": [
+            "2.42亿",
+            "24200",
+            "24235"
+          ],
+          "unit": "亿人/万人"
+        },
+        {
+          "fact_id": "contracts",
+          "description": "客均合同数",
+          "acceptable_values": [
+            "2.92"
+          ],
+          "unit": "个"
+        },
+        {
+          "fact_id": "retention",
+          "description": "持有四个及以上合同客户留存率",
+          "acceptable_values": [
+            "98.0%",
+            "98%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            13,
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报经营亮点和客户分析页列示个人客户数、客均合同和四个以上合同客户留存率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出中国平安2025年寿险及健康险新业务价值和归母营运利润，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请分析这家保险公司两年的新业务价值变化，但先确认公司、年度以及新业务价值口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y23_core",
+      "task_type": "extract",
+      "query": "宁德时代2023年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2023年营业收入",
+          "acceptable_values": [
+            "40091704.49",
+            "4009.170449",
+            "4009.17"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "4412124.83",
+            "441.212483",
+            "441.21"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2023年扣非归母净利润",
+          "acceptable_values": [
+            "4009167.37",
+            "400.916737",
+            "400.92"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2023年经营活动现金流量净额",
+          "acceptable_values": [
+            "9282612.44",
+            "928.261244",
+            "928.26"
+          ],
+          "unit": "万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            7
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报主要会计数据表单位为万元。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y23_products",
+      "task_type": "extract",
+      "query": "宁德时代2023年动力电池系统、储能电池系统和电池材料及回收三类业务的收入和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "power_revenue",
+          "description": "动力电池系统收入",
+          "acceptable_values": [
+            "28525291.73",
+            "2852.529173",
+            "2852.53"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "power_margin",
+          "description": "动力电池系统毛利率",
+          "acceptable_values": [
+            "22.27%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_revenue",
+          "description": "储能电池系统收入",
+          "acceptable_values": [
+            "5990052.19",
+            "599.005219",
+            "599.01"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "storage_margin",
+          "description": "储能电池系统毛利率",
+          "acceptable_values": [
+            "23.79%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "material_revenue",
+          "description": "电池材料及回收收入",
+          "acceptable_values": [
+            "3360228.41",
+            "336.022841",
+            "336.02"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "material_margin",
+          "description": "电池材料及回收毛利率",
+          "acceptable_values": [
+            "11.38%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            17,
+            18
+          ]
+        }
+      ],
+      "gold_rationale": "2023年报分产品表跨页列示收入和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y23_rd",
+      "task_type": "extract",
+      "query": "宁德时代2023年研发费用、研发投入占营业收入比例和研发人员数量分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "rd_expense",
+          "description": "研发费用",
+          "acceptable_values": [
+            "1835610.84",
+            "183.561084",
+            "183.56"
+          ],
+          "unit": "万元/亿元"
+        },
+        {
+          "fact_id": "rd_intensity",
+          "description": "研发投入占营业收入比例",
+          "acceptable_values": [
+            "4.58%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "rd_people",
+          "description": "研发人员数量",
+          "acceptable_values": [
+            "20604"
+          ],
+          "unit": "人"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2023_1219313047.pdf",
+          "pages": [
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "研发费用与研发投入金额相同，研发表列示投入强度和人员数量。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y24_core",
+      "task_type": "extract",
+      "query": "宁德时代2024年营业收入、归母净利润、扣非归母净利润和经营活动现金流量净额分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "revenue",
+          "description": "2024年营业收入",
+          "acceptable_values": [
+            "362012554",
+            "3620.12554",
+            "3620.13"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "50744682",
+            "507.44682",
+            "507.45"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "deducted",
+          "description": "2024年扣非归母净利润",
+          "acceptable_values": [
+            "44992919",
+            "449.92919",
+            "449.93"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "cashflow",
+          "description": "2024年经营活动现金流量净额",
+          "acceptable_values": [
+            "96990345",
+            "969.90345",
+            "969.90"
+          ],
+          "unit": "千元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            9,
+            10
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报主要会计数据表单位为千元。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_y24_products",
+      "task_type": "extract",
+      "query": "宁德时代2024年动力电池系统、储能电池系统和电池材料及回收业务的收入、同比变化和毛利率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "power_revenue",
+          "description": "动力电池系统收入",
+          "acceptable_values": [
+            "253041337",
+            "2530.41337",
+            "2530.41"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "power_yoy",
+          "description": "动力电池系统收入同比",
+          "acceptable_values": [
+            "-11.29%",
+            "下降11.29%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "power_margin",
+          "description": "动力电池系统毛利率",
+          "acceptable_values": [
+            "23.94%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_revenue",
+          "description": "储能电池系统收入",
+          "acceptable_values": [
+            "57290460",
+            "572.9046",
+            "572.90"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "storage_yoy",
+          "description": "储能电池系统收入同比",
+          "acceptable_values": [
+            "-4.36%",
+            "下降4.36%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "storage_margin",
+          "description": "储能电池系统毛利率",
+          "acceptable_values": [
+            "26.84%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "material_revenue",
+          "description": "电池材料及回收收入",
+          "acceptable_values": [
+            "28699935",
+            "286.99935",
+            "287.00"
+          ],
+          "unit": "千元/亿元"
+        },
+        {
+          "fact_id": "material_yoy",
+          "description": "电池材料及回收收入同比",
+          "acceptable_values": [
+            "-14.59%",
+            "下降14.59%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "material_margin",
+          "description": "电池材料及回收毛利率",
+          "acceptable_values": [
+            "10.51%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:300750:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/300750_2024_1222806982.pdf",
+          "pages": [
+            19,
+            20
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报分产品表列示收入、同比和毛利率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出宁德时代2025年动力电池系统收入和毛利率，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_300750_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请比较这家电池公司的业务结构变化，但先确认公司、年度和所指电池业务口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

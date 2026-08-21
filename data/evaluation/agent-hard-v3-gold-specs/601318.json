@@ -1,0 +1,817 @@
+{
+  "schema_version": "1",
+  "security_code": "601318",
+  "annotation_status": "assistant_source_verified_provisional",
+  "independent_double_review_complete": false,
+  "cases": [
+    {
+      "case_id": "v3_601318_y23_core",
+      "task_type": "extract",
+      "query": "中国平安2023年归母营运利润、归母净利润，以及按2023年末最新投资回报率和风险贴现率等假设计算的寿险及健康险新业务价值和内含价值分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "operating_profit",
+          "description": "2023年归母营运利润",
+          "acceptable_values": [
+            "117989",
+            "1179.89"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "net_profit",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "85665",
+            "856.65"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv",
+          "description": "按2023年末最新假设的新业务价值",
+          "acceptable_values": [
+            "31080",
+            "310.80",
+            "310.8"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "ev",
+          "description": "按2023年末最新假设的寿险及健康险内含价值",
+          "acceptable_values": [
+            "830974",
+            "8309.74"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2023_1219376072.pdf",
+          "pages": [
+            12,
+            55
+          ]
+        }
+      ],
+      "gold_rationale": "归母营运利润和净利润取财务摘要；新业务价值和内含价值取2023年末最新假设的基准值。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y23_segments",
+      "task_type": "extract",
+      "query": "中国平安2023年寿险及健康险、财产保险、银行三项业务归属于母公司股东的营运利润分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "life",
+          "description": "寿险及健康险归母营运利润",
+          "acceptable_values": [
+            "105070",
+            "1050.70",
+            "1050.7"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "property",
+          "description": "财产保险归母营运利润",
+          "acceptable_values": [
+            "8918",
+            "89.18"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "bank",
+          "description": "银行归母营运利润",
+          "acceptable_values": [
+            "26925",
+            "269.25"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2023_1219376072.pdf",
+          "pages": [
+            14,
+            15
+          ]
+        }
+      ],
+      "gold_rationale": "三项均取归属于母公司股东的营运利润，而非含少数股东的业务营运利润。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y23_audit",
+      "task_type": "extract",
+      "query": "中国平安2023年保险合同负债计量相关关键审计事项的主要风险和审计应对是什么？",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "cross_page_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "risk_method",
+          "description": "风险包括计量方法的适用性",
+          "acceptable_values": [
+            "计量方法的适用性",
+            "计量方法"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_unit",
+          "description": "风险包括计量单元的确定",
+          "acceptable_values": [
+            "计量单元"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_cashflow",
+          "description": "风险包括未来不确定现金流估计",
+          "acceptable_values": [
+            "未来不确定的现金流",
+            "未来现金流"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_mortality",
+          "description": "精算假设包括死亡率",
+          "acceptable_values": [
+            "死亡率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_morbidity",
+          "description": "精算假设包括发病率",
+          "acceptable_values": [
+            "发病率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_lapse",
+          "description": "精算假设包括退保率",
+          "acceptable_values": [
+            "退保率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_discount",
+          "description": "精算假设包括折现率",
+          "acceptable_values": [
+            "折现率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_expense",
+          "description": "精算假设包括费用假设",
+          "acceptable_values": [
+            "费用假设",
+            "费用率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_claim",
+          "description": "精算假设包括赔付率",
+          "acceptable_values": [
+            "赔付率"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_dividend",
+          "description": "精算假设包括保单红利",
+          "acceptable_values": [
+            "保单红利"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "risk_adjustment",
+          "description": "精算假设包括非金融风险调整",
+          "acceptable_values": [
+            "非金融风险调整"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_controls",
+          "description": "审计应对包括测试关键控制",
+          "acceptable_values": [
+            "关键控制"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_it",
+          "description": "审计应对包括测试相关信息系统",
+          "acceptable_values": [
+            "信息系统"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_transfer",
+          "description": "审计应对包括测试系统间数据传输",
+          "acceptable_values": [
+            "系统间数据传输",
+            "数据传输"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_assumptions",
+          "description": "审计应对包括评价关键精算假设",
+          "acceptable_values": [
+            "评价关键精算假设",
+            "评估关键精算假设"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_recalculation",
+          "description": "审计应对包括独立重算代表性产品或合同组",
+          "acceptable_values": [
+            "独立重新计算",
+            "代表性产品"
+          ],
+          "unit": null
+        },
+        {
+          "fact_id": "audit_data",
+          "description": "审计应对包括测试基础数据的完整性和准确性",
+          "acceptable_values": [
+            "完整性和准确性"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2023_1219376072.pdf",
+          "pages": [
+            141,
+            142
+          ]
+        }
+      ],
+      "gold_rationale": "关键审计事项说明复杂模型和重大精算假设，并列示控制、IT、假设评价、重算及数据测试。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y24_core",
+      "task_type": "extract",
+      "query": "中国平安2024年归母营运利润、归母净利润，以及按2024年末最新假设计算的寿险及健康险新业务价值和内含价值分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "operating_profit",
+          "description": "2024年归母营运利润",
+          "acceptable_values": [
+            "121862",
+            "1218.62"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "net_profit",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "126607",
+            "1266.07"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv",
+          "description": "按2024年末最新假设的新业务价值",
+          "acceptable_values": [
+            "28534",
+            "285.34"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "ev",
+          "description": "按2024年末最新假设的寿险及健康险内含价值",
+          "acceptable_values": [
+            "835093",
+            "8350.93"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            64,
+            71
+          ]
+        }
+      ],
+      "gold_rationale": "营运利润和净利润取集团数据；新业务价值和内含价值取2024年末最新假设的原始披露值。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_y24_customer",
+      "task_type": "extract",
+      "query": "中国平安2024年个人客户数、客均合同数以及持有四个及以上合同的客户留存率分别是多少？",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "exact_value",
+        "multi_fact",
+        "visual_summary"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "customers",
+          "description": "个人客户数",
+          "acceptable_values": [
+            "2.42亿",
+            "24200",
+            "24235"
+          ],
+          "unit": "亿人/万人"
+        },
+        {
+          "fact_id": "contracts",
+          "description": "客均合同数",
+          "acceptable_values": [
+            "2.92"
+          ],
+          "unit": "个"
+        },
+        {
+          "fact_id": "retention",
+          "description": "持有四个及以上合同客户留存率",
+          "acceptable_values": [
+            "98.0%",
+            "98%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            13,
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "2024年报经营亮点和客户分析页列示个人客户数、客均合同和四个以上合同客户留存率。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_trend_core",
+      "task_type": "compare",
+      "query": "按中国平安2024年年报的可比口径（其中2023年归母营运利润为追溯调整后），比较2023年和2024年的归母营运利润、归母净利润及寿险新业务价值。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中国平安:year:2023",
+        "company:中国平安:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "op_2023",
+          "description": "追溯调整后2023年归母营运利润",
+          "acceptable_values": [
+            "111728",
+            "1117.28"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "op_2024",
+          "description": "2024年归母营运利润",
+          "acceptable_values": [
+            "121862",
+            "1218.62"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "net_2023",
+          "description": "2023年归母净利润",
+          "acceptable_values": [
+            "85665",
+            "856.65"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "net_2024",
+          "description": "2024年归母净利润",
+          "acceptable_values": [
+            "126607",
+            "1266.07"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv_2023",
+          "description": "可比口径2023年新业务价值",
+          "acceptable_values": [
+            "31080",
+            "310.80",
+            "310.8"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv_2024",
+          "description": "可比口径2024年新业务价值",
+          "acceptable_values": [
+            "40024",
+            "400.24"
+          ],
+          "unit": "百万元/亿元"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            39,
+            71
+          ]
+        }
+      ],
+      "gold_rationale": "按2024年报可比口径，归母营运利润增长9.1%、归母净利润增长47.8%、新业务价值增长28.8%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_trend_customer",
+      "task_type": "compare",
+      "query": "比较中国平安2023年和2024年的个人客户数、客均合同数以及持有集团内4个及以上合同客户的留存率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中国平安:year:2023",
+        "company:中国平安:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "customers_2023",
+          "description": "2023年个人客户数",
+          "acceptable_values": [
+            "2.32亿",
+            "23157"
+          ],
+          "unit": "亿人/万人"
+        },
+        {
+          "fact_id": "customers_2024",
+          "description": "2024年个人客户数",
+          "acceptable_values": [
+            "2.42亿",
+            "24200",
+            "24235"
+          ],
+          "unit": "亿人/万人"
+        },
+        {
+          "fact_id": "contracts_2023",
+          "description": "2023年客均合同数",
+          "acceptable_values": [
+            "2.95"
+          ],
+          "unit": "个"
+        },
+        {
+          "fact_id": "contracts_2024",
+          "description": "2024年客均合同数",
+          "acceptable_values": [
+            "2.92"
+          ],
+          "unit": "个"
+        },
+        {
+          "fact_id": "retention_2023",
+          "description": "2023年四个及以上合同客户留存率",
+          "acceptable_values": [
+            "97.7%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "retention_2024",
+          "description": "2024年四个及以上合同客户留存率",
+          "acceptable_values": [
+            "98.0%",
+            "98%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "direction",
+          "description": "客户数和留存率上升但客均合同数下降",
+          "acceptable_values": [
+            "客均合同数下降",
+            "客均合同数减少"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2023",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2023_1219376072.pdf",
+          "pages": [
+            7,
+            41
+          ]
+        },
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            13,
+            22
+          ]
+        }
+      ],
+      "gold_rationale": "个人客户数增加约0.10亿，客均合同数下降0.03，四个及以上合同客户留存率提高0.3个百分点。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_calc_nbv_growth",
+      "task_type": "calculate",
+      "query": "按中国平安2024年年报的可比口径，用披露值计算2024年寿险及健康险新业务价值相对2023年的增长率。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "nbv_2023",
+          "description": "可比口径2023年新业务价值",
+          "acceptable_values": [
+            "31080",
+            "310.80"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "nbv_2024",
+          "description": "可比口径2024年新业务价值",
+          "acceptable_values": [
+            "40024",
+            "400.24"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "growth",
+          "description": "可比口径新业务价值增长率",
+          "acceptable_values": [
+            "28.78%",
+            "28.8%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            39
+          ]
+        }
+      ],
+      "gold_rationale": "(40024-31080)/31080=28.7773%，计算值为28.78%，年报披露四舍五入为28.8%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_calc_segment_share",
+      "task_type": "calculate",
+      "query": "计算中国平安2024年寿险及健康险业务归母营运利润占寿险及健康险、财产保险、银行三项核心业务归母营运利润合计的比例。",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "derived_metric",
+        "calculator_required",
+        "segment_table"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [],
+      "expected_facts": [
+        {
+          "fact_id": "life",
+          "description": "寿险及健康险归母营运利润",
+          "acceptable_values": [
+            "96975"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "property",
+          "description": "财产保险归母营运利润",
+          "acceptable_values": [
+            "14952"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "bank",
+          "description": "银行归母营运利润",
+          "acceptable_values": [
+            "25796"
+          ],
+          "unit": "百万元"
+        },
+        {
+          "fact_id": "share",
+          "description": "寿险及健康险占三项合计比例",
+          "acceptable_values": [
+            "70.41%"
+          ],
+          "unit": "%"
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            71
+          ]
+        }
+      ],
+      "gold_rationale": "96975/(96975+14952+25796)=70.4131%，保留两位小数为70.41%。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_verify_nbv",
+      "task_type": "compare",
+      "query": "按中国平安2024年年报的可比（调整后）口径核验说法：2024年寿险及健康险新业务价值较2023年增长，但内含价值没有增长。",
+      "challenge_types": [
+        "document_blind",
+        "claim_verification",
+        "multi_document",
+        "multi_evidence"
+      ],
+      "expected_behavior": "answer",
+      "expected_target_ids": [
+        "company:中国平安:year:2023",
+        "company:中国平安:year:2024"
+      ],
+      "expected_facts": [
+        {
+          "fact_id": "nbv_growth",
+          "description": "可比口径新业务价值增长",
+          "acceptable_values": [
+            "28.8%",
+            "28.78%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "ev_2023",
+          "description": "可比口径2023年寿险及健康险内含价值",
+          "acceptable_values": [
+            "830974",
+            "8309.74"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "ev_2024",
+          "description": "可比口径2024年寿险及健康险内含价值",
+          "acceptable_values": [
+            "960608",
+            "9606.08"
+          ],
+          "unit": "百万元/亿元"
+        },
+        {
+          "fact_id": "ev_growth",
+          "description": "可比口径内含价值增长",
+          "acceptable_values": [
+            "15.6%"
+          ],
+          "unit": "%"
+        },
+        {
+          "fact_id": "verdict",
+          "description": "因内含价值也增长，原说法不成立",
+          "acceptable_values": [
+            "说法不成立",
+            "结论为假",
+            "内含价值也增长"
+          ],
+          "unit": null
+        }
+      ],
+      "evidence_sources": [
+        {
+          "document_key": "cninfo:601318:annual:2024",
+          "local_file": "data/artifacts/cninfo-hard-v3/601318_2024_1222847447.pdf",
+          "pages": [
+            39
+          ]
+        }
+      ],
+      "gold_rationale": "可比口径新业务价值增长28.8%，内含价值也增长15.6%，所以“内含价值没有增长”不成立。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_future_unavailable",
+      "task_type": "extract",
+      "query": "请给出中国平安2025年寿险及健康险新业务价值和归母营运利润，并引用当前语料中的年报页码。",
+      "challenge_types": [
+        "document_blind",
+        "unavailable_period",
+        "abstention_required"
+      ],
+      "expected_behavior": "abstain",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "冻结语料仅包含2023年和2024年年报，不能给出2025年实际全年值或伪造页码。",
+      "annotation_status": "assistant_source_verified_provisional"
+    },
+    {
+      "case_id": "v3_601318_ambiguous_scope",
+      "task_type": "extract",
+      "query": "请分析这家保险公司两年的新业务价值变化，但先确认公司、年度以及新业务价值口径。",
+      "challenge_types": [
+        "document_blind",
+        "ambiguous_scope",
+        "clarification_required"
+      ],
+      "expected_behavior": "clarify",
+      "expected_target_ids": [],
+      "expected_facts": [],
+      "evidence_sources": [],
+      "gold_rationale": "问题没有唯一给出公司、比较年度和指标口径；应先追问，不应自行假定。",
+      "annotation_status": "assistant_source_verified_provisional"
+    }
+  ]
+}

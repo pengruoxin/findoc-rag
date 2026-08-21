@@ -1,0 +1,1322 @@
+{
+  "schema_version": "1",
+  "status": "complete",
+  "evaluated_at": "2026-08-21T03:29:11.808660+00:00",
+  "evaluation": "stored-trace high-overlap semantic/symbol fault injection",
+  "fault_design": "Same-page label swaps, relation swaps, and accounting-parenthesis sign flips preserve numbers and high lexical evidence coverage.",
+  "requirement_contract_risk_enabled": true,
+  "accounting_sign_risk_enabled": true,
+  "support_proof_required": true,
+  "source_reports": [
+    {
+      "path": "reports/agent/agent-hard-v3-calibration-deepseek-p3b2-authority-ranking-extract-v4.json",
+      "sha256": "c8c23a6bda5bab4b8f43dfa96a7f1e9d6ab4f00948da9e931e09cb53dbf3c6fb"
+    },
+    {
+      "path": "reports/agent/agent-hard-v3-dev-deepseek-p3b2-authority-ranking-extract-posthoc-v3.json",
+      "sha256": "be55bef89d98c4a2c23c858a9a665f7d90f8effcbcaf8250b5cbe2a737b714a6"
+    }
+  ],
+  "provider": {
+    "name": "deepseek",
+    "model": "deepseek-v4-flash",
+    "endpoint": "https://api.deepseek.com/chat/completions"
+  },
+  "metrics": {
+    "mutation_count": 15,
+    "routed_rate": 0.8666666666666667,
+    "safe_detection_rate": 0.8666666666666667,
+    "unsafe_accept_rate": 0.0,
+    "verifier_error_rate": 0.13333333333333333,
+    "manual_review_rate": 0.0,
+    "breakdown": {
+      "accounting_sign_flip": {
+        "case_count": 5,
+        "routed_count": 3,
+        "safe_detection_count": 5,
+        "final_decisions": {
+          "local_gate_rejected": 5
+        }
+      },
+      "label_swap": {
+        "case_count": 5,
+        "routed_count": 5,
+        "safe_detection_count": 4,
+        "final_decisions": {
+          "abstain": 4,
+          "error": 1
+        }
+      },
+      "relation_swap": {
+        "case_count": 5,
+        "routed_count": 5,
+        "safe_detection_count": 4,
+        "final_decisions": {
+          "abstain": 4,
+          "error": 1
+        }
+      }
+    }
+  },
+  "runtime_cost": {
+    "model_requests": 11,
+    "input_tokens": 43665,
+    "output_tokens": 9570,
+    "total_tokens": 53235
+  },
+  "items": [
+    {
+      "mutation_id": "v3_601318_y23_segments:label_swap",
+      "case_id": "v3_601318_y23_segments",
+      "mutation_type": "label_swap",
+      "requirement_id": "r1",
+      "original_claim": "2023年寿险及健康险业务归属于母公司股东的营运利润为105,070百万元（即1,050.70亿元）。",
+      "mutated_claim": "2023年寿险及健康险业务归属于母公司股东的净利润为105,070百万元（即1,050.70亿元）。",
+      "source_requirement_count": 3,
+      "routed": true,
+      "route_reason": "deterministic open claim/evidence risk warning requires model verification",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "review",
+        "checked_requirement_count": 3,
+        "findings": [
+          {
+            "requirement_id": "r1",
+            "check": "requirement_claim_divergence",
+            "claim": "2023年寿险及健康险业务归属于母公司股东的净利润为105,070百万元（即1,050.70亿元）。",
+            "detail": "claim/requirement contract similarity 0.968 is below review threshold 0.990",
+            "evidence_chunk_ids": [
+              "f55538814200:c32:8df0c8be9a755a07",
+              "f55538814200:c34:7fbbbf0b0a42c850"
+            ]
+          }
+        ]
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "deterministic open claim/evidence risk warning requires model verification",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 2971,
+            "output_tokens": 688,
+            "elapsed_ms": 4128.643999923952,
+            "supported_requirement_ids": [
+              "r2",
+              "r3"
+            ],
+            "support_proofs": [
+              {
+                "requirement_id": "r2",
+                "claim": "2023年财产保险业务归属于母公司股东的营运利润为8,918百万元（即89.18亿元）。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "f55538814200:c32:8df0c8be9a755a07",
+                    "quote": "归属于母公司股东的营运利润\n105,070\n8,918\n26,925"
+                  },
+                  {
+                    "evidence_chunk_id": "f55538814200:c34:7fbbbf0b0a42c850",
+                    "quote": "财产保险业务\n8,918\n10,066\n(11.4)"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r3",
+                "claim": "2023年银行业务归属于母公司股东的营运利润为26,925百万元（即269.25亿元）。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "f55538814200:c32:8df0c8be9a755a07",
+                    "quote": "归属于母公司股东的营运利润\n105,070\n8,918\n26,925"
+                  },
+                  {
+                    "evidence_chunk_id": "f55538814200:c34:7fbbbf0b0a42c850",
+                    "quote": "银行业务\n26,925\n26,380\n2.1"
+                  }
+                ]
+              }
+            ],
+            "challenge_requirement_ids": [],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "requirement要求的是寿险及健康险业务归属于母公司股东的营运利润105,070百万元，但claim写成了'净利润'。证据中105,070明确对应'归属于母公司股东的营运利润'行，而'归属于母公司股东的净利润'为74,501。claim将营运利润误写为净利润，指标错误。",
+                "evidence_chunk_ids": [
+                  "f55538814200:c32:8df0c8be9a755a07",
+                  "f55538814200:c34:7fbbbf0b0a42c850"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "manual_review_reasons": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 2971,
+        "output_tokens": 688
+      }
+    },
+    {
+      "mutation_id": "v3_601318_y23_segments:relation_swap",
+      "case_id": "v3_601318_y23_segments",
+      "mutation_type": "relation_swap",
+      "requirement_id": "r1",
+      "original_claim": "2023年寿险及健康险业务归属于母公司股东的营运利润为105,070百万元（即1,050.70亿元）。",
+      "mutated_claim": "2023年寿险及健康险业务归属于少数股东的营运利润为105,070百万元（即1,050.70亿元）。",
+      "source_requirement_count": 3,
+      "routed": true,
+      "route_reason": "deterministic open claim/evidence risk warning requires model verification",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "review",
+        "checked_requirement_count": 3,
+        "findings": [
+          {
+            "requirement_id": "r1",
+            "check": "requirement_claim_divergence",
+            "claim": "2023年寿险及健康险业务归属于少数股东的营运利润为105,070百万元（即1,050.70亿元）。",
+            "detail": "claim/requirement contract similarity 0.947 is below review threshold 0.990",
+            "evidence_chunk_ids": [
+              "f55538814200:c32:8df0c8be9a755a07",
+              "f55538814200:c34:7fbbbf0b0a42c850"
+            ]
+          }
+        ]
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "deterministic open claim/evidence risk warning requires model verification",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 2973,
+            "output_tokens": 734,
+            "elapsed_ms": 4056.120999972336,
+            "supported_requirement_ids": [
+              "r2",
+              "r3"
+            ],
+            "support_proofs": [
+              {
+                "requirement_id": "r2",
+                "claim": "2023年财产保险业务归属于母公司股东的营运利润为8,918百万元（即89.18亿元）。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "f55538814200:c34:7fbbbf0b0a42c850",
+                    "quote": "财产保险业务\n8,918\n10,066\n(11.4)"
+                  },
+                  {
+                    "evidence_chunk_id": "f55538814200:c32:8df0c8be9a755a07",
+                    "quote": "归属于母公司股东的营运利润\n105,070\n8,918\n26,925"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r3",
+                "claim": "2023年银行业务归属于母公司股东的营运利润为26,925百万元（即269.25亿元）。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "f55538814200:c34:7fbbbf0b0a42c850",
+                    "quote": "银行业务\n26,925\n26,380\n2.1"
+                  },
+                  {
+                    "evidence_chunk_id": "f55538814200:c32:8df0c8be9a755a07",
+                    "quote": "归属于母公司股东的营运利润\n105,070\n8,918\n26,925"
+                  }
+                ]
+              }
+            ],
+            "challenge_requirement_ids": [],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "Requirement r1 specifies 归属于母公司股东的营运利润 (attributable to parent shareholders) for 寿险及健康险业务 = 105,070百万元. The claim states 归属于少数股东的营运利润 (attributable to minority shareholders), which is a different attribution subject. The evidence table shows 105,070 under 归属于母公司股东的营运利润 for 寿险及健康险业务. The claim's subject (少数股东) contradicts the requirement's subject (母公司股东).",
+                "evidence_chunk_ids": [
+                  "f55538814200:c32:8df0c8be9a755a07",
+                  "f55538814200:c34:7fbbbf0b0a42c850"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "manual_review_reasons": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 2973,
+        "output_tokens": 734
+      }
+    },
+    {
+      "mutation_id": "v3_601318_y23_segments:accounting_sign_flip",
+      "case_id": "v3_601318_y23_segments",
+      "mutation_type": "accounting_sign_flip",
+      "requirement_id": "r1",
+      "original_claim": "2023年寿险及健康险业务归属于母公司股东的营运利润为105,070百万元（即1,050.70亿元）。",
+      "mutated_claim": "2023年寿险及健康险业务归属于母公司股东的营运利润为(105,070)百万元（即1,050.70亿元）。",
+      "source_requirement_count": 3,
+      "routed": false,
+      "route_reason": "deterministic claim risk gate rejected before model verification",
+      "final_decision": "local_gate_rejected",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "reject",
+        "checked_requirement_count": 3,
+        "findings": [
+          {
+            "requirement_id": "r1",
+            "check": "accounting_sign_conflict",
+            "claim": "2023年寿险及健康险业务归属于母公司股东的营运利润为(105,070)百万元（即1,050.70亿元）。",
+            "detail": "claim introduces a negative/accounting-parenthesis sign absent from the requirement contract for: 105070",
+            "evidence_chunk_ids": [
+              "f55538814200:c32:8df0c8be9a755a07",
+              "f55538814200:c34:7fbbbf0b0a42c850"
+            ]
+          },
+          {
+            "requirement_id": "r1",
+            "check": "requirement_claim_divergence",
+            "claim": "2023年寿险及健康险业务归属于母公司股东的营运利润为(105,070)百万元（即1,050.70亿元）。",
+            "detail": "claim/requirement contract similarity 0.980 is below review threshold 0.990",
+            "evidence_chunk_ids": [
+              "f55538814200:c32:8df0c8be9a755a07",
+              "f55538814200:c34:7fbbbf0b0a42c850"
+            ]
+          }
+        ]
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": false,
+        "route_reason": "deterministic claim risk gate rejected before model verification",
+        "repair_attempted": false,
+        "final_decision": "not_routed",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [],
+        "request_count": 0,
+        "input_tokens": null,
+        "output_tokens": null
+      }
+    },
+    {
+      "mutation_id": "v3_601318_y24_customer:label_swap",
+      "case_id": "v3_601318_y24_customer",
+      "mutation_type": "label_swap",
+      "requirement_id": "r1",
+      "original_claim": "截至2024年12月31日，集团个人客户数2.42亿，较年初增长4.7%。",
+      "mutated_claim": "截至2024年12月31日，集团客均合同数2.42亿，较年初增长4.7%。",
+      "source_requirement_count": 3,
+      "routed": true,
+      "route_reason": "deterministic open claim/evidence risk warning requires model verification",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "review",
+        "checked_requirement_count": 3,
+        "findings": [
+          {
+            "requirement_id": "r1",
+            "check": "requirement_claim_divergence",
+            "claim": "截至2024年12月31日，集团客均合同数2.42亿，较年初增长4.7%。",
+            "detail": "claim/requirement contract similarity 0.912 is below review threshold 0.990",
+            "evidence_chunk_ids": [
+              "6ffff1cade59:c52:7650b928a8844aec",
+              "6ffff1cade59:c51:220aa458486105ac",
+              "6ffff1cade59:c53:c2d867c4aa5e1eb1",
+              "6ffff1cade59:c46:28f107b2bc95892d"
+            ]
+          }
+        ]
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "deterministic open claim/evidence risk warning requires model verification",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 4913,
+            "output_tokens": 818,
+            "elapsed_ms": 4761.8431999580935,
+            "supported_requirement_ids": [
+              "r2",
+              "r3"
+            ],
+            "support_proofs": [
+              {
+                "requirement_id": "r2",
+                "claim": "截至2024年末，客均持有合同2.92个（客均合同数）。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "6ffff1cade59:c51:220aa458486105ac",
+                    "quote": "截至2024年末，公司个人客户数2.42亿，客均持有合同2.92个"
+                  },
+                  {
+                    "evidence_chunk_id": "6ffff1cade59:c46:28f107b2bc95892d",
+                    "quote": "客均合同数（个）\n2.92"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r3",
+                "claim": "持有集团内4个及以上合同客户的留存率达98.0%。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "6ffff1cade59:c52:7650b928a8844aec",
+                    "quote": "平安持有4个及以上合同客户的留存率达98.0%"
+                  },
+                  {
+                    "evidence_chunk_id": "6ffff1cade59:c28:0bb2a92e76f0367a",
+                    "quote": "持有集团内4 个及以上合同的客户占比为25.6%，留存率达98.0%"
+                  }
+                ]
+              }
+            ],
+            "challenge_requirement_ids": [],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "Requirement r1 asks for 集团个人客户数2.42亿，较年初增长4.7%. The claim states '集团客均合同数2.42亿，较年初增长4.7%' - it mislabels the metric as 客均合同数 instead of 个人客户数. The evidence (c52, c53) supports 个人客户数2.42亿增长4.7%, but the claim attributes this to 客均合同数, which is a different metric. This is a subject/metric mismatch - the claim contradicts the requirement's subject.",
+                "evidence_chunk_ids": [
+                  "6ffff1cade59:c52:7650b928a8844aec",
+                  "6ffff1cade59:c53:c2d867c4aa5e1eb1"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "manual_review_reasons": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 4913,
+        "output_tokens": 818
+      }
+    },
+    {
+      "mutation_id": "v3_601318_y24_customer:relation_swap",
+      "case_id": "v3_601318_y24_customer",
+      "mutation_type": "relation_swap",
+      "requirement_id": "r1",
+      "original_claim": "截至2024年12月31日，集团个人客户数2.42亿，较年初增长4.7%。",
+      "mutated_claim": "截至2024年12月31日，集团个人客户数2.42亿，较年初下降4.7%。",
+      "source_requirement_count": 3,
+      "routed": true,
+      "route_reason": "deterministic open claim/evidence risk warning requires model verification",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "review",
+        "checked_requirement_count": 3,
+        "findings": [
+          {
+            "requirement_id": "r1",
+            "check": "requirement_claim_divergence",
+            "claim": "截至2024年12月31日，集团个人客户数2.42亿，较年初下降4.7%。",
+            "detail": "claim/requirement contract similarity 0.941 is below review threshold 0.990",
+            "evidence_chunk_ids": [
+              "6ffff1cade59:c52:7650b928a8844aec",
+              "6ffff1cade59:c51:220aa458486105ac",
+              "6ffff1cade59:c53:c2d867c4aa5e1eb1",
+              "6ffff1cade59:c46:28f107b2bc95892d"
+            ]
+          }
+        ]
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "deterministic open claim/evidence risk warning requires model verification",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 4911,
+            "output_tokens": 661,
+            "elapsed_ms": 3751.374199986458,
+            "supported_requirement_ids": [
+              "r2",
+              "r3"
+            ],
+            "support_proofs": [
+              {
+                "requirement_id": "r2",
+                "claim": "截至2024年末，客均持有合同2.92个（客均合同数）。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "6ffff1cade59:c51:220aa458486105ac",
+                    "quote": "截至2024年末，公司个人客户数2.42亿，客均持有合同2.92个"
+                  },
+                  {
+                    "evidence_chunk_id": "6ffff1cade59:c46:28f107b2bc95892d",
+                    "quote": "客均合同数（个）2.92"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r3",
+                "claim": "持有集团内4个及以上合同客户的留存率达98.0%。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "6ffff1cade59:c28:0bb2a92e76f0367a",
+                    "quote": "持有集团内4 个及以上合同的客户占比为25.6%，留存率达98.0%"
+                  },
+                  {
+                    "evidence_chunk_id": "6ffff1cade59:c52:7650b928a8844aec",
+                    "quote": "平安持有4个及以上合同客户的留存率达98.0%"
+                  }
+                ]
+              }
+            ],
+            "challenge_requirement_ids": [],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "requirement要求'较年初增长4.7%'，但claim写'较年初下降4.7%'。证据c52和c53均明确写'较年初增长4.7%'，claim将增长改为下降，与证据冲突。",
+                "evidence_chunk_ids": [
+                  "6ffff1cade59:c52:7650b928a8844aec",
+                  "6ffff1cade59:c53:c2d867c4aa5e1eb1"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "manual_review_reasons": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 4911,
+        "output_tokens": 661
+      }
+    },
+    {
+      "mutation_id": "v3_601318_y24_customer:accounting_sign_flip",
+      "case_id": "v3_601318_y24_customer",
+      "mutation_type": "accounting_sign_flip",
+      "requirement_id": "r1",
+      "original_claim": "截至2024年12月31日，集团个人客户数2.42亿，较年初增长4.7%。",
+      "mutated_claim": "截至2024年12月31日，集团个人客户数(2.42)亿，较年初增长4.7%。",
+      "source_requirement_count": 3,
+      "routed": false,
+      "route_reason": "deterministic claim risk gate rejected before model verification",
+      "final_decision": "local_gate_rejected",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "reject",
+        "checked_requirement_count": 3,
+        "findings": [
+          {
+            "requirement_id": "r1",
+            "check": "accounting_sign_conflict",
+            "claim": "截至2024年12月31日，集团个人客户数(2.42)亿，较年初增长4.7%。",
+            "detail": "claim introduces a negative/accounting-parenthesis sign absent from the requirement contract for: 2.42",
+            "evidence_chunk_ids": [
+              "6ffff1cade59:c52:7650b928a8844aec",
+              "6ffff1cade59:c51:220aa458486105ac",
+              "6ffff1cade59:c53:c2d867c4aa5e1eb1",
+              "6ffff1cade59:c46:28f107b2bc95892d"
+            ]
+          },
+          {
+            "requirement_id": "r1",
+            "check": "requirement_claim_divergence",
+            "claim": "截至2024年12月31日，集团个人客户数(2.42)亿，较年初增长4.7%。",
+            "detail": "claim/requirement contract similarity 0.971 is below review threshold 0.990",
+            "evidence_chunk_ids": [
+              "6ffff1cade59:c52:7650b928a8844aec",
+              "6ffff1cade59:c51:220aa458486105ac",
+              "6ffff1cade59:c53:c2d867c4aa5e1eb1",
+              "6ffff1cade59:c46:28f107b2bc95892d"
+            ]
+          }
+        ]
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": false,
+        "route_reason": "deterministic claim risk gate rejected before model verification",
+        "repair_attempted": false,
+        "final_decision": "not_routed",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [],
+        "request_count": 0,
+        "input_tokens": null,
+        "output_tokens": null
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y23_asset_quality:label_swap",
+      "case_id": "v3_601398_y23_asset_quality",
+      "mutation_type": "label_swap",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2023年不良贷款率为1.36%（同比下降2BP至1.36%）。",
+      "mutated_claim": "工商银行2023年拨备覆盖率为1.36%（同比下降2BP至1.36%）。",
+      "source_requirement_count": 4,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "pass",
+        "checked_requirement_count": 4,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3995,
+            "output_tokens": 855,
+            "elapsed_ms": 4353.231600020081,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "support_proofs": [
+              {
+                "requirement_id": "r2",
+                "claim": "工商银行2023年拨备覆盖率为213.97%（上升至213.97%）。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c17:851fa19578a75986",
+                    "quote": "拨备覆盖率\n\n（8）\n213.97\n209.47"
+                  },
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c19:dd77f671a3207b68",
+                    "quote": "拨备覆盖率上升至213.97%"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r3",
+                "claim": "工商银行2023年资本充足率为19.10%。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c17:851fa19578a75986",
+                    "quote": "资本充足率\n\n（10）\n19.10\n19.26"
+                  },
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c19:dd77f671a3207b68",
+                    "quote": "资本充足率19.10%"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r4",
+                "claim": "工商银行2023年成本收入比为26.96%。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c17:851fa19578a75986",
+                    "quote": "成本收入比\n\n（6）\n26.96\n25.01"
+                  },
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c19:dd77f671a3207b68",
+                    "quote": "成本收入比26.96%"
+                  }
+                ]
+              }
+            ],
+            "challenge_requirement_ids": [],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "r1要求不良贷款率为1.36%，但当前claim声称'拨备覆盖率为1.36%'，将不良贷款率数值错误归属到拨备覆盖率指标，且claim主体指标与requirement不符。",
+                "evidence_chunk_ids": [
+                  "e310e8a55ff8:c17:851fa19578a75986",
+                  "e310e8a55ff8:c19:dd77f671a3207b68"
+                ],
+                "missing_supported_details": [
+                  "不良贷款率2023年为1.36%（同比下降2BP至1.36%）"
+                ]
+              }
+            ],
+            "manual_review_reasons": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3995,
+        "output_tokens": 855
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y23_asset_quality:relation_swap",
+      "case_id": "v3_601398_y23_asset_quality",
+      "mutation_type": "relation_swap",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2023年不良贷款率为1.36%（同比下降2BP至1.36%）。",
+      "mutated_claim": "工商银行2023年不良贷款率为1.36%（同比上升2BP至1.36%）。",
+      "source_requirement_count": 4,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "pass",
+        "checked_requirement_count": 4,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "accept",
+            "input_tokens": 3995,
+            "output_tokens": 573,
+            "elapsed_ms": 3032.563599990681,
+            "supported_requirement_ids": [
+              "r1",
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "support_proofs": [
+              {
+                "requirement_id": "r1",
+                "claim": "工商银行2023年不良贷款率为1.36%（同比上升2BP至1.36%）。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c17:851fa19578a75986",
+                    "quote": "不良贷款率\n\n（7）\n1.36\n1.38"
+                  },
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c19:dd77f671a3207b68",
+                    "quote": "不良贷款率同比下降2BP 至1.36%"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r2",
+                "claim": "工商银行2023年拨备覆盖率为213.97%（上升至213.97%）。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c17:851fa19578a75986",
+                    "quote": "拨备覆盖率\n\n（8）\n213.97\n209.47"
+                  },
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c19:dd77f671a3207b68",
+                    "quote": "拨备覆盖率上升至213.97%"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r3",
+                "claim": "工商银行2023年资本充足率为19.10%。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c17:851fa19578a75986",
+                    "quote": "资本充足率\n\n（10）\n19.10\n19.26"
+                  },
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c19:dd77f671a3207b68",
+                    "quote": "资本充足率19.10%"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r4",
+                "claim": "工商银行2023年成本收入比为26.96%。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c17:851fa19578a75986",
+                    "quote": "成本收入比\n\n（6）\n26.96\n25.01"
+                  },
+                  {
+                    "evidence_chunk_id": "e310e8a55ff8:c19:dd77f671a3207b68",
+                    "quote": "成本收入比26.96%"
+                  }
+                ]
+              }
+            ],
+            "challenge_requirement_ids": [
+              "r1"
+            ],
+            "findings": [],
+            "manual_review_reasons": [],
+            "validation_errors": []
+          },
+          {
+            "stage": "support_proof_challenge",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 841,
+            "output_tokens": 240,
+            "elapsed_ms": 1889.0090000350028,
+            "supported_requirement_ids": [],
+            "support_proofs": [],
+            "challenge_requirement_ids": [
+              "r1"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "证据c19明确表述'不良贷款率同比下降2BP至1.36%'，即2023年不良贷款率为1.36%，但同比是下降2BP（而非上升2BP）。claim声称'同比上升2BP至1.36%'，方向与证据相反（证据为下降，claim为上升）。虽然1.36%的数值本身与证据一致，但同比变动方向被错误表述为上升，与证据'下降2BP'矛盾。",
+                "evidence_chunk_ids": [
+                  "e310e8a55ff8:c17:851fa19578a75986",
+                  "e310e8a55ff8:c19:dd77f671a3207b68"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "manual_review_reasons": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 2,
+        "input_tokens": 4836,
+        "output_tokens": 813
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y23_asset_quality:accounting_sign_flip",
+      "case_id": "v3_601398_y23_asset_quality",
+      "mutation_type": "accounting_sign_flip",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2023年不良贷款率为1.36%（同比下降2BP至1.36%）。",
+      "mutated_claim": "工商银行2023年不良贷款率为(1.36%)（同比下降2BP至1.36%）。",
+      "source_requirement_count": 4,
+      "routed": true,
+      "route_reason": "deterministic claim risk gate rejected before model verification",
+      "final_decision": "local_gate_rejected",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "reject",
+        "checked_requirement_count": 4,
+        "findings": [
+          {
+            "requirement_id": "r1",
+            "check": "accounting_sign_conflict",
+            "claim": "工商银行2023年不良贷款率为(1.36%)（同比下降2BP至1.36%）。",
+            "detail": "claim introduces a negative/accounting-parenthesis sign absent from the requirement contract for: 1.36%",
+            "evidence_chunk_ids": [
+              "e310e8a55ff8:c17:851fa19578a75986",
+              "e310e8a55ff8:c19:dd77f671a3207b68"
+            ]
+          }
+        ]
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "deterministic claim risk gate rejected before model verification",
+        "repair_attempted": false,
+        "final_decision": "not_routed",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [],
+        "request_count": 0,
+        "input_tokens": null,
+        "output_tokens": null
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y24_interest:label_swap",
+      "case_id": "v3_601398_y24_interest",
+      "mutation_type": "label_swap",
+      "requirement_id": "r1",
+      "original_claim": "2024年，工商银行利息净收入6,374.05亿元，比上年减少176.08亿元，下降2.7%，占营业收入的77.6%。",
+      "mutated_claim": "2024年，工商银行非利息收入6,374.05亿元，比上年减少176.08亿元，下降2.7%，占营业收入的77.6%。",
+      "source_requirement_count": 8,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "error",
+      "safe_detection": false,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "pass",
+        "checked_requirement_count": 8,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "error",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "error",
+            "input_tokens": 5620,
+            "output_tokens": 1821,
+            "elapsed_ms": 8639.575900044292,
+            "supported_requirement_ids": [],
+            "support_proofs": [],
+            "challenge_requirement_ids": [],
+            "findings": [],
+            "manual_review_reasons": [],
+            "validation_errors": [
+              "verifier must make exactly one tool call"
+            ]
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 5620,
+        "output_tokens": 1821
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y24_interest:relation_swap",
+      "case_id": "v3_601398_y24_interest",
+      "mutation_type": "relation_swap",
+      "requirement_id": "r1",
+      "original_claim": "2024年，工商银行利息净收入6,374.05亿元，比上年减少176.08亿元，下降2.7%，占营业收入的77.6%。",
+      "mutated_claim": "2024年，工商银行利息净收入6,374.05亿元，比上年增加176.08亿元，下降2.7%，占营业收入的77.6%。",
+      "source_requirement_count": 8,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "error",
+      "safe_detection": false,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "pass",
+        "checked_requirement_count": 8,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "error",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "error",
+            "input_tokens": 5620,
+            "output_tokens": 1658,
+            "elapsed_ms": 7566.1152000539005,
+            "supported_requirement_ids": [],
+            "support_proofs": [],
+            "challenge_requirement_ids": [],
+            "findings": [],
+            "manual_review_reasons": [],
+            "validation_errors": [
+              "verifier must make exactly one tool call"
+            ]
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 5620,
+        "output_tokens": 1658
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y24_interest:accounting_sign_flip",
+      "case_id": "v3_601398_y24_interest",
+      "mutation_type": "accounting_sign_flip",
+      "requirement_id": "r1",
+      "original_claim": "2024年，工商银行利息净收入6,374.05亿元，比上年减少176.08亿元，下降2.7%，占营业收入的77.6%。",
+      "mutated_claim": "2024年，工商银行利息净收入(6,374.05)亿元，比上年减少176.08亿元，下降2.7%，占营业收入的77.6%。",
+      "source_requirement_count": 8,
+      "routed": true,
+      "route_reason": "deterministic claim risk gate rejected before model verification",
+      "final_decision": "local_gate_rejected",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "reject",
+        "checked_requirement_count": 8,
+        "findings": [
+          {
+            "requirement_id": "r1",
+            "check": "accounting_sign_conflict",
+            "claim": "2024年，工商银行利息净收入(6,374.05)亿元，比上年减少176.08亿元，下降2.7%，占营业收入的77.6%。",
+            "detail": "claim introduces a negative/accounting-parenthesis sign absent from the requirement contract for: 6374.05",
+            "evidence_chunk_ids": [
+              "27b9c08e8106:c34:a39d029a3bdaa82a",
+              "27b9c08e8106:c33:69a9796a40aca056"
+            ]
+          }
+        ]
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "deterministic claim risk gate rejected before model verification",
+        "repair_attempted": false,
+        "final_decision": "not_routed",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [],
+        "request_count": 0,
+        "input_tokens": null,
+        "output_tokens": null
+      }
+    },
+    {
+      "mutation_id": "v3_002594_y23_products:label_swap",
+      "case_id": "v3_002594_y23_products",
+      "mutation_type": "label_swap",
+      "requirement_id": "r1",
+      "original_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%。",
+      "mutated_claim": "手机部件、组装及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%。",
+      "source_requirement_count": 4,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "pass",
+        "checked_requirement_count": 4,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3912,
+            "output_tokens": 782,
+            "elapsed_ms": 5300.80079997424,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "support_proofs": [
+              {
+                "requirement_id": "r2",
+                "claim": "手机部件、组装及其他产品2023年营业收入为118,576,910,000.00元，占营业收入比重19.68%。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "959b00a12055:c46:5766de200a6b10ec",
+                    "quote": "手机部件、组装及其他\n\n产品\n118,576,910,000.00\n19.68%"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r3",
+                "claim": "汽车、汽车相关产品及其他产品2023年毛利率为23.02%。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "959b00a12055:c47:21355c8280bf3cb9",
+                    "quote": "汽车、汽车相关产品及其\n\n他产品\n483,453,318,000.00\n372,156,503,000.00\n23.02%"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r4",
+                "claim": "手机部件、组装及其他产品2023年毛利率为8.78%。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "959b00a12055:c47:21355c8280bf3cb9",
+                    "quote": "手机部件、组装及其他产\n\n品\n118,576,910,000.00\n108,165,634,000.00\n8.78%"
+                  }
+                ]
+              }
+            ],
+            "challenge_requirement_ids": [],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "requirement r1 的主体是'汽车、汽车相关产品及其他产品'，但当前 claim 却写成'手机部件、组装及其他产品'，主体错误。证据 c46/c47 中'汽车、汽车相关产品及其他产品'的营业收入为483,453,318,000.00元、占比80.27%，而'手机部件、组装及其他产品'对应的是118,576,910,000.00元、19.68%。claim 把手机部件产品的数值错标为汽车产品的主体，主体与数值不匹配。",
+                "evidence_chunk_ids": [
+                  "959b00a12055:c46:5766de200a6b10ec",
+                  "959b00a12055:c47:21355c8280bf3cb9"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "manual_review_reasons": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3912,
+        "output_tokens": 782
+      }
+    },
+    {
+      "mutation_id": "v3_002594_y23_products:relation_swap",
+      "case_id": "v3_002594_y23_products",
+      "mutation_type": "relation_swap",
+      "requirement_id": "r1",
+      "original_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%。",
+      "mutated_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业成本比重80.27%。",
+      "source_requirement_count": 4,
+      "routed": true,
+      "route_reason": "atomic requirement count >= 4",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "pass",
+        "checked_requirement_count": 4,
+        "findings": []
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3914,
+            "output_tokens": 740,
+            "elapsed_ms": 4169.789499952458,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "support_proofs": [
+              {
+                "requirement_id": "r2",
+                "claim": "手机部件、组装及其他产品2023年营业收入为118,576,910,000.00元，占营业收入比重19.68%。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "959b00a12055:c46:5766de200a6b10ec",
+                    "quote": "手机部件、组装及其他\n\n产品\n118,576,910,000.00\n19.68%"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r3",
+                "claim": "汽车、汽车相关产品及其他产品2023年毛利率为23.02%。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "959b00a12055:c47:21355c8280bf3cb9",
+                    "quote": "汽车、汽车相关产品及其\n\n他产品\n483,453,318,000.00\n372,156,503,000.00\n23.02%"
+                  }
+                ]
+              },
+              {
+                "requirement_id": "r4",
+                "claim": "手机部件、组装及其他产品2023年毛利率为8.78%。",
+                "evidence_quotes": [
+                  {
+                    "evidence_chunk_id": "959b00a12055:c47:21355c8280bf3cb9",
+                    "quote": "手机部件、组装及其他产\n\n品\n118,576,910,000.00\n108,165,634,000.00\n8.78%"
+                  }
+                ]
+              }
+            ],
+            "challenge_requirement_ids": [],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "requirement要求占营业收入比重80.27%，但claim写成占营业成本比重80.27%。证据c46明确显示483,453,318,000.00元占营业收入比重80.27%。claim将营业收入改为营业成本，与requirement和证据冲突。",
+                "evidence_chunk_ids": [
+                  "959b00a12055:c46:5766de200a6b10ec"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "manual_review_reasons": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3914,
+        "output_tokens": 740
+      }
+    },
+    {
+      "mutation_id": "v3_002594_y23_products:accounting_sign_flip",
+      "case_id": "v3_002594_y23_products",
+      "mutation_type": "accounting_sign_flip",
+      "requirement_id": "r1",
+      "original_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%。",
+      "mutated_claim": "汽车、汽车相关产品及其他产品2023年营业收入为(483,453,318,000.00)元，占营业收入比重80.27%。",
+      "source_requirement_count": 4,
+      "routed": true,
+      "route_reason": "deterministic claim risk gate rejected before model verification",
+      "final_decision": "local_gate_rejected",
+      "safe_detection": true,
+      "unsafe_accept": false,
+      "claim_risk_gate": {
+        "revision": "claim-risk-gate-p4d-contract-completeness-v5",
+        "status": "reject",
+        "checked_requirement_count": 4,
+        "findings": [
+          {
+            "requirement_id": "r1",
+            "check": "accounting_sign_conflict",
+            "claim": "汽车、汽车相关产品及其他产品2023年营业收入为(483,453,318,000.00)元，占营业收入比重80.27%。",
+            "detail": "claim introduces a negative/accounting-parenthesis sign absent from the requirement contract for: 483453318000.00",
+            "evidence_chunk_ids": [
+              "959b00a12055:c46:5766de200a6b10ec",
+              "959b00a12055:c47:21355c8280bf3cb9"
+            ]
+          }
+        ]
+      },
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4e-support-proof-v9",
+        "prompt_sha256": "6bf382ba93ac22081b1b7ba6cd3e5c4ecffea479229a7a301af42c0e3b5284ff",
+        "routed": true,
+        "route_reason": "deterministic claim risk gate rejected before model verification",
+        "repair_attempted": false,
+        "final_decision": "not_routed",
+        "human_review_required": false,
+        "human_review_reasons": [],
+        "turns": [],
+        "request_count": 0,
+        "input_tokens": null,
+        "output_tokens": null
+      }
+    }
+  ]
+}

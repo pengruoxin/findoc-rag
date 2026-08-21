@@ -1,0 +1,283 @@
+{
+  "schema_version": "1",
+  "source_manifest": "D:/202607/raglab/data/evaluation/agent-hard-v3-source-manifest.json",
+  "visual_review_source": "D:/202607/raglab/data/evaluation/agent-hard-v3-scan-visual-review.json",
+  "visual_review_status": "not_started",
+  "thresholds": {
+    "max_native_characters": 250,
+    "min_image_coverage": 0.45
+  },
+  "document_count": 16,
+  "page_count": 4690,
+  "image_dominant_low_text_candidate_count": 24,
+  "visually_reviewed_candidate_count": 0,
+  "unreviewed_candidate_count": 24,
+  "eligible_genuine_scanned_table_count": 0,
+  "conclusion": "candidate_follow_up_required",
+  "candidates": [
+    {
+      "document_key": "cninfo:601398:annual:2023",
+      "page_number": 8,
+      "native_characters": 39,
+      "numeric_token_count": 4,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 0.4762,
+      "image_coverage_max": 0.4762,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:601398:annual:2023",
+      "page_number": 13,
+      "native_characters": 32,
+      "numeric_token_count": 3,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 0.4907,
+      "image_coverage_max": 0.4907,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:601398:annual:2023",
+      "page_number": 69,
+      "native_characters": 26,
+      "numeric_token_count": 2,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 0.5742,
+      "image_coverage_max": 0.5742,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:601398:annual:2024",
+      "page_number": 13,
+      "native_characters": 32,
+      "numeric_token_count": 3,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 0.5151,
+      "image_coverage_max": 0.5151,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:601318:annual:2023",
+      "page_number": 1,
+      "native_characters": 7,
+      "numeric_token_count": 0,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 1.0,
+      "image_coverage_max": 1.0,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:601318:annual:2023",
+      "page_number": 104,
+      "native_characters": 87,
+      "numeric_token_count": 1,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 0.6306,
+      "image_coverage_max": 0.6306,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:601318:annual:2023",
+      "page_number": 105,
+      "native_characters": 30,
+      "numeric_token_count": 1,
+      "table_term_count": 0,
+      "image_count": 2,
+      "image_coverage_sum": 0.7547,
+      "image_coverage_max": 0.7453,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:601318:annual:2023",
+      "page_number": 334,
+      "native_characters": 0,
+      "numeric_token_count": 0,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 1.0,
+      "image_coverage_max": 1.0,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:601318:annual:2024",
+      "page_number": 1,
+      "native_characters": 7,
+      "numeric_token_count": 0,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 1.0,
+      "image_coverage_max": 1.0,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:601318:annual:2024",
+      "page_number": 5,
+      "native_characters": 223,
+      "numeric_token_count": 8,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 1.0,
+      "image_coverage_max": 1.0,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:601318:annual:2024",
+      "page_number": 114,
+      "native_characters": 73,
+      "numeric_token_count": 1,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 0.5996,
+      "image_coverage_max": 0.5996,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:601318:annual:2024",
+      "page_number": 115,
+      "native_characters": 54,
+      "numeric_token_count": 1,
+      "table_term_count": 0,
+      "image_count": 2,
+      "image_coverage_sum": 0.5739,
+      "image_coverage_max": 0.5646,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:601318:annual:2024",
+      "page_number": 346,
+      "native_characters": 0,
+      "numeric_token_count": 0,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 1.0,
+      "image_coverage_max": 1.0,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:002352:annual:2023",
+      "page_number": 1,
+      "native_characters": 0,
+      "numeric_token_count": 0,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 1.0,
+      "image_coverage_max": 1.0,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:002352:annual:2023",
+      "page_number": 2,
+      "native_characters": 160,
+      "numeric_token_count": 0,
+      "table_term_count": 0,
+      "image_count": 46,
+      "image_coverage_sum": 1.0312,
+      "image_coverage_max": 0.0349,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:002352:annual:2023",
+      "page_number": 226,
+      "native_characters": 0,
+      "numeric_token_count": 0,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 1.0,
+      "image_coverage_max": 1.0,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:002352:annual:2024",
+      "page_number": 1,
+      "native_characters": 87,
+      "numeric_token_count": 3,
+      "table_term_count": 0,
+      "image_count": 2,
+      "image_coverage_sum": 1.0068,
+      "image_coverage_max": 1.0,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:002352:annual:2024",
+      "page_number": 2,
+      "native_characters": 26,
+      "numeric_token_count": 0,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 1.0,
+      "image_coverage_max": 1.0,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:002352:annual:2024",
+      "page_number": 4,
+      "native_characters": 144,
+      "numeric_token_count": 11,
+      "table_term_count": 0,
+      "image_count": 4,
+      "image_coverage_sum": 0.9172,
+      "image_coverage_max": 0.4595,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:002352:annual:2024",
+      "page_number": 12,
+      "native_characters": 244,
+      "numeric_token_count": 21,
+      "table_term_count": 0,
+      "image_count": 4,
+      "image_coverage_sum": 0.6023,
+      "image_coverage_max": 0.1753,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:002352:annual:2024",
+      "page_number": 31,
+      "native_characters": 166,
+      "numeric_token_count": 11,
+      "table_term_count": 0,
+      "image_count": 5,
+      "image_coverage_sum": 0.5798,
+      "image_coverage_max": 0.1377,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:002352:annual:2024",
+      "page_number": 33,
+      "native_characters": 240,
+      "numeric_token_count": 20,
+      "table_term_count": 0,
+      "image_count": 64,
+      "image_coverage_sum": 0.47,
+      "image_coverage_max": 0.1294,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:002352:annual:2024",
+      "page_number": 120,
+      "native_characters": 52,
+      "numeric_token_count": 2,
+      "table_term_count": 0,
+      "image_count": 4,
+      "image_coverage_sum": 0.6023,
+      "image_coverage_max": 0.1753,
+      "visual_review": null
+    },
+    {
+      "document_key": "cninfo:002352:annual:2024",
+      "page_number": 250,
+      "native_characters": 93,
+      "numeric_token_count": 2,
+      "table_term_count": 0,
+      "image_count": 1,
+      "image_coverage_sum": 1.0,
+      "image_coverage_max": 1.0,
+      "visual_review": null
+    }
+  ]
+}

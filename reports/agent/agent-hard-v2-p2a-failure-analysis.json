@@ -1,0 +1,1583 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v2-document-blind-candidate",
+  "analysis_scope": "frozen P2-A baseline; no capability or raw score changes",
+  "generated_at": "2026-08-20T04:53:13.867410+00:00",
+  "valid": true,
+  "ready_for_external_claims": false,
+  "external_claim_blockers": [
+    "gold and semantic audit are assistant-verified provisional",
+    "independent human double review is incomplete",
+    "the document-blind set contains only five annual reports",
+    "the set contains no true scanned annual report"
+  ],
+  "inputs": {
+    "dataset": "data/evaluation/agent-hard-v2.json",
+    "dataset_sha256": "561d1d0b7c233ae6bc7189ca0b18ab18a5704a7f310ddcc5de0902fa241345c7",
+    "report": "reports/agent/agent-hard-v2-deepseek-p2a-baseline.json",
+    "report_sha256": "565b226fcc15529947718a9cae84c89111c3c84d614c2b50d95a5db1cac2e240"
+  },
+  "raw_machine_metrics": {
+    "case_count": 34,
+    "executed_case_count": 30,
+    "unsupported_case_count": 4,
+    "task_coverage_rate": 0.8823529411764706,
+    "plan_target_exact_rate": 1.0,
+    "behavior_accuracy": 0.8666666666666667,
+    "supported_fact_accuracy": 0.8625,
+    "end_to_end_fact_accuracy": 0.7840909090909091,
+    "supported_case_pass_rate": 0.5666666666666667,
+    "end_to_end_case_pass_rate": 0.5,
+    "safe_abstention_accuracy": 0.4
+  },
+  "assistant_source_audited_metrics": {
+    "case_count": 34,
+    "case_pass_count": 24,
+    "case_pass_rate": 0.7058823529411765,
+    "executed_case_count": 30,
+    "executed_case_pass_count": 24,
+    "executed_case_pass_rate": 0.8,
+    "supported_fact_match_count": 75,
+    "supported_fact_count": 80,
+    "supported_fact_accuracy": 0.9375,
+    "end_to_end_fact_match_count": 75,
+    "end_to_end_fact_count": 88,
+    "end_to_end_fact_accuracy": 0.8522727272727273
+  },
+  "machine_fact_counts": {
+    "supported_fact_match_count": 69,
+    "supported_fact_count": 80
+  },
+  "manual_audit_summary": {
+    "machine_failure_count": 17,
+    "reviewed_failure_count": 17,
+    "verdict_counts": {
+      "evaluator_false_negative": 7,
+      "genuine_agent_failure": 10
+    },
+    "genuine_failure_category_counts": {
+      "multi_fact_omission": 2,
+      "planner_document_fact_year_confusion": 3,
+      "planner_missing_document_scope_inference": 1,
+      "unsupported_general_calculation": 4
+    },
+    "genuine_failure_case_ids": [
+      "blind_yili_inventory_policy",
+      "blind_yili_annual_deducted_profit",
+      "blind_midea_2023_inventory_increase",
+      "blind_midea_2023_future_actual",
+      "blind_midea_2024_inventory_increase",
+      "blind_midea_2024_future_actual",
+      "blind_shenhua_2024_coal_sales_production_gap",
+      "blind_shenhua_2024_future_actual",
+      "blind_midea_2023_2024_revenue_compare",
+      "blind_moutai_yili_cashflow_compare"
+    ],
+    "evaluator_false_negative_case_ids": [
+      "blind_moutai_cashflow_change",
+      "blind_yili_cashflow_change",
+      "blind_midea_2023_revenue_yoy",
+      "blind_midea_2023_key_audit_matter",
+      "blind_midea_2024_revenue_yoy",
+      "blind_midea_2024_key_audit_matter",
+      "blind_shenhua_2024_coal_revenue_recognition"
+    ]
+  },
+  "rates_by_task_type": {
+    "calculate": {
+      "case_count": 4,
+      "machine_pass_count": 0,
+      "machine_pass_rate": 0.0,
+      "audited_pass_count": 0,
+      "audited_pass_rate": 0.0
+    },
+    "compare": {
+      "case_count": 4,
+      "machine_pass_count": 2,
+      "machine_pass_rate": 0.5,
+      "audited_pass_count": 2,
+      "audited_pass_rate": 0.5
+    },
+    "extract": {
+      "case_count": 26,
+      "machine_pass_count": 15,
+      "machine_pass_rate": 0.5769230769230769,
+      "audited_pass_count": 22,
+      "audited_pass_rate": 0.8461538461538461
+    }
+  },
+  "rates_by_challenge_type": {
+    "accounting_scope": {
+      "case_count": 2,
+      "machine_pass_count": 0,
+      "machine_pass_rate": 0.0,
+      "audited_pass_count": 1,
+      "audited_pass_rate": 0.5
+    },
+    "arithmetic_reconciliation": {
+      "case_count": 4,
+      "machine_pass_count": 0,
+      "machine_pass_rate": 0.0,
+      "audited_pass_count": 0,
+      "audited_pass_rate": 0.0
+    },
+    "cross_company": {
+      "case_count": 2,
+      "machine_pass_count": 1,
+      "machine_pass_rate": 0.5,
+      "audited_pass_count": 1,
+      "audited_pass_rate": 0.5
+    },
+    "cross_document": {
+      "case_count": 2,
+      "machine_pass_count": 1,
+      "machine_pass_rate": 0.5,
+      "audited_pass_count": 1,
+      "audited_pass_rate": 0.5
+    },
+    "cross_page_evidence": {
+      "case_count": 14,
+      "machine_pass_count": 8,
+      "machine_pass_rate": 0.5714285714285714,
+      "audited_pass_count": 12,
+      "audited_pass_rate": 0.8571428571428571
+    },
+    "dense_table": {
+      "case_count": 11,
+      "machine_pass_count": 11,
+      "machine_pass_rate": 1.0,
+      "audited_pass_count": 11,
+      "audited_pass_rate": 1.0
+    },
+    "document_blind": {
+      "case_count": 30,
+      "machine_pass_count": 15,
+      "machine_pass_rate": 0.5,
+      "audited_pass_count": 22,
+      "audited_pass_rate": 0.7333333333333333
+    },
+    "exact_value": {
+      "case_count": 4,
+      "machine_pass_count": 2,
+      "machine_pass_rate": 0.5,
+      "audited_pass_count": 4,
+      "audited_pass_rate": 1.0
+    },
+    "multi_fact": {
+      "case_count": 18,
+      "machine_pass_count": 12,
+      "machine_pass_rate": 0.6666666666666666,
+      "audited_pass_count": 16,
+      "audited_pass_rate": 0.8888888888888888
+    },
+    "multi_period": {
+      "case_count": 2,
+      "machine_pass_count": 1,
+      "machine_pass_rate": 0.5,
+      "audited_pass_count": 1,
+      "audited_pass_rate": 0.5
+    },
+    "narrative_evidence": {
+      "case_count": 8,
+      "machine_pass_count": 1,
+      "machine_pass_rate": 0.125,
+      "audited_pass_count": 6,
+      "audited_pass_rate": 0.75
+    },
+    "safe_abstention": {
+      "case_count": 5,
+      "machine_pass_count": 2,
+      "machine_pass_rate": 0.4,
+      "audited_pass_count": 2,
+      "audited_pass_rate": 0.4
+    },
+    "temporal_scope": {
+      "case_count": 5,
+      "machine_pass_count": 2,
+      "machine_pass_rate": 0.4,
+      "audited_pass_count": 2,
+      "audited_pass_rate": 0.4
+    },
+    "unit_mismatch": {
+      "case_count": 1,
+      "machine_pass_count": 1,
+      "machine_pass_rate": 1.0,
+      "audited_pass_count": 1,
+      "audited_pass_rate": 1.0
+    }
+  },
+  "runtime_cost": {
+    "model_requests": 73,
+    "model_input_tokens": 153252,
+    "model_output_tokens": 14448,
+    "model_total_tokens": 167700,
+    "average_total_tokens_per_executed_case": 5590.0,
+    "tool_calls": 71,
+    "tool_counts": {
+      "get_page_window": 21,
+      "search_evidence": 50
+    },
+    "tool_duration_ms": 4531.404999550432
+  },
+  "next_single_variable_recommendation": {
+    "id": "p2-b1-document-scope-vs-fact-period",
+    "change": "只修改extract规划器：把报告文档年份与问题事实年份分开，并在命名公司只有唯一候选年报时允许从索引元数据推断文档范围。",
+    "direct_target_cases": [
+      "blind_yili_inventory_policy",
+      "blind_midea_2023_future_actual",
+      "blind_midea_2024_future_actual",
+      "blind_shenhua_2024_future_actual"
+    ],
+    "expected_direction": "修复1个错误澄清和3个未来事实未安全拒答；不同时加入计算器或完整性检查。"
+  },
+  "cases": [
+    {
+      "case_id": "blind_moutai_revenue_yoy",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "revenue",
+        "yoy"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "贵州茅台2024年营业收入为170,899,152,276.34元（约1708.99亿元）。[1]\n贵州茅台2024年营业收入同比增幅为15.71%。[1]",
+      "citation_pages": [
+        [
+          5,
+          5
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_moutai_cashflow_change",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "fact_match_failure"
+      ],
+      "machine_fact_accuracy": 0.6666666666666666,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "cashflow",
+        "cashflow_yoy",
+        "cashflow_reason"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "gold_matcher_false_negative",
+        "matched_fact_overrides": [
+          "cashflow_reason"
+        ],
+        "audited_case_pass": true,
+        "reason": "回答中的两项增长原因与年报第8-9页原文语义一致；自动评分只接受压缩后的金标短语，未接受完整同义表述。"
+      },
+      "answer": "贵州茅台2024年经营活动产生的现金流量净额为92,463,692,168.43元。[1][2]\n上年同期（2023年）经营活动产生的现金流量净额为66,593,247,721.09元。[1][2]\n经营活动产生的现金流量净额同比增幅为38.85%。[1]\n经营活动产生的现金流量净额增长原因：主要是本期公司销售商品收到的现金增加，以及控股子公司贵州茅台集团财务有限公司归集集团公司其他成员单位资金较上期增加。[1]",
+      "citation_pages": [
+        [
+          8,
+          9
+        ],
+        [
+          67,
+          67
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_moutai_rd_composition",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "total",
+        "expensed",
+        "capitalized",
+        "ratio"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "贵州茅台2024年研发投入由费用化研发投入和资本化研发投入两部分构成，本期费用化研发投入593,779,816.96元，本期资本化研发投入101,596,918.85元。[1]\n贵州茅台2024年研发投入合计695,376,735.81元。[1][2]\n贵州茅台2024年研发投入总额占营业收入比例为0.41%。[1]",
+      "citation_pages": [
+        [
+          11,
+          11
+        ],
+        [
+          119,
+          119
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_moutai_product_margin",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "moutai",
+        "series"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "2024年贵州茅台茅台酒毛利率为94.06%。[1]\n2024年贵州茅台其他系列酒毛利率为79.87%。[1]",
+      "citation_pages": [
+        [
+          9,
+          9
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_yili_product_margin",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "liquid",
+        "powder",
+        "cold",
+        "other",
+        "highest"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "伊利股份2024年液体乳毛利率为30.98%[1][2]\n伊利股份2024年奶粉及奶制品毛利率为41.02%[1][2]\n伊利股份2024年冷饮产品毛利率为37.42%[1][2]\n伊利股份2024年其他产品毛利率为23.55%[1][2]\n伊利股份2024年各产品中毛利率最高的是奶粉及奶制品（41.02%）[1][2]",
+      "citation_pages": [
+        [
+          19,
+          20
+        ],
+        [
+          26,
+          27
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_moutai_production_sales_inventory",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "production",
+        "sales",
+        "inventory"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "贵州茅台2024年酒类生产量为104,384.50吨。[1]\n贵州茅台2024年酒类销售量为83,332.76吨。[1]\n贵州茅台2024年酒类库存量为310,008.02吨。[1]",
+      "citation_pages": [
+        [
+          9,
+          10
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_yili_inventory_policy",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "accounting_scope",
+        "narrative_evidence",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "behavior_mismatch",
+        "unexpected_clarification",
+        "fact_match_failure",
+        "citation_gold_page_miss"
+      ],
+      "machine_fact_accuracy": 0.0,
+      "machine_citation_source_coverage": 0.0,
+      "audited_case_pass": false,
+      "audited_matched_fact_ids": [],
+      "audited_missing_fact_ids": [
+        "valuation",
+        "inventory_system",
+        "consumables"
+      ],
+      "audited_citation_source_coverage": 0.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "planner_missing_document_scope_inference",
+        "audited_case_pass": false,
+        "reason": "公司唯一且问题不依赖事实年度，规划器仍因缺少显式年份而错误要求澄清。"
+      },
+      "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+      "citation_pages": [],
+      "tool_sequence": []
+    },
+    {
+      "case_id": "blind_yili_cashflow_change",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "fact_match_failure"
+      ],
+      "machine_fact_accuracy": 0.6666666666666666,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "cashflow",
+        "growth",
+        "reason"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "gold_matcher_false_negative",
+        "matched_fact_overrides": [
+          "reason"
+        ],
+        "audited_case_pass": true,
+        "reason": "回答准确复述2025年春节备货和预收经销商货款增加；自动评分未接受完整句式。"
+      },
+      "answer": "伊利股份2024年经营活动产生的现金流量净额为21,739,740,393.38元。[1][2]\n伊利股份2024年经营活动现金流量净额同比增幅为18.86%（上年同期为18,290,357,650.56元）。[1][2]\n伊利股份2024年经营活动现金流量净额变动原因：主要因2025年春节备货，预收经销商货款增加使得本期经营活动现金流量净额增加所致。[1][2][3]",
+      "citation_pages": [
+        [
+          24,
+          24
+        ],
+        [
+          18,
+          19
+        ],
+        [
+          19,
+          19
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_yili_liquid_milk_inventory",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "production",
+        "sales",
+        "inventory",
+        "reason"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "伊利股份2024年液体乳生产量为9,034,835吨，比上年减少6.84%。[1]\n伊利股份2024年液体乳销售量为8,926,606吨，比上年减少7.92%。[1]\n伊利股份2024年液体乳库存量为333,555吨，比上年增加48.03%。[1]\n液体乳库存量增加的主要原因是2025年春节备货导致期末库存量较大。[1]",
+      "citation_pages": [
+        [
+          20,
+          20
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_yili_annual_deducted_profit",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "arithmetic_reconciliation",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "unsupported_task_type",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "unsupported_task_type"
+      ],
+      "machine_fact_accuracy": null,
+      "machine_citation_source_coverage": null,
+      "audited_case_pass": false,
+      "audited_matched_fact_ids": [],
+      "audited_missing_fact_ids": [
+        "reported",
+        "deducted",
+        "nonrecurring",
+        "difference"
+      ],
+      "audited_citation_source_coverage": null,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "unsupported_general_calculation",
+        "audited_case_pass": false,
+        "reason": "任务需要通用带来源算术，当前 calculate 仅实现P1的两种固定操作。"
+      },
+      "answer": null,
+      "citation_pages": [],
+      "tool_sequence": []
+    },
+    {
+      "case_id": "blind_u_moutai_2025_actual_revenue",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "safe_abstention",
+        "temporal_scope"
+      ],
+      "expected_behavior": "abstain",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "未找到可展开的表格锚点，系统拒绝猜测。",
+      "citation_pages": [],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence"
+      ]
+    },
+    {
+      "case_id": "blind_u_yili_top_customer_names",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "safe_abstention",
+        "temporal_scope"
+      ],
+      "expected_behavior": "abstain",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "证据中未包含伊利股份2024年前五大客户的具体名称。虽然chunk a82a81e52f52:c54:4fd21da6c3f59495提到\"前五名客户销售额711,963.51万元，占年度销售总额6.17%\"，但未列出前五大客户的具体名字。其他chunk也未提供客户名称信息。因此证据不足，无法回答前五大客户分别叫什么名字。",
+      "citation_pages": [],
+      "tool_sequence": [
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_midea_2023_revenue_yoy",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "exact_value",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "citation_gold_page_miss"
+      ],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 0.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "revenue",
+        "yoy"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "citation_whitelist_false_negative",
+        "audited_citation_source_coverage": 1.0,
+        "audited_case_pass": true,
+        "reason": "引用第51-52页的营业收入构成表同时包含372,037,280千元和8.18%，但金标页集合只列第10-11页。"
+      },
+      "answer": "美的集团2023年营业收入为372,037,280千元（约3,720亿元）。[1][2]\n美的集团2023年营业收入同比增幅为8.18%。[1]",
+      "citation_pages": [
+        [
+          51,
+          52
+        ],
+        [
+          154,
+          154
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_midea_2023_product_mix",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "hvac_revenue",
+        "hvac_share",
+        "appliance_revenue",
+        "appliance_share"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "美的集团2023年暖通空调收入为161,110,843千元，占营业收入比重43.31%。[1]\n美的集团2023年消费电器收入为134,691,669千元，占营业收入比重36.20%。[1]",
+      "citation_pages": [
+        [
+          51,
+          52
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_midea_2023_rd_profile",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "rd_spend",
+        "rd_ratio",
+        "rd_people"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "美的集团2023年研发投入金额为14,583,311千元（约145.83亿元）。[1]\n美的集团2023年研发投入占营业收入比例为3.92%。[1]\n美的集团2023年研发人员数量为23,242人。[1]",
+      "citation_pages": [
+        [
+          54,
+          55
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_midea_2023_inventory_increase",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "arithmetic_reconciliation"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "unsupported_task_type",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "unsupported_task_type"
+      ],
+      "machine_fact_accuracy": null,
+      "machine_citation_source_coverage": null,
+      "audited_case_pass": false,
+      "audited_matched_fact_ids": [],
+      "audited_missing_fact_ids": [
+        "inventory_increase"
+      ],
+      "audited_citation_source_coverage": null,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "unsupported_general_calculation",
+        "audited_case_pass": false,
+        "reason": "任务需要通用带来源算术，当前 calculate 仅实现P1的两种固定操作。"
+      },
+      "answer": null,
+      "citation_pages": [],
+      "tool_sequence": []
+    },
+    {
+      "case_id": "blind_midea_2023_key_audit_matter",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "fact_match_failure"
+      ],
+      "machine_fact_accuracy": 0.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "kam_reason"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "gold_matcher_false_negative",
+        "matched_fact_overrides": [
+          "kam_reason"
+        ],
+        "audited_case_pass": true,
+        "reason": "回答完整覆盖销售渠道、客户/销量、金额重大和审计资源投入，符合第154页原文。"
+      },
+      "answer": "美的集团在客户取得相关商品或服务的控制权时，按预期有权收取的对价金额确认相关收入。[1]\n2023年度美的集团合并营业收入约为人民币372,037,280千元，其中暖通空调及消费电器收入合计约为人民币323,430,039千元。[1]\n由于美的集团通过不同的销售渠道在境内外销售产品，销售客户众多且销售量巨大，暖通空调及消费电器销售收入金额对财务报表影响重大，审计师在审计中予以重点关注并投入大量审计资源执行相应审计程序，因此将该事项作为关键审计事项。[1]",
+      "citation_pages": [
+        [
+          154,
+          154
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_midea_2023_future_actual",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "safe_abstention",
+        "temporal_scope"
+      ],
+      "expected_behavior": "abstain",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "behavior_mismatch",
+        "unexpected_clarification"
+      ],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": false,
+      "audited_matched_fact_ids": [],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "planner_document_fact_year_confusion",
+        "audited_case_pass": false,
+        "reason": "问题中的未来事实年份与2023年文档年份并存，规划器错误澄清而未安全拒答。"
+      },
+      "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+      "citation_pages": [],
+      "tool_sequence": []
+    },
+    {
+      "case_id": "blind_midea_2024_revenue_yoy",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "exact_value",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "citation_gold_page_miss"
+      ],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 0.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "revenue",
+        "yoy"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "citation_whitelist_false_negative",
+        "audited_citation_source_coverage": 1.0,
+        "audited_case_pass": true,
+        "reason": "引用第49-50页的营业收入构成表同时包含407,149,600千元和9.44%，但金标页集合只列第9-10页。"
+      },
+      "answer": "美的集团2024年度合并营业收入约为人民币407,149,600千元。[1][2]\n美的集团2024年营业收入合计为407,149,600千元，2023年为372,037,280千元，同比增减9.44%。[2]",
+      "citation_pages": [
+        [
+          151,
+          151
+        ],
+        [
+          49,
+          50
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_midea_2024_product_mix",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "smart_home_revenue",
+        "smart_home_share",
+        "bi_revenue",
+        "bi_share"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "美的集团2024年智能家居业务收入为269,532,353千元（约2,695.32亿元），占营业收入比重66.20%。[1]\n美的集团2024年商业及工业解决方案收入为104,496,253千元（约1,044.96亿元），占营业收入比重25.67%。[1]",
+      "citation_pages": [
+        [
+          49,
+          50
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_midea_2024_rd_profile",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "rd_spend",
+        "rd_ratio",
+        "rd_people"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "美的集团2024年研发投入金额为16,232,771千元（约162.33亿元）。[1]\n美的集团2024年研发投入占营业收入比例为3.99%。[1]\n美的集团2024年研发人员数量为23,693人。[1][2]",
+      "citation_pages": [
+        [
+          52,
+          53
+        ],
+        [
+          81,
+          82
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_midea_2024_inventory_increase",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "arithmetic_reconciliation"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "unsupported_task_type",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "unsupported_task_type"
+      ],
+      "machine_fact_accuracy": null,
+      "machine_citation_source_coverage": null,
+      "audited_case_pass": false,
+      "audited_matched_fact_ids": [],
+      "audited_missing_fact_ids": [
+        "inventory_increase",
+        "inventory_reason"
+      ],
+      "audited_citation_source_coverage": null,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "unsupported_general_calculation",
+        "audited_case_pass": false,
+        "reason": "任务需要通用带来源算术，当前 calculate 仅实现P1的两种固定操作。"
+      },
+      "answer": null,
+      "citation_pages": [],
+      "tool_sequence": []
+    },
+    {
+      "case_id": "blind_midea_2024_key_audit_matter",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "narrative_evidence",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "fact_match_failure"
+      ],
+      "machine_fact_accuracy": 0.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "kam_reason"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "gold_matcher_false_negative",
+        "matched_fact_overrides": [
+          "kam_reason"
+        ],
+        "audited_case_pass": true,
+        "reason": "回答完整覆盖销售渠道、客户/销量、金额重大和审计资源投入，符合第151页原文。"
+      },
+      "answer": "美的集团在客户取得相关商品或服务的控制权时，按预期有权收取的对价金额确认相关收入。[1]\n2024年度美的集团合并营业收入约为人民币407,149,600千元，其中智能家居业务收入合计约为人民币295,231,074千元。[1]\n由于美的集团通过不同的销售渠道在境内外销售智能家居业务产品，销售客户众多且销售量巨大，智能家居业务销售收入金额对财务报表影响重大，审计师在审计中予以重点关注并投入大量审计资源执行相应审计程序，因此将该事项作为关键审计事项。[1]",
+      "citation_pages": [
+        [
+          151,
+          151
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_midea_2024_future_actual",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "safe_abstention",
+        "temporal_scope"
+      ],
+      "expected_behavior": "abstain",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "behavior_mismatch",
+        "unexpected_clarification"
+      ],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": false,
+      "audited_matched_fact_ids": [],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "planner_document_fact_year_confusion",
+        "audited_case_pass": false,
+        "reason": "问题中的未来事实年份与2024年文档年份并存，规划器错误澄清而未安全拒答。"
+      },
+      "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+      "citation_pages": [],
+      "tool_sequence": []
+    },
+    {
+      "case_id": "blind_shenhua_2024_revenue_yoy",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "exact_value"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "revenue",
+        "yoy"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "中国神华2024年营业收入为338,375百万元（3,383.75亿元）。[1][2][3]\n中国神华2023年营业收入为343,074百万元（3,430.74亿元）。[1][2][3]\n中国神华2024年营业收入较2023年同比下降1.4%。[1][2][3]",
+      "citation_pages": [
+        [
+          7,
+          7
+        ],
+        [
+          284,
+          284
+        ],
+        [
+          14,
+          14
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_shenhua_2024_coal_source_margin",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "own_revenue",
+        "own_margin",
+        "purchased_revenue",
+        "purchased_margin"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "2024年中国神华自产煤销售收入为172,442百万元，毛利率为44.5%。[1]\n2024年中国神华外购煤销售收入为86,373百万元，毛利率为1.8%。[1]",
+      "citation_pages": [
+        [
+          29,
+          30
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_shenhua_2024_rd_profile",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "dense_table",
+        "multi_fact",
+        "cross_page_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "rd_spend",
+        "rd_ratio",
+        "rd_people"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "2024年中国神华研发投入合计4,148百万元（即41.48亿元）。[1]\n2024年中国神华研发投入占营业收入比例为1.2%。[1]\n2024年中国神华研发人员数量为3,628人。[1][2]",
+      "citation_pages": [
+        [
+          22,
+          23
+        ],
+        [
+          88,
+          89
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_shenhua_2024_coal_sales_production_gap",
+      "task_type": "calculate",
+      "challenge_types": [
+        "document_blind",
+        "arithmetic_reconciliation"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "unsupported_task_type",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "unsupported_task_type"
+      ],
+      "machine_fact_accuracy": null,
+      "machine_citation_source_coverage": null,
+      "audited_case_pass": false,
+      "audited_matched_fact_ids": [],
+      "audited_missing_fact_ids": [
+        "sales_production_gap"
+      ],
+      "audited_citation_source_coverage": null,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "unsupported_general_calculation",
+        "audited_case_pass": false,
+        "reason": "任务需要通用带来源算术，当前 calculate 仅实现P1的两种固定操作。"
+      },
+      "answer": null,
+      "citation_pages": [],
+      "tool_sequence": []
+    },
+    {
+      "case_id": "blind_shenhua_2024_coal_revenue_recognition",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "accounting_scope",
+        "narrative_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "fact_match_failure"
+      ],
+      "machine_fact_accuracy": 0.5,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "recognition",
+        "revenue_share"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "evaluator_false_negative",
+        "failure_category": "gold_matcher_false_negative",
+        "matched_fact_overrides": [
+          "recognition"
+        ],
+        "audited_case_pass": true,
+        "reason": "回答明确写出客户取得煤炭商品控制权时确认收入，符合第132页原文。"
+      },
+      "answer": "中国神华2024年度煤炭销售收入在客户取得煤炭商品的控制权时确认，管理层对单个合同条款进行评估以确定确认收入的适当时点，确认收入的时点因合同条款规定的不同而有所差异。[1]\n2024年度中国神华及其子公司的煤炭销售收入占营业收入约65%。[1]",
+      "citation_pages": [
+        [
+          132,
+          132
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence",
+        "get_page_window"
+      ]
+    },
+    {
+      "case_id": "blind_shenhua_2024_future_actual",
+      "task_type": "extract",
+      "challenge_types": [
+        "document_blind",
+        "safe_abstention",
+        "temporal_scope"
+      ],
+      "expected_behavior": "abstain",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "behavior_mismatch",
+        "unexpected_clarification"
+      ],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": false,
+      "audited_matched_fact_ids": [],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "planner_document_fact_year_confusion",
+        "audited_case_pass": false,
+        "reason": "问题中的未来事实年份与2024年文档年份并存，规划器错误澄清而未安全拒答。"
+      },
+      "answer": "请明确一家公司和一个报告年度，以限定文档范围。",
+      "citation_pages": [],
+      "tool_sequence": []
+    },
+    {
+      "case_id": "blind_midea_2023_2024_revenue_compare",
+      "task_type": "compare",
+      "challenge_types": [
+        "cross_document",
+        "multi_period",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "fact_match_failure"
+      ],
+      "machine_fact_accuracy": 0.75,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": false,
+      "audited_matched_fact_ids": [
+        "midea_2023_revenue_yoy:revenue",
+        "midea_2024_revenue_yoy:revenue",
+        "midea_2024_revenue_yoy:yoy"
+      ],
+      "audited_missing_fact_ids": [
+        "midea_2023_revenue_yoy:yoy"
+      ],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "multi_fact_omission",
+        "audited_case_pass": false,
+        "reason": "回答遗漏2023年营业收入同比增幅8.18%，只给出2024年同比。"
+      },
+      "answer": "美的集团-2023：美的集团2023年营业收入为372,037,280千元（约3720.37亿元）。[1][2]\n美的集团-2024：美的集团2024年营业收入为407,149,600千元（约4071.50亿元）。[3][4]\n美的集团-2024：美的集团2024年营业收入较2023年同比增长9.44%，增加35,112,320千元（407,149,600 - 372,037,280）。[3][4]",
+      "citation_pages": [
+        [
+          10,
+          11
+        ],
+        [
+          51,
+          52
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          49,
+          50
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence"
+      ]
+    },
+    {
+      "case_id": "blind_midea_2023_2024_rd_compare",
+      "task_type": "compare",
+      "challenge_types": [
+        "cross_document",
+        "multi_period",
+        "dense_table"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "midea_2023_rd_profile:rd_spend",
+        "midea_2023_rd_profile:rd_ratio",
+        "midea_2023_rd_profile:rd_people",
+        "midea_2024_rd_profile:rd_spend",
+        "midea_2024_rd_profile:rd_ratio",
+        "midea_2024_rd_profile:rd_people"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "美的集团-2023：2023年研发投入金额为14,583,311千元（约145.83亿元），研发投入占营业收入比例为3.92%。[1]\n美的集团-2023：2023年研发人员数量为23,242人，研发人员数量占比为11.69%。[1]\n美的集团-2024：2024年研发投入金额为16,232,771千元（约162.33亿元），研发投入占营业收入比例为3.99%。[2]\n美的集团-2024：2024年研发人员数量为23,693人，研发人员数量占比为11.94%。[2]\n美的集团-2024：研发投入从2023年的14,583,311千元增至2024年的16,232,771千元，增加1,649,460千元，增幅为11.31%；研发投入占营业收入比例从3.92%升至3.99%，上升0.07个百分点；研发人员数量从23,242人增至23,693人，增加451人，增幅为1.94%。[2]",
+      "citation_pages": [
+        [
+          54,
+          55
+        ],
+        [
+          52,
+          53
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence"
+      ]
+    },
+    {
+      "case_id": "blind_moutai_yili_cashflow_compare",
+      "task_type": "compare",
+      "challenge_types": [
+        "cross_company",
+        "multi_fact",
+        "narrative_evidence"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": false,
+      "machine_failure_tags": [
+        "fact_match_failure",
+        "citation_gold_page_miss"
+      ],
+      "machine_fact_accuracy": 0.6666666666666666,
+      "machine_citation_source_coverage": 0.0,
+      "audited_case_pass": false,
+      "audited_matched_fact_ids": [
+        "moutai_cashflow_change:cashflow",
+        "moutai_cashflow_change:cashflow_yoy",
+        "yili_cashflow_change:cashflow",
+        "yili_cashflow_change:growth",
+        "yili_cashflow_change:reason"
+      ],
+      "audited_missing_fact_ids": [
+        "moutai_cashflow_change:cashflow_reason"
+      ],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": {
+        "verdict": "genuine_agent_failure",
+        "failure_category": "multi_fact_omission",
+        "matched_fact_overrides": [
+          "yili_cashflow_change:reason"
+        ],
+        "audited_citation_source_coverage": 1.0,
+        "audited_case_pass": false,
+        "reason": "伊利原因及全部已回答数值都有有效替代页引用，但回答遗漏贵州茅台现金流增长原因。"
+      },
+      "answer": "贵州茅台：贵州茅台2024年经营活动产生的现金流量净额为92,463,692,168.43元，2023年为66,593,247,721.09元，同比增幅为38.85%。[1]\n伊利股份：伊利股份2024年经营活动产生的现金流量净额为21,739,740,393.38元，2023年为18,290,357,650.56元，同比增幅为18.86%。[2]\n伊利股份：伊利股份2024年经营活动现金流量净额变动原因：主要因2025年春节备货，预收经销商货款增加使得本期经营活动现金流量净额增加所致。[3]\n贵州茅台：比较结论：贵州茅台2024年经营活动现金流量净额（92,463,692,168.43元）显著高于伊利股份（21,739,740,393.38元），差额为70,723,951,775.05元；同比增幅方面，贵州茅台（38.85%）高于伊利股份（18.86%）。[1][2]",
+      "citation_pages": [
+        [
+          5,
+          5
+        ],
+        [
+          7,
+          7
+        ],
+        [
+          24,
+          24
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence"
+      ]
+    },
+    {
+      "case_id": "blind_midea_shenhua_2024_revenue_compare",
+      "task_type": "compare",
+      "challenge_types": [
+        "cross_company",
+        "unit_mismatch",
+        "multi_fact"
+      ],
+      "expected_behavior": "answer",
+      "runtime_status": "executed",
+      "machine_case_pass": true,
+      "machine_failure_tags": [],
+      "machine_fact_accuracy": 1.0,
+      "machine_citation_source_coverage": 1.0,
+      "audited_case_pass": true,
+      "audited_matched_fact_ids": [
+        "midea_2024_revenue_yoy:revenue",
+        "midea_2024_revenue_yoy:yoy",
+        "shenhua_2024_revenue_yoy:revenue",
+        "shenhua_2024_revenue_yoy:yoy"
+      ],
+      "audited_missing_fact_ids": [],
+      "audited_citation_source_coverage": 1.0,
+      "manual_audit": null,
+      "answer": "美的集团：美的集团2024年营业收入为407,149,600千元（即4071.496亿元），2023年为372,037,280千元，本年比上年增减9.44%。[1][2]\n中国神华：中国神华2024年营业收入为338,375百万元（即3383.75亿元），2023年为343,074百万元，2024年比2023年增减为-1.4%（同比下降1.4%）。[3]",
+      "citation_pages": [
+        [
+          9,
+          10
+        ],
+        [
+          49,
+          50
+        ],
+        [
+          7,
+          7
+        ]
+      ],
+      "tool_sequence": [
+        "search_evidence",
+        "search_evidence"
+      ]
+    }
+  ],
+  "errors": []
+}

@@ -118,6 +118,37 @@ def test_structured_table_sidecar_enriches_hits_without_changing_chunk_identity(
     assert "structured_tables" not in hit.chunk.model_dump()
 
 
+def test_schema1_structured_table_sidecar_remains_readable(tmp_path: Path) -> None:
+    source_chunk = chunk("c0", "第一季度 营业收入 100.00", "分季度主要财务数据")
+    source = tmp_path / "chunks.jsonl"
+    source.write_text(source_chunk.model_dump_json() + "\n", encoding="utf-8")
+    index_dir = tmp_path / "index"
+    PersistentIndex.build(
+        index_dir,
+        [source_chunk],
+        source,
+        structured_tables=[quarterly_table(source_chunk)],
+    )
+    manifest_path = index_dir / "manifest.json"
+    artifact_path = index_dir / "structured_tables.manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
+    manifest.update(
+        {
+            "structured_table_schema_version": 1,
+            "structured_table_generator": "coordinate-safe-v2",
+        }
+    )
+    artifact.update({"schema_version": 1, "generator": "coordinate-safe-v2"})
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    artifact_path.write_text(json.dumps(artifact), encoding="utf-8")
+
+    reopened = PersistentIndex(index_dir)
+
+    [hit] = reopened.search("营业收入", mode="lexical", top_k=1, candidate_k=1)
+    assert hit.chunk.structured_tables[0].cells[0].value_bbox is None
+
+
 def test_structured_table_build_rejects_wrong_source_chunk_hash(tmp_path: Path) -> None:
     source_chunk = chunk("c0", "营业收入 100.00", "分季度主要财务数据")
     source = tmp_path / "chunks.jsonl"
@@ -218,6 +249,12 @@ def test_metadata_filters_exclude_other_company_and_year(tmp_path: Path) -> None
 
     assert [hit.chunk.chunk_id for hit in hits] == ["c1"]
     assert missing == []
+    assert index.list_company_names() == ["乙公司", "甲公司"]
+    assert index.list_report_years() == [2024]
+    assert index.list_company_report_years() == {
+        "乙公司": [2024],
+        "甲公司": [2024],
+    }
 
 
 def test_index_propagates_statement_scope_from_explicit_section_boundaries(
@@ -240,6 +277,43 @@ def test_index_propagates_statement_scope_from_explicit_section_boundaries(
     assert resolved[0].statement_scope == "consolidated"
     assert resolved[1].statement_scope == "parent"
     assert "statement_scope" not in resolved[0].model_dump()
+
+
+def test_page_window_is_bounded_and_never_crosses_documents(tmp_path: Path) -> None:
+    chunks = [
+        chunk("c0", "page nine", "section").model_copy(
+            update={"page_start": 9, "page_end": 9}
+        ),
+        chunk("c1", "page ten", "section").model_copy(
+            update={"page_start": 10, "page_end": 10}
+        ),
+        chunk("c2", "page eleven", "section").model_copy(
+            update={"page_start": 11, "page_end": 11}
+        ),
+        chunk("c3", "page twelve", "section").model_copy(
+            update={"page_start": 12, "page_end": 12}
+        ),
+        chunk("c4", "other document page ten", "section").model_copy(
+            update={
+                "document_id": "doc-2",
+                "chunk_index": 0,
+                "page_start": 10,
+                "page_end": 10,
+            }
+        ),
+    ]
+    source = tmp_path / "chunks.jsonl"
+    source.write_text(
+        "".join(item.model_dump_json() + "\n" for item in chunks), encoding="utf-8"
+    )
+    index = PersistentIndex.build(tmp_path / "index", chunks, source)
+
+    window = index.page_window("c2", before_pages=1, after_pages=0)
+
+    assert [item.chunk_id for item in window] == ["c1", "c2"]
+    assert {item.document_id for item in window} == {"doc-1"}
+    with pytest.raises(KeyError, match="Unknown anchor chunk"):
+        index.page_window("missing")
 
 
 def test_index_detects_manifest_database_count_mismatch(tmp_path: Path) -> None:

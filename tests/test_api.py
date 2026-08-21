@@ -100,9 +100,7 @@ async def request_app(app, requests: list[tuple[str, str, dict | None, dict | No
         transport = httpx.ASGITransport(app=app)
         async with httpx.AsyncClient(transport=transport, base_url="http://test") as client:
             for method, path, payload, headers in requests:
-                responses.append(
-                    await client.request(method, path, json=payload, headers=headers)
-                )
+                responses.append(await client.request(method, path, json=payload, headers=headers))
     return responses
 
 
@@ -211,9 +209,7 @@ def test_upload_job_persists_and_reaches_index_bound_ready_state(
     pdf_bytes = pdf.tobytes()
     pdf.close()
 
-    uploaded, started, status = asyncio.run(
-        upload_and_process(create_app(settings), pdf_bytes)
-    )
+    uploaded, started, status = asyncio.run(upload_and_process(create_app(settings), pdf_bytes))
 
     body = status.json()
     assert uploaded.status_code == 202
@@ -232,6 +228,7 @@ def test_upload_job_persists_and_reaches_index_bound_ready_state(
         )
     )
     assert reopened.json()["index_id"] == body["index_id"]
+
 
 def test_capabilities_match_lexical_only_runtime(tmp_path: Path) -> None:
     index_dir = build_test_index(tmp_path)
@@ -257,6 +254,9 @@ def test_capabilities_match_lexical_only_runtime(tmp_path: Path) -> None:
         "ingestion_jobs": False,
         "claim_citations": True,
         "evidence_resolve": True,
+        "agent_tasks": True,
+        "human_reviews": True,
+        "request_api_keys": True,
     }
     assert body["filter_fields"] == [
         "document_keys",
@@ -344,16 +344,12 @@ def test_evidence_resolve_preserves_order_hash_and_index_binding(tmp_path: Path)
                 citations=[],
                 provider="test",
                 grounded=True,
-                claim_citations=[
-                    ClaimCitation(claim="答案", citation_ordinals=[1])
-                ],
+                claim_citations=[ClaimCitation(claim="答案", citation_ordinals=[1])],
             ),
             "answer",
         ),
         (
-            GeneratedAnswer(
-                answer="证据不足", citations=[], provider="abstention", grounded=False
-            ),
+            GeneratedAnswer(answer="证据不足", citations=[], provider="abstention", grounded=False),
             "abstain",
         ),
         (
@@ -414,9 +410,78 @@ def test_query_contract_exposes_agent_metadata_and_outcome(
     assert body["answer"] == generated.answer
     assert body["provider"] == generated.provider
     assert body["grounded"] == generated.grounded
-    assert body["claim_citations"] == [
-        item.model_dump() for item in generated.claim_citations
-    ]
+    assert body["claim_citations"] == [item.model_dump() for item in generated.claim_citations]
+
+
+def test_query_uses_request_scoped_key_without_returning_it(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    index_dir = build_test_index(tmp_path)
+    settings = app_settings(index_dir, tmp_path)
+    observed: dict[str, object] = {}
+
+    def generate(self, query, hits):
+        observed.update(
+            api_key=self.api_key,
+            enabled=self.enabled,
+            model=self.model,
+        )
+        return GeneratedAnswer(
+            answer="营业收入为一百亿元 [1]",
+            citations=[],
+            provider="test",
+            grounded=True,
+        )
+
+    monkeypatch.setattr(
+        "findoc_rag.answer_generation.GroundedAnswerGenerator.generate",
+        generate,
+    )
+    [response] = asyncio.run(
+        request_app(
+            create_app(settings),
+            [
+                (
+                    "POST",
+                    "/v1/query",
+                    {"query": "营业收入", "top_k": 1},
+                    {"X-DeepSeek-API-Key": "sk-request-only"},
+                )
+            ],
+        )
+    )
+
+    assert response.status_code == 200
+    assert observed == {
+        "api_key": "sk-request-only",
+        "enabled": True,
+        "model": "deepseek-chat",
+    }
+    assert "sk-request-only" not in response.text
+
+
+def test_agent_web_endpoint_requires_provider_key(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.delenv("DEEPSEEK_API_KEY", raising=False)
+    [response] = asyncio.run(
+        request_app(
+            create_app(app_settings(build_test_index(tmp_path), tmp_path)),
+            [
+                (
+                    "POST",
+                    "/v1/agent/tasks",
+                    {"task_type": "compare", "query": "比较甲公司和乙公司营业收入"},
+                    None,
+                )
+            ],
+        )
+    )
+
+    assert response.status_code == 401
+    assert response.json()["error"]["code"] == "provider_key_required"
 
 
 def test_major_operation_ids_are_stable(tmp_path: Path) -> None:
@@ -425,6 +490,8 @@ def test_major_operation_ids_are_stable(tmp_path: Path) -> None:
     assert schema["paths"]["/v1/query"]["post"]["operationId"] == "query_documents"
     assert schema["paths"]["/v1/capabilities"]["get"]["operationId"] == "get_capabilities"
     assert schema["paths"]["/v1/evidence:resolve"]["post"]["operationId"] == "resolve_evidence"
+    assert schema["paths"]["/v1/agent/tasks"]["post"]["operationId"] == "run_agent_task"
+    assert schema["paths"]["/v1/reviews"]["get"]["operationId"] == "list_human_reviews"
 
 
 def test_dense_mode_returns_clear_error_for_lexical_index(tmp_path: Path) -> None:
@@ -530,15 +597,12 @@ def test_agent_endpoints_reject_unknown_request_fields(
     index_dir = build_test_index(tmp_path)
     settings = app_settings(index_dir, tmp_path)
 
-    [response] = asyncio.run(
-        request_app(create_app(settings), [("POST", path, payload, None)])
-    )
+    [response] = asyncio.run(request_app(create_app(settings), [("POST", path, payload, None)]))
 
     assert response.status_code == 422
     assert response.json()["error"]["code"] == "request_validation_error"
     assert any(
-        detail["location"][-1] == unknown_field
-        and detail["type"] == "extra_forbidden"
+        detail["location"][-1] == unknown_field and detail["type"] == "extra_forbidden"
         for detail in response.json()["error"]["details"]
     )
 

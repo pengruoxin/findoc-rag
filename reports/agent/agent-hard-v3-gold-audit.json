@@ -1,0 +1,53 @@
+{
+  "schema_version": "1",
+  "dataset": "data/evaluation/agent-hard-v3.json",
+  "dataset_sha256": "58dfdc06584fab4cf28a675f90e3ac626859d8c239e4dc325de6a3e83a6bc135",
+  "question_payload_sha256": "a8650156ea0377b15955636d72208b77b9f582d1a5c57a52745eba2740595cb4",
+  "model_assistance": "none",
+  "evaluated_agent_called": false,
+  "checks": {
+    "case_count_is_96": true,
+    "case_order_and_membership_match_questions": true,
+    "blind_fields_match_frozen_questions": true,
+    "answer_abstain_clarify_mapping_matches": true,
+    "behavior_distribution_matches": true,
+    "all_answer_cases_have_facts_and_sources": true,
+    "nonanswer_cases_do_not_invent_gold_evidence": true,
+    "fact_ids_are_unique_within_each_case": true,
+    "annotation_status_is_honestly_provisional": true,
+    "source_manifest_paths_and_sha256_match": true,
+    "all_gold_pages_are_in_pdf_range": true,
+    "gold_sources_match_case_company": true,
+    "plan_target_gold_only_applies_to_answerable_compare_cases": true,
+    "eight_company_spec_files_exist": true,
+    "company_specs_exactly_cover_dataset": true,
+    "independent_review_is_not_falsely_claimed": true
+  },
+  "check_count": 16,
+  "passed_check_count": 16,
+  "blockers": [],
+  "warnings": [
+    "Gold remains assistant-source-verified provisional until independent double review.",
+    "No DeepSeek/Agent baseline may be called by this validator."
+  ],
+  "statistics": {
+    "case_count": 96,
+    "behavior_counts": {
+      "abstain": 8,
+      "answer": 80,
+      "clarify": 8
+    },
+    "expected_fact_count": 435,
+    "evidence_source_count": 101,
+    "evidence_page_reference_count": 172
+  },
+  "source_validation": {
+    "valid": true,
+    "referenced_document_count": 16,
+    "verified_document_count": 16,
+    "errors": []
+  },
+  "ready_for_provisional_baseline": true,
+  "ready_for_frozen_test_claim": false,
+  "frozen_test_claim_blocker": "independent_double_review_pending"
+}

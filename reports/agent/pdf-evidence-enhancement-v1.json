@@ -1,0 +1,206 @@
+{
+  "schema_version": "1",
+  "status": "complete",
+  "evaluated_at": "2026-08-21T15:25:45.690154+08:00",
+  "evaluation": "PDF evidence enhancement on calibration+dev",
+  "source": {
+    "registry_path": "data/catalog/agent-hard-v3/registry.sqlite3",
+    "registry_sha256": "6c67f97263319af58e5f4f1f4ae45fbe216285db4455cb902a7d64171b7d75ae",
+    "baseline_index_id": "a4b314a9ff7e595a86bf",
+    "baseline_generation_path": "data/indexes/agent-hard-v3/development/generations/20260820T055043-3f82e702",
+    "hard_case_fixture": "data/evaluation/pdf-evidence-hard-cases-v1.json",
+    "hard_case_fixture_sha256": "9bd8601fb0d32762c277d6885e2245f19b93e2300aa0ba188ef2a91e7b3c44f3",
+    "prior_report": "reports/agent/agent-p4g-table-cell-geometry-proof-v1.json",
+    "prior_report_sha256": "c73e0b9ce9922a6fd96a51871cf3ff1b6ce89e9e241ac225003e0ca2a3f80a4c",
+    "source_manifest": "data/evaluation/agent-hard-v3-source-manifest.json",
+    "source_manifest_sha256": "a02bf4203f54461fa4257a8879716a638e3c94cb107c6afb5985ba08601fe25d",
+    "version_ids": [
+      "36fc46bac58c5d4178a8e168",
+      "98bd0683e63102fa94d4e8d5",
+      "65fc4f6a9da07b2903e6d50d",
+      "ccb4a15138df179e5b5e933a",
+      "97d682181ce5efdd78e14819",
+      "e0500fe033b87ab780bdf373",
+      "7b1e57e46f04e20f36415811",
+      "2430b27fea3f4edd22e682f3"
+    ],
+    "splits": [
+      "calibration",
+      "dev"
+    ],
+    "document_count": 8,
+    "chunk_count": 5012
+  },
+  "baseline": {
+    "table_count": 11,
+    "cell_count": 111,
+    "geometry_cell_count": 0,
+    "adjudicated_false_table_count": 3,
+    "adjudicated_false_cell_count": 12
+  },
+  "previous_p4g": {
+    "table_count": 11,
+    "cell_count": 111,
+    "geometry_cell_count": 102,
+    "text_only_cell_count": 9,
+    "frozen_test_opened": false
+  },
+  "enhanced": {
+    "generator": "coordinate-safe-v4-pdf-validated",
+    "table_count": 10,
+    "cell_count": 176,
+    "geometry_cell_count": 176,
+    "geometry_coverage": 1.0,
+    "text_only_cell_count": 0,
+    "proof_count": 176,
+    "adjudicated_false_table_count": 0,
+    "unaffected_baseline_cell_count": 96,
+    "unaffected_baseline_cell_preserved_count": 96,
+    "manual_expected_cell_count": 16,
+    "manual_expected_cell_exact_count": 16,
+    "region_proof_count": 4,
+    "region_area_ratio_max": 0.14143677069072055,
+    "region_proofs": [
+      {
+        "schema_version": "1",
+        "document_key": "cninfo:601318:annual:2023",
+        "source_sha256": "f55538814200d77a61492ba216e45508f487064207bca6a4d90c7b55add43823",
+        "table_cell_binding_sha256": "142e182e424fbe065e161797842b567c9d6e1a835436bc88d3698e397d24182a",
+        "page_number": 11,
+        "page_width": 595.2760009765625,
+        "page_height": 841.8900146484375,
+        "value_bbox": {
+          "x0": 403.6269836425781,
+          "y0": 251.87469482421875,
+          "x1": 433.6689453125,
+          "y1": 263.32269287109375
+        },
+        "region_bbox": {
+          "x0": 23.8110400390625,
+          "y0": 155.87469482421875,
+          "x1": 449.6689453125,
+          "y1": 287.32269287109375
+        },
+        "coordinate_space": "pymupdf_unrotated_page",
+        "native_value_match_count": 1,
+        "rendered_dpi": 180,
+        "rendered_width": 1066,
+        "rendered_height": 330,
+        "rendered_area_ratio": 0.11169788689857817,
+        "image_sha256": "a9fbea0f34186ad2908bd1dd199cd4da74132652bc3aa9697a161f9a566028b6",
+        "image_path": "reports/agent/pdf-evidence-regions-v1/f55538814200-p11-142e182e424fbe06.png",
+        "binding_sha256": "5cb21fecfa821b27955c8fbaa42f0ea5392fd9d81de5a09403252668907981a4"
+      },
+      {
+        "schema_version": "1",
+        "document_key": "cninfo:601318:annual:2023",
+        "source_sha256": "f55538814200d77a61492ba216e45508f487064207bca6a4d90c7b55add43823",
+        "table_cell_binding_sha256": "38e626ca1bd20d6b6e430e70116ed3c175b626050ef99378d5c472b067d408f0",
+        "page_number": 11,
+        "page_width": 595.2760009765625,
+        "page_height": 841.8900146484375,
+        "value_bbox": {
+          "x0": 521.6709594726562,
+          "y0": 251.87469482421875,
+          "x1": 547.0509643554688,
+          "y1": 263.32269287109375
+        },
+        "region_bbox": {
+          "x0": 23.8110400390625,
+          "y0": 155.87469482421875,
+          "x1": 563.0509643554688,
+          "y1": 287.32269287109375
+        },
+        "coordinate_space": "pymupdf_unrotated_page",
+        "native_value_match_count": 1,
+        "rendered_dpi": 180,
+        "rendered_width": 1349,
+        "rendered_height": 330,
+        "rendered_area_ratio": 0.14143675468186434,
+        "image_sha256": "cb9b1ae8e06c765e31f913f29fcdff1fd8c7f50cc34ce960a9933e29f2e04feb",
+        "image_path": "reports/agent/pdf-evidence-regions-v1/f55538814200-p11-38e626ca1bd20d6b.png",
+        "binding_sha256": "9a2ed288a32a62cde910e0d7a14a2e5cd0c882dcecb6e561ca1372ad389f864a"
+      },
+      {
+        "schema_version": "1",
+        "document_key": "cninfo:601318:annual:2024",
+        "source_sha256": "6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+        "table_cell_binding_sha256": "7dd4fb4f0266ae4a3719a018bfb54d24c431ceab30fdd3fc5cb37e3fd46ad77e",
+        "page_number": 18,
+        "page_width": 595.2760009765625,
+        "page_height": 841.8900146484375,
+        "value_bbox": {
+          "x0": 272.77569580078125,
+          "y0": 133.9810333251953,
+          "x1": 320.313720703125,
+          "y1": 146.43704223632812
+        },
+        "region_bbox": {
+          "x0": 23.8110400390625,
+          "y0": 37.98103332519531,
+          "x1": 336.313720703125,
+          "y1": 170.43704223632812
+        },
+        "coordinate_space": "pymupdf_unrotated_page",
+        "native_value_match_count": 1,
+        "rendered_dpi": 180,
+        "rendered_width": 782,
+        "rendered_height": 333,
+        "rendered_area_ratio": 0.08259460481392406,
+        "image_sha256": "80429058df52705a0c6e9b00c8acbc8aca700055bd7d531f6fa9a4b831687cb0",
+        "image_path": "reports/agent/pdf-evidence-regions-v1/6ffff1cade59-p18-7dd4fb4f0266ae4a.png",
+        "binding_sha256": "9729be5f62b5ffe7131612d5c15b3ae52ab90dd302643f968091e2eb22b9f700"
+      },
+      {
+        "schema_version": "1",
+        "document_key": "cninfo:601318:annual:2024",
+        "source_sha256": "6ffff1cade59c64c8178494c083cac8a4011ef5ae2fed32f85dd488a64a809b2",
+        "table_cell_binding_sha256": "1229aa6b7b54870483cf314417273f123f01b16be2e63e9e3ad89d65379f53c9",
+        "page_number": 18,
+        "page_width": 595.2760009765625,
+        "page_height": 841.8900146484375,
+        "value_bbox": {
+          "x0": 517.009033203125,
+          "y0": 255.8428955078125,
+          "x1": 547.051025390625,
+          "y1": 267.2908935546875
+        },
+        "region_bbox": {
+          "x0": 23.8110400390625,
+          "y0": 159.8428955078125,
+          "x1": 563.051025390625,
+          "y1": 291.2908935546875
+        },
+        "coordinate_space": "pymupdf_unrotated_page",
+        "native_value_match_count": 1,
+        "rendered_dpi": 180,
+        "rendered_width": 1349,
+        "rendered_height": 330,
+        "rendered_area_ratio": 0.14143677069072055,
+        "image_sha256": "b51e408b39e73691065c9017d82aac15d55a8bb23881bff0d61d2d12505d94d6",
+        "image_path": "reports/agent/pdf-evidence-regions-v1/6ffff1cade59-p18-1229aa6b7b548704.png",
+        "binding_sha256": "64ee5ce3774bf58d4916524ae557292ecf944c86b73318515b25c8c3c1883606"
+      }
+    ],
+    "checks": {
+      "baseline_contains_all_adjudicated_false_tables": true,
+      "baseline_false_cell_count_matches_fixture": true,
+      "adjudicated_false_tables_removed": true,
+      "unaffected_baseline_cells_preserved": true,
+      "manual_expected_cells_exact": true,
+      "manual_expected_cells_have_coordinates": true,
+      "every_new_cell_has_geometry": true,
+      "every_new_cell_has_tamper_evident_proof": true,
+      "bounded_region_cases_rendered": true,
+      "bounded_region_area_contract": true,
+      "frozen_split_not_loaded": true
+    }
+  },
+  "runtime_cost": {
+    "model_requests": 0,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "total_tokens": 0
+  },
+  "frozen_test_opened": false
+}

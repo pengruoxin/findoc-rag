@@ -22,6 +22,7 @@ from findoc_rag.benchmark_migration import (
 from findoc_rag.chunking import estimate_tokens
 from findoc_rag.corpus import resolve_current_index
 from findoc_rag.documents.models import DocumentChunk
+from findoc_rag.evaluation.reporting import build_generation_quality_report
 from findoc_rag.generation_evaluation import (
     GenerationEvaluationDataset,
     GenerationRunItem,
@@ -49,6 +50,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dataset", type=Path, default=Path("data/evaluation/benchmark-v2.json"))
     parser.add_argument("--index-root", type=Path, default=Path("data/indexes/corpus"))
     parser.add_argument(
+        "--split",
+        choices=("calibration", "dev", "frozen_test"),
+        help="evaluate only one split and enforce its corpus_indexes binding",
+    )
+    parser.add_argument(
         "--migration-manifest",
         type=Path,
         help="validated benchmark migration binding for a replacement index",
@@ -73,6 +79,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--endpoint", default="https://api.deepseek.com/chat/completions")
     parser.add_argument("--require-remote", action="store_true")
     parser.add_argument(
+        "--disable-remote",
+        action="store_true",
+        help="force deterministic/evidence-only generation even when a provider key exists",
+    )
+    parser.add_argument(
         "--variant",
         choices=("canonical", "ticker_or_finance_shorthand", "semantic_or_relative_time", "all"),
         default="canonical",
@@ -95,6 +106,8 @@ def parse_args() -> argparse.Namespace:
     args = parser.parse_args()
     if args.oracle_metadata and args.lane != "retrieved_context":
         parser.error("--oracle-metadata is only valid for --lane retrieved_context")
+    if args.disable_remote and args.require_remote:
+        parser.error("--disable-remote and --require-remote are mutually exclusive")
     return args
 
 
@@ -149,20 +162,13 @@ def load_chunks(index=None, chunk_ids: set[str] | None = None) -> dict[str, Docu
         requested = sorted(chunk_ids or set())
         resolved = index.resolve_chunks(requested)
         missing = [
-            chunk_id
-            for chunk_id, chunk in zip(requested, resolved, strict=True)
-            if chunk is None
+            chunk_id for chunk_id, chunk in zip(requested, resolved, strict=True) if chunk is None
         ]
         if missing:
             raise ValueError(
-                "Validated evaluation index is missing benchmark chunks: "
-                + ", ".join(missing)
+                "Validated evaluation index is missing benchmark chunks: " + ", ".join(missing)
             )
-        return {
-            chunk.chunk_id: chunk
-            for chunk in resolved
-            if chunk is not None
-        }
+        return {chunk.chunk_id: chunk for chunk in resolved if chunk is not None}
     chunks: dict[str, DocumentChunk] = {}
     for path in benchmark_chunk_paths(ROOT):
         for line in path.read_text(encoding="utf-8").splitlines():
@@ -174,11 +180,7 @@ def load_chunks(index=None, chunk_ids: set[str] | None = None) -> dict[str, Docu
 def oracle_hits(item, chunks: dict[str, DocumentChunk]) -> list[SearchHit]:
     hits = []
     for rank, chunk_id in enumerate(item.gold_chunk_ids, start=1):
-        company_name = "贵州茅台" if chunk_id.startswith("5299f4940e2c:") else "伊利股份"
-        enriched = chunks[chunk_id].model_copy(
-            update={"company_name": company_name, "report_year": 2024}
-        )
-        hits.append(SearchHit(rank=rank, chunk=enriched, score=1.0))
+        hits.append(SearchHit(rank=rank, chunk=chunks[chunk_id], score=1.0))
     return hits
 
 
@@ -190,21 +192,13 @@ def robustness_hits(
     gold = oracle_hits(item, chunks)
     negative_budget = MAX_GENERATION_CONTEXTS - len(gold)
     if negative_budget < 1:
-        raise ValueError(
-            f"Robustness case {item.query_id} leaves no room for a hard negative"
-        )
+        raise ValueError(f"Robustness case {item.query_id} leaves no room for a hard negative")
     negatives: list[tuple[SearchHit, str]] = []
     for negative in item.hard_negatives[:negative_budget]:
         chunk = chunks[negative.chunk_id]
-        company_name = (
-            "贵州茅台" if negative.chunk_id.startswith("5299f4940e2c:") else "伊利股份"
-        )
-        enriched = chunk.model_copy(
-            update={"company_name": company_name, "report_year": 2024}
-        )
         negatives.append(
             (
-                SearchHit(rank=1, chunk=enriched, score=1.1),
+                SearchHit(rank=1, chunk=chunk, score=1.1),
                 f"hard_negative:{negative.negative_type}",
             )
         )
@@ -215,10 +209,7 @@ def robustness_hits(
             ordered.append(negatives[index])
         if index < len(gold):
             ordered.append((gold[index], "gold"))
-    hits = [
-        hit.model_copy(update={"rank": rank})
-        for rank, (hit, _) in enumerate(ordered, start=1)
-    ]
+    hits = [hit.model_copy(update={"rank": rank}) for rank, (hit, _) in enumerate(ordered, start=1)]
     return hits, [label for _, label in ordered]
 
 
@@ -290,19 +281,30 @@ def main() -> None:
     dataset = GenerationEvaluationDataset.model_validate_json(
         args.dataset.read_text(encoding="utf-8")
     )
-    api_key_set = bool(resolve_provider_api_key(args.endpoint))
+    selected_items = [
+        item for item in dataset.items if args.split is None or item.split == args.split
+    ]
+    if not selected_items:
+        raise ValueError(f"Dataset has no items for split {args.split!r}")
+    selected_splits = {item.split for item in selected_items}
+    selected_index_ids = {
+        dataset.corpus_indexes.get(split, dataset.corpus_index_id) for split in selected_splits
+    }
+    if args.split is None and len(selected_index_ids) > 1:
+        raise ValueError(
+            "Dataset spans isolated indexes; pass --split to select one evaluation boundary"
+        )
+    api_key_set = not args.disable_remote and bool(resolve_provider_api_key(args.endpoint))
     if args.require_remote and not api_key_set:
-        raise SystemExit("Remote generation requested, but no key is configured for the endpoint host")
+        raise SystemExit(
+            "Remote generation requested, but no key is configured for the endpoint host"
+        )
     generator = GroundedAnswerGenerator(
         model=args.api_model,
         endpoint=args.endpoint,
         enabled=api_key_set,
     )
-    index = (
-        resolve_current_index(args.index_root)
-        if args.lane == "retrieved_context" or args.migration_manifest is not None
-        else None
-    )
+    index = resolve_current_index(args.index_root)
     migration = None
     if index is not None and args.migration_manifest is not None:
         migration = json.loads(args.migration_manifest.read_text(encoding="utf-8"))
@@ -314,44 +316,46 @@ def main() -> None:
         )
         if not migration_result.ok:
             raise ValueError(
-                "Benchmark migration validation failed: "
-                + "; ".join(migration_result.errors)
+                "Benchmark migration validation failed: " + "; ".join(migration_result.errors)
             )
     if index is not None:
+        expected_index_id = (
+            dataset.corpus_indexes.get(args.split, dataset.corpus_index_id)
+            if args.split
+            else dataset.corpus_index_id
+        )
         resolve_evaluation_index_id(
-            view={"corpus_index_id": dataset.corpus_index_id},
+            view={"corpus_index_id": expected_index_id},
             index_id=index.manifest.index_id,
             migration_manifest=migration,
         )
     judged_chunk_ids = {
         chunk_id
-        for item in dataset.items
+        for item in selected_items
         for chunk_id in (
             *item.gold_chunk_ids,
             *(negative.chunk_id for negative in item.hard_negatives),
         )
     }
-    chunks = load_chunks(
-        index if migration is not None else None,
-        judged_chunk_ids,
-    )
+    chunks = load_chunks(index, judged_chunk_ids)
     prompt_sha256 = hashlib.sha256(PROMPT_REVISION.encode()).hexdigest()
-    run_suffix = "" if args.variant == "canonical" else f"-{args.variant}"
+    split_suffix = f"-{args.split}" if args.split else ""
+    run_suffix = split_suffix if args.variant == "canonical" else f"{split_suffix}-{args.variant}"
     run_id = f"{args.lane}-{dataset.dataset_id}-{args.model}{run_suffix}"
     run_dir = args.output_dir / run_id
     if run_dir.exists():
-        raise FileExistsError(f"Run directory already exists and will not be overwritten: {run_dir}")
+        raise FileExistsError(
+            f"Run directory already exists and will not be overwritten: {run_dir}"
+        )
     run_dir.mkdir(parents=True)
     rewriter = (
-        LLMQueryRewriter(cache_path=run_dir / "rewrites.json")
-        if args.rewrite == "llm"
-        else None
+        LLMQueryRewriter(cache_path=run_dir / "rewrites.json") if args.rewrite == "llm" else None
     )
 
     evaluation_items = (
-        [item for item in dataset.items if item.hard_negatives]
+        [item for item in selected_items if item.hard_negatives]
         if args.lane == "robustness"
-        else dataset.items
+        else selected_items
     )
     if not evaluation_items:
         raise ValueError(f"No dataset items are eligible for lane {args.lane}")
@@ -362,6 +366,7 @@ def main() -> None:
     for item in evaluation_items:
         for instance in query_instances(item, args.variant):
             started = perf_counter()
+            filter_source = "not_applicable"
             as_of_date = parse_as_of_date(
                 instance["variant"].as_of_date if instance["variant"] else None
             )
@@ -370,9 +375,7 @@ def main() -> None:
             time_cues: list[str] = []
             try:
                 if as_of_date is not None:
-                    resolved_query, time_cues = resolve_relative_time(
-                        instance["query"], as_of_date
-                    )
+                    resolved_query, time_cues = resolve_relative_time(instance["query"], as_of_date)
                 if args.lane == "oracle_context":
                     hits = oracle_hits(item, chunks)
                     context_labels = ["gold"] * len(hits)
@@ -417,9 +420,8 @@ def main() -> None:
                     grounded=answer.grounded,
                     as_of_date=str(as_of_date) if as_of_date else None,
                     resolved_query=resolved_query,
-                    search_query=(
-                        search_query if args.lane == "retrieved_context" else None
-                    ),
+                    search_query=(search_query if args.lane == "retrieved_context" else None),
+                    filter_source=filter_source,
                     time_cues=time_cues,
                     context_tokens=sum(
                         estimate_tokens(text)
@@ -453,6 +455,7 @@ def main() -> None:
                     as_of_date=str(as_of_date) if as_of_date else None,
                     resolved_query=resolved_query,
                     search_query=search_query,
+                    filter_source=filter_source,
                     time_cues=time_cues,
                     observed_behavior=None,
                     error=str(exc),
@@ -470,14 +473,10 @@ def main() -> None:
         encoding="utf-8",
     )
     strict_scores = [score for score in scores if score.strict_success_eligible]
-    context_tokens = [
-        item.context_tokens for item in run_items if item.context_tokens is not None
-    ]
+    context_tokens = [item.context_tokens for item in run_items if item.context_tokens is not None]
     latencies = sorted(item.latency_ms for item in run_items)
     p95_latency_ms = (
-        latencies[min(len(latencies) - 1, int(len(latencies) * 0.95))]
-        if latencies
-        else None
+        latencies[min(len(latencies) - 1, int(len(latencies) * 0.95))] if latencies else None
     )
     revision, dirty = code_revision()
     remote_providers = {"openai-compatible", "remote-abstention"}
@@ -491,6 +490,7 @@ def main() -> None:
         "source_index_id": dataset.corpus_index_id,
         "migration_id": migration.get("migration_id") if migration else None,
         "lane": args.lane,
+        "split": args.split,
         "model": args.model,
         "api_model": args.api_model,
         "rewrite_mode": args.rewrite,
@@ -514,10 +514,9 @@ def main() -> None:
         "remote_generation": remote_success_count > 0,
         "remote_success_count": remote_success_count,
         "dataset_item_count": dataset.item_count,
+        "selected_dataset_item_count": len(selected_items),
         "item_count": len(run_items),
-        "hard_negative_count": sum(
-            len(item.hard_negatives) for item in evaluation_items
-        ),
+        "hard_negative_count": sum(len(item.hard_negatives) for item in evaluation_items),
         "strict_success_eligible_count": len(strict_scores),
         "strict_success_rate": (
             sum(score.strict_success for score in strict_scores) / len(strict_scores)
@@ -535,6 +534,17 @@ def main() -> None:
         "p95_latency_ms": p95_latency_ms,
         "run_error_count": run_error_count,
         "run_error_rate": run_error_count / len(run_items),
+    }
+    quality_report = build_generation_quality_report(dataset, run_items, scores)
+    (run_dir / "quality-report.json").write_text(
+        json.dumps(quality_report, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    summary["provider_counts"] = quality_report["overall"]["provider_counts"]
+    summary["quality_report"] = "quality-report.json"
+    summary["confidence_intervals"] = {
+        "strict_success": quality_report["overall"]["strict_success"],
+        "expected_behavior_accuracy": quality_report["overall"]["expected_behavior_accuracy"],
+        "run_error_rate": quality_report["overall"]["run_error_rate"],
     }
     (run_dir / "summary.json").write_text(
         json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8"

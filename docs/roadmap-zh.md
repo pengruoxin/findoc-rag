@@ -11,6 +11,7 @@ FinDocRAG 是面向中文上市公司年报的可追溯 RAG：PDF → 按结构�
 - **A 阶段检索定论 ✅** 变体矩阵、融合权重扫描、同义词改写、OOV + LLM 改写、中文 dense 对照：canonical 默认 lexical-only + deterministic，生产自由文本可选带质量门控的 LLM 改写
 - **DeepSeek 最终三轨 ✅** 同 migration / index / code fingerprint 下 Oracle / Retrieved / Robustness strict 与行为均 1.0、error 0；Retrieved 37/37 gold context；RAGAS 完整覆盖但为 DeepSeek 自评
 - **B 阶段冻结范围闭环 ✅**：PDF IR v2、真实 PDF/IR 双输入 154/157、安全候选 Precision/Recall 98.1%、15 表 / 195 cells index-bound sidecar 与在线结构路由；剩余是 OCR 缺字与更大盲测
+- **PDF 证据增强 ✅**：在独立的 calibration+dev Agent 语料上删除 3 张假表/12 个伪 cell，恢复设计型年度表的碎片数字与调整前/后层级；开发索引 176/176 格带坐标和 proof，人工 hard cells 16/16，并可按需生成不超过整页 20% 的 hash-bound region proof
 - **Agent 准备层已完成第一版**：稳定 query/capabilities/evidence-resolve 契约、证据哈希与 claim-citation；C 行为 / 时间对齐和 D 公信力仍继续
 
 一句话现状：**当前冻结集已形成“PDF→索引绑定结构证据→路由→回答→审计”的完整闭环；下一阶段不再追当前集分数，而是用独立 judge、多公司多年度和扫描件盲测验证外部有效性。**
@@ -37,7 +38,7 @@ FinDocRAG 是面向中文上市公司年报的可追溯 RAG：PDF → 按结构�
 
 ### 2.2 表格结构化：核心能力已验证，下一步扩覆盖
 
-早期直接把正确证据摆在眼前也只有 0.31；确定性表格接入后 no-LLM Oracle 提升到 0.6571，证明它确实是生成侧的大杠杆。当前已完成五类文本抽取、单元格坐标重建、列头对齐、跨页隔离、单位与原文一致性门禁，并让 PDF 与持久化 IR v2 在 157-cell 尺子上得到相同的 154/157。结构结果已作为 15 表 / 195 cells 的 index-bound sidecar 被在线问答和三轨评测共同消费。下一步不是继续针对这两份年报调规则，而是用扫描件、多公司、多年度盲测验证泛化。
+早期直接把正确证据摆在眼前也只有 0.31；确定性表格接入后 no-LLM Oracle 提升到 0.6571，证明它确实是生成侧的大杠杆。当前已完成五类文本抽取、单元格坐标重建、列头对齐、跨页隔离、单位与原文一致性门禁，并让 PDF 与持久化 IR v2 在 157-cell 尺子上得到相同的 154/157。结构结果已作为 index-bound sidecar 被在线问答和三轨评测共同消费。新增的 PDF 证据增强又在 8 份 calibration+dev 年报中清除了 3 张假表，恢复两张带调整前/后层级的设计型年度表，并为人工审核生成有界区域证明。下一步不是继续针对这些版式调规则，而是用扫描件、多公司、多年度盲测验证泛化。
 
 ### 2.3 时间与口径语义：从 demo 到领域产品的分水岭
 
@@ -48,7 +49,7 @@ FinDocRAG 是面向中文上市公司年报的可追溯 RAG：PDF → 按结构�
 | 阶段 | 内容 | 预期收益 | 验收 |
 |---|---|---|---|
 | **A. 检索定论**（✅ 完成，2026-08-12 软收尾） | 权重扫描定论 + 默认策略 lexical-only + 同义词改写 + OOV 评测 + LLM 查询改写 + bge-zh dense 对照 + 生产 /v1/query 接入（缓存/回退）+ **改写质量门控** + **路由错误率指标** | **口语问法 Hit@5 0.73 → 0.92；OOV 0.194 → 0.694；bge-zh 无收益**；路由评测 18/18 精确匹配；门控劣化自动回退 | A 全部收官；下一主战场 B（表格）/ C（行为） |
-| **B. 表格重建**（✅ 冻结范围闭环） | 文本抽取 + IR v2 坐标重建 + chunk-grounded 安全选择 + index-bound sidecar + schema-aware routing | 坐标 raw 154/157、165 pred → safe 154/157、157 pred；最终三轨 strict / 行为均 1.0 | OCR 或视觉模型处理文字层真实缺字；多公司盲测 |
+| **B. 表格重建**（✅ 冻结范围闭环） | 文本抽取 + IR v2 坐标重建 + chunk-grounded 安全选择 + index-bound sidecar + schema-aware routing + 有界 region proof | 原 157-cell 尺子 safe P/R 98.1%；Agent 非冻结开发索引 176/176 geometry/proof，人工 hard cells 16/16；最终三轨 strict / 行为均 1.0 | OCR 或视觉模型处理文字层真实缺字；多公司/扫描件盲测 |
 | **C. 时间与行为** | 时间对齐落地 + 追问题扩到约 12 条 + 补 5–8 组多轮对话 | 时间错配归零；行为准确率可测 | 清单 P2-15 / P1-8 / P1-9 完成 |
 | **D. 公信力** | 再加 2 家公司 × 1–2 个年度，整份文档留出做盲测；冻结集扩到 24+ 并人工复核；换独立打分模型；给分数加置信区间 | 分数可以对外主张 | 清单 P3 全部完成 |
 

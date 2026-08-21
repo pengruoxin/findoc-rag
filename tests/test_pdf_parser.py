@@ -2,8 +2,20 @@ from pathlib import Path
 
 import pymupdf
 
-from findoc_rag.documents.models import ParsedDocument
-from findoc_rag.documents.pdf import parse_pdf
+from findoc_rag.documents.models import BoundingBox, ParsedDocument
+from findoc_rag.documents.pdf import _covering_box, _safe_bounding_box, parse_pdf
+
+
+def test_invalid_pdf_geometry_can_be_recovered_from_child_boxes() -> None:
+    assert _safe_bounding_box((10, 20, 0, 0)) is None
+    recovered = _covering_box(
+        [
+            BoundingBox(x0=10, y0=20, x1=30, y1=40),
+            BoundingBox(x0=5, y0=25, x1=35, y1=45),
+        ]
+    )
+
+    assert recovered == BoundingBox(x0=5, y0=20, x1=35, y1=45)
 
 
 def test_parse_pdf_preserves_pages_text_and_coordinates(tmp_path: Path) -> None:
@@ -45,8 +57,8 @@ def test_parse_pdf_records_unrotated_geometry_for_rotated_pages(tmp_path: Path) 
     parsed_page = parse_pdf(source).pages[0]
 
     assert parsed_page.rotation == 90
-    assert parsed_page.width == 800
-    assert parsed_page.height == 600
+    assert parsed_page.width == 600
+    assert parsed_page.height == 800
     assert parsed_page.media_box is not None
     assert parsed_page.media_box.x1 == 600
     assert parsed_page.media_box.y1 == 800

@@ -1,0 +1,1011 @@
+{
+  "schema_version": "1",
+  "status": "complete",
+  "evaluated_at": "2026-08-21T01:39:11.421718+00:00",
+  "evaluation": "stored-trace claim fault injection",
+  "source_report": "reports/agent/agent-hard-v3-calibration-deepseek-p3b2-authority-ranking-extract-v4.json",
+  "source_report_sha256": "c8c23a6bda5bab4b8f43dfa96a7f1e9d6ab4f00948da9e931e09cb53dbf3c6fb",
+  "provider": {
+    "name": "deepseek",
+    "model": "deepseek-v4-flash",
+    "endpoint": "https://api.deepseek.com/chat/completions"
+  },
+  "metrics": {
+    "mutation_count": 15,
+    "safe_detection_rate": 0.8666666666666667,
+    "unsafe_accept_rate": 0.13333333333333333,
+    "verifier_error_rate": 0.0,
+    "omission_repair_rate": 0.8
+  },
+  "runtime_cost": {
+    "model_requests": 23,
+    "input_tokens": 88946,
+    "output_tokens": 4574,
+    "total_tokens": 93520
+  },
+  "items": [
+    {
+      "mutation_id": "v3_601398_y23_core:numeric_corruption",
+      "case_id": "v3_601398_y23_core",
+      "mutation_type": "numeric_corruption",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2023年净利润为365,116（人民币百万元）",
+      "mutated_claim": "工商银行2023年净利润为365,111（人民币百万元）",
+      "mutation": "numeric:365,116->365,111",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "repair_success": false,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 4216,
+            "output_tokens": 167,
+            "elapsed_ms": 2421.3401000015438,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "证据显示2023年净利润为365,116（人民币百万元），而claim声称365,111，数字不符。",
+                "evidence_chunk_ids": [
+                  "e310e8a55ff8:c14:1fd3d79151e12052"
+                ],
+                "missing_supported_details": [
+                  "净利润应为365,116（人民币百万元）"
+                ]
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 4216,
+        "output_tokens": 167
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y23_core:subject_corruption",
+      "case_id": "v3_601398_y23_core",
+      "mutation_type": "subject_corruption",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2023年净利润为365,116（人民币百万元）",
+      "mutated_claim": "错误主体公司2023年净利润为365,116（人民币百万元）",
+      "mutation": "subject:wrong_company",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "repair_success": false,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 4217,
+            "output_tokens": 186,
+            "elapsed_ms": 2095.5608000513166,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "claim 写的是'错误主体公司'，与 requirement.subject（净利润）和 document_scope（工商银行）主体不符，且与证据中工商银行净利润365,116冲突。",
+                "evidence_chunk_ids": [
+                  "e310e8a55ff8:c14:1fd3d79151e12052"
+                ],
+                "missing_supported_details": [
+                  "工商银行2023年净利润为365,116（人民币百万元）"
+                ]
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 4217,
+        "output_tokens": 186
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y23_core:supported_detail_omission",
+      "case_id": "v3_601398_y23_core",
+      "mutation_type": "supported_detail_omission",
+      "requirement_id": "r4",
+      "original_claim": "工商银行2023年末客户存款为33,521,174（人民币百万元）",
+      "mutated_claim": "工商银行2023年末客户存款为33。",
+      "mutation": "omission:truncate_after_first_clause",
+      "final_decision": "accept_repaired",
+      "safe_detection": true,
+      "repair_success": true,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": true,
+        "final_decision": "accept_repaired",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "revise",
+            "input_tokens": 4207,
+            "output_tokens": 202,
+            "elapsed_ms": 2482.609000056982,
+            "supported_requirement_ids": [
+              "r1",
+              "r2",
+              "r3"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r4",
+                "verdict": "incomplete",
+                "feedback": "回答只写了'客户存款为33'，未给出完整数字33,521,174（人民币百万元）。证据c14和c15均直接支持该数字。",
+                "evidence_chunk_ids": [
+                  "e310e8a55ff8:c14:1fd3d79151e12052",
+                  "e310e8a55ff8:c15:11ab77fea039cdb8"
+                ],
+                "missing_supported_details": [
+                  "客户存款为33,521,174（人民币百万元）"
+                ]
+              }
+            ],
+            "validation_errors": []
+          },
+          {
+            "stage": "repair",
+            "role": "optimizer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "accept",
+            "input_tokens": 4052,
+            "output_tokens": 406,
+            "elapsed_ms": 2842.148399911821,
+            "supported_requirement_ids": [],
+            "findings": [],
+            "validation_errors": []
+          },
+          {
+            "stage": "post_repair_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "accept",
+            "input_tokens": 4216,
+            "output_tokens": 76,
+            "elapsed_ms": 1424.049900029786,
+            "supported_requirement_ids": [
+              "r1",
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 3,
+        "input_tokens": 12475,
+        "output_tokens": 684
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y23_asset_quality:numeric_corruption",
+      "case_id": "v3_601398_y23_asset_quality",
+      "mutation_type": "numeric_corruption",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2023年不良贷款率为1.36%（同比下降2BP至1.36%）。",
+      "mutated_claim": "工商银行2023年不良贷款率为1.31%（同比下降2BP至1.36%）。",
+      "mutation": "numeric:1.36->1.31",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "repair_success": false,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3492,
+            "output_tokens": 228,
+            "elapsed_ms": 2715.423300047405,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "claim 声称不良贷款率为1.31%（同比下降2BP至1.36%），但证据明确显示2023年不良贷款率为1.36%，且董事长致辞明确表述'不良贷款率同比下降2BP至1.36%'。claim 中的1.31%与证据冲突。",
+                "evidence_chunk_ids": [
+                  "e310e8a55ff8:c17:851fa19578a75986",
+                  "e310e8a55ff8:c19:dd77f671a3207b68"
+                ],
+                "missing_supported_details": [
+                  "2023年不良贷款率为1.36%，同比下降2BP"
+                ]
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3492,
+        "output_tokens": 228
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y23_asset_quality:subject_corruption",
+      "case_id": "v3_601398_y23_asset_quality",
+      "mutation_type": "subject_corruption",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2023年不良贷款率为1.36%（同比下降2BP至1.36%）。",
+      "mutated_claim": "错误主体公司2023年不良贷款率为1.36%（同比下降2BP至1.36%）。",
+      "mutation": "subject:wrong_company",
+      "final_decision": "accept_original",
+      "safe_detection": false,
+      "repair_success": false,
+      "unsafe_accept": true,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "accept_original",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "accept",
+            "input_tokens": 3493,
+            "output_tokens": 76,
+            "elapsed_ms": 2199.498899979517,
+            "supported_requirement_ids": [
+              "r1",
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3493,
+        "output_tokens": 76
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y23_asset_quality:supported_detail_omission",
+      "case_id": "v3_601398_y23_asset_quality",
+      "mutation_type": "supported_detail_omission",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2023年不良贷款率为1.36%（同比下降2BP至1.36%）。",
+      "mutated_claim": "工商银行2023年不良贷款率为%（同比下降2BP至1.36%）。",
+      "mutation": "omission:truncate_after_first_clause",
+      "final_decision": "accept_original",
+      "safe_detection": false,
+      "repair_success": false,
+      "unsafe_accept": true,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "accept_original",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "accept",
+            "input_tokens": 3489,
+            "output_tokens": 76,
+            "elapsed_ms": 1338.0620999960229,
+            "supported_requirement_ids": [
+              "r1",
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3489,
+        "output_tokens": 76
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y24_core:numeric_corruption",
+      "case_id": "v3_601398_y24_core",
+      "mutation_type": "numeric_corruption",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2024年净利润为366,946百万元",
+      "mutated_claim": "工商银行2024年净利润为366,941百万元",
+      "mutation": "numeric:366,946->366,941",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "repair_success": false,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3949,
+            "output_tokens": 160,
+            "elapsed_ms": 2288.7665000744164,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "证据显示净利润为366,946百万元，而claim写为366,941百万元，数字不符。",
+                "evidence_chunk_ids": [
+                  "27b9c08e8106:c15:111e662172cc3711"
+                ],
+                "missing_supported_details": [
+                  "净利润应为366,946百万元"
+                ]
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3949,
+        "output_tokens": 160
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y24_core:subject_corruption",
+      "case_id": "v3_601398_y24_core",
+      "mutation_type": "subject_corruption",
+      "requirement_id": "r1",
+      "original_claim": "工商银行2024年净利润为366,946百万元",
+      "mutated_claim": "错误主体公司2024年净利润为366,946百万元",
+      "mutation": "subject:wrong_company",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "repair_success": false,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3950,
+            "output_tokens": 201,
+            "elapsed_ms": 2200.998399988748,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "Claim states '错误主体公司' (wrong subject company) for 2024 net profit of 366,946 million, but the requirement subject is 工商银行 (ICBC). The cited evidence chunk c15 clearly shows 净利润 366,946 for 工商银行. The claim explicitly names a different/wrong company subject, contradicting the requirement subject.",
+                "evidence_chunk_ids": [
+                  "27b9c08e8106:c15:111e662172cc3711"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3950,
+        "output_tokens": 201
+      }
+    },
+    {
+      "mutation_id": "v3_601398_y24_core:supported_detail_omission",
+      "case_id": "v3_601398_y24_core",
+      "mutation_type": "supported_detail_omission",
+      "requirement_id": "r4",
+      "original_claim": "工商银行2024年客户存款为34,836,973百万元",
+      "mutated_claim": "工商银行2024年客户存款为34。",
+      "mutation": "omission:truncate_after_first_clause",
+      "final_decision": "accept_repaired",
+      "safe_detection": true,
+      "repair_success": true,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": true,
+        "final_decision": "accept_repaired",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "revise",
+            "input_tokens": 3943,
+            "output_tokens": 210,
+            "elapsed_ms": 2421.8956999247894,
+            "supported_requirement_ids": [
+              "r1",
+              "r2",
+              "r3"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r4",
+                "verdict": "incomplete",
+                "feedback": "当前claim只写了'工商银行2024年客户存款为34。'，数字不完整，缺少完整的34,836,973百万元。证据c15和c16均直接支持客户存款为34,836,973百万元。",
+                "evidence_chunk_ids": [
+                  "27b9c08e8106:c15:111e662172cc3711",
+                  "27b9c08e8106:c16:1062827fded37480"
+                ],
+                "missing_supported_details": [
+                  "客户存款为34,836,973百万元"
+                ]
+              }
+            ],
+            "validation_errors": []
+          },
+          {
+            "stage": "repair",
+            "role": "optimizer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "accept",
+            "input_tokens": 3798,
+            "output_tokens": 383,
+            "elapsed_ms": 3036.308699985966,
+            "supported_requirement_ids": [],
+            "findings": [],
+            "validation_errors": []
+          },
+          {
+            "stage": "post_repair_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "accept",
+            "input_tokens": 3949,
+            "output_tokens": 76,
+            "elapsed_ms": 1419.4443000014871,
+            "supported_requirement_ids": [
+              "r1",
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 3,
+        "input_tokens": 11690,
+        "output_tokens": 669
+      }
+    },
+    {
+      "mutation_id": "v3_002594_y23_core:numeric_corruption",
+      "case_id": "v3_002594_y23_core",
+      "mutation_type": "numeric_corruption",
+      "requirement_id": "r1",
+      "original_claim": "比亚迪2023年营业收入为602,315,354,000.00元",
+      "mutated_claim": "比亚迪2023年营业收入为602,315,354,000.01元",
+      "mutation": "numeric:602,315,354,000.00->602,315,354,000.01",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "repair_success": false,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 4244,
+            "output_tokens": 178,
+            "elapsed_ms": 2244.8244999395683,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "claim 声称营业收入为602,315,354,000.01元，但证据c18明确显示为602,315,354,000.00元，数字不符。",
+                "evidence_chunk_ids": [
+                  "959b00a12055:c18:ffba9c13ba736448"
+                ],
+                "missing_supported_details": [
+                  "营业收入应为602,315,354,000.00元"
+                ]
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 4244,
+        "output_tokens": 178
+      }
+    },
+    {
+      "mutation_id": "v3_002594_y23_core:subject_corruption",
+      "case_id": "v3_002594_y23_core",
+      "mutation_type": "subject_corruption",
+      "requirement_id": "r1",
+      "original_claim": "比亚迪2023年营业收入为602,315,354,000.00元",
+      "mutated_claim": "错误主体公司2023年营业收入为602,315,354,000.00元",
+      "mutation": "subject:wrong_company",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "repair_success": false,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 4246,
+            "output_tokens": 165,
+            "elapsed_ms": 1975.9590999456123,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "claim 显式写为'错误主体公司'，与 requirement.subject（比亚迪营业收入）及 query/document_scope 的公司主体（比亚迪）不同，主体硬约束冲突。",
+                "evidence_chunk_ids": [
+                  "959b00a12055:c18:ffba9c13ba736448"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 4246,
+        "output_tokens": 165
+      }
+    },
+    {
+      "mutation_id": "v3_002594_y23_core:supported_detail_omission",
+      "case_id": "v3_002594_y23_core",
+      "mutation_type": "supported_detail_omission",
+      "requirement_id": "r4",
+      "original_claim": "比亚迪2023年经营活动产生的现金流量净额为169,725,025,000.00元",
+      "mutated_claim": "比亚迪2023年经营活动产生的现金流量净额为169。",
+      "mutation": "omission:truncate_after_first_clause",
+      "final_decision": "accept_repaired",
+      "safe_detection": true,
+      "repair_success": true,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": true,
+        "final_decision": "accept_repaired",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "revise",
+            "input_tokens": 4235,
+            "output_tokens": 215,
+            "elapsed_ms": 2577.536700060591,
+            "supported_requirement_ids": [
+              "r1",
+              "r2",
+              "r3"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r4",
+                "verdict": "incomplete",
+                "feedback": "claim 只写了'169'，未给出完整数字169,725,025,000.00元。证据c18明确支持该完整数值。",
+                "evidence_chunk_ids": [
+                  "959b00a12055:c18:ffba9c13ba736448",
+                  "959b00a12055:c70:fc81e14328fb8579",
+                  "959b00a12055:c321:8dce236a45a4ffe8"
+                ],
+                "missing_supported_details": [
+                  "经营活动产生的现金流量净额为169,725,025,000.00元"
+                ]
+              }
+            ],
+            "validation_errors": []
+          },
+          {
+            "stage": "repair",
+            "role": "optimizer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "accept",
+            "input_tokens": 4078,
+            "output_tokens": 388,
+            "elapsed_ms": 2384.440700057894,
+            "supported_requirement_ids": [],
+            "findings": [],
+            "validation_errors": []
+          },
+          {
+            "stage": "post_repair_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "accept",
+            "input_tokens": 4244,
+            "output_tokens": 76,
+            "elapsed_ms": 1021.2835000129417,
+            "supported_requirement_ids": [
+              "r1",
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 3,
+        "input_tokens": 12557,
+        "output_tokens": 679
+      }
+    },
+    {
+      "mutation_id": "v3_002594_y23_products:numeric_corruption",
+      "case_id": "v3_002594_y23_products",
+      "mutation_type": "numeric_corruption",
+      "requirement_id": "r1",
+      "original_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%。",
+      "mutated_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.01元，占营业收入比重80.27%。",
+      "mutation": "numeric:483,453,318,000.00->483,453,318,000.01",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "repair_success": false,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3412,
+            "output_tokens": 203,
+            "elapsed_ms": 2242.072799941525,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "证据显示汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，而claim写为483,453,318,000.01元，数字不符。",
+                "evidence_chunk_ids": [
+                  "959b00a12055:c46:5766de200a6b10ec",
+                  "959b00a12055:c47:21355c8280bf3cb9"
+                ],
+                "missing_supported_details": [
+                  "483,453,318,000.00元"
+                ]
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3412,
+        "output_tokens": 203
+      }
+    },
+    {
+      "mutation_id": "v3_002594_y23_products:subject_corruption",
+      "case_id": "v3_002594_y23_products",
+      "mutation_type": "subject_corruption",
+      "requirement_id": "r1",
+      "original_claim": "汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%。",
+      "mutated_claim": "错误主体公司：汽车、汽车相关产品及其他产品2023年营业收入为483,453,318,000.00元，占营业收入比重80.27%。",
+      "mutation": "subject:wrong_company",
+      "final_decision": "abstain",
+      "safe_detection": true,
+      "repair_success": false,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": false,
+        "final_decision": "abstain",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "abstain",
+            "input_tokens": 3416,
+            "output_tokens": 192,
+            "elapsed_ms": 1615.400799899362,
+            "supported_requirement_ids": [
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r1",
+                "verdict": "contradicted",
+                "feedback": "claim 显式写了'错误主体公司'，与 requirement.subject（汽车、汽车相关产品及其他产品）不符。主体是硬约束，claim 明确标注了不同主体，必须标 contradicted。",
+                "evidence_chunk_ids": [
+                  "959b00a12055:c46:5766de200a6b10ec",
+                  "959b00a12055:c47:21355c8280bf3cb9"
+                ],
+                "missing_supported_details": []
+              }
+            ],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 1,
+        "input_tokens": 3416,
+        "output_tokens": 192
+      }
+    },
+    {
+      "mutation_id": "v3_002594_y23_products:supported_detail_omission",
+      "case_id": "v3_002594_y23_products",
+      "mutation_type": "supported_detail_omission",
+      "requirement_id": "r2",
+      "original_claim": "手机部件、组装及其他产品2023年营业收入为118,576,910,000.00元，占营业收入比重19.68%。",
+      "mutated_claim": "手机部件、组装及其他产品2023年营业收入为118。",
+      "mutation": "omission:truncate_after_first_clause",
+      "final_decision": "accept_repaired",
+      "safe_detection": true,
+      "repair_success": true,
+      "unsafe_accept": false,
+      "verifier_error": false,
+      "verification": {
+        "schema_version": "1",
+        "prompt_revision": "evidence-verifier-p4a-subject-and-field-diff-v3",
+        "prompt_sha256": "3752977e51a9556a8dc9c02f734eda004bbfd365d91fad23946f2a2d48bb271e",
+        "routed": true,
+        "route_reason": "atomic requirement count >= 4",
+        "repair_attempted": true,
+        "final_decision": "accept_repaired",
+        "turns": [
+          {
+            "stage": "initial_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "revise",
+            "input_tokens": 3395,
+            "output_tokens": 231,
+            "elapsed_ms": 2457.4994000140578,
+            "supported_requirement_ids": [
+              "r1",
+              "r3",
+              "r4"
+            ],
+            "findings": [
+              {
+                "requirement_id": "r2",
+                "verdict": "incomplete",
+                "feedback": "回答只写了'手机部件、组装及其他产品2023年营业收入为118。'，数字不完整，缺少118,576,910,000.00元及占营业收入比重19.68%。证据c46直接支持完整数字和比重。",
+                "evidence_chunk_ids": [
+                  "959b00a12055:c46:5766de200a6b10ec",
+                  "959b00a12055:c47:21355c8280bf3cb9"
+                ],
+                "missing_supported_details": [
+                  "手机部件、组装及其他产品2023年营业收入为118,576,910,000.00元",
+                  "占营业收入比重19.68%"
+                ]
+              }
+            ],
+            "validation_errors": []
+          },
+          {
+            "stage": "repair",
+            "role": "optimizer",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "accept",
+            "input_tokens": 3293,
+            "output_tokens": 403,
+            "elapsed_ms": 2954.6022000722587,
+            "supported_requirement_ids": [],
+            "findings": [],
+            "validation_errors": []
+          },
+          {
+            "stage": "post_repair_verification",
+            "role": "verifier",
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "endpoint": "https://api.deepseek.com/chat/completions",
+            "decision": "accept",
+            "input_tokens": 3412,
+            "output_tokens": 76,
+            "elapsed_ms": 1275.3659998998046,
+            "supported_requirement_ids": [
+              "r1",
+              "r2",
+              "r3",
+              "r4"
+            ],
+            "findings": [],
+            "validation_errors": []
+          }
+        ],
+        "request_count": 3,
+        "input_tokens": 10100,
+        "output_tokens": 710
+      }
+    }
+  ]
+}

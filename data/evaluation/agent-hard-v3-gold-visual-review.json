@@ -1,0 +1,87 @@
+{
+  "schema_version": "1",
+  "review_id": "agent-hard-v3-gold-visual-review",
+  "question_payload_sha256": "a8650156ea0377b15955636d72208b77b9f582d1a5c57a52745eba2740595cb4",
+  "review_method": "Poppler page rendering followed by direct visual inspection",
+  "model_assistance": "none",
+  "evaluated_agent_called": false,
+  "annotation_status": "assistant_source_verified_provisional",
+  "independent_double_review_complete": false,
+  "pages": [
+    {
+      "document_key": "cninfo:002352:annual:2024",
+      "pages": [31, 32, 33],
+      "focus": "global network and air/land/rail/sea infographics",
+      "result": "confirmed_with_gold_correction",
+      "finding": "The infographic discloses >100,000 managed line-haul/feeder trucks and >18,000 sea routes; the greater-than signs are visually embedded and can be lost in native text extraction."
+    },
+    {
+      "document_key": "cninfo:601318:annual:2024",
+      "pages": [39],
+      "focus": "comparable and current-assumption NBV/EV table",
+      "result": "confirmed",
+      "finding": "Comparable NBV is 40,024 versus 31,080 and comparable EV is 960,608 versus 830,974; current-assumption NBV/EV are separately disclosed as 28,534 and 835,093."
+    },
+    {
+      "document_key": "cninfo:300760:annual:2024",
+      "pages": [81],
+      "focus": "three product-line revenue, margin, and restatement note",
+      "result": "confirmed",
+      "finding": "The note explicitly says prior-period cost and gross margin were retrospectively adjusted; the comparable 2023 margins are derived from the disclosed percentage-point changes."
+    },
+    {
+      "document_key": "cninfo:000063:annual:2024",
+      "pages": [26],
+      "focus": "three business-market revenue and margin table",
+      "result": "confirmed",
+      "finding": "The table provides current values and prior-period margin changes and notes retrospective adjustment of prior cost and gross margin."
+    },
+    {
+      "document_key": "cninfo:600309:annual:2024",
+      "pages": [17],
+      "focus": "three product-series revenue, cost, and margin table",
+      "result": "confirmed",
+      "finding": "Polyurethane, petrochemical, and fine chemicals/new materials values align by row and unit."
+    },
+    {
+      "document_key": "cninfo:300750:annual:2024",
+      "pages": [19, 20],
+      "focus": "product revenue composition and margin table",
+      "result": "confirmed",
+      "finding": "Revenue values are on page 19 and gross margins continue on page 20; the gold keeps both pages."
+    },
+    {
+      "document_key": "cninfo:002594:annual:2024",
+      "pages": [25],
+      "focus": "two product-category revenue and margin table",
+      "result": "confirmed",
+      "finding": "2024 values are 159,608,576,000 at 8.34% and 617,381,935,000 at 22.31%; the same page also shows restated prior values, which are not substituted into the as-reported 2023-only case."
+    },
+    {
+      "document_key": "cninfo:601398:annual:2023",
+      "pages": [198],
+      "focus": "expected-credit-loss key audit matter continuation",
+      "result": "confirmed",
+      "finding": "Back-testing, risk-directed credit review, stage assessment, and collateral/cash-flow procedures are visibly separated as audit responses."
+    },
+    {
+      "document_key": "cninfo:601318:annual:2023",
+      "pages": [141],
+      "focus": "insurance-contract-liability key audit matter",
+      "result": "confirmed",
+      "finding": "The page separates measurement/assumption risks from control, IT, assumption, recalculation, and data audit procedures."
+    },
+    {
+      "document_key": "cninfo:002352:annual:2023",
+      "pages": [125],
+      "focus": "logistics revenue-recognition key audit matter",
+      "result": "confirmed",
+      "finding": "The page confirms system-dependence risk and policy, control, supporting-document, and cut-off procedures."
+    }
+  ],
+  "reviewed_pdf_page_count": 13,
+  "correction_count": 1,
+  "ready_for_provisional_baseline": true,
+  "ready_for_frozen_test_claim": false,
+  "frozen_test_claim_blocker": "independent_double_review_pending"
+}

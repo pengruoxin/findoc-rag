@@ -1,0 +1,42 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-compare-v1",
+  "index_scope": "benchmark-v3/frozen_test",
+  "cases": [
+    {
+      "case_id": "two-companies-one-year",
+      "query": "比较海尔智家和长江电力2024年营业收入",
+      "expected_target_ids": [
+        "company:海尔智家:year:2024",
+        "company:长江电力:year:2024"
+      ],
+      "expected_status": "completed"
+    },
+    {
+      "case_id": "one-company-two-years",
+      "query": "比较海尔智家2023年和2024年营业收入",
+      "expected_target_ids": [
+        "company:海尔智家:year:2023",
+        "company:海尔智家:year:2024"
+      ],
+      "expected_status": "completed"
+    },
+    {
+      "case_id": "missing-second-target",
+      "query": "海尔智家2024年营业收入是多少",
+      "expected_target_ids": [],
+      "expected_status": "needs_clarification"
+    },
+    {
+      "case_id": "two-companies-two-years",
+      "query": "比较海尔智家和长江电力2023年与2024年营业收入",
+      "expected_target_ids": [
+        "company:海尔智家:year:2023",
+        "company:海尔智家:year:2024",
+        "company:长江电力:year:2023",
+        "company:长江电力:year:2024"
+      ],
+      "expected_status": "completed"
+    }
+  ]
+}

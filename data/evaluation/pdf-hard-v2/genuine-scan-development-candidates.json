@@ -1,0 +1,157 @@
+{
+  "schema_version": "1",
+  "dataset_id": "pdf-hard-v2-genuine-scan-development-candidates",
+  "status": "assistant_visual_reviewed_unannotated",
+  "source_registry": "D:/202607/raglab/data/evaluation/pdf-hard-v2/genuine-scan-source-candidates-v1.json",
+  "source_registry_sha256": "f2588aa430520d7037ee9a1a5059d1a0d725ea40d267963526d010f12d829a42",
+  "pdf_path": "data/evaluation/pdf-hard-v2/genuine-scan-development-candidates.pdf",
+  "pdf_sha256": "068cf99e5502ef5da8c1fce2da8f22e03e3314be6a3fc97a6e106aa16862c29f",
+  "page_count": 4,
+  "source_audit_passed": true,
+  "counts_toward_target": false,
+  "frozen_gold_present": false,
+  "pages": [
+    {
+      "candidate_id": "haining-leather-2025-p1-related-funds-scan",
+      "challenge_page_number": 1,
+      "document_key": "cninfo:002344:related-funds:2025:1225108704",
+      "security_code": "002344",
+      "company_name": "海宁中国皮革城股份有限公司",
+      "announcement_id": "1225108704",
+      "announcement_title": "2025年度非经营性资金占用及其他关联资金往来情况表签字盖章扫描件",
+      "official_url": "https://static.cninfo.com.cn/finalpage/2026-04-16/1225108704.PDF",
+      "source_file": "data/artifacts/cninfo/002344_2025_1225108704_related_funds_scan.pdf",
+      "source_sha256": "f4281e6d6599fb3df00da1703c50dd53505fa85685e5dca069a47a50b35dff0c",
+      "source_page_number": 1,
+      "assigned_split": "calibration",
+      "primary_stratum": "genuine_scan",
+      "additional_strata": [
+        "merged_hierarchical_header",
+        "rotated_or_mixed_layout"
+      ],
+      "table_title": "其他关联资金往来情况表",
+      "visual_review_notes": [
+        "十列宽表，含多行表头、类别纵向合并和签字盖章。",
+        "表内有负数、短横线、脚注标记和多种往来形成原因。"
+      ],
+      "source_page_profile": {
+        "page_number": 1,
+        "native_character_count": 0,
+        "image_count": 12,
+        "image_coverage_sum": 1.0,
+        "image_coverage_max": 1.0,
+        "width": 841.6799926757812,
+        "height": 595.2000122070312,
+        "rotation": 270
+      },
+      "annotation_status": "unannotated",
+      "counts_toward_target": false
+    },
+    {
+      "candidate_id": "xinong-2020-p7-balance-sheet-scan",
+      "challenge_page_number": 2,
+      "document_key": "cninfo:600359:audit:2020:1209669339",
+      "security_code": "600359",
+      "company_name": "新疆塔里木农业综合开发股份有限公司",
+      "announcement_id": "1209669339",
+      "announcement_title": "2020年度合并财务审计报告扫描版",
+      "official_url": "https://static.cninfo.com.cn/finalpage/2021-04-10/1209669339.PDF",
+      "source_file": "data/artifacts/cninfo/600359_2020_1209669339_audit_scan.pdf",
+      "source_sha256": "5d44b8e8457c950a5673529c888cd2b2a148867e09e15ac7ad41e845ee7f3a94",
+      "source_page_number": 7,
+      "assigned_split": "calibration",
+      "primary_stratum": "genuine_scan",
+      "additional_strata": [
+        "rotated_or_mixed_layout"
+      ],
+      "table_title": "合并资产负债表",
+      "visual_review_notes": [
+        "四列常规财务报表，印章遮挡公司名称和部分表头区域。",
+        "含附注编号、空白单元格、千分位金额和签字。"
+      ],
+      "source_page_profile": {
+        "page_number": 7,
+        "native_character_count": 0,
+        "image_count": 1,
+        "image_coverage_sum": 0.994513,
+        "image_coverage_max": 0.994513,
+        "width": 595.0,
+        "height": 842.0,
+        "rotation": 0
+      },
+      "annotation_status": "unannotated",
+      "counts_toward_target": false
+    },
+    {
+      "candidate_id": "xinong-2020-p11-income-statement-scan",
+      "challenge_page_number": 3,
+      "document_key": "cninfo:600359:audit:2020:1209669339",
+      "security_code": "600359",
+      "company_name": "新疆塔里木农业综合开发股份有限公司",
+      "announcement_id": "1209669339",
+      "announcement_title": "2020年度合并财务审计报告扫描版",
+      "official_url": "https://static.cninfo.com.cn/finalpage/2021-04-10/1209669339.PDF",
+      "source_file": "data/artifacts/cninfo/600359_2020_1209669339_audit_scan.pdf",
+      "source_sha256": "5d44b8e8457c950a5673529c888cd2b2a148867e09e15ac7ad41e845ee7f3a94",
+      "source_page_number": 11,
+      "assigned_split": "calibration",
+      "primary_stratum": "genuine_scan",
+      "additional_strata": [
+        "rotated_or_mixed_layout"
+      ],
+      "table_title": "合并利润表",
+      "visual_review_notes": [
+        "密集长行名称、负数和分层利润项目并存。",
+        "印章覆盖单位名称，底部含签字和页码。"
+      ],
+      "source_page_profile": {
+        "page_number": 11,
+        "native_character_count": 0,
+        "image_count": 1,
+        "image_coverage_sum": 0.986975,
+        "image_coverage_max": 0.986975,
+        "width": 595.0,
+        "height": 842.0,
+        "rotation": 0
+      },
+      "annotation_status": "unannotated",
+      "counts_toward_target": false
+    },
+    {
+      "candidate_id": "xinong-2020-p15-equity-change-scan",
+      "challenge_page_number": 4,
+      "document_key": "cninfo:600359:audit:2020:1209669339",
+      "security_code": "600359",
+      "company_name": "新疆塔里木农业综合开发股份有限公司",
+      "announcement_id": "1209669339",
+      "announcement_title": "2020年度合并财务审计报告扫描版",
+      "official_url": "https://static.cninfo.com.cn/finalpage/2021-04-10/1209669339.PDF",
+      "source_file": "data/artifacts/cninfo/600359_2020_1209669339_audit_scan.pdf",
+      "source_sha256": "5d44b8e8457c950a5673529c888cd2b2a148867e09e15ac7ad41e845ee7f3a94",
+      "source_page_number": 15,
+      "assigned_split": "development",
+      "primary_stratum": "genuine_scan",
+      "additional_strata": [
+        "merged_hierarchical_header",
+        "rotated_or_mixed_layout"
+      ],
+      "table_title": "合并股东权益变动表",
+      "visual_review_notes": [
+        "超宽横向表，包含归属于母公司股东权益多级表头。",
+        "列数多、字号小、空单元格多，适合作为结构恢复压力样本。"
+      ],
+      "source_page_profile": {
+        "page_number": 15,
+        "native_character_count": 0,
+        "image_count": 1,
+        "image_coverage_sum": 0.991473,
+        "image_coverage_max": 0.991473,
+        "width": 842.0,
+        "height": 595.0,
+        "rotation": 90
+      },
+      "annotation_status": "unannotated",
+      "counts_toward_target": false
+    }
+  ]
+}

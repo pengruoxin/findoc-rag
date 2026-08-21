@@ -1,0 +1,102 @@
+{
+  "status": "complete",
+  "dataset_id": "pdf-cross-page-v1",
+  "question_count": 7,
+  "completed_count": 7,
+  "reviewer_id": "workspace_user",
+  "reviewed_at": "2026-08-20",
+  "independence_attested": true,
+  "review_method": "candidate_verification",
+  "agreement_interpretation": "candidate_verification_not_blind_reannotation",
+  "hard_agreement_rate": 1.0,
+  "field_agreement": {
+    "value_exact": 1.0,
+    "row_exact": 1.0,
+    "column_exact": 1.0,
+    "unit_exact": 1.0,
+    "section_exact": 1.0
+  },
+  "adjudication_question_ids": [],
+  "human_verification_complete": true,
+  "blind_reannotation_complete": false,
+  "independent_gold_ready": true,
+  "items": [
+    {
+      "question_id": "lease-original-closing-production-equipment",
+      "decision": "accept",
+      "value_exact": true,
+      "row_exact": true,
+      "column_exact": true,
+      "unit_exact": true,
+      "section_exact": true,
+      "hard_agreement": true,
+      "needs_adjudication": false
+    },
+    {
+      "question_id": "lease-depreciation-opening-transport-equipment",
+      "decision": "accept",
+      "value_exact": true,
+      "row_exact": true,
+      "column_exact": true,
+      "unit_exact": true,
+      "section_exact": true,
+      "hard_agreement": true,
+      "needs_adjudication": false
+    },
+    {
+      "question_id": "lease-depreciation-closing-building",
+      "decision": "accept",
+      "value_exact": true,
+      "row_exact": true,
+      "column_exact": true,
+      "unit_exact": true,
+      "section_exact": true,
+      "hard_agreement": true,
+      "needs_adjudication": false
+    },
+    {
+      "question_id": "lease-carrying-closing-transport-equipment",
+      "decision": "accept",
+      "value_exact": true,
+      "row_exact": true,
+      "column_exact": true,
+      "unit_exact": true,
+      "section_exact": true,
+      "hard_agreement": true,
+      "needs_adjudication": false
+    },
+    {
+      "question_id": "lease-original-closing-total",
+      "decision": "accept",
+      "value_exact": true,
+      "row_exact": true,
+      "column_exact": true,
+      "unit_exact": true,
+      "section_exact": true,
+      "hard_agreement": true,
+      "needs_adjudication": false
+    },
+    {
+      "question_id": "lease-depreciation-closing-total",
+      "decision": "accept",
+      "value_exact": true,
+      "row_exact": true,
+      "column_exact": true,
+      "unit_exact": true,
+      "section_exact": true,
+      "hard_agreement": true,
+      "needs_adjudication": false
+    },
+    {
+      "question_id": "lease-carrying-closing-total",
+      "decision": "accept",
+      "value_exact": true,
+      "row_exact": true,
+      "column_exact": true,
+      "unit_exact": true,
+      "section_exact": true,
+      "hard_agreement": true,
+      "needs_adjudication": false
+    }
+  ]
+}

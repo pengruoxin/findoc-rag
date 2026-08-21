@@ -1,0 +1,1701 @@
+{
+  "schema_version": "1",
+  "dataset_id": "agent-hard-v3-external-provisional-gold-calibration-multi-metric-compare",
+  "dataset_path": "D:/202607/raglab/data/evaluation/agent-hard-v3-calibration-multi-metric-compare.json",
+  "dataset_sha256": "902e69ac671f6b4709815285a40339d58bf573e066fb6ed521079e527beb4840",
+  "index_scope": "calibration-multi-metric-compare",
+  "index_path": "D:/202607/raglab/data/indexes/agent-hard-v3/calibration",
+  "evaluated_at": "2026-08-20T08:03:01.201261+00:00",
+  "runtime": "deepseek",
+  "scoring": "local_exact_gold_and_citation_overlap",
+  "source_validation": {
+    "valid": true,
+    "referenced_document_count": 4,
+    "verified_document_count": 4,
+    "errors": []
+  },
+  "status": "complete",
+  "reason": null,
+  "provider": {
+    "name": "deepseek",
+    "model": "deepseek-v4-flash",
+    "endpoint": "https://api.deepseek.com/chat/completions"
+  },
+  "index_id": "b1879a69987a53b283dc",
+  "metrics": {
+    "case_count": 4,
+    "executed_case_count": 4,
+    "unsupported_case_count": 0,
+    "task_coverage_rate": 1.0,
+    "plan_target_exact_rate": 1.0,
+    "behavior_accuracy": 0.25,
+    "supported_fact_accuracy": 0.2,
+    "end_to_end_fact_accuracy": 0.2,
+    "supported_case_pass_rate": 0.25,
+    "end_to_end_case_pass_rate": 0.25,
+    "safe_abstention_accuracy": 0.0,
+    "clarification_accuracy": 0.0
+  },
+  "items": [
+    {
+      "case_id": "v3_601398_trend_core",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "status": "executed",
+      "expected_fact_count": 9,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "profit_2023",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "profit_2024",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "assets_2023",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "assets_2024",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "loans_2023",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "loans_2024",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "deposits_2023",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "deposits_2024",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "trend",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "e3ae7465438b40058c410cf2a68002ca",
+        "task_type": "compare",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "model_budget_exhausted",
+        "query": "比较工商银行2023年和2024年的净利润、资产总额、客户贷款及垫款总额和客户存款，分别判断增减。",
+        "index_id": "b1879a69987a53b283dc",
+        "created_at": "2026-08-20T08:03:02.360736Z",
+        "completed_at": "2026-08-20T08:03:17.734636Z",
+        "rounds_completed": 3,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p2b1-document-fact-period",
+          "task_type": "compare",
+          "targets": [
+            {
+              "target_id": "company:工商银行:year:2023",
+              "label": "工商银行-2023",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "工商银行"
+                ],
+                "report_years": [
+                  2023
+                ],
+                "document_types": []
+              },
+              "fact_year": 2023,
+              "document_year": 2023,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 主要财务指标 净利润 资产总额 客户贷款及垫款总额 客户存款 2023年 单位 元",
+              "cross_target_group": null
+            },
+            {
+              "target_id": "company:工商银行:year:2024",
+              "label": "工商银行-2024",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "工商银行"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2024,
+              "document_year": 2024,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 主要财务指标 净利润 资产总额 客户贷款及垫款总额 客户存款 2024年 单位 元",
+              "cross_target_group": null
+            }
+          ],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [
+            "净利润",
+            "资产总额",
+            "客户贷款及垫款总额",
+            "客户存款"
+          ],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": null,
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "call_00_ZmHGgV220mdBqQjLcWxd1854",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:工商银行:year:2023",
+            "query": "近三年主要会计数据 主要财务指标 净利润 资产总额 客户贷款及垫款总额 客户存款 2023年 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "工商银行"
+              ],
+              "report_years": [
+                2023
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 239.3445000052452,
+            "retrieval_trace_id": "c534cb42175641289fff644317ed8816",
+            "evidence_chunk_ids": [
+              "e310e8a55ff8:c17:851fa19578a75986",
+              "e310e8a55ff8:c14:1fd3d79151e12052",
+              "e310e8a55ff8:c31:98dafa1f70287062"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_01_R7vzVWDNUHgV9lj12D688218",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:工商银行:year:2024",
+            "query": "近三年主要会计数据 主要财务指标 净利润 资产总额 客户贷款及垫款总额 客户存款 2024年 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "工商银行"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 54.25079993437976,
+            "retrieval_trace_id": "dd1c6f1838be43e78322f9930b950ecf",
+            "evidence_chunk_ids": [
+              "27b9c08e8106:c15:111e662172cc3711",
+              "27b9c08e8106:c18:ca1e67efc638296d",
+              "27b9c08e8106:c37:b6f0c7fe7c1a1048"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "b1879a69987a53b283dc",
+          "items": [
+            {
+              "chunk_id": "e310e8a55ff8:c17:851fa19578a75986",
+              "content_sha256": "4caac20f71bf2d89dedbe6fed777e17dbd2b7745c02be41e45dd986dc50ad2e8",
+              "target_ids": [
+                "company:工商银行:year:2023"
+              ],
+              "document_id": "sha256:e310e8a55ff8f057782c6c70b003fa220ca5a2e484334bffbf308bdc39b3434d",
+              "document_key": "cninfo:601398:annual:2023",
+              "company_name": "工商银行",
+              "report_year": 2023,
+              "page_start": 16,
+              "page_end": 16,
+              "section_path": [
+                "中国工商银行股份有限公司",
+                "财务指标"
+              ],
+              "excerpt": "财务指标\n\n2023\n2022\n2021\n调整前\n调整后\n\n盈利能力指标（%）\n\n平均总资产回报率\n\n（1）\n0.87\n0.97\n0.97\n1.02\n\n加权平均净资产收益率\n\n（2）\n10.66\n11.43\n11.45\n12.15\n\n扣除非经常性损益后加权平均净资产收益率\n\n（2）\n10.58\n11.34\n11.36\n12.06\n\n净利息差\n\n（3）\n1.41\n1.73\n1.72\n1.92\n\n净利息收益率\n\n（4）\n1.61\n1.92\n1.92\n2.11\n\n风险加权资产收益率\n\n（5）\n1.56\n1.64\n1.65\n1.68\n\n手续费及佣金净收入比营业收入\n14.16\n14.08\n14.77\n14.11\n\n成本收入比\n\n（6）\n26.96\n25.01\n26.05\n23.97\n\n资产质量指标（%）\n\n不良贷款率\n\n（7）\n1.36\n1.38\n1.38\n1.42\n\n拨备覆盖率\n\n（8）\n213.97\n209.47\n209.47\n205.84\n\n贷款拨备率\n\n（9）\n2.90\n2.90\n2.90\n2.92\n\n资本充足率指标（%）\n\n核心一级资本充足率\n\n（10）\n13.72\n14.04\n14.04\n13.31\n\n一级资本充足率\n\n（10）\n15.17\n15.64\n15.64\n14.94\n\n资本充足率\n\n（10）\n19.10\n19.26\n19.26\n18.02\n\n总权益对总资产比率\n8.45\n8.87\n8.88\n9.31\n\n风险加权资产占总资产比率\n55.13\n56.11\n56.11\n61.67\n\n注：（1）净利润除以期初和期末总资产余额的平均数。\n\n（2）根据中国证监会《公开发行证券的公司信息披露编报规则第9 号－净资产收益率和每\n\n股收益的计算及披露》(2010 年修订)的规定计算。\n（3）平均生息资产收益率减平均计息负债付息率。\n（4）利息净收入除以平均生息资产。\n（5）净利润除以期初及期末风险加权资产的平均数。\n（6）业务及管理费除以营业收入。\n（7）不良贷款余额除以客户贷款及垫款总额。\n（8）贷款减值准备余额除以不良贷款余额。\n（9）贷款减值准备余额除以客户贷款及垫款总额。\n（10）根据《资本办法（试行）》计算。"
+            },
+            {
+              "chunk_id": "e310e8a55ff8:c14:1fd3d79151e12052",
+              "content_sha256": "8adb1d4bb6a78ae967a3b45fabf37beab360a16036c2477d9e10b838100e2400",
+              "target_ids": [
+                "company:工商银行:year:2023"
+              ],
+              "document_id": "sha256:e310e8a55ff8f057782c6c70b003fa220ca5a2e484334bffbf308bdc39b3434d",
+              "document_key": "cninfo:601398:annual:2023",
+              "company_name": "工商银行",
+              "report_year": 2023,
+              "page_start": 14,
+              "page_end": 15,
+              "section_path": [
+                "中国工商银行股份有限公司",
+                "财务数据",
+                "（1） 调整后"
+              ],
+              "excerpt": "财务数据\n\n2023\n2022\n2021\n调整前\n\n（1）\n调整后\n\n（1）\n\n全年经营成果（人民币百万元）\n\n利息净收入\n655,013\n693,687\n691,985\n690,680\n\n手续费及佣金净收入\n119,357\n129,265\n129,325\n133,024\n\n营业收入\n843,070\n917,989\n875,734\n942,762\n\n业务及管理费\n227,266\n229,615\n228,085\n225,945\n\n资产减值损失\n150,816\n182,419\n182,677\n202,623\n\n营业利润\n420,760\n420,378\n422,533\n423,564\n\n税前利润\n421,966\n422,565\n424,720\n424,899\n\n净利润\n365,116\n361,038\n362,110\n350,216\n\n归属于母公司股东的净利润\n363,993\n360,483\n361,132\n348,338\n\n扣除非经常性损益后归属于母公司股东的净利润\n\n（2）\n361,411\n357,909\n358,558\n345,899\n\n经营活动产生的现金流量净额\n1,417,002\n1,404,657\n1,404,657\n360,882\n\n于报告期末（人民币百万元）\n\n资产总额\n44,697,079\n39,609,657\n39,610,146\n35,171,383\n\n客户贷款及垫款总额\n26,086,482\n23,212,312\n23,210,376\n20,667,245\n\n公司类贷款\n16,145,204\n13,826,966\n13,826,966\n12,194,706\n\n个人贷款\n8,653,621\n8,236,561\n8,234,625\n7,944,781\n\n票据贴现\n1,287,657\n1,148,785\n1,148,785\n527,758\n\n贷款减值准备\n\n（3）\n756,391\n672,762\n672,762\n603,983\n\n投资\n11,849,668\n10,527,292\n10,533,702\n9,257,760\n\n负债总额\n40,920,491\n36,095,831\n36,094,727\n31,896,125\n\n客户存款\n33,521,174\n29,870,491\n29,870,491\n26,441,774\n\n公司存款\n16,209,928\n14,671,154\n14,671,154\n13,331,463"
+            },
+            {
+              "chunk_id": "e310e8a55ff8:c31:98dafa1f70287062",
+              "content_sha256": "716357dbdf348cbb54f2d4689b62fc52919e299172d9787e8db6ce422a514f33",
+              "target_ids": [
+                "company:工商银行:year:2023"
+              ],
+              "document_id": "sha256:e310e8a55ff8f057782c6c70b003fa220ca5a2e484334bffbf308bdc39b3434d",
+              "document_key": "cninfo:601398:annual:2023",
+              "company_name": "工商银行",
+              "report_year": 2023,
+              "page_start": 25,
+              "page_end": 26,
+              "section_path": [
+                "中国工商银行股份有限公司",
+                "利息收入"
+              ],
+              "excerpt": "利息收入\n\n\n客户贷款及垫款利息收入\n\n客户贷款及垫款利息收入9,518.45 亿元，比上年增加517.82 亿元，增长5.8%，\n\n主要是客户贷款及垫款平均余额增长12.4%所致，平均收益率下降24 个基点部\n\n分抵消了规模增长的影响。\n\n按期限结构划分的客户贷款及垫款平均收益分析\n\n人民币百万元，百分比除外\n\n2023 年\n2022 年\n\n项目\n\n平均余额\n利息收入\n平均收益\n\n率（%）\n平均余额\n利息收入\n平均收益\n\n率（%）\n\n短期贷款\n5,655,318\n175,442\n3.10\n4,737,467\n156,622\n3.31\n\n中长期贷款\n19,351,287\n776,403\n4.01\n17,508,798\n743,441\n4.25\n\n客户贷款及垫款总额\n25,006,605\n951,845\n3.81\n22,246,265\n900,063\n4.05\n\n按业务类型划分的客户贷款及垫款平均收益分析\n\n人民币百万元，百分比除外\n\n2023 年\n2022 年\n\n项目\n\n平均余额\n利息收入\n平均收益\n\n率（%）\n平均余额\n利息收入\n平均收益\n\n率（%）\n\n公司类贷款\n14,300,597\n510,998\n3.57\n12,091,996\n467,313\n3.86\n\n票据贴现\n1,179,865\n17,341\n1.47\n866,735\n15,546\n1.79\n\n个人贷款\n8,225,400\n348,029\n4.23\n7,920,324\n371,718\n4.69\n\n境外业务\n1,300,743\n75,477\n5.80\n1,367,210\n45,486\n3.33\n\n客户贷款及垫款总额\n25,006,605\n951,845\n3.81\n22,246,265\n900,063\n4.05\n\n\n投资利息收入\n\n投资利息收入3,382.67 亿元，比上年增加411.61 亿元，增长13.9%，主要是\n\n投资平均余额增长14.4%所致。\n\n\n存放中央银行款项利息收入\n\n存放中央银行款项利息收入538.15 亿元，比上年增加83.90 亿元，增长18.5%，"
+            },
+            {
+              "chunk_id": "27b9c08e8106:c15:111e662172cc3711",
+              "content_sha256": "e454135d275ebc7e5c804642dd51bfedf67055230988e075011f90d193744973",
+              "target_ids": [
+                "company:工商银行:year:2024"
+              ],
+              "document_id": "sha256:27b9c08e81061722ab4166ad23d4f90366a3f075af1422543fa6dcb8c7d1a03c",
+              "document_key": "cninfo:601398:annual:2024",
+              "company_name": "工商银行",
+              "report_year": 2024,
+              "page_start": 13,
+              "page_end": 15,
+              "section_path": [
+                "中国工商银行股份有限公司",
+                "财务数据"
+              ],
+              "excerpt": "5. 财务概要\n\n本年度报告所载财务数据及指标按照中国会计准则编制，除特别说明外，为\n\n本行及本行所属子公司合并数据，以人民币列示。\n\n财务数据\n\n全年经营成果（人民币百万元）\n\n利息净收入\n637,405\n655,013\n691,985\n\n手续费及佣金净收入\n109,397\n119,357\n129,325\n\n营业收入\n821,803\n843,070\n875,734\n\n业务及管理费\n230,460\n227,266\n228,085\n\n资产减值损失\n\n（2）\n126,663\n150,816\n182,677\n\n营业利润\n420,885\n420,760\n422,533\n\n税前利润\n421,827\n421,966\n424,720\n\n净利润\n366,946\n365,116\n362,110\n\n归属于母公司股东的净利润\n365,863\n363,993\n361,132\n\n扣除非经常性损益后归属于母公司股东的净利润\n\n（3）\n364,277\n361,411\n358,558\n\n经营活动产生的现金流量净额\n579,194\n1,417,002\n1,404,657\n\n于报告期末（人民币百万元）\n\n资产总额\n48,821,746\n44,697,079\n39,610,146\n\n客户贷款及垫款总额\n28,372,229\n26,086,482\n23,210,376\n\n公司类贷款\n17,482,223\n16,145,204\n13,826,966\n\n个人贷款\n8,957,720\n8,653,621\n8,234,625\n\n票据贴现\n1,932,286\n1,287,657\n1,148,785\n\n贷款减值准备\n\n（4）\n815,497\n756,391\n672,762\n\n投资\n14,153,576\n11,849,668\n10,533,702\n\n负债总额\n44,834,480\n40,920,491\n36,094,727\n\n客户存款\n34,836,973\n33,521,174\n29,870,491\n\n公司存款\n15,507,405\n16,209,928\n14,671,154\n\n个人存款\n18,541,510\n16,565,568\n14,545,306\n\n其他存款\n228,721\n210,185\n199,465"
+            },
+            {
+              "chunk_id": "27b9c08e8106:c18:ca1e67efc638296d",
+              "content_sha256": "03e1da1f57cc3759f01b4fed93776b6550c8d0fb31feacdccc485d3bd3be0494",
+              "target_ids": [
+                "company:工商银行:year:2024"
+              ],
+              "document_id": "sha256:27b9c08e81061722ab4166ad23d4f90366a3f075af1422543fa6dcb8c7d1a03c",
+              "document_key": "cninfo:601398:annual:2024",
+              "company_name": "工商银行",
+              "report_year": 2024,
+              "page_start": 16,
+              "page_end": 16,
+              "section_path": [
+                "中国工商银行股份有限公司",
+                "财务指标"
+              ],
+              "excerpt": "财务指标\n\n盈利能力指标（%）\n\n平均总资产回报率\n\n（1）\n0.78\n0.87\n0.97\n\n加权平均净资产收益率\n\n（2）\n9.88\n10.66\n11.45\n\n扣除非经常性损益后加权平均净资产收益率\n\n（2）\n9.83\n10.58\n11.36\n\n净利息差\n\n（3）\n1.23\n1.41\n1.72\n\n净利息收益率\n\n（4）\n1.42\n1.61\n1.92\n\n风险加权资产收益率\n\n（5）\n1.46\n1.56\n1.65\n\n手续费及佣金净收入比营业收入\n13.31\n14.16\n14.77\n\n成本收入比\n\n（6）\n28.04\n26.96\n26.05\n\n资产质量指标（%）\n\n不良贷款率\n\n（7）\n1.34\n1.36\n1.38\n\n拨备覆盖率\n\n（8）\n214.91\n213.97\n209.47\n\n贷款拨备率\n\n（9）\n2.87\n2.90\n2.90\n\n资本充足率指标（%）\n\n核心一级资本充足率\n\n（10）\n14.10\n13.72\n14.04\n\n一级资本充足率\n\n（10）\n15.36\n15.17\n15.64\n\n资本充足率\n\n（10）\n19.39\n19.10\n19.26\n\n总权益对总资产比率\n8.17\n8.45\n8.88\n\n风险加权资产占总资产比率\n52.66\n55.13\n56.11\n\n注：（1）净利润除以期初和期末总资产余额的平均数。\n\n（2）根据中国证监会《公开发行证券的公司信息披露编报规则第9 号－净资产收益率和每股收益的\n\n计算及披露》(2010 年修订)的规定计算。\n（3）平均生息资产收益率减平均计息负债付息率。\n（4）利息净收入除以平均生息资产。\n（5）净利润除以期初及期末风险加权资产的平均数。\n（6）业务及管理费除以营业收入。\n（7）不良贷款余额除以客户贷款及垫款总额。\n（8）贷款减值准备余额除以不良贷款余额。\n（9）贷款减值准备余额除以客户贷款及垫款总额。\n（10）2024 年根据《资本办法》计算。2023 年、2022 年比较期根据《资本办法（试行）》计算。"
+            },
+            {
+              "chunk_id": "27b9c08e8106:c37:b6f0c7fe7c1a1048",
+              "content_sha256": "191a5c6336f6d66796afed9c8167c385db2eaeb27029b915a96387d00debebc5",
+              "target_ids": [
+                "company:工商银行:year:2024"
+              ],
+              "document_id": "sha256:27b9c08e81061722ab4166ad23d4f90366a3f075af1422543fa6dcb8c7d1a03c",
+              "document_key": "cninfo:601398:annual:2024",
+              "company_name": "工商银行",
+              "report_year": 2024,
+              "page_start": 28,
+              "page_end": 29,
+              "section_path": [
+                "中国工商银行股份有限公司",
+                "利息收入"
+              ],
+              "excerpt": "利息收入\n\n\n客户贷款及垫款利息收入\n\n客户贷款及垫款利息收入9,379.38 亿元，比上年减少139.07 亿元，下降1.5%，\n\n主要是客户贷款及垫款平均收益率下降41 个基点所致，平均余额增长10.4%部\n\n分抵消了收益率下降的影响。\n\n按期限结构划分的客户贷款及垫款平均收益分析\n\n人民币百万元，百分比除外\n\n2024 年\n2023 年\n\n项目\n\n平均余额\n利息收入\n平均收益\n\n率（%）\n平均余额\n利息收入\n平均收益\n\n率（%）\n\n短期贷款\n6,553,251\n178,067\n2.72\n5,655,318\n175,442\n3.10\n\n中长期贷款\n21,046,677\n759,871\n3.61\n19,351,287\n776,403\n4.01\n\n客户贷款及垫款总额\n27,599,928\n937,938\n3.40\n25,006,605\n951,845\n3.81\n\n按业务类型划分的客户贷款及垫款平均收益分析\n\n人民币百万元，百分比除外\n\n2024 年\n2023 年\n\n项目\n\n平均余额\n利息收入\n平均收益\n\n率（%）\n平均余额\n利息收入\n平均收益\n\n率（%）\n\n公司类贷款\n16,213,330\n528,356\n3.26\n14,300,597\n510,998\n3.57\n\n票据贴现\n1,516,543\n18,516\n1.22\n1,179,865\n17,341\n1.47\n\n个人贷款\n8,597,971\n314,074\n3.65\n8,225,400\n348,029\n4.23\n\n境外业务\n1,272,084\n76,992\n6.05\n1,300,743\n75,477\n5.80\n\n客户贷款及垫款总额\n27,599,928\n937,938\n3.40\n25,006,605\n951,845\n3.81\n\n\n投资利息收入\n\n投资利息收入3,652.08 亿元，比上年增加269.41 亿元，增长8.0%，主要是\n\n投资平均余额增长14.2%所致，平均收益率下降18 个基点部分抵消了规模增长"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "sufficient",
+          "evidence_count_by_target": {
+            "company:工商银行:year:2023": 3,
+            "company:工商银行:year:2024": 3
+          },
+          "gaps": [],
+          "metric_gaps_by_target": {}
+        },
+        "result": {
+          "outcome": "abstain",
+          "answer": {
+            "answer": "DeepSeek 未在运行预算内提交通过本地门禁的结果。",
+            "citations": [],
+            "provider": "deepseek-agent-budget",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {
+            "company:工商银行:year:2023": [
+              "e310e8a55ff8:c17:851fa19578a75986",
+              "e310e8a55ff8:c14:1fd3d79151e12052",
+              "e310e8a55ff8:c31:98dafa1f70287062"
+            ],
+            "company:工商银行:year:2024": [
+              "27b9c08e8106:c15:111e662172cc3711",
+              "27b9c08e8106:c18:ca1e67efc638296d",
+              "27b9c08e8106:c37:b6f0c7fe7c1a1048"
+            ]
+          },
+          "target_answers": {}
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-compare-p2b-metric-gap-direction-summary",
+          "prompt_sha256": "66e2dbe8c577d735345057c54a0fbd837bbe577fba612fe4b20263def6bd2502",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "search_evidence",
+                "search_evidence"
+              ],
+              "input_tokens": 1241,
+              "output_tokens": 214,
+              "elapsed_ms": 2709.7858000779524,
+              "validation_errors": []
+            },
+            {
+              "turn_number": 2,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "submit_comparison"
+              ],
+              "input_tokens": 5187,
+              "output_tokens": 1254,
+              "elapsed_ms": 6432.231799932197,
+              "validation_errors": [
+                "evidence e310e8a55ff8:c14:1fd3d79151e12052 is not bound to company:工商银行:year:2024"
+              ]
+            },
+            {
+              "turn_number": 3,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "submit_comparison"
+              ],
+              "input_tokens": 6505,
+              "output_tokens": 1241,
+              "elapsed_ms": 5935.495699988678,
+              "validation_errors": [
+                "evidence e310e8a55ff8:c14:1fd3d79151e12052 is not bound to company:工商银行:year:2024"
+              ]
+            }
+          ],
+          "request_count": 3,
+          "input_tokens": 12933,
+          "output_tokens": 2709
+        }
+      }
+    },
+    {
+      "case_id": "v3_601398_trend_asset_quality",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value",
+        "visual_summary"
+      ],
+      "status": "executed",
+      "expected_fact_count": 8,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "npl_2023",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "npl_2024",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "coverage_2023",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "coverage_2024",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "capital_2023",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "capital_2024",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "cost_2023",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "cost_2024",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "ee0c6f4c80c540968195f977b1327f6c",
+        "task_type": "compare",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "model_budget_exhausted",
+        "query": "比较工商银行2023年和2024年的不良贷款率、拨备覆盖率、资本充足率和成本收入比。",
+        "index_id": "b1879a69987a53b283dc",
+        "created_at": "2026-08-20T08:03:17.735664Z",
+        "completed_at": "2026-08-20T08:03:30.028948Z",
+        "rounds_completed": 3,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p2b1-document-fact-period",
+          "task_type": "compare",
+          "targets": [
+            {
+              "target_id": "company:工商银行:year:2023",
+              "label": "工商银行-2023",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "工商银行"
+                ],
+                "report_years": [
+                  2023
+                ],
+                "document_types": []
+              },
+              "fact_year": 2023,
+              "document_year": 2023,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 主要财务指标 不良贷款率 拨备覆盖率 资本充足率 成本收入比 2023年 单位 元",
+              "cross_target_group": null
+            },
+            {
+              "target_id": "company:工商银行:year:2024",
+              "label": "工商银行-2024",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "工商银行"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2024,
+              "document_year": 2024,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 主要财务指标 不良贷款率 拨备覆盖率 资本充足率 成本收入比 2024年 单位 元",
+              "cross_target_group": null
+            }
+          ],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [
+            "不良贷款率",
+            "拨备覆盖率",
+            "资本充足率",
+            "成本收入比"
+          ],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": null,
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "call_00_29RYQ3jsP251lWK1Ikrz4490",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:工商银行:year:2023",
+            "query": "近三年主要会计数据 主要财务指标 不良贷款率 拨备覆盖率 资本充足率 成本收入比 2023年 近三年主要会计数据 主要财务指标 不良贷款率 拨备覆盖率 资本充足率 成本收入比 2023年 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "工商银行"
+              ],
+              "report_years": [
+                2023
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 49.55919994972646,
+            "retrieval_trace_id": "cb4f1ac61c6249a99929722eb528e4a6",
+            "evidence_chunk_ids": [
+              "e310e8a55ff8:c17:851fa19578a75986",
+              "e310e8a55ff8:c19:dd77f671a3207b68",
+              "e310e8a55ff8:c26:540826e4dd1f30e7"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_01_WZMDX8FpjUNcaB07y0W32565",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:工商银行:year:2024",
+            "query": "近三年主要会计数据 主要财务指标 不良贷款率 拨备覆盖率 资本充足率 成本收入比 2024年 近三年主要会计数据 主要财务指标 不良贷款率 拨备覆盖率 资本充足率 成本收入比 2024年 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "工商银行"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 57.58959997911006,
+            "retrieval_trace_id": "28dc439fdc1b4b4290e692eef4d4ac8d",
+            "evidence_chunk_ids": [
+              "27b9c08e8106:c18:ca1e67efc638296d",
+              "27b9c08e8106:c20:74d7886410694f3a",
+              "27b9c08e8106:c32:8d359a6c7cb99d3c"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "b1879a69987a53b283dc",
+          "items": [
+            {
+              "chunk_id": "e310e8a55ff8:c17:851fa19578a75986",
+              "content_sha256": "4caac20f71bf2d89dedbe6fed777e17dbd2b7745c02be41e45dd986dc50ad2e8",
+              "target_ids": [
+                "company:工商银行:year:2023"
+              ],
+              "document_id": "sha256:e310e8a55ff8f057782c6c70b003fa220ca5a2e484334bffbf308bdc39b3434d",
+              "document_key": "cninfo:601398:annual:2023",
+              "company_name": "工商银行",
+              "report_year": 2023,
+              "page_start": 16,
+              "page_end": 16,
+              "section_path": [
+                "中国工商银行股份有限公司",
+                "财务指标"
+              ],
+              "excerpt": "财务指标\n\n2023\n2022\n2021\n调整前\n调整后\n\n盈利能力指标（%）\n\n平均总资产回报率\n\n（1）\n0.87\n0.97\n0.97\n1.02\n\n加权平均净资产收益率\n\n（2）\n10.66\n11.43\n11.45\n12.15\n\n扣除非经常性损益后加权平均净资产收益率\n\n（2）\n10.58\n11.34\n11.36\n12.06\n\n净利息差\n\n（3）\n1.41\n1.73\n1.72\n1.92\n\n净利息收益率\n\n（4）\n1.61\n1.92\n1.92\n2.11\n\n风险加权资产收益率\n\n（5）\n1.56\n1.64\n1.65\n1.68\n\n手续费及佣金净收入比营业收入\n14.16\n14.08\n14.77\n14.11\n\n成本收入比\n\n（6）\n26.96\n25.01\n26.05\n23.97\n\n资产质量指标（%）\n\n不良贷款率\n\n（7）\n1.36\n1.38\n1.38\n1.42\n\n拨备覆盖率\n\n（8）\n213.97\n209.47\n209.47\n205.84\n\n贷款拨备率\n\n（9）\n2.90\n2.90\n2.90\n2.92\n\n资本充足率指标（%）\n\n核心一级资本充足率\n\n（10）\n13.72\n14.04\n14.04\n13.31\n\n一级资本充足率\n\n（10）\n15.17\n15.64\n15.64\n14.94\n\n资本充足率\n\n（10）\n19.10\n19.26\n19.26\n18.02\n\n总权益对总资产比率\n8.45\n8.87\n8.88\n9.31\n\n风险加权资产占总资产比率\n55.13\n56.11\n56.11\n61.67\n\n注：（1）净利润除以期初和期末总资产余额的平均数。\n\n（2）根据中国证监会《公开发行证券的公司信息披露编报规则第9 号－净资产收益率和每\n\n股收益的计算及披露》(2010 年修订)的规定计算。\n（3）平均生息资产收益率减平均计息负债付息率。\n（4）利息净收入除以平均生息资产。\n（5）净利润除以期初及期末风险加权资产的平均数。\n（6）业务及管理费除以营业收入。\n（7）不良贷款余额除以客户贷款及垫款总额。\n（8）贷款减值准备余额除以不良贷款余额。\n（9）贷款减值准备余额除以客户贷款及垫款总额。\n（10）根据《资本办法（试行）》计算。"
+            },
+            {
+              "chunk_id": "e310e8a55ff8:c19:dd77f671a3207b68",
+              "content_sha256": "4e3d58133091113c3a3bc9830334faab3850c8421d97d816fbc97706676ff120",
+              "target_ids": [
+                "company:工商银行:year:2023"
+              ],
+              "document_id": "sha256:e310e8a55ff8f057782c6c70b003fa220ca5a2e484334bffbf308bdc39b3434d",
+              "document_key": "cninfo:601398:annual:2023",
+              "company_name": "工商银行",
+              "report_year": 2023,
+              "page_start": 18,
+              "page_end": 18,
+              "section_path": [
+                "中国工商银行股份有限公司",
+                "分季度财务数据",
+                "6. 董事长致辞"
+              ],
+              "excerpt": "6. 董事长致辞\n\n2023 年是全面贯彻党的二十大精神的开局之年。本行坚持以习近平新时代\n\n中国特色社会主义思想为指导，认真学习贯彻党的二十大精神和中央金融工作会\n\n议精神，以迎接成立40 周年为动力，统筹做好稳增长、调结构、增动能、防风\n\n险、开新局各项工作，在服务中国式现代化中推进高质量发展，交出一份稳中有\n\n进、以进固稳、以稳促优的成绩单。\n\n这一年，本行发展实现“质”的有效提升，ROA、ROE 分别为0.87%、10.66%，\n\n成本收入比26.96%，均保持较优水平；实现“量”的合理增长，净利润增长至\n\n3,651 亿元，资产、存款、贷款均增长10%以上，再创新高；实现“险”的精准\n\n防控，不良贷款率同比下降2BP 至1.36%，拨备覆盖率上升至213.97%，资本充\n\n足率19.10%，保持较高水平。\n\n这一年，“工行账本”资产负债表更加干净健康、利润表更加平衡协调可持\n\n续，“强优大”主要核心指标预计保持全球同业领先或处于前列。这充分体现了\n\n价值创造、市场地位、风险管控、资本约束的稳平衡，彰显了发展质态一如既往\n\n的强韧性。\n\n这是“实体”和“金融”的互融共进。本行积极落实跨周期和逆周期调节政\n\n策，突出主责主业，优化金融供给。全年贷款增加2.88 万亿元、债券投资增加\n\n1.29 万亿元，分别增长12.4%和12.9%，既有力支持经济回升向好，又支撑自身\n\n资产和利息收入的稳定增长。建立健全“五篇大文章”工作推动机制和服务体系，"
+            },
+            {
+              "chunk_id": "e310e8a55ff8:c26:540826e4dd1f30e7",
+              "content_sha256": "70180f233735c4cb6c9312559ad557529271c7462c975d37e1d12edea0dc0d5c",
+              "target_ids": [
+                "company:工商银行:year:2023"
+              ],
+              "document_id": "sha256:e310e8a55ff8f057782c6c70b003fa220ca5a2e484334bffbf308bdc39b3434d",
+              "document_key": "cninfo:601398:annual:2023",
+              "company_name": "工商银行",
+              "report_year": 2023,
+              "page_start": 22,
+              "page_end": 22,
+              "section_path": [
+                "中国工商银行股份有限公司",
+                "分季度财务数据",
+                "6. 董事长致辞",
+                "7.1 经济金融及监管环境"
+              ],
+              "excerpt": "措，助力民营经济发展壮大。\n\n金融体系运行总体平稳。2023 年末，广义货币供应量（M2）余额292.27 万\n\n亿元，同比增长9.7%；社会融资规模存量378.09 万亿元，同比增长9.5%；人民\n\n币贷款余额237.59 万亿元，同比增长10.6%；人民币存款余额284.26 万亿元，\n\n同比增长10.0%；债券市场发行各类债券71.0 万亿元，同比增长14.8%；上证综\n\n指和深证成指比上年末分别回落3.7%和13.5%；人民币对美元汇率中间价为\n\n7.0827 元，比上年末贬值1.7%。\n\n商业银行总资产平稳增长，信贷资产质量保持平稳，风险抵补能力整体充足。\n\n2023 年末，商业银行本外币总资产354.85 万亿元，同比增长11.0%；不良贷款\n\n余额3.23 万亿元，不良贷款率1.59%，拨备覆盖率205.14%；资本充足率15.06%。\n\n2023 年，本行紧紧围绕服务中国式现代化中心任务、高质量发展首要任务、\n\n构建新发展格局战略任务谋篇布局，统筹推进“稳增长、调结构、增动能、防风\n\n险、开新局”各项工作，服务实体经济精准有效，各类风险总体可控，平衡、协\n\n调、可持续发展能力不断提升。本行连续十一年位列英国《银行家》全球银行1000\n\n强榜单榜首，连续十一年位列美国《财富》500 强榜单全球商业银行首位，连续\n\n八年位列英国Brand Finance 全球银行品牌价值500 强榜单榜首，国际影响力稳\n\n步提升。"
+            },
+            {
+              "chunk_id": "27b9c08e8106:c18:ca1e67efc638296d",
+              "content_sha256": "03e1da1f57cc3759f01b4fed93776b6550c8d0fb31feacdccc485d3bd3be0494",
+              "target_ids": [
+                "company:工商银行:year:2024"
+              ],
+              "document_id": "sha256:27b9c08e81061722ab4166ad23d4f90366a3f075af1422543fa6dcb8c7d1a03c",
+              "document_key": "cninfo:601398:annual:2024",
+              "company_name": "工商银行",
+              "report_year": 2024,
+              "page_start": 16,
+              "page_end": 16,
+              "section_path": [
+                "中国工商银行股份有限公司",
+                "财务指标"
+              ],
+              "excerpt": "财务指标\n\n盈利能力指标（%）\n\n平均总资产回报率\n\n（1）\n0.78\n0.87\n0.97\n\n加权平均净资产收益率\n\n（2）\n9.88\n10.66\n11.45\n\n扣除非经常性损益后加权平均净资产收益率\n\n（2）\n9.83\n10.58\n11.36\n\n净利息差\n\n（3）\n1.23\n1.41\n1.72\n\n净利息收益率\n\n（4）\n1.42\n1.61\n1.92\n\n风险加权资产收益率\n\n（5）\n1.46\n1.56\n1.65\n\n手续费及佣金净收入比营业收入\n13.31\n14.16\n14.77\n\n成本收入比\n\n（6）\n28.04\n26.96\n26.05\n\n资产质量指标（%）\n\n不良贷款率\n\n（7）\n1.34\n1.36\n1.38\n\n拨备覆盖率\n\n（8）\n214.91\n213.97\n209.47\n\n贷款拨备率\n\n（9）\n2.87\n2.90\n2.90\n\n资本充足率指标（%）\n\n核心一级资本充足率\n\n（10）\n14.10\n13.72\n14.04\n\n一级资本充足率\n\n（10）\n15.36\n15.17\n15.64\n\n资本充足率\n\n（10）\n19.39\n19.10\n19.26\n\n总权益对总资产比率\n8.17\n8.45\n8.88\n\n风险加权资产占总资产比率\n52.66\n55.13\n56.11\n\n注：（1）净利润除以期初和期末总资产余额的平均数。\n\n（2）根据中国证监会《公开发行证券的公司信息披露编报规则第9 号－净资产收益率和每股收益的\n\n计算及披露》(2010 年修订)的规定计算。\n（3）平均生息资产收益率减平均计息负债付息率。\n（4）利息净收入除以平均生息资产。\n（5）净利润除以期初及期末风险加权资产的平均数。\n（6）业务及管理费除以营业收入。\n（7）不良贷款余额除以客户贷款及垫款总额。\n（8）贷款减值准备余额除以不良贷款余额。\n（9）贷款减值准备余额除以客户贷款及垫款总额。\n（10）2024 年根据《资本办法》计算。2023 年、2022 年比较期根据《资本办法（试行）》计算。"
+            },
+            {
+              "chunk_id": "27b9c08e8106:c20:74d7886410694f3a",
+              "content_sha256": "3d484e85e905e87a4385ff30a21e15964fd78ba4f39aa7f823b70d21476da254",
+              "target_ids": [
+                "company:工商银行:year:2024"
+              ],
+              "document_id": "sha256:27b9c08e81061722ab4166ad23d4f90366a3f075af1422543fa6dcb8c7d1a03c",
+              "document_key": "cninfo:601398:annual:2024",
+              "company_name": "工商银行",
+              "report_year": 2024,
+              "page_start": 18,
+              "page_end": 18,
+              "section_path": [
+                "中国工商银行股份有限公司",
+                "分季度财务数据",
+                "6. 董事长致辞"
+              ],
+              "excerpt": "6. 董事长致辞\n\n2024 年是实现“十四五”规划目标任务的关键一年，也是工商银行四十年再\n\n出发的重要一年。我们坚持以习近平新时代中国特色社会主义思想为指导，深入\n\n学习贯彻党的二十届三中全会和中央金融工作会议精神，围绕“防风险、强监管、\n\n促发展”主线，深入践行金融工作的政治性、人民性，在服务大局中担当作为，\n\n在改革转型中攻坚突破，交出了一份扎扎实实的工行答卷。\n\n这是一张坚持稳中求进、持续做优做强的价值银行答卷。\n“稳”是大局，\n“进”\n\n是方向。一年来，我们深化对金融本质和规律的认识，统筹发展和安全，全力推\n\n进价值创造、市场地位、风险管控、资本约束的动态平衡，打造干净健康的资产\n\n负债表、平衡协调可持续的利润表。“稳”的基础全面巩固，资产、资本、存款、\n\n贷款均保持较快增长，规模稳居全球第一；“优”的质态不断延续，净利润实现\n\n同比增长，成本收入比保持较优水平，ROA、ROE 处于合理区间；“强”的韧性\n\n更加突出，不良贷款率持续下降，拨备覆盖率、资本充足率稳中有升；“新”的\n\n动能加速积聚，支付、结算、清算、托管等新型基础设施服务较快增长，新型投\n\n行、财富、资管、交易等新型业务齐头并进，新兴产业、未来产业等相关业务加\n\n速发展，新领域新赛道持续扩围升级。本行预计在中期已分红约511.09 亿元的"
+            },
+            {
+              "chunk_id": "27b9c08e8106:c32:8d359a6c7cb99d3c",
+              "content_sha256": "ba3a9580d33202a043ff91b30345c6f0e6766623e3ddd08ccc3e0eb433a4bf67",
+              "target_ids": [
+                "company:工商银行:year:2024"
+              ],
+              "document_id": "sha256:27b9c08e81061722ab4166ad23d4f90366a3f075af1422543fa6dcb8c7d1a03c",
+              "document_key": "cninfo:601398:annual:2024",
+              "company_name": "工商银行",
+              "report_year": 2024,
+              "page_start": 25,
+              "page_end": 25,
+              "section_path": [
+                "中国工商银行股份有限公司",
+                "二〇二五年三月二十八日",
+                "7. 行长致辞",
+                "8.1 经济金融及监管环境"
+              ],
+              "excerpt": "升金融机构依法合规经营水平；优化完善银团贷款业务管理和监管，推动银团贷\n\n款业务规范健康发展；推动银行业做好金融“五篇大文章”，提升科技金融服务\n\n能力，深化制造业金融服务，强化金融支持绿色低碳发展；建立支持小微企业融\n\n资协调工作机制，将无还本续贷政策阶段性扩大至中型企业；建立城市房地产融\n\n资协调机制，支持房地产项目合理融资需求。\n\n商业银行总资产保持平稳增长，信贷资产质量总体稳定，风险抵补能力整体\n\n充足。2024 年末，商业银行本外币总资产380.52 万亿元，同比增长7.2%；不良\n\n贷款余额3.28 万亿元，不良贷款率1.50%，拨备覆盖率211.19%；资本充足率\n\n15.74%。"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "sufficient",
+          "evidence_count_by_target": {
+            "company:工商银行:year:2023": 3,
+            "company:工商银行:year:2024": 3
+          },
+          "gaps": [],
+          "metric_gaps_by_target": {}
+        },
+        "result": {
+          "outcome": "abstain",
+          "answer": {
+            "answer": "DeepSeek 未在运行预算内提交通过本地门禁的结果。",
+            "citations": [],
+            "provider": "deepseek-agent-budget",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {
+            "company:工商银行:year:2023": [
+              "e310e8a55ff8:c17:851fa19578a75986",
+              "e310e8a55ff8:c19:dd77f671a3207b68",
+              "e310e8a55ff8:c26:540826e4dd1f30e7"
+            ],
+            "company:工商银行:year:2024": [
+              "27b9c08e8106:c18:ca1e67efc638296d",
+              "27b9c08e8106:c20:74d7886410694f3a",
+              "27b9c08e8106:c32:8d359a6c7cb99d3c"
+            ]
+          },
+          "target_answers": {}
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-compare-p2b-metric-gap-direction-summary",
+          "prompt_sha256": "f0bb90710e15915e079d78b9672129cf68cb760f487693bfe9d9c50231bdf69e",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "search_evidence",
+                "search_evidence"
+              ],
+              "input_tokens": 1240,
+              "output_tokens": 208,
+              "elapsed_ms": 1597.0412000315264,
+              "validation_errors": []
+            },
+            {
+              "turn_number": 2,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "submit_comparison"
+              ],
+              "input_tokens": 4317,
+              "output_tokens": 1098,
+              "elapsed_ms": 5630.549199995585,
+              "validation_errors": [
+                "evidence e310e8a55ff8:c17:851fa19578a75986 is not bound to company:工商银行:year:2024"
+              ]
+            },
+            {
+              "turn_number": 3,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "submit_comparison"
+              ],
+              "input_tokens": 5477,
+              "output_tokens": 1085,
+              "elapsed_ms": 4955.702599952929,
+              "validation_errors": [
+                "evidence e310e8a55ff8:c17:851fa19578a75986 is not bound to company:工商银行:year:2024"
+              ]
+            }
+          ],
+          "request_count": 3,
+          "input_tokens": 11034,
+          "output_tokens": 2391
+        }
+      }
+    },
+    {
+      "case_id": "v3_002594_trend_core",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "status": "executed",
+      "expected_fact_count": 7,
+      "score": {
+        "behavior_correct": false,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "revenue_2023",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "revenue_2024",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "profit_2023",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "profit_2024",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "cash_2023",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "cash_2024",
+            "matched": false,
+            "matched_value": null
+          },
+          {
+            "fact_id": "direction",
+            "matched": false,
+            "matched_value": null
+          }
+        ],
+        "fact_accuracy": 0.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 0.0,
+        "case_pass": false
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "e7b8509451754336b92ab765e0ad211a",
+        "task_type": "compare",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "model_budget_exhausted",
+        "query": "比较比亚迪2023年和2024年的营业收入、归母净利润和经营活动现金流量净额。",
+        "index_id": "b1879a69987a53b283dc",
+        "created_at": "2026-08-20T08:03:30.030605Z",
+        "completed_at": "2026-08-20T08:03:41.593690Z",
+        "rounds_completed": 3,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p2b1-document-fact-period",
+          "task_type": "compare",
+          "targets": [
+            {
+              "target_id": "company:比亚迪:year:2023",
+              "label": "比亚迪-2023",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "比亚迪"
+                ],
+                "report_years": [
+                  2023
+                ],
+                "document_types": []
+              },
+              "fact_year": 2023,
+              "document_year": 2023,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 主要财务指标 营业收入 归母净利润 经营活动现金流量净额 2023年 单位 元",
+              "cross_target_group": null
+            },
+            {
+              "target_id": "company:比亚迪:year:2024",
+              "label": "比亚迪-2024",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "比亚迪"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2024,
+              "document_year": 2024,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 主要财务指标 营业收入 归母净利润 经营活动现金流量净额 2024年 单位 元",
+              "cross_target_group": null
+            }
+          ],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [
+            "营业收入",
+            "归母净利润",
+            "经营活动现金流量净额"
+          ],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": null,
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "call_00_xkMhxHSwFRCwPEGpqSKR5365",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:比亚迪:year:2023",
+            "query": "近三年主要会计数据 主要财务指标 营业收入 归母净利润 经营活动现金流量净额 2023年 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "比亚迪"
+              ],
+              "report_years": [
+                2023
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 55.07859995122999,
+            "retrieval_trace_id": "d1157371a519433ca9c2cddbc39d7e89",
+            "evidence_chunk_ids": [
+              "959b00a12055:c18:ffba9c13ba736448",
+              "959b00a12055:c20:ced100203b31513d",
+              "959b00a12055:c70:fc81e14328fb8579"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_01_ohKvVsrrnl86wrROWOLC5229",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:比亚迪:year:2024",
+            "query": "近三年主要会计数据 主要财务指标 营业收入 归母净利润 经营活动现金流量净额 2024年 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "比亚迪"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 56.50860001333058,
+            "retrieval_trace_id": "f88a96a171c04a418fc2963f956a4662",
+            "evidence_chunk_ids": [
+              "e9c2d7fdd088:c18:099b3069ce51d65f",
+              "e9c2d7fdd088:c20:94576306bdb2882f",
+              "e9c2d7fdd088:c76:f609e2968f9f21b3"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "b1879a69987a53b283dc",
+          "items": [
+            {
+              "chunk_id": "959b00a12055:c18:ffba9c13ba736448",
+              "content_sha256": "bdaeb743fcdb04d88135e2886fb6380ec73b42af26d277eab7b499147f82b94e",
+              "target_ids": [
+                "company:比亚迪:year:2023"
+              ],
+              "document_id": "sha256:959b00a12055470a63962303d90557dca90e84d104d92025aeb70805aa7cc036",
+              "document_key": "cninfo:002594:annual:2023",
+              "company_name": "比亚迪",
+              "report_year": 2023,
+              "page_start": 11,
+              "page_end": 11,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "六、主要会计数据和财务指标"
+              ],
+              "excerpt": "六、主要会计数据和财务指标\n\n公司是否需追溯调整或重述以前年度会计数据\n\n□是 否\n\n2023 年\n2022 年\n本年比上年增减\n2021 年\n\n营业收入（元）\n602,315,354,000.00\n424,060,635,000.00\n42.04%\n216,142,395,000.00\n\n归属于上市公司股东的净利润（元）\n30,040,811,000.00\n16,622,448,000.00\n80.72%\n3,045,188,000.00\n\n归属于上市公司股东的扣除非经常性损益\n\n的净利润（元）\n28,462,432,000.00\n15,637,792,000.00\n82.01%\n1,254,619,000.00\n\n经营活动产生的现金流量净额（元）\n169,725,025,000.00\n140,837,657,000.00\n20.51%\n65,466,682,000.00\n\n基本每股收益（元/股）\n10.32\n5.71\n80.74%\n1.06\n\n稀释每股收益（元/股）\n10.32\n5.71\n80.74%\n1.06\n\n加权平均净资产收益率\n24.40%\n16.14%\n8.26%\n3.73%\n\n2023 年末\n2022 年末\n本年末比上年末\n\n增减\n2021 年末\n\n总资产（元）\n679,547,670,000.00\n493,860,646,000.00\n37.60%\n295,780,147,000.00\n\n归属于上市公司股东的净资产（元）\n138,810,065,000.00\n111,029,299,000.00\n25.02%\n95,069,671,000.00\n\n公司最近三个会计年度扣除非经常性损益前后净利润孰低者均为负值，且最近一年审计报告显示公司持续经营能力存\n在不确定性\n\n□是 否\n\n扣除非经常损益前后的净利润孰低者为负值\n\n□是 否"
+            },
+            {
+              "chunk_id": "959b00a12055:c20:ced100203b31513d",
+              "content_sha256": "e5f84db2cad2a4bcff28ac0f33e6f20e3dec4644908970d192036ebad4287780",
+              "target_ids": [
+                "company:比亚迪:year:2023"
+              ],
+              "document_id": "sha256:959b00a12055470a63962303d90557dca90e84d104d92025aeb70805aa7cc036",
+              "document_key": "cninfo:002594:annual:2023",
+              "company_name": "比亚迪",
+              "report_year": 2023,
+              "page_start": 11,
+              "page_end": 12,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "八、分季度主要财务指标"
+              ],
+              "excerpt": "2、同时按照境外会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况\n\n□适用 不适用\n\n公司报告期不存在按照境外会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况。\n\n八、分季度主要财务指标\n\n单位：元\n\n第一季度\n第二季度\n第三季度\n第四季度\n\n营业收入\n120,173,608,000.00\n139,950,535,000.00\n162,150,695,000.00\n180,040,516,000.00\n\n归属于上市公司股东的净利润\n4,130,063,000.00\n6,824,082,000.00\n10,412,751,000.00\n8,673,915,000.00\n\n归属于上市公司股东的扣除非经\n\n常性损益的净利润\n3,565,127,000.00\n6,129,728,000.00\n9,653,906,000.00\n9,113,671,000.00\n\n经营活动产生的现金流量净额\n14,465,699,000.00\n67,505,478,000.00\n15,889,111,000.00\n71,864,737,000.00\n\n上述财务指标或其加总数是否与公司已披露季度报告、半年度报告相关财务指标存在重大差异\n\n□是 否"
+            },
+            {
+              "chunk_id": "959b00a12055:c70:fc81e14328fb8579",
+              "content_sha256": "a7cfbf0b4375cb4b09a1caea32c5d1b4fc012a0a948d3151b20dae6d763cd431",
+              "target_ids": [
+                "company:比亚迪:year:2023"
+              ],
+              "document_id": "sha256:959b00a12055470a63962303d90557dca90e84d104d92025aeb70805aa7cc036",
+              "document_key": "cninfo:002594:annual:2023",
+              "company_name": "比亚迪",
+              "report_year": 2023,
+              "page_start": 28,
+              "page_end": 28,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "（8） 主要销售客户和主要供应商情况",
+                "5、现金流"
+              ],
+              "excerpt": "5、现金流\n\n单位：元\n\n项目\n2023 年\n2022 年\n同比增减\n\n经营活动现金流入小计\n611,818,103,000.00\n441,379,987,000.00\n38.61%\n\n经营活动现金流出小计\n442,093,078,000.00\n300,542,330,000.00\n47.10%\n\n经营活动产生的现金流量净额\n169,725,025,000.00\n140,837,657,000.00\n20.51%\n\n投资活动现金流入小计\n23,105,483,000.00\n13,310,643,000.00\n73.59%\n\n投资活动现金流出小计\n148,769,127,000.00\n133,906,640,000.00\n11.10%\n\n投资活动产生的现金流量净额\n-125,663,644,000.00\n-120,595,997,000.00\n4.20%\n\n筹资活动现金流入小计\n45,430,316,000.00\n31,175,046,000.00\n45.73%\n\n筹资活动现金流出小计\n32,613,189,000.00\n50,663,729,000.00\n-35.63%\n\n筹资活动产生的现金流量净额\n12,817,127,000.00\n-19,488,683,000.00\n165.77%\n\n现金及现金等价物净增加额\n57,329,288,000.00\n1,362,597,000.00\n4,107.35%\n\n相关数据同比发生重大变动的主要影响因素说明\n\n适用 □不适用\n\n经营活动产生的现金流量净额同比变动20.51%，主要是本期销售商品、提供劳务收到的现金增加所致；\n\n筹资活动产生的现金流量净额同比变动165.77%，主要是本期取得借款净额增加所致。\n\n报告期内公司经营活动产生的现金净流量与本年度净利润存在重大差异的原因说明\n\n□适用 不适用"
+            },
+            {
+              "chunk_id": "e9c2d7fdd088:c18:099b3069ce51d65f",
+              "content_sha256": "7fc50a7974e1fd5d3ae6b57c18f57fb2fd9c04edc677f7374f5b1feeda794f44",
+              "target_ids": [
+                "company:比亚迪:year:2024"
+              ],
+              "document_id": "sha256:e9c2d7fdd088e151ccb6c8ad3d95587b2b014b10f2c9731508d23ce07fde4de3",
+              "document_key": "cninfo:002594:annual:2024",
+              "company_name": "比亚迪",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 11,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "六、主要会计数据和财务指标"
+              ],
+              "excerpt": "六、主要会计数据和财务指标\n\n公司是否需追溯调整或重述以前年度会计数据\n\n□是 否\n\n2024 年\n2023 年\n本年比上年增减\n2022 年\n\n营业收入（元）\n777,102,455,000.00\n602,315,354,000.00\n29.02%\n424,060,635,000.00\n\n归属于上市公司股东的净利润（元）\n40,254,346,000.00\n30,040,811,000.00\n34.00%\n16,622,448,000.00\n\n归属于上市公司股东的扣除非经常性损\n\n益的净利润（元）\n36,982,887,000.00\n28,462,432,000.00\n29.94%\n15,637,792,000.00\n\n经营活动产生的现金流量净额（元）\n133,453,873,000.00\n169,725,025,000.00\n-21.37%\n140,837,657,000.00\n\n基本每股收益（元/股）\n13.84\n10.32\n34.11%\n5.71\n\n稀释每股收益（元/股）\n13.84\n10.32\n34.11%\n5.71\n\n加权平均净资产收益率\n26.05%\n24.40%\n1.65%\n16.14%\n\n2024 年末\n2023 年末\n本年末比上年末增\n\n减\n2022 年末\n\n总资产（元）\n783,355,855,000.00\n679,547,670,000.00\n15.28%\n493,860,646,000.00\n\n归属于上市公司股东的净资产（元）\n185,251,104,000.00\n138,810,065,000.00\n33.46%\n111,029,299,000.00\n\n公司最近三个会计年度扣除非经常性损益前后净利润孰低者均为负值，且最近一年审计报告显示公司持续经营能力存在不\n确定性\n\n□是 否\n\n扣除非经常损益前后的净利润孰低者为负值\n\n□是 否"
+            },
+            {
+              "chunk_id": "e9c2d7fdd088:c20:94576306bdb2882f",
+              "content_sha256": "225c71b65cc9e67b4878b466289e02405f4718e38e030de3a8533954f5db2272",
+              "target_ids": [
+                "company:比亚迪:year:2024"
+              ],
+              "document_id": "sha256:e9c2d7fdd088e151ccb6c8ad3d95587b2b014b10f2c9731508d23ce07fde4de3",
+              "document_key": "cninfo:002594:annual:2024",
+              "company_name": "比亚迪",
+              "report_year": 2024,
+              "page_start": 11,
+              "page_end": 11,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "八、分季度主要财务指标"
+              ],
+              "excerpt": "2、同时按照境外会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况\n\n□适用 不适用\n\n公司报告期不存在按照境外会计准则与按照中国会计准则披露的财务报告中净利润和净资产差异情况。\n\n八、分季度主要财务指标\n\n单位：元\n\n第一季度\n第二季度\n第三季度\n第四季度\n\n营业收入\n124,944,397,000.00\n176,182,316,000.00\n201,124,599,000.00\n274,851,143,000.00\n\n归属于上市公司股东\n的净利润\n4,568,793,000.00\n9,062,464,000.00\n11,606,858,000.00\n15,016,231,000.00\n\n3,751,980,000.00\n8,563,434,000.00\n10,876,911,000.00\n13,790,562,000.00\n\n归属于上市公司股东\n的扣除非经常性损益\n的净利润\n\n经营活动产生的现金\n流量净额\n10,227,984,000.00\n3,950,326,000.00\n42,095,005,000.00\n77,180,558,000.00\n\n上述财务指标或其加总数是否与公司已披露季度报告、半年度报告相关财务指标存在重大差异\n\n□是 否"
+            },
+            {
+              "chunk_id": "e9c2d7fdd088:c76:f609e2968f9f21b3",
+              "content_sha256": "d1feb46f2ffc908ffcf8c574309cca08bfd7e15ec18e9e24748e012e0c8ec37d",
+              "target_ids": [
+                "company:比亚迪:year:2024"
+              ],
+              "document_id": "sha256:e9c2d7fdd088e151ccb6c8ad3d95587b2b014b10f2c9731508d23ce07fde4de3",
+              "document_key": "cninfo:002594:annual:2024",
+              "company_name": "比亚迪",
+              "report_year": 2024,
+              "page_start": 34,
+              "page_end": 35,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "（8） 主要销售客户和主要供应商情况",
+                "5、现金流"
+              ],
+              "excerpt": "5、现金流\n\n单位：元\n\n项目\n2024 年\n2023 年\n同比增减\n\n经营活动现金流入小计\n814,817,630,000.00\n611,818,103,000.00\n33.18%\n\n经营活动现金流出小计\n681,363,757,000.00\n442,093,078,000.00\n54.12%\n\n经营活动产生的现金流量净\n额\n133,453,873,000.00\n169,725,025,000.00\n-21.37%\n\n投资活动现金流入小计\n15,400,173,000.00\n23,105,483,000.00\n-33.35%\n\n投资活动现金流出小计\n144,482,455,000.00\n148,769,127,000.00\n-2.88%\n\n投资活动产生的现金流量净\n额\n-129,082,282,000.00\n-125,663,644,000.00\n2.72%\n\n筹资活动现金流入小计\n55,721,666,000.00\n45,430,316,000.00\n22.65%\n\n筹资活动现金流出小计\n65,989,213,000.00\n32,613,189,000.00\n102.34%\n\n筹资活动产生的现金流量净\n额\n-10,267,547,000.00\n12,817,127,000.00\n-180.11%\n\n现金及现金等价物净增加额\n-6,255,203,000.00\n57,329,288,000.00\n-110.91%\n\n相关数据同比发生重大变动的主要影响因素说明\n\n适用 □不适用\n\n经营活动产生的现金流量净额同比变动-21.37%，主要是购买商品、接受劳务支付的现金增加所致；\n\n筹资活动产生的现金流量净额同比变动-180.11%，主要是本期偿还债务及分配股利支付的现金增加所致。\n\n报告期内公司经营活动产生的现金净流量与本年度净利润存在重大差异的原因说明\n\n□适用 不适用"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "sufficient",
+          "evidence_count_by_target": {
+            "company:比亚迪:year:2023": 3,
+            "company:比亚迪:year:2024": 3
+          },
+          "gaps": [],
+          "metric_gaps_by_target": {}
+        },
+        "result": {
+          "outcome": "abstain",
+          "answer": {
+            "answer": "DeepSeek 未在运行预算内提交通过本地门禁的结果。",
+            "citations": [],
+            "provider": "deepseek-agent-budget",
+            "grounded": false,
+            "claim_citations": []
+          },
+          "target_evidence": {
+            "company:比亚迪:year:2023": [
+              "959b00a12055:c18:ffba9c13ba736448",
+              "959b00a12055:c20:ced100203b31513d",
+              "959b00a12055:c70:fc81e14328fb8579"
+            ],
+            "company:比亚迪:year:2024": [
+              "e9c2d7fdd088:c18:099b3069ce51d65f",
+              "e9c2d7fdd088:c20:94576306bdb2882f",
+              "e9c2d7fdd088:c76:f609e2968f9f21b3"
+            ]
+          },
+          "target_answers": {}
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-compare-p2b-metric-gap-direction-summary",
+          "prompt_sha256": "5f0a03b84e709e7d708fd93162bb08ab76762e2f9571c3dcdffb864321df6aa6",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "search_evidence",
+                "search_evidence"
+              ],
+              "input_tokens": 1207,
+              "output_tokens": 204,
+              "elapsed_ms": 1606.7674000514671,
+              "validation_errors": []
+            },
+            {
+              "turn_number": 2,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "submit_comparison"
+              ],
+              "input_tokens": 4233,
+              "output_tokens": 958,
+              "elapsed_ms": 5102.889900095761,
+              "validation_errors": [
+                "evidence 959b00a12055:c18:ffba9c13ba736448 is not bound to company:比亚迪:year:2024"
+              ]
+            },
+            {
+              "turn_number": 3,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "submit_comparison"
+              ],
+              "input_tokens": 5252,
+              "output_tokens": 950,
+              "elapsed_ms": 4739.208200015128,
+              "validation_errors": [
+                "evidence 959b00a12055:c18:ffba9c13ba736448 is not bound to company:比亚迪:year:2024"
+              ]
+            }
+          ],
+          "request_count": 3,
+          "input_tokens": 10692,
+          "output_tokens": 2112
+        }
+      }
+    },
+    {
+      "case_id": "v3_002594_trend_rd",
+      "task_type": "compare",
+      "challenge_types": [
+        "document_blind",
+        "multi_document",
+        "multi_year",
+        "exact_value"
+      ],
+      "status": "executed",
+      "expected_fact_count": 6,
+      "score": {
+        "behavior_correct": true,
+        "plan_target_exact": true,
+        "fact_scores": [
+          {
+            "fact_id": "rd_2023",
+            "matched": true,
+            "matched_value": "39917743000"
+          },
+          {
+            "fact_id": "rd_2024",
+            "matched": true,
+            "matched_value": "54160964000"
+          },
+          {
+            "fact_id": "intensity_2023",
+            "matched": true,
+            "matched_value": "6.63%"
+          },
+          {
+            "fact_id": "intensity_2024",
+            "matched": true,
+            "matched_value": "6.97%"
+          },
+          {
+            "fact_id": "people_2023",
+            "matched": true,
+            "matched_value": "102844"
+          },
+          {
+            "fact_id": "people_2024",
+            "matched": true,
+            "matched_value": "121598"
+          }
+        ],
+        "fact_accuracy": 1.0,
+        "citation_integrity": true,
+        "citation_source_coverage": 1.0,
+        "case_pass": true
+      },
+      "trace": {
+        "schema_version": "1",
+        "task_id": "c9ad683f7b5d41e78704b4b8a9c14417",
+        "task_type": "compare",
+        "runtime": "deepseek_tool_calling",
+        "status": "completed",
+        "stop_reason": "sufficient_evidence",
+        "query": "比较比亚迪2023年和2024年的研发投入金额、研发投入强度及研发人员数量。",
+        "index_id": "b1879a69987a53b283dc",
+        "created_at": "2026-08-20T08:03:41.594741Z",
+        "completed_at": "2026-08-20T08:03:48.018483Z",
+        "rounds_completed": 2,
+        "plan": {
+          "planner_revision": "deterministic-document-tasks-p2b1-document-fact-period",
+          "task_type": "compare",
+          "targets": [
+            {
+              "target_id": "company:比亚迪:year:2023",
+              "label": "比亚迪-2023",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "比亚迪"
+                ],
+                "report_years": [
+                  2023
+                ],
+                "document_types": []
+              },
+              "fact_year": 2023,
+              "document_year": 2023,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 主要财务指标 研发投入金额 研发投入强度 研发人员数量 2023年 单位 元",
+              "cross_target_group": null
+            },
+            {
+              "target_id": "company:比亚迪:year:2024",
+              "label": "比亚迪-2024",
+              "filters": {
+                "document_keys": [],
+                "company_names": [
+                  "比亚迪"
+                ],
+                "report_years": [
+                  2024
+                ],
+                "document_types": []
+              },
+              "fact_year": 2024,
+              "document_year": 2024,
+              "statement_scope": "unspecified",
+              "value_version": "current",
+              "retrieval_hint": "近三年主要会计数据 主要财务指标 研发投入金额 研发投入强度 研发人员数量 2024年 单位 元",
+              "cross_target_group": null
+            }
+          ],
+          "document_scope": null,
+          "document_year": null,
+          "fact_periods": [],
+          "required_metrics": [
+            "研发投入金额",
+            "研发投入强度",
+            "研发人员数量"
+          ],
+          "document_scope_resolution": null,
+          "retrieval_hint": null,
+          "clarification": null,
+          "corpus_unavailable_reason": null
+        },
+        "tool_calls": [
+          {
+            "call_id": "call_00_19O4ajLQNCjWx8TdTNSz3491",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:比亚迪:year:2023",
+            "query": "近三年主要会计数据 主要财务指标 研发投入金额 研发投入强度 研发人员数量 2023年 近三年主要会计数据 主要财务指标 研发投入金额 研发投入强度 研发人员数量 2023年 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "比亚迪"
+              ],
+              "report_years": [
+                2023
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 47.629799926653504,
+            "retrieval_trace_id": "140e35c677634f0ea213e505f526de8d",
+            "evidence_chunk_ids": [
+              "959b00a12055:c68:c39661d5ef8a387e",
+              "959b00a12055:c69:bb3c5d6a04c81630",
+              "959b00a12055:c18:ffba9c13ba736448"
+            ],
+            "error_type": null,
+            "error_message": null
+          },
+          {
+            "call_id": "call_01_5iUELy9nVZpoWX3IsdKM3117",
+            "round_number": 1,
+            "tool": "search_evidence",
+            "target_id": "company:比亚迪:year:2024",
+            "query": "近三年主要会计数据 主要财务指标 研发投入金额 研发投入强度 研发人员数量 2024年 近三年主要会计数据 主要财务指标 研发投入金额 研发投入强度 研发人员数量 2024年 单位 元",
+            "filters": {
+              "document_keys": [],
+              "company_names": [
+                "比亚迪"
+              ],
+              "report_years": [
+                2024
+              ],
+              "document_types": []
+            },
+            "status": "success",
+            "duration_ms": 45.63960002269596,
+            "retrieval_trace_id": "e00b377fd38f4e718762b9a9336eb29d",
+            "evidence_chunk_ids": [
+              "e9c2d7fdd088:c75:c5b44655a54b0109",
+              "e9c2d7fdd088:c18:099b3069ce51d65f",
+              "e9c2d7fdd088:c55:2e2ae2b10b2f8917"
+            ],
+            "error_type": null,
+            "error_message": null
+          }
+        ],
+        "evidence_memory": {
+          "index_id": "b1879a69987a53b283dc",
+          "items": [
+            {
+              "chunk_id": "959b00a12055:c68:c39661d5ef8a387e",
+              "content_sha256": "041919a2b76ad2d043c2e7c9de1a06cb9a9fa05bb4ab55d40f4b54a3c4b4e206",
+              "target_ids": [
+                "company:比亚迪:year:2023"
+              ],
+              "document_id": "sha256:959b00a12055470a63962303d90557dca90e84d104d92025aeb70805aa7cc036",
+              "document_key": "cninfo:002594:annual:2023",
+              "company_name": "比亚迪",
+              "report_year": 2023,
+              "page_start": 27,
+              "page_end": 28,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "（8） 主要销售客户和主要供应商情况",
+                "4、研发投入"
+              ],
+              "excerpt": "TACS 系统面向智慧城\n轨、绿色城轨和投建营\n一体化的发展需求，基\n于车车通信、自主定\n位、自主感知、自主运\n行和云边协同等技术，\n整合技术生态资源，形\n成先进、安全、简约的\n深度集成列控系统。\n\n业内首家实现TACS 车车\n通信系统在低运量轨道交\n通行业应用的企业，技术\n应用助力公司在行业内树\n立技术领先的品牌形象，\n进一步巩固和提升在城轨\n列车行业中的地位，提高\n公司在城轨列控行业的影\n响力。\n\n公司研发人员情况\n\n2023 年\n2022 年\n变动比例\n\n研发人员数量（人）\n102,844\n69,697\n47.56%\n\n研发人员数量占比\n14.62%\n12.23%\n2.39%\n\n研发人员学历结构\n\n本科\n46,823\n36,018\n30.00%\n\n硕士\n23,706\n7,827\n202.87%\n\n博士\n1,587\n590\n168.98%\n\n研发人员年龄构成\n\n30 岁以下\n61,337\n37,302\n64.43%\n\n30~40 岁\n36,182\n28,606\n26.48%\n\n公司研发投入情况\n\n2023 年\n2022 年\n变动比例\n\n研发投入金额（元）\n39,917,743,000.00\n20,223,242,000.00\n97.39%\n\n研发投入占营业收入比例\n6.63%\n4.77%\n1.86%\n\n研发投入资本化的金额（元）\n342,798,000.00\n1,568,789,000.00\n-78.15%\n\n资本化研发投入占研发投入的比例\n0.86%\n7.76%\n-6.90%\n\n公司研发人员构成发生重大变化的原因及影响\n\n适用 □不适用\n\n截至2023 年底，公司硕士以上学历以及30 岁以下的研发人员占比相较于2022 年底有所提升，主要原因是\n\n2023 年公司根据业务发展需要加大了应届毕业生招聘力度以及社会研发人才引进力度，有助于公司储备研发人才，"
+            },
+            {
+              "chunk_id": "959b00a12055:c69:bb3c5d6a04c81630",
+              "content_sha256": "0117b940b0def993565c2aa6f7205a61790304c1f62eb2ba8d63692c11436adb",
+              "target_ids": [
+                "company:比亚迪:year:2023"
+              ],
+              "document_id": "sha256:959b00a12055470a63962303d90557dca90e84d104d92025aeb70805aa7cc036",
+              "document_key": "cninfo:002594:annual:2023",
+              "company_name": "比亚迪",
+              "report_year": 2023,
+              "page_start": 28,
+              "page_end": 28,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "（8） 主要销售客户和主要供应商情况",
+                "4、研发投入"
+              ],
+              "excerpt": "2023 年公司根据业务发展需要加大了应届毕业生招聘力度以及社会研发人才引进力度，有助于公司储备研发人才，\n\n完善人员结构，增强研发实力。\n\n研发投入总额占营业收入的比重较上年发生显著变化的原因\n\n□适用 不适用\n\n研发投入资本化率大幅变动的原因及其合理性说明\n\n□适用 不适用"
+            },
+            {
+              "chunk_id": "959b00a12055:c18:ffba9c13ba736448",
+              "content_sha256": "bdaeb743fcdb04d88135e2886fb6380ec73b42af26d277eab7b499147f82b94e",
+              "target_ids": [
+                "company:比亚迪:year:2023"
+              ],
+              "document_id": "sha256:959b00a12055470a63962303d90557dca90e84d104d92025aeb70805aa7cc036",
+              "document_key": "cninfo:002594:annual:2023",
+              "company_name": "比亚迪",
+              "report_year": 2023,
+              "page_start": 11,
+              "page_end": 11,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "六、主要会计数据和财务指标"
+              ],
+              "excerpt": "六、主要会计数据和财务指标\n\n公司是否需追溯调整或重述以前年度会计数据\n\n□是 否\n\n2023 年\n2022 年\n本年比上年增减\n2021 年\n\n营业收入（元）\n602,315,354,000.00\n424,060,635,000.00\n42.04%\n216,142,395,000.00\n\n归属于上市公司股东的净利润（元）\n30,040,811,000.00\n16,622,448,000.00\n80.72%\n3,045,188,000.00\n\n归属于上市公司股东的扣除非经常性损益\n\n的净利润（元）\n28,462,432,000.00\n15,637,792,000.00\n82.01%\n1,254,619,000.00\n\n经营活动产生的现金流量净额（元）\n169,725,025,000.00\n140,837,657,000.00\n20.51%\n65,466,682,000.00\n\n基本每股收益（元/股）\n10.32\n5.71\n80.74%\n1.06\n\n稀释每股收益（元/股）\n10.32\n5.71\n80.74%\n1.06\n\n加权平均净资产收益率\n24.40%\n16.14%\n8.26%\n3.73%\n\n2023 年末\n2022 年末\n本年末比上年末\n\n增减\n2021 年末\n\n总资产（元）\n679,547,670,000.00\n493,860,646,000.00\n37.60%\n295,780,147,000.00\n\n归属于上市公司股东的净资产（元）\n138,810,065,000.00\n111,029,299,000.00\n25.02%\n95,069,671,000.00\n\n公司最近三个会计年度扣除非经常性损益前后净利润孰低者均为负值，且最近一年审计报告显示公司持续经营能力存\n在不确定性\n\n□是 否\n\n扣除非经常损益前后的净利润孰低者为负值\n\n□是 否"
+            },
+            {
+              "chunk_id": "e9c2d7fdd088:c75:c5b44655a54b0109",
+              "content_sha256": "aa55634b0251eaa7bcce77c9678fb2f6de80ed8d5fa29f641e1178e273e0d3f0",
+              "target_ids": [
+                "company:比亚迪:year:2024"
+              ],
+              "document_id": "sha256:e9c2d7fdd088e151ccb6c8ad3d95587b2b014b10f2c9731508d23ce07fde4de3",
+              "document_key": "cninfo:002594:annual:2024",
+              "company_name": "比亚迪",
+              "report_year": 2024,
+              "page_start": 33,
+              "page_end": 34,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "（8） 主要销售客户和主要供应商情况",
+                "4、研发投入"
+              ],
+              "excerpt": "公司研发人员情况\n\n2024 年\n2023 年\n变动比例\n\n研发人员数量（人）\n121,598\n102,844\n18.24%\n\n研发人员数量占比\n12.55%\n14.62%\n-2.07%\n\n研发人员学历结构\n\n本科（人）\n53,222\n46,823\n13.67%\n\n硕士（人）\n28,842\n23,706\n21.66%\n\n博士（人）\n2,403\n1,587\n51.45%\n研发人员年龄构成\n\n30 岁以下（人）\n68,548\n61,337\n11.76%\n\n30~40 岁（人）\n45,764\n36,182\n26.48%\n\n40 岁以上（人）\n7,286\n5,325\n36.83%\n\n公司研发人员构成发生重大变化的原因及影响\n\n□适用 不适用\n\n公司研发投入情况\n\n2024 年\n2023 年\n变动比例\n\n研发投入金额（元）\n54,160,964,000.00\n39,917,743,000.00\n35.68%\n\n研发投入占营业收入比例\n6.97%\n6.63%\n0.34%\n\n研发投入资本化的金额\n（元）\n966,219,000.00\n342,798,000.00\n181.86%\n\n资本化研发投入占研发投入\n的比例\n1.78%\n0.86%\n0.92%\n\n研发投入总额占营业收入的比重较上年发生显著变化的原因\n\n□适用 不适用\n\n研发投入资本化率大幅变动的原因及其合理性说明\n\n□适用 不适用"
+            },
+            {
+              "chunk_id": "e9c2d7fdd088:c18:099b3069ce51d65f",
+              "content_sha256": "7fc50a7974e1fd5d3ae6b57c18f57fb2fd9c04edc677f7374f5b1feeda794f44",
+              "target_ids": [
+                "company:比亚迪:year:2024"
+              ],
+              "document_id": "sha256:e9c2d7fdd088e151ccb6c8ad3d95587b2b014b10f2c9731508d23ce07fde4de3",
+              "document_key": "cninfo:002594:annual:2024",
+              "company_name": "比亚迪",
+              "report_year": 2024,
+              "page_start": 10,
+              "page_end": 11,
+              "section_path": [
+                "第二节 公司简介和主要财务指标",
+                "六、主要会计数据和财务指标"
+              ],
+              "excerpt": "六、主要会计数据和财务指标\n\n公司是否需追溯调整或重述以前年度会计数据\n\n□是 否\n\n2024 年\n2023 年\n本年比上年增减\n2022 年\n\n营业收入（元）\n777,102,455,000.00\n602,315,354,000.00\n29.02%\n424,060,635,000.00\n\n归属于上市公司股东的净利润（元）\n40,254,346,000.00\n30,040,811,000.00\n34.00%\n16,622,448,000.00\n\n归属于上市公司股东的扣除非经常性损\n\n益的净利润（元）\n36,982,887,000.00\n28,462,432,000.00\n29.94%\n15,637,792,000.00\n\n经营活动产生的现金流量净额（元）\n133,453,873,000.00\n169,725,025,000.00\n-21.37%\n140,837,657,000.00\n\n基本每股收益（元/股）\n13.84\n10.32\n34.11%\n5.71\n\n稀释每股收益（元/股）\n13.84\n10.32\n34.11%\n5.71\n\n加权平均净资产收益率\n26.05%\n24.40%\n1.65%\n16.14%\n\n2024 年末\n2023 年末\n本年末比上年末增\n\n减\n2022 年末\n\n总资产（元）\n783,355,855,000.00\n679,547,670,000.00\n15.28%\n493,860,646,000.00\n\n归属于上市公司股东的净资产（元）\n185,251,104,000.00\n138,810,065,000.00\n33.46%\n111,029,299,000.00\n\n公司最近三个会计年度扣除非经常性损益前后净利润孰低者均为负值，且最近一年审计报告显示公司持续经营能力存在不\n确定性\n\n□是 否\n\n扣除非经常损益前后的净利润孰低者为负值\n\n□是 否"
+            },
+            {
+              "chunk_id": "e9c2d7fdd088:c55:2e2ae2b10b2f8917",
+              "content_sha256": "d8adc12215010256d68c9c3e7275cf0f1754408416ce73ed8b873a38127c7120",
+              "target_ids": [
+                "company:比亚迪:year:2024"
+              ],
+              "document_id": "sha256:e9c2d7fdd088e151ccb6c8ad3d95587b2b014b10f2c9731508d23ce07fde4de3",
+              "document_key": "cninfo:002594:annual:2024",
+              "company_name": "比亚迪",
+              "report_year": 2024,
+              "page_start": 27,
+              "page_end": 28,
+              "section_path": [
+                "第三节 管理层讨论与分析",
+                "四、主营业务分析",
+                "（8） 主要销售客户和主要供应商情况",
+                "4、研发投入"
+              ],
+              "excerpt": "4、研发投入\n\n适用 □不适用\n\n主要研发项\n\n目名称\n项目目的\n项目进展\n拟达到的目标\n预计对公司未来发展的影\n\n响\n\n刀片电池技\n实现车载动力电池的超\n2020 年7 月开始逐步\n打破传统电池系统的模组概念，利\n在新能源汽车渗透率不断\n\n术\n级安全、超级强度、超\n级续航、超级功率、超\n级低温、超级寿命、超\n级成本、超级可靠性能\n八大优势，解决消费者\n使用过程中的安全、续\n航、快充等痛点。\n\n应用于比亚迪品牌、\n腾势品牌、方程豹品\n牌、仰望品牌全系纯\n电动车型及插电混动\n车型。2024 年，公\n司刀片电池装机量近\n200GWh。\n\n用刀片电池独特长宽比特征，实现\n超长尺寸电芯的紧密排列，获得更\n高的体积利用率，使得搭载磷酸铁\n锂体系的纯电动汽车续航里程达到\n700km 以上，革命性地使原本安全性\n出众LFP 体系获得极具竞争力的续\n航能力。\n\n提升的背景下，响应国家\n双碳战略，扭转磷酸铁锂\n电池的发展趋势，使其在\n与三元电池技术的竞争中\n更具优势，持续巩固公司\n在动力电池行业的全球龙\n头地位。\n\nCTB（Cell to\nBody ）电池\n车身一体化\n技术\n\n通过电池与车身的高度集\n成设计,实现电动车整车\n功能和性能的跨越性提\n升。这一突破将引领电动\n汽车行业的发展,助力电\n动汽车技术的升级,推动\n全球新能源汽车产业的电\n动化转型。\n\n公司在2023 年5 月\n发布了CTB 电池车身\n一体化技术和首款搭\n载该技术的e 平台\n3.0 车型——海豹。\n在CTB 技术的加持\n下，这款车型在市场\n上得到了消费者的高\n度认可,销量持续上\n升。"
+            }
+          ]
+        },
+        "sufficiency": {
+          "status": "sufficient",
+          "evidence_count_by_target": {
+            "company:比亚迪:year:2023": 3,
+            "company:比亚迪:year:2024": 3
+          },
+          "gaps": [],
+          "metric_gaps_by_target": {}
+        },
+        "result": {
+          "outcome": "answer",
+          "answer": {
+            "answer": "比亚迪-2023：比亚迪2023年研发投入金额为39,917,743,000.00元。[1]\n比亚迪-2024：比亚迪2024年研发投入金额为54,160,964,000.00元，较2023年的39,917,743,000.00元上升35.68%。[2]\n比亚迪-2023：比亚迪2023年研发投入占营业收入比例为6.63%（研发投入强度）。[1]\n比亚迪-2024：比亚迪2024年研发投入占营业收入比例为6.97%，较2023年的6.63%上升0.34个百分点（研发投入强度上升）。[2]\n比亚迪-2023：比亚迪2023年研发人员数量为102,844人。[1]\n比亚迪-2024：比亚迪2024年研发人员数量为121,598人，较2023年的102,844人上升18.24%。[2]\n比亚迪-2024：综合比较：比亚迪2024年研发投入金额、研发投入强度及研发人员数量三项指标均较2023年上升（增加）。[2]",
+            "citations": [
+              {
+                "ordinal": 1,
+                "chunk_id": "959b00a12055:c68:c39661d5ef8a387e",
+                "page_start": 27,
+                "page_end": 28,
+                "section_path": [
+                  "第三节 管理层讨论与分析",
+                  "四、主营业务分析",
+                  "（8） 主要销售客户和主要供应商情况",
+                  "4、研发投入"
+                ],
+                "excerpt": "TACS 系统面向智慧城\n轨、绿色城轨和投建营\n一体化的发展需求，基\n于车车通信、自主定\n位、自主感知、自主运\n行和云边协同等技术，\n整合技术生态资源，形\n成先进、安全、简约的\n深度集成列控系统。\n\n业内首家实现TACS 车车\n通信系统在低运量轨道交\n通行业应用的企业，技术\n应用助力公司在行业内树\n立技术领先的品牌形象，\n进一步巩固和提升在城轨\n列车行业中的地位，提高\n公司在城轨列控行业的影\n响力。\n\n公司研发人员情况\n\n2023 年\n2022 年\n变动比例\n\n研发人员数量（人）\n102,844\n69,697\n47.56%\n\n研发人员数量占比\n14.62%\n12.23%\n2.39%\n\n研发人员学历结构\n\n本科\n46,823\n36,018\n30.00%\n\n硕士\n23,706\n7,827\n202.87%\n\n博士\n1,587\n590\n168.98%\n\n研发人员年龄构成\n\n30 岁以下\n61,337\n37,302\n64.43%\n\n30~40 岁\n36,182\n28,606\n26.48%\n\n公司研发投入情况\n\n2023 年\n2022 年\n变动比例\n\n研发投入金额（元）\n39,917,743,000.00\n20,223,242,000.00\n97.39%\n\n研发投入占营业收入比例\n6.63%\n4.77%\n1.86%\n\n研发投入资本化的金额（元）\n342,798,000.00\n1,568,789,000.00\n-78.15%\n\n资本化研发投入占研发投入的比例\n0.86%\n7.76%\n-6.90%\n\n公司研发人员构成发生重大变化的原因及影响\n\n适用 □不适用\n\n截至2023 年底，公司硕士以上学历以及30 岁以下的研发人员占比相较于2022 年底有所提升，主要原因是\n\n2023 年公司根据业务发展需要加大了应届毕业生招聘力度以及社会研发人才引进力度，有助于公司储备研发人才，"
+              },
+              {
+                "ordinal": 2,
+                "chunk_id": "e9c2d7fdd088:c75:c5b44655a54b0109",
+                "page_start": 33,
+                "page_end": 34,
+                "section_path": [
+                  "第三节 管理层讨论与分析",
+                  "四、主营业务分析",
+                  "（8） 主要销售客户和主要供应商情况",
+                  "4、研发投入"
+                ],
+                "excerpt": "公司研发人员情况\n\n2024 年\n2023 年\n变动比例\n\n研发人员数量（人）\n121,598\n102,844\n18.24%\n\n研发人员数量占比\n12.55%\n14.62%\n-2.07%\n\n研发人员学历结构\n\n本科（人）\n53,222\n46,823\n13.67%\n\n硕士（人）\n28,842\n23,706\n21.66%\n\n博士（人）\n2,403\n1,587\n51.45%\n研发人员年龄构成\n\n30 岁以下（人）\n68,548\n61,337\n11.76%\n\n30~40 岁（人）\n45,764\n36,182\n26.48%\n\n40 岁以上（人）\n7,286\n5,325\n36.83%\n\n公司研发人员构成发生重大变化的原因及影响\n\n□适用 不适用\n\n公司研发投入情况\n\n2024 年\n2023 年\n变动比例\n\n研发投入金额（元）\n54,160,964,000.00\n39,917,743,000.00\n35.68%\n\n研发投入占营业收入比例\n6.97%\n6.63%\n0.34%\n\n研发投入资本化的金额\n（元）\n966,219,000.00\n342,798,000.00\n181.86%\n\n资本化研发投入占研发投入\n的比例\n1.78%\n0.86%\n0.92%\n\n研发投入总额占营业收入的比重较上年发生显著变化的原因\n\n□适用 不适用\n\n研发投入资本化率大幅变动的原因及其合理性说明\n\n□适用 不适用"
+              }
+            ],
+            "provider": "deepseek-tool-calling",
+            "grounded": true,
+            "claim_citations": [
+              {
+                "claim": "比亚迪-2023：比亚迪2023年研发投入金额为39,917,743,000.00元。",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "比亚迪-2024：比亚迪2024年研发投入金额为54,160,964,000.00元，较2023年的39,917,743,000.00元上升35.68%。",
+                "citation_ordinals": [
+                  2
+                ]
+              },
+              {
+                "claim": "比亚迪-2023：比亚迪2023年研发投入占营业收入比例为6.63%（研发投入强度）。",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "比亚迪-2024：比亚迪2024年研发投入占营业收入比例为6.97%，较2023年的6.63%上升0.34个百分点（研发投入强度上升）。",
+                "citation_ordinals": [
+                  2
+                ]
+              },
+              {
+                "claim": "比亚迪-2023：比亚迪2023年研发人员数量为102,844人。",
+                "citation_ordinals": [
+                  1
+                ]
+              },
+              {
+                "claim": "比亚迪-2024：比亚迪2024年研发人员数量为121,598人，较2023年的102,844人上升18.24%。",
+                "citation_ordinals": [
+                  2
+                ]
+              },
+              {
+                "claim": "比亚迪-2024：综合比较：比亚迪2024年研发投入金额、研发投入强度及研发人员数量三项指标均较2023年上升（增加）。",
+                "citation_ordinals": [
+                  2
+                ]
+              }
+            ]
+          },
+          "target_evidence": {
+            "company:比亚迪:year:2023": [
+              "959b00a12055:c68:c39661d5ef8a387e",
+              "959b00a12055:c69:bb3c5d6a04c81630",
+              "959b00a12055:c18:ffba9c13ba736448"
+            ],
+            "company:比亚迪:year:2024": [
+              "e9c2d7fdd088:c75:c5b44655a54b0109",
+              "e9c2d7fdd088:c18:099b3069ce51d65f",
+              "e9c2d7fdd088:c55:2e2ae2b10b2f8917"
+            ]
+          },
+          "target_answers": {
+            "company:比亚迪:year:2023": {
+              "answer": "比亚迪-2023：比亚迪2023年研发人员数量为102,844人。[1]",
+              "citations": [
+                {
+                  "ordinal": 1,
+                  "chunk_id": "959b00a12055:c68:c39661d5ef8a387e",
+                  "page_start": 27,
+                  "page_end": 28,
+                  "section_path": [
+                    "第三节 管理层讨论与分析",
+                    "四、主营业务分析",
+                    "（8） 主要销售客户和主要供应商情况",
+                    "4、研发投入"
+                  ],
+                  "excerpt": "TACS 系统面向智慧城\n轨、绿色城轨和投建营\n一体化的发展需求，基\n于车车通信、自主定\n位、自主感知、自主运\n行和云边协同等技术，\n整合技术生态资源，形\n成先进、安全、简约的\n深度集成列控系统。\n\n业内首家实现TACS 车车\n通信系统在低运量轨道交\n通行业应用的企业，技术\n应用助力公司在行业内树\n立技术领先的品牌形象，\n进一步巩固和提升在城轨\n列车行业中的地位，提高\n公司在城轨列控行业的影\n响力。\n\n公司研发人员情况\n\n2023 年\n2022 年\n变动比例\n\n研发人员数量（人）\n102,844\n69,697\n47.56%\n\n研发人员数量占比\n14.62%\n12.23%\n2.39%\n\n研发人员学历结构\n\n本科\n46,823\n36,018\n30.00%\n\n硕士\n23,706\n7,827\n202.87%\n\n博士\n1,587\n590\n168.98%\n\n研发人员年龄构成\n\n30 岁以下\n61,337\n37,302\n64.43%\n\n30~40 岁\n36,182\n28,606\n26.48%\n\n公司研发投入情况\n\n2023 年\n2022 年\n变动比例\n\n研发投入金额（元）\n39,917,743,000.00\n20,223,242,000.00\n97.39%\n\n研发投入占营业收入比例\n6.63%\n4.77%\n1.86%\n\n研发投入资本化的金额（元）\n342,798,000.00\n1,568,789,000.00\n-78.15%\n\n资本化研发投入占研发投入的比例\n0.86%\n7.76%\n-6.90%\n\n公司研发人员构成发生重大变化的原因及影响\n\n适用 □不适用\n\n截至2023 年底，公司硕士以上学历以及30 岁以下的研发人员占比相较于2022 年底有所提升，主要原因是\n\n2023 年公司根据业务发展需要加大了应届毕业生招聘力度以及社会研发人才引进力度，有助于公司储备研发人才，"
+                }
+              ],
+              "provider": "deepseek-tool-calling",
+              "grounded": true,
+              "claim_citations": [
+                {
+                  "claim": "比亚迪-2023：比亚迪2023年研发人员数量为102,844人。",
+                  "citation_ordinals": [
+                    1
+                  ]
+                }
+              ]
+            },
+            "company:比亚迪:year:2024": {
+              "answer": "比亚迪-2024：综合比较：比亚迪2024年研发投入金额、研发投入强度及研发人员数量三项指标均较2023年上升（增加）。[2]",
+              "citations": [
+                {
+                  "ordinal": 2,
+                  "chunk_id": "e9c2d7fdd088:c75:c5b44655a54b0109",
+                  "page_start": 33,
+                  "page_end": 34,
+                  "section_path": [
+                    "第三节 管理层讨论与分析",
+                    "四、主营业务分析",
+                    "（8） 主要销售客户和主要供应商情况",
+                    "4、研发投入"
+                  ],
+                  "excerpt": "公司研发人员情况\n\n2024 年\n2023 年\n变动比例\n\n研发人员数量（人）\n121,598\n102,844\n18.24%\n\n研发人员数量占比\n12.55%\n14.62%\n-2.07%\n\n研发人员学历结构\n\n本科（人）\n53,222\n46,823\n13.67%\n\n硕士（人）\n28,842\n23,706\n21.66%\n\n博士（人）\n2,403\n1,587\n51.45%\n研发人员年龄构成\n\n30 岁以下（人）\n68,548\n61,337\n11.76%\n\n30~40 岁（人）\n45,764\n36,182\n26.48%\n\n40 岁以上（人）\n7,286\n5,325\n36.83%\n\n公司研发人员构成发生重大变化的原因及影响\n\n□适用 不适用\n\n公司研发投入情况\n\n2024 年\n2023 年\n变动比例\n\n研发投入金额（元）\n54,160,964,000.00\n39,917,743,000.00\n35.68%\n\n研发投入占营业收入比例\n6.97%\n6.63%\n0.34%\n\n研发投入资本化的金额\n（元）\n966,219,000.00\n342,798,000.00\n181.86%\n\n资本化研发投入占研发投入\n的比例\n1.78%\n0.86%\n0.92%\n\n研发投入总额占营业收入的比重较上年发生显著变化的原因\n\n□适用 不适用\n\n研发投入资本化率大幅变动的原因及其合理性说明\n\n□适用 不适用"
+                }
+              ],
+              "provider": "deepseek-tool-calling",
+              "grounded": true,
+              "claim_citations": [
+                {
+                  "claim": "比亚迪-2024：综合比较：比亚迪2024年研发投入金额、研发投入强度及研发人员数量三项指标均较2023年上升（增加）。",
+                  "citation_ordinals": [
+                    2
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        "model_trace": {
+          "provider": "deepseek",
+          "model": "deepseek-v4-flash",
+          "endpoint": "https://api.deepseek.com/chat/completions",
+          "prompt_revision": "deepseek-compare-p2b-metric-gap-direction-summary",
+          "prompt_sha256": "708caa504ad19ed0191632266a1ab7c9b09f223075d12ba83fd0f8dc907309e3",
+          "turns": [
+            {
+              "turn_number": 1,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "search_evidence",
+                "search_evidence"
+              ],
+              "input_tokens": 1211,
+              "output_tokens": 198,
+              "elapsed_ms": 1556.9758999627084,
+              "validation_errors": []
+            },
+            {
+              "turn_number": 2,
+              "finish_reason": "tool_calls",
+              "function_names": [
+                "submit_comparison"
+              ],
+              "input_tokens": 4186,
+              "output_tokens": 652,
+              "elapsed_ms": 4771.864800015464,
+              "validation_errors": []
+            }
+          ],
+          "request_count": 2,
+          "input_tokens": 5397,
+          "output_tokens": 850
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+  "schema_version": "1",
+  "dataset_id": "pdf-cross-page-v1",
+  "purpose": "second_reviewer_verification",
+  "source_document": "cninfo:600690:annual:2024",
+  "source_pages": [
+    184,
+    185,
+    186
+  ],
+  "instructions": [
+    "工作区用户复核 benchmark.json 中的候选标注。",
+    "本记录属于 candidate_verification，不等同于独立盲标。",
+    "工作区用户于 2026-08-20 确认全部 7 条候选标注正确。"
+  ],
+  "challenge_pdf": "challenge-pages.pdf",
+  "reviewer_id": "workspace_user",
+  "reviewer_independence_attestation": true,
+  "review_method": "candidate_verification",
+  "reviewed_at": "2026-08-20",
+  "items": [
+    {
+      "question_id": "lease-original-closing-production-equipment",
+      "question": "使用权资产表中，账面原值期末余额里的生产设备金额是多少？",
+      "source_page": 184,
+      "challenge_page": 1,
+      "row_label": "5.期末余额",
+      "column_label": "生产设备",
+      "value": "424,335,480.27",
+      "unit": "元",
+      "section_label": "一、账面原值",
+      "decision": "accept",
+      "notes": "工作区用户确认候选标注复核无误。"
+    },
+    {
+      "question_id": "lease-depreciation-opening-transport-equipment",
+      "question": "使用权资产表中，累计折旧期初余额里的运输设备金额是多少？",
+      "source_page": 185,
+      "challenge_page": 2,
+      "row_label": "1.期初余额",
+      "column_label": "运输设备",
+      "value": "133,592,322.52",
+      "unit": "元",
+      "section_label": "二、累计折旧",
+      "decision": "accept",
+      "notes": "工作区用户确认候选标注复核无误。"
+    },
+    {
+      "question_id": "lease-depreciation-closing-building",
+      "question": "使用权资产表中，累计折旧期末余额里的房屋及建筑物金额是多少？",
+      "source_page": 185,
+      "challenge_page": 2,
+      "row_label": "5.期末余额",
+      "column_label": "房屋及建筑物",
+      "value": "2,728,106,200.79",
+      "unit": "元",
+      "section_label": "二、累计折旧",
+      "decision": "accept",
+      "notes": "工作区用户确认候选标注复核无误。"
+    },
+    {
+      "question_id": "lease-carrying-closing-transport-equipment",
+      "question": "使用权资产表中，期末账面价值里的运输设备金额是多少？",
+      "source_page": 185,
+      "challenge_page": 2,
+      "row_label": "1.期末账面价值",
+      "column_label": "运输设备",
+      "value": "146,521,021.87",
+      "unit": "元",
+      "section_label": "四、账面价值",
+      "decision": "accept",
+      "notes": "工作区用户确认候选标注复核无误。"
+    },
+    {
+      "question_id": "lease-original-closing-total",
+      "question": "使用权资产表中，账面原值期末余额的合计是多少？",
+      "source_page": 185,
+      "challenge_page": 2,
+      "row_label": "5.期末余额",
+      "column_label": "合计",
+      "value": "9,158,716,606.73",
+      "unit": "元",
+      "section_label": "一、账面原值",
+      "decision": "accept",
+      "notes": "工作区用户确认候选标注复核无误。"
+    },
+    {
+      "question_id": "lease-depreciation-closing-total",
+      "question": "使用权资产表中，累计折旧期末余额的合计是多少？",
+      "source_page": 186,
+      "challenge_page": 3,
+      "row_label": "5.期末余额",
+      "column_label": "合计",
+      "value": "3,316,847,042.37",
+      "unit": "元",
+      "section_label": "二、累计折旧",
+      "decision": "accept",
+      "notes": "工作区用户确认候选标注复核无误。"
+    },
+    {
+      "question_id": "lease-carrying-closing-total",
+      "question": "使用权资产表中，期末账面价值的合计是多少？",
+      "source_page": 186,
+      "challenge_page": 3,
+      "row_label": "1.期末账面价值",
+      "column_label": "合计",
+      "value": "5,841,869,564.36",
+      "unit": "元",
+      "section_label": "四、账面价值",
+      "decision": "accept",
+      "notes": "工作区用户确认候选标注复核无误。"
+    }
+  ]
+}
