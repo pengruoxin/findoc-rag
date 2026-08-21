@@ -5,145 +5,31 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-面向中文上市公司年报的证据优先 Agentic RAG：能够解析原生与扫描 PDF，执行检索、抽取、
-比较、计算和核验任务，并把每项结论绑定到页码、坐标、引用与内容哈希。
+面向中文上市公司年报的证据优先文档 Agent。上传原生或扫描 PDF 后，它可以执行检索问答、
+跨文档比较、表格抽取和带来源计算，并把结论绑定到原始页码、版面坐标、引用与内容哈希。
 
-```bash
-docker compose up --build     # http://127.0.0.1:8000
-```
+它不是“让模型直接阅读整份 PDF”：本地管线负责解析、OCR、检索、表格结构和证据校验，
+DeepSeek 只在有界证据上规划任务与生成结论。证据不足时，系统会拒答、要求补充信息，或将
+高风险结果送入独立复核和人工审核。
 
-镜像自带一个可查询的最小 demo 索引，不需要 API key 或模型下载。demo 仅用于体验界面，
-不用于复现下文的完整评测指标。
+![FinDocRAG 证据工作台：答案、引用和可阅读证据](docs/assets/workspace-answer-light.png)
 
-![证据优先工作台：回答、逐条引用与阶段 trace](docs/assets/workspace-answer-light.png)
+## 可以完成什么
 
-## 目录
+| 任务 | 示例 | 系统行为 |
+|---|---|---|
+| 文档问答 | “贵州茅台 2024 年营业收入是多少？” | 检索相关段落，生成带页码引用的答案 |
+| 跨文档比较 | “比较海尔智家和长江电力 2024 年营业收入” | 规划多个检索目标，分别取证后再比较 |
+| 精确抽取 | “累计折旧期末余额合计是多少？” | 检查表头、行名、数值、单位和单元格坐标 |
+| 带来源计算 | “计算营业收入同比增长率” | 从证据提取操作数，由本地 Decimal 工具计算 |
+| 安全拒答 | “预测 2026 年全年营业收入” | 区分文档事实与预测，缺少证据时不猜测 |
 
-- [核心亮点](#核心亮点)
-- [系统架构](#系统架构)
-- [评测结果](#评测结果)
-- [快速开始](#快速开始)
-- [运行 Agent](#运行-agent)
-- [模型与成本](#模型与成本)
-- [复现评测](#复现评测)
-- [项目边界](#项目边界)
-- [文档](#文档)
+所有任务最终都必须通过本地证据门禁。模型不能自行伪造引用、跳过工具校验或把人工修正冒充
+自动成功。
 
-## 核心亮点
+## 三分钟体验
 
-### 1. 按风险启用的双 Agent
-
-主 Agent 负责规划并执行 `compare / calculate / extract` 等任务；抽取任务命中审计、多事实
-或开放风险信号时，系统会自动启用隔离上下文的 Evidence Verifier Agent，独立检查原子事实、
-claim、引用和逐字 support proof。验证失败最多修复一次并再次复核，仍无法证明时才进入人工
-审核。普通任务保持单 Agent，避免为所有请求支付双倍成本。
-
-本地执行器始终负责参数、证据、引用与停止条件校验，因此模型不能直接绕过门禁；人工结论
-也不会被计作自动成功。两个 Agent 默认都使用 DeepSeek，独立的是角色和上下文，而不是
-模型供应商。
-
-当前主 Agent 评测集 `agent-hard-v3` 共 96 题，覆盖 8 家公司、16 份官方年报和 2023–2024
-两个年度。已执行的 calibration 与 dev 共 48 题，严格自动通过率为 **94%**、行为准确率为
-**100%**；另外 48 题 frozen test 仍保持封存。高重叠风险集从 **93% 提升到 100%**
-（15 个故障案例），unsafe answer 从 1 降为 **0**。
-
-### 2. 真实扫描 PDF 的自适应恢复
-
-解析链路采用 native-first：可靠文本层直接使用，缺失或退化页面才进入 OCR。常规 OCR
-无法恢复表格结构时，系统只重试失败页，并可使用红色通道抑制印章干扰。
-
-在 4 页官方零文本层扫描开发集的 17 个结构单元格上，召回率按阶段从
-**71% → 88% → 94% → 100%**。整页提升到 240 DPI 和 300 DPI 均没有额外收益；最终只对
-**25% 的页面**执行红章抑制与 240 DPI 重识别，没有让模型猜测缺失值。
-
-### 3. 表格是可验证的几何证据
-
-PDF 会被解析为保留页、block、line、span、字体、旋转和 bbox 的 Document IR。表格管线使用
-区域定位、行带聚类、列对齐、层级表头合并、换行行名恢复和跨页隔离，而不是只把表格
-转成线性文本。
-
-五类表型共 157 个单元格，坐标级恢复率从 **59% 提升到 98%**；安全选择后的 Precision
-和 Recall 均为 **98%**。开发索引中的 176 个单元格，cell/region proof 覆盖率为
-**100%**。
-
-### 4. 公司与文档隔离的扩展评测
-
-主 Agent 集已扩展到 **96 题、8 家公司、16 份年报、2 个年度**，按公司划分 calibration、
-dev 和 frozen test；通用 RAG 集 `benchmark-v3` 包含 **60 题、6 家公司、10 份年报、
-2 个年度**，同样按公司做文档盲测划分。公司在出题和规则调优前就已分配到固定 split，
-避免同一公司跨开发集和测试集泄漏。
-
-旧的 2 家公司、1 个年度结果只保留为历史回归，不再作为首页主基线。
-
-### 5. 可复现、可归因的评测闭环
-
-PDF、benchmark、索引、artifact 与代码指纹均绑定 SHA-256。每个阶段报告记录指标、token、
-延迟、失败样本与 fixed/regressed；评分器修正与真实能力提升分开记账。来源不可信、gold
-未冻结、索引不匹配或证据不足时统一 fail-closed。
-
-当前代码快照共有 **450 项测试通过**。
-
-## 系统架构
-
-```text
-官方 PDF / 用户上传
-  → native-first PDF 路由
-      ├─ 可靠文本层：直接解析
-      └─ 扫描/退化页：RapidOCR → 失败页自适应重识别
-  → Document IR（页、阅读顺序、字体、旋转、bbox、来源）
-  → 结构感知切片与不可变语料索引
-  → 元数据过滤 + BM25 默认检索 + 可选 dense/RRF/重排
-  → index-bound 表格 sidecar 与 cell/region proof
-  → 主 DeepSeek tool-calling Agent
-  → 本地证据与风险门禁（目标覆盖、数值、单位、引用、哈希）
-      ├─ 普通任务且证据充分：返回可追溯答案
-      ├─ 信息缺失：拒答或澄清
-      └─ 高风险抽取：Evidence Verifier Agent（隔离上下文）
-          ├─ 验证通过：返回答案
-          ├─ 可修复：最多修复一次并重新验证
-          └─ 仍无法证明：生成不可变人工审核包
-```
-
-主要接口：`/v1/search`、`/v1/query`、`/v1/capabilities`、`/v1/evidence:resolve`、
-`/v1/uploads`、`/v1/uploads/{job_id}:process`、`/v1/traces/{trace_id}`、`/v1/metrics`。
-
-## 评测结果
-
-### 当前主评测口径
-
-| 评测集 | 完整范围 | 当前已执行范围 | 当前结果 | Gold 状态 |
-|---|---|---|---|---|
-| `agent-hard-v3` | 96 题、8 家公司、16 份年报、2023–2024 | calibration + dev，48 题 | 严格自动通过率 **94%**；行为准确率 **100%** | 来源与页码已核对的 provisional gold；独立双审待完成 |
-| `benchmark-v3` | 60 题、6 家公司、10 份年报、2023–2024 | frozen test，24 题，离线确定性基线 | strict **19%**；行为准确率 **33%**；远程模型未启用 | `independent_gold=false`；PDF 视觉复核待完成 |
-
-`agent-hard-v3` 的 96 题由 56 个抽取任务、24 个比较任务和 16 个计算任务组成；预期行为包括
-80 个正常回答、8 个安全拒答和 8 个澄清。frozen test 的 48 题尚未运行，因此不能把前 48
-题的 94% 外推成全量成绩。
-
-`benchmark-v3` 的 frozen 数字是扩展集上的起始离线基线，不是 DeepSeek 最终成绩。它被放在
-这里是为了如实展示扩大公司和年度覆盖后出现的真实难度。
-
-### PDF、表格与安全专项
-
-| 能力 | 数据范围 | 当前结果 |
-|---|---|---:|
-| 高重叠风险门禁 | 15 个故障注入案例 | 通过率 **100%**，unsafe 0 |
-| 真实扫描表恢复 | 4 页、30 探针、17 个结构单元格 | 结构召回 **100%**（开发集） |
-| 坐标级表格重建 | 五类表型、157 个单元格 | 恢复率 **98%** |
-| 表格安全选择 | 157 个预测单元格 | Precision **98%**，Recall **98%** |
-| 跨页 PDF 回归 | 原生/栅格跨页表 | 路由、数值、结构 **100%** |
-
-### 历史回归口径
-
-旧 benchmark 的 48 题只覆盖 2 家公司和 1 个年度。其检索 Recall@5 为 **81%**、MRR@5 为
-**69%**，DeepSeek 三轨 strict 与行为均为 **100%**；这些数字只用于确认旧能力没有回退，
-不再作为项目主结果。
-
-完整定义与产物路径见[当前基线](docs/evaluation/baseline-zh.md)。
-
-## 快速开始
-
-### Docker demo
+需要 Docker Engine 或 Docker Desktop，并启用 Compose：
 
 ```bash
 git clone https://github.com/pengruoxin/findoc-rag.git
@@ -151,151 +37,201 @@ cd findoc-rag
 docker compose up --build
 ```
 
-打开 `http://127.0.0.1:8000` 即可进入网页工作台。页面支持 PDF 上传与自动建索引、
-DeepSeek Key、快速问答、对比/抽取/计算 Agent、条件式 Evidence Verifier、人工审核队列和
-逐条可回溯证据。Key 只保存在当前标签页内存中，刷新即清除。
+打开 `http://127.0.0.1:8000`。镜像会构建一个最小演示索引，并通过 Docker volume 保留上传
+文档、索引、任务轨迹和人工审核记录。
 
-服务默认只绑定宿主机 `127.0.0.1`。公网部署时应使用 HTTPS 反向代理，并在代理层增加认证、
-限流和上传大小限制；API 本身不应直接暴露到公网。
+### 不输入 Key 时
 
-### 本地开发
+- 浏览内置演示索引；
+- 上传原生或扫描 PDF，并运行本地解析、OCR 和建索引；
+- 检索原始证据，查看页码、章节、原文和防篡改信息。
+
+### 输入 DeepSeek Key 后
+
+- 生成自然语言答案；
+- 运行对比、抽取和计算 Agent；
+- 对高风险抽取按需启用 Evidence Verifier；
+- 处理需要人工确认的审核任务。
+
+Key 只保存在当前浏览器标签页内存中，并以请求头转发给服务；刷新页面即清除，服务端不会把
+它写入配置文件或任务轨迹。
+
+### 推荐体验路径
+
+1. 在右上角确认服务状态；
+2. 上传一份 PDF，等待解析与索引完成；
+3. 如需 Agent 能力，在“模型”面板输入 DeepSeek Key；
+4. 选择快速问答、对比分析、精确抽取或计算核验；
+5. 点击答案中的引用，核对右侧证据卡片；
+6. 展开“技术详情”时再查看 chunk ID、坐标和 SHA-256。
+
+## 为什么不是普通 RAG
+
+```mermaid
+flowchart TD
+    U[用户问题] --> R[识别任务、公司、报告期与口径]
+    R --> A[主 Agent 制定下一步]
+    A --> T{选择受控工具}
+    T --> S[检索文档证据]
+    T --> P[检查 PDF 页面或表格区域]
+    T --> C[执行 Decimal 计算]
+    S --> G{证据是否覆盖全部事实}
+    P --> G
+    C --> G
+    G -- 否：定位证据缺口 --> A
+    G -- 是：普通风险 --> L[本地证据门禁]
+    G -- 是：高风险抽取 --> V[隔离上下文的 Evidence Verifier]
+    V -- 可修复 --> A
+    V -- 无法证明 --> H[不可变人工审核包]
+    V -- 通过 --> L
+    L --> O[答案、逐条引用与完整 Trace]
+```
+
+这里的 Agent 是有边界的：任务类型、工具参数、最大轮次、证据要求和停止条件都由本地控制器
+约束。第二个 Agent 也不是固定开启；默认只在抽取任务出现多事实、开放风险或证据审计信号时
+触发，避免普通问题承担额外模型调用。
+
+## 核心实现
+
+- **自适应 PDF 路由**：优先使用可靠文字层，只对缺失或退化页面运行 RapidOCR；常规 OCR
+  失败时，仅重试问题页面，并可通过红色通道降低印章干扰。
+- **保留版面的 Document IR**：记录 page、block、line、span、字体、旋转和 bbox，使表格
+  行列关系、跨页边界与引用区域可以被验证，而不是只留下线性文本。
+- **证据驱动的 Agent 循环**：主 Agent 可以检索、检查页面窗口、读取结构化表格和调用计算器；
+  本地控制器持续检查事实缺口，并决定继续取证、拒答还是结束。
+- **风险分级复核**：高风险抽取才进入独立 Evidence Verifier；失败结果最多修复一次，仍无法
+  证明时生成不可变人工审核包。
+- **索引绑定的证据**：答案引用会重新解析到当前 `index_id`，并校验 chunk 内容哈希，避免
+  索引更新后继续展示失效证据。
+
+更完整的任务、工具和停止条件见[Agent 任务说明](docs/agent-tasks-zh.md)。
+
+## 当前评测结论
+
+首页只展示当前代码真正支持的主结论。不同数据集、不同 Gold 成熟度和不同运行方式不做横向
+拼接；历史实验与逐阶段消融统一放在[当前基线与指标口径](docs/evaluation/baseline-zh.md)。
+
+| 结论 | 评测范围 | 当前结果 | 结论边界 | 证据 |
+|---|---|---:|---|---|
+| Agent 任务完成质量 | `agent-hard-v3` 的 calibration 与 dev | 严格自动通过率 **94%**；行为准确率 **100%** | 来源与页码已复核的 provisional gold；frozen split 尚未运行 | [P4-E 报告](docs/evaluation/agent-p4e-support-proof-log-zh.md) |
+| 扫描表结构恢复 | 4 页官方零文本层扫描开发集，17 个结构单元格 | 结构召回 **100%** | 小规模开发集，不代表全部扫描件 | [PDF Hard v2 报告](docs/evaluation/pdf-hard-v2-stage7-results-zh.md) |
+| 坐标级表格重建 | 五类表型，157 个单元格 | 恢复率 **98%** | 表格专项集 | [表格几何证明报告](docs/evaluation/agent-p4g-table-cell-geometry-proof-log-zh.md) |
+| 高重叠风险门禁 | 15 个故障注入案例 | 通过率 **100%**；unsafe answer 为 **0** | 安全回归集，不是通用问答成绩 | [风险门禁报告](docs/evaluation/agent-p4d-high-overlap-risk-log-zh.md) |
+
+主 Agent 集完整规模为 96 题，覆盖 8 家公司、16 份官方年报和 2023–2024 两个年度；当前结果
+只来自 calibration 与 dev，不能外推为 frozen test 成绩。通用 RAG 扩展集 `benchmark-v3`
+尚未建立远程模型最终基线，因此不作为首页主成绩。
+
+## 本地组件与模型调用
+
+| 环节 | 默认实现 | 是否调用远程模型 |
+|---|---|---:|
+| 原生 PDF 解析 | PyMuPDF | 否 |
+| 扫描页 OCR | RapidOCR + ONNX Runtime | 否 |
+| 关键词检索 | BM25 | 否 |
+| 向量检索与重排 | multilingual-e5-small、bge-reranker-v2-m3，可选 | 否，首次使用需下载模型 |
+| 表格结构、证据坐标与计算 | 本地几何规则与 Decimal 工具 | 否 |
+| 快速问答生成与查询改写 | `deepseek-chat` | 是 |
+| 主 Agent 工具调用 | `deepseek-v4-flash`，可配置 | 是 |
+| Evidence Verifier | 默认使用隔离上下文的 `deepseek-v4-flash` | 是，仅命中风险路由时 |
+
+模型不会接收整份 PDF，只接收完成当前任务所需的有界证据。仓库暂不宣称固定单次成本或延迟：
+它们会随任务类型、Agent 轮次、Verifier 是否触发、模型版本与部署网络变化。
+
+## 本地开发
+
+需要 Python 3.12 和 [uv](https://docs.astral.sh/uv/)：
 
 ```bash
 uv sync --extra dev --extra api --extra ocr
-uv run findoc-rag doctor
 uv run pytest -q
-
+uv run ruff check .
 uv run python scripts/build_demo_index.py
-FINDOC_RAG_INDEX_DIR=data/indexes/demo uv run findoc-rag serve
 ```
 
-Dense 检索为可选能力，需要额外安装：
+macOS 或 Linux：
+
+```bash
+export FINDOC_RAG_INDEX_DIR=data/indexes/demo
+export FINDOC_RAG_INGESTION_ENABLED=true
+uv run findoc-rag serve
+```
+
+Windows PowerShell：
+
+```powershell
+$env:FINDOC_RAG_INDEX_DIR = "data/indexes/demo"
+$env:FINDOC_RAG_INGESTION_ENABLED = "true"
+uv run findoc-rag serve
+```
+
+需要向量检索时再安装可选依赖：
 
 ```bash
 uv sync --extra dense
 ```
 
-### 构建年报索引
-
-```bash
-uv run findoc-rag fetch-annual-report --company 贵州茅台 --year 2024
-uv run findoc-rag ingest-document data/artifacts/cninfo/<report.pdf> \
-  --document-key cninfo:600519:annual:2024
-uv run findoc-rag build-corpus-index
-```
-
-## 运行 Agent
-
-远程 Agent 需要 DeepSeek key。推荐使用被 `.gitignore` 忽略的 `local-keys.env`；不要把 key
-写进源码、日志或提交记录。
-
-```bash
-export DEEPSEEK_API_KEY="..."
-
-uv run findoc-rag agent run --task compare \
-  --index-dir data/indexes/benchmark-v3 \
-  "比较海尔智家和长江电力2024年营业收入"
-
-uv run findoc-rag agent run --task extract \
-  --index-dir data/indexes/benchmark-v3 \
-  --source-manifest data/evaluation/benchmark-v3-source-manifest.json \
-  "海尔智家2024年使用权资产表中，累计折旧期末余额合计是多少？"
-```
-
-抽取任务默认使用 `--verifier-policy auto`，也可以显式控制：
-
-| 策略 | 行为 |
-|---|---|
-| `auto` | 默认；仅高风险抽取任务开启第二个 Agent |
-| `always` | 所有已回答的抽取任务都进行独立复核 |
-| `off` | 关闭第二个 Agent，用于消融或成本对照 |
-
-查看任务与人工审核队列：
-
-```bash
-uv run findoc-rag agent inspect <task-id>
-uv run findoc-rag agent review list
-uv run findoc-rag agent review inspect <review-id>
-uv run findoc-rag agent review resolve <review-id> approve --reviewer reviewer-a
-```
-
-没有 key 时远程评测会记录 `status=not_run`，不会用本地规则结果冒充 DeepSeek。离线对照
-必须显式指定：
-
-```bash
-uv run findoc-rag agent run --runtime deterministic-baseline --task compare \
-  --index-dir data/indexes/benchmark-v3 \
-  "比较海尔智家和长江电力2024年营业收入"
-```
-
-## 模型与成本
-
-| 环节 | 默认实现 | 是否需要远程模型 |
-|---|---|---:|
-| PDF 原生解析 | PyMuPDF | 否 |
-| 扫描页 OCR | RapidOCR + ONNX Runtime | 否 |
-| 检索 | BM25 | 否 |
-| Dense 检索（可选） | `intfloat/multilingual-e5-small` | 否，需下载模型 |
-| 重排（可选） | `BAAI/bge-reranker-v2-m3` | 否，需下载模型 |
-| 生成与查询改写 | `deepseek-chat` | 是 |
-| 主 Agent 工具调用 | `deepseek-v4-flash`，可配置 | 是 |
-| Evidence Verifier Agent | 默认同为 `deepseek-v4-flash`，上下文隔离 | 是，仅高风险抽取触发 |
-
-DeepSeek 不直接读取整份 PDF。PDF 解析、OCR、表格结构与坐标证据由本地管线处理；模型只接收
-任务所需的有界证据。当前 Retrieved 平均上下文约 1,533 token，p95 延迟约 2.08 秒。
-
 ## 复现评测
 
+测试和无需远程模型的 PDF 专项可以直接运行：
+
 ```bash
-# 全量测试与代码检查
 uv run pytest -q
 uv run ruff check .
-
-# 真实扫描 PDF：常规 OCR、失败页自适应重识别、阶段汇总
 uv run python scripts/evaluate_pdf_hard_v2_genuine_scans.py
 uv run python scripts/evaluate_pdf_hard_v2_adaptive_ocr.py
 uv run python scripts/summarize_pdf_hard_v2_improvements.py
-
-# 检索、表格与 PDF 审计
-uv run python scripts/run_retrieval_variant_eval.py \
-  --output-dir reports/ranking/variant-regime-v3
-uv run python scripts/evaluate_table_extraction.py \
-  --output-dir reports/ranking/table-eval-v3
-uv run python scripts/audit_pdf_pipeline.py \
-  --output-dir reports/processing/pdf-audit-v2
-
-# 真实 DeepSeek Agent 评测
-uv run python scripts/evaluate_agent_hard.py --require-remote
 ```
 
-评测产物写入 `reports/`，固定数据集与来源清单位于 `data/evaluation/`。扫描 PDF 的逐阶段
-结果见 [PDF Hard v2 阶段报告](docs/evaluation/pdf-hard-v2-stage7-results-zh.md)。
+已有 Agent 轨迹可以使用本地评分器重新计分，不会产生新的模型调用：
 
-## 项目边界
+```bash
+uv run python scripts/evaluate_agent_hard.py \
+  --dataset data/evaluation/agent-hard-v3-calibration.json \
+  --rescore-from reports/agent/agent-hard-v3-calibration-deepseek-baseline.json \
+  --output reports/local/agent-hard-v3-calibration-rescored.json
+```
 
-- 当前最大 Agent 集覆盖 8 家公司、16 份年报和 2 个年度；仍不足以代表全部行业和年度，
-  不宣称通用 SOTA；
-- `agent-hard-v3` 的 48 题 frozen test 尚未运行，当前 94% 只来自 calibration + dev；
-- `agent-hard-v3` 仍是来源复核 provisional gold，独立双审尚未完成；
-- `benchmark-v3` 覆盖 6 家公司、10 份年报和 2 个年度，但 `independent_gold=false`，扩展集
-  远程 DeepSeek 结果尚未建立；
-- 真实扫描结果来自 4 页视觉复核开发集，正式独立复核 gold 完成率仍为 **0%**
-  （目标 70 个）；
-- 旧 RAGAS 回答与 judge 都使用 DeepSeek，`independent_judge=false`，仅保留为历史诊断；
-- 主 Agent 与 Verifier 默认来自同一模型供应商，可能共享模型盲点，尚不属于异构双 Agent；
-- Precision/NDCG 使用部分判定，OOV 实例尚未完成独立人工审核；
-- 扫描件、复杂合并单元格、跨页断表、低清倾斜与印章遮挡仍需扩充正式样本；
-- API 没有内置鉴权，生产部署需要反向代理、认证和限流。
+重新运行真实 DeepSeek Agent 评测需要先准备 `benchmark-v3` 索引并配置 Key。数据版本、索引
+指纹、运行范围和结果解释以[当前基线](docs/evaluation/baseline-zh.md)为准，不应使用脚本默认的
+旧版数据集冒充当前主结果。
+
+## 部署边界
+
+Docker Compose 默认只把服务绑定到 `127.0.0.1`。如需公网部署，至少需要：
+
+- 在前端增加 HTTPS 反向代理、身份认证、速率限制和上传大小限制；
+- 持久化 `/app/data/runtime`，否则上传索引、任务轨迹与审核记录会随容器删除；
+- 限制受信任的模型供应商地址，避免把请求级 Key 转发到非预期主机；
+- 不把当前服务直接当作多租户系统；它尚未内置用户、租户和权限隔离。
+
+## 代码导航
+
+| 路径 | 作用 |
+|---|---|
+| `src/findoc_rag/documents/` | PDF 解析、OCR、版面几何与路由 |
+| `src/findoc_rag/deepseek_agent.py` | DeepSeek 工具调用 Agent 与受控工具协议 |
+| `src/findoc_rag/evidence_verifier.py` | 风险路由、独立复核与修复循环 |
+| `src/findoc_rag/table_cell_proof.py` | 表格单元格与区域级证明 |
+| `src/findoc_rag/api.py` | FastAPI、上传、查询、Agent 与人工审核接口 |
+| `docs/ui/` | 无构建步骤的网页工作台 |
+| `data/evaluation/` | 固定评测集、来源清单与版本指纹 |
+| `reports/` | 已运行实验和逐项评分结果 |
+| `tests/` | 单元、契约和回归测试 |
+
+## 已知限制
+
+- 主 Agent frozen test 尚未运行，当前 Gold 也没有完成独立双审；首页成绩不是通用 SOTA 声明。
+- 扫描 PDF 正式样本仍小，复杂合并单元格、跨页断表、低清倾斜和重度遮挡需要继续扩充。
+- 主 Agent 与 Verifier 默认来自同一模型供应商，可能共享模型盲点；公网部署也仍需外部认证层。
 
 ## 文档
 
-- [总体路线图](docs/roadmap-zh.md)
-- [Agent 任务与命令](docs/agent-tasks-zh.md)
 - [当前基线与指标口径](docs/evaluation/baseline-zh.md)
+- [Agent 任务、工具与命令](docs/agent-tasks-zh.md)
+- [总体路线图](docs/roadmap-zh.md)
 - [评测规则](docs/evaluation/benchmark-and-metrics-zh.md)
 - [实验结论索引](docs/evaluation/experiment-summaries.md)
-- [PDF Hard v2 阶段结果](docs/evaluation/pdf-hard-v2-stage7-results-zh.md)
-- [变更记录](docs/history/optimization-log-zh.md)
 - [完整文档索引](docs/README.md)
 
 ## License
